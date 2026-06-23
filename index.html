@@ -16,7 +16,6 @@
 <script src="https://cdn.jsdelivr.net/npm/preact@10/hooks/dist/hooks.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/htm@3/dist/htm.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/preact@10/compat/dist/compat.umd.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/weather-icons@2.0.11/css/weather-icons.min.css">
 <style>
@@ -5568,13 +5567,70 @@ async function wxProxy(url, fallback) {
   }
 }
 
-let supa = null;
 let currentUserId = null;
-try {
-  if (!SUPABASE_URL.includes('INSERISCI') && !SUPABASE_KEY.includes('INSERISCI')) {
-    supa = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+/* ── Neon-backed shim emulating the Supabase surface the app uses (auth + garden_data).
+   Backend: Vercel Functions /api/auth + /api/state. JWT in localStorage. ── */
+const LAWNLY_JWT_KEY = 'lawnly_jwt';
+function _lwToken(){ try{ return localStorage.getItem(LAWNLY_JWT_KEY); }catch(e){ return null; } }
+function _lwSession(){
+  const t = _lwToken(); if(!t) return null;
+  try{
+    const p = JSON.parse(atob(t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
+    if(p.exp && p.exp*1000 < Date.now()) return null;
+    return { access_token:t, user:{ id:p.uid, email:p.email } };
+  }catch(e){ return null; }
+}
+const _lwAuthCbs = [];
+function _lwFire(event){ const ses=_lwSession(); _lwAuthCbs.forEach(cb=>{ try{ cb(event,ses); }catch(e){} }); }
+async function _lwAuthPost(action,email,password){
+  try{
+    const r = await fetch('/api/auth',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({action,email,password}) });
+    const d = await r.json().catch(()=>({}));
+    if(!r.ok || d.error) return { data:{user:null,session:null}, error:{ message:(d.error&&d.error.message)||('HTTP '+r.status) } };
+    try{ localStorage.setItem(LAWNLY_JWT_KEY, d.token); }catch(e){}
+    const ses=_lwSession();
+    if(ses) currentUserId = ses.user.id;
+    _lwFire('SIGNED_IN');
+    return { data:{ user:(ses&&ses.user)||d.user, session:ses }, error:null };
+  }catch(e){ return { data:{user:null,session:null}, error:{ message:e.message } }; }
+}
+const supa = {
+  auth:{
+    async getSession(){ return { data:{ session:_lwSession() } }; },
+    async getUser(){ const s=_lwSession(); return { data:{ user:s?s.user:null } }; },
+    async signInWithPassword({email,password}){ return _lwAuthPost('login',email,password); },
+    async signUp({email,password}){ return _lwAuthPost('signup',email,password); },
+    async signOut(){ try{ localStorage.removeItem(LAWNLY_JWT_KEY); }catch(e){} currentUserId=null; _lwFire('SIGNED_OUT'); return { error:null }; },
+    async resetPasswordForEmail(){ return { data:null, error:{ message:'Reset password non disponibile in questa versione.' } }; },
+    onAuthStateChange(cb){ _lwAuthCbs.push(cb); setTimeout(()=>{ try{ cb('INITIAL_SESSION',_lwSession()); }catch(e){} },0);
+      return { data:{ subscription:{ unsubscribe(){ const i=_lwAuthCbs.indexOf(cb); if(i>=0)_lwAuthCbs.splice(i,1); } } } }; }
+  },
+  from(table){
+    const auth = ()=>({ 'Content-Type':'application/json', 'Authorization':'Bearer '+(_lwToken()||'') });
+    if(table==='garden_data'){
+      return {
+        async upsert(row){
+          try{
+            const r = await fetch('/api/state',{ method:'PUT', headers:auth(), body:JSON.stringify({ data: row && row.data }) });
+            if(!r.ok) return { error:{ message:'HTTP '+r.status }, data:null };
+            return { error:null, data:null };
+          }catch(e){ return { error:{ message:e.message }, data:null }; }
+        },
+        select(){ return { eq(){ return { async maybeSingle(){
+          try{
+            const r = await fetch('/api/state',{ headers:auth() });
+            if(r.status===401) return { data:null, error:null, status:401 };
+            const d = await r.json().catch(()=>({}));
+            return { data: d.data ? { data:d.data } : null, error:null, status:(r.ok?200:r.status) };
+          }catch(e){ return { data:null, error:{ message:e.message }, status:0 }; }
+        }, async single(){ return this.maybeSingle(); } }; } }; }
+      };
+    }
+    /* optional per-table wipe targets — no-op on Neon (single-blob model) */
+    const ok = async()=>({ error:null, count:0, data:null });
+    return { upsert:ok, delete(){ return { eq:ok }; }, select(){ return { eq(){ return { maybeSingle:async()=>({data:null,error:null,status:404}) }; } }; } };
   }
-} catch(e) { console.warn('[Supabase init error]', e.message); supa = null; }
+};
 
 /* ── Sync al cloud (debounced 2s) ── */
 let syncTimer = null;
