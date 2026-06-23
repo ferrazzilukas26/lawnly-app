@@ -10036,6 +10036,38 @@ function Suolo({prof,wx}){
 
   return html`<div class="page anim">
 
+    <!-- GAP-2: indice Fertilità (EC + ultima concimazione) per zona selezionata -->
+    ${(()=>{
+      const evs=(typeof S!=='undefined'&&S.get('dss_calendar_events',[]))||[];
+      const ec=(last&&last.ec!=null)?last.ec:null;
+      let lastFertDays=null;
+      try{
+        const isFert=e=>/concimaz|fertiliz|nutriz/i.test(((e.category||'')+' '+(e.type||'')+' '+(e.name||'')+' '+(e.title||'')));
+        const fert=evs.filter(e=>e&&isFert(e)&&e.status==='completato'&&(!e.zones||!e.zones.length||e.zones.includes(selZone)));
+        const ds=fert.map(e=>e.date||e.completedDate).filter(Boolean).map(d=>new Date(d)).filter(d=>!isNaN(d.getTime()));
+        if(ds.length){const md=Math.max(...ds.map(d=>d.getTime()));lastFertDays=Math.max(0,Math.round((Date.now()-md)/864e5));}
+      }catch(e){}
+      if(ec==null&&lastFertDays==null)
+        return html`<div style="background:#fff;border:1px dashed var(--border,#e5e7eb);border-radius:14px;padding:13px 16px;margin-bottom:12px;font-size:12px;color:var(--muted,#8B907F);line-height:1.5"><b style="color:var(--text,#1A2016)">🌱 Fertilità</b> — registra una misura EC o segna una concimazione per calcolare l'indice di questa zona.</div>`;
+      let ecScore=null;
+      if(ec!=null)ecScore=(ec>=200&&ec<=800)?100:(ec<200?Math.max(15,Math.round(ec/200*100)):Math.max(15,Math.round(100-(ec-800)/400*70)));
+      let recScore;
+      if(lastFertDays==null)recScore=25;else if(lastFertDays<=21)recScore=100;else if(lastFertDays<=45)recScore=80;else if(lastFertDays<=75)recScore=55;else if(lastFertDays<=120)recScore=35;else recScore=20;
+      const idx=(ecScore!=null)?Math.round(ecScore*0.6+recScore*0.4):Math.round(recScore*0.75+30*0.25);
+      const lab=idx>=80?{t:'Ottima',c:'#059669',bg:'#dcfce7'}:idx>=60?{t:'Buona',c:'#16a34a',bg:'#dcfce7'}:idx>=40?{t:'Media',c:'#b45309',bg:'#fef9c3'}:{t:'Scarsa',c:'#dc2626',bg:'#fee2e2'};
+      const zn=(zones.find(z=>(z.id||z.name)===selZone)||{}).name||('Zona '+selZone);
+      const ecMsg=ec!=null?('EC '+ec+' μS/cm'+(ec>=200&&ec<=800?' (ottimale)':ec<200?' (bassa, nutrienti scarsi)':' (alta, rischio sale)')):'EC non misurata';
+      const fMsg=lastFertDays==null?'nessuna concimazione registrata':('ultima concimazione '+lastFertDays+' gg fa');
+      return html`<div style="background:#fff;border:1px solid var(--border,#e5e7eb);border-radius:14px;padding:14px 16px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px">🌱</span><span style="font-size:13px;font-weight:700;color:var(--text,#1A2016)">Fertilità · ${zn}</span></div>
+          <span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;background:${lab.bg};color:${lab.c}">${lab.t} · ${idx}/100</span>
+        </div>
+        <div style="height:8px;border-radius:99px;background:#eef0ea;margin-top:10px;overflow:hidden"><div style="height:100%;width:${idx}%;background:${lab.c};border-radius:99px;transition:width .4s"></div></div>
+        <div style="font-size:11px;color:var(--muted,#8B907F);margin-top:8px;line-height:1.5">${ecMsg} · ${fMsg}</div>
+      </div>`;
+    })()}
+
     <!-- Card analisi suolo intraday — sun times calcolati localmente da lat/lon -->
     ${(()=>{
       const _lat=parseFloat(prof?.lat||45),_lon=parseFloat(prof?.lon||12);
