@@ -17759,6 +17759,21 @@ render(html`<${App}/>`,document.getElementById('app'));
 .rdz-navwrap .nav-plus{flex:0 0 auto;width:48px;height:48px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;margin:0 2px;box-shadow:0 7px 18px rgba(76,140,63,.5),inset 0 1px 0 rgba(255,255,255,.4);transition:transform .15s;}
 .rdz-navwrap .nav-plus:active{transform:scale(.92);}
 .rdz-navwrap .nav-plus svg{width:26px;height:26px;stroke-width:2.4;}
+/* LAWNLY_RESPONSIVE_768: app vera come plus.html — bottom nav -> sidebar sinistra su tablet/desktop. Mobile <=767 invariato. */
+@media (min-width:768px){
+  .rdz .app{max-width:none !important;}
+  .rdz .viewport{padding-left:96px !important;}
+  .rdz .page{padding-bottom:44px !important;}
+  .rdz-navwrap{left:0 !important;right:auto !important;top:0 !important;bottom:0 !important;width:96px !important;padding:0 !important;align-items:center !important;justify-content:center !important;}
+  .rdz-navwrap .nav{flex-direction:column !important;width:76px !important;max-width:76px !important;height:auto !important;border-radius:0 26px 26px 0 !important;padding:18px 0 calc(18px + env(safe-area-inset-bottom)) 0 !important;gap:4px !important;justify-content:center !important;}
+  .rdz-navwrap .nav-lens{display:none !important;}
+  .rdz-navwrap .nv{flex-direction:column !important;width:64px !important;padding:9px 0 !important;gap:3px !important;border-radius:16px !important;justify-content:center !important;}
+  .rdz-navwrap .nv-l{display:block !important;font-size:9.5px !important;font-weight:700 !important;max-width:none !important;opacity:.82;margin:2px 0 0 0 !important;text-align:center !important;line-height:1.05 !important;letter-spacing:0 !important;white-space:nowrap;}
+  .rdz-navwrap .nv.on{padding:9px 0 !important;}
+  .rdz-navwrap .nv.on .nv-l{display:block !important;opacity:1 !important;max-width:none !important;margin:2px 0 0 0 !important;color:var(--green) !important;}
+  .rdz-navwrap .nav-plus{margin:8px auto !important;}
+}
+
 main{padding-bottom:96px;}
 
 /* P1: l'arte corretta è renderizzata in JS — mostrala sempre */
