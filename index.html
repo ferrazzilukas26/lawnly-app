@@ -5537,7 +5537,7 @@ function bnavLuc(Icon){return html`<span class="bnav-ico-lucide"><${Icon} size=$
 ══════════════════════════════════════════════════ */
 const SUPABASE_URL = 'https://nioorknwpvjxldnxzjzh.supabase.co';   // es. https://xxxxx.supabase.co
 const SUPABASE_KEY = 'sb_publishable__FCiFm3E01ZwViDgSWTCXw_dmYyIuc6';
-const AI_PROXY_URL = `${SUPABASE_URL}/functions/v1/ai-proxy`;        // la chiave "anon public"
+const AI_PROXY_URL = '/api/ai';  // Vercel Function -> Anthropic (Haiku) + wx-proxy
 
 /* ── wxProxy: proxy server-side per Open-Meteo/NASA (risolve CORS su Vercel) ─
    Tutte le chiamate meteo passano dal nostro Edge Function invece che direttamente
