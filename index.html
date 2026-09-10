@@ -26,6 +26,27 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:radial-gr
 html,body{margin:0;padding:0;}
 html{background:#f1eee6;}
 html[data-theme="dark"], html[data-theme="dark"] body{background:#0E120C !important;}
+/* ponytail: dark del Calendario via selettori sugli style inline ([style*="#fff"]…): regge
+   finche' quei letterali restano scritti cosi'. Se la pagina viene ritoccata, passare ai token
+   dentro il componente (function Calendario) invece di allungare questa lista. */
+html[data-theme="dark"] .cal-theme{--text:#F2EFE9;--muted:#B5AFA3;--card:#282520;--card2:#343028;--line:rgba(255,255,255,.16);--border:var(--line);--green:#9CCB84;--green-l:rgba(127,176,105,.16);color:var(--text)}
+html[data-theme="dark"] .cal-theme[style],html[data-theme="dark"] .cal-theme :is([style*="background:rgba(255,255,255," i],[style*="background: rgba(255, 255, 255," i],[style*="background:#fff;" i],[style$="background:#fff" i],[style*="background: rgb(255, 255, 255)"],[style*="#f9fafb" i],[style*="rgb(249, 250, 251)"],[style*="#f3f4f6" i],[style*="rgb(243, 244, 246)"],[style*="#F8FAFC" i],[style*="rgb(248, 250, 252)"]){background:var(--card) !important}
+html[data-theme="dark"] .cal-theme [style*="border:0.5px solid rgba(0,0,0"],html[data-theme="dark"] .cal-theme [style*="border: 0.5px solid rgba(0, 0, 0"]{border-top-color:var(--line) !important;border-right-color:var(--line) !important;border-bottom-color:var(--line) !important}
+html[data-theme="dark"] .cal-theme .month-block > div:first-child{background:var(--card2) !important}
+html[data-theme="dark"] .cal-theme .month-highlighted > div:first-child{background:#315331 !important}
+html[data-theme="dark"] .cal-theme :is(.pill-filter,.cal-filter-btn,.btn-s){background:var(--card2) !important;color:var(--text) !important;border-color:var(--line) !important}
+html[data-theme="dark"] .cal-theme :is(.pill-filter.active,.cal-filter-btn.active){background:#315331 !important;color:#F2EFE9 !important}
+html[data-theme="dark"] .cal-theme :is([style*="#DBEAFE" i],[style*="rgb(219, 234, 254)"],[style*="#E0F2FE" i],[style*="rgb(224, 242, 254)"],[style*="#eff6ff" i],[style*="rgb(239, 246, 255)"],[style*="#f0f9ff" i],[style*="rgb(240, 249, 255)"]){background:#203448 !important;color:#A9D2FA !important;border-color:#466889 !important}
+html[data-theme="dark"] .cal-theme :is([style*="#FEF9C3" i],[style*="rgb(254, 249, 195)"],[style*="#fef3c7" i],[style*="rgb(254, 243, 199)"],[style*="#fffbeb" i],[style*="rgb(255, 251, 235)"],[style*="#fcd34d" i],[style*="rgb(252, 211, 77)"]){background:#3C331C !important;color:#E8C547 !important;border-color:#78672E !important}
+html[data-theme="dark"] .cal-theme :is([style*="#DCFCE7" i],[style*="rgb(220, 252, 231)"],[style*="#ccfbf1" i],[style*="rgb(204, 251, 241)"]){background:#223D30 !important;color:#A7DFC0 !important}
+html[data-theme="dark"] .cal-theme :is([style*="#FEE2E2" i],[style*="rgb(254, 226, 226)"],[style*="#FCEBEB" i],[style*="rgb(252, 235, 235)"]){background:#432927 !important;color:#FFB4AB !important}
+html[data-theme="dark"] .cal-theme :is([style*="#EEEDFE" i],[style*="rgb(238, 237, 254)"]){background:#322D49 !important;color:#C9BFFF !important}
+html[data-theme="dark"] .cal-theme :is([style*="#374151" i],[style*="rgb(55, 65, 81)"],[style*="#475569" i],[style*="rgb(71, 85, 105)"],[style*="#6b7280" i],[style*="rgb(107, 114, 128)"],[style*="#9ca3af" i],[style*="rgb(156, 163, 175)"]){color:var(--muted) !important}
+html[data-theme="dark"] .cal-theme :is([style*="#15803D" i],[style*="rgb(21, 128, 61)"],[style*="#16a34a" i],[style*="rgb(22, 163, 74)"]){color:#9CCB84 !important}
+html[data-theme="dark"] .cal-theme :is([style*="#dc2626" i],[style*="rgb(220, 38, 38)"]){color:#FFB4AB !important}
+html[data-theme="dark"] .cal-theme :is([style*="#92400E" i],[style*="rgb(146, 64, 14)"]){color:#E8C547 !important}
+html[data-theme="dark"] .cal-theme :is([style*="opacity:0.55"],[style*="opacity: 0.55"]) [style]{color:#FFFFFF !important}
+html[data-theme="dark"] .cal-theme [style*="color:rgba(255,255,255,.7)"],html[data-theme="dark"] .cal-theme [style*="color: rgba(255, 255, 255, 0.7)"]{color:#F2EFE9 !important}
 button,input,select,textarea{font-family:inherit;font-size:14px}
 .card{background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.72));border:1px solid var(--glass-line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px;backdrop-filter:blur(calc(var(--blur) - 4px));-webkit-backdrop-filter:blur(calc(var(--blur) - 4px))}
 .glass{background:var(--glass);border:1px solid var(--glass-line);border-radius:var(--r);box-shadow:var(--shadow);backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));padding:20px}
@@ -130,7 +151,7 @@ header::after{content:'';position:absolute;top:100%;left:0;right:0;height:32px;b
 .photo-row{display:flex;align-items:center;gap:10px;border:1px solid var(--border);border-radius:.85rem;padding:9px 13px;background:rgba(240,250,245,.5);margin-bottom:6px}
 .photo-lbl{flex:1;display:flex;align-items:center;gap:8px;padding:7px 11px;border-radius:.7rem;border:1px dashed rgba(45,106,79,.3);cursor:pointer;font-size:12px;font-weight:600;color:var(--green);background:none;transition:background .13s}
 .photo-lbl:hover{background:rgba(45,106,79,.06)}
-main{max-width:960px;margin:0 auto;padding:24px 14px 0}
+main{max-width:960px;margin:0 auto;padding:calc(24px + env(safe-area-inset-top,0px)) 14px 0}
 .page{padding-bottom:120px}
 .sec-label{font-size:10px;font-weight:500;letter-spacing:.5px;color:var(--muted);text-transform:uppercase;margin-bottom:12px}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -170,7 +191,7 @@ main{max-width:960px;margin:0 auto;padding:24px 14px 0}
 ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(82,183,136,.28);border-radius:99px}
 @media(max-width:767px){header .nav-scroll{display:none!important}.bnav{display:flex!important}.grid-5{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:768px){
-  header .nav-scroll{display:block}
+  header .nav-scroll{display:none} /* navigazione desktop = sidebar rdz; la riga di pill legacy esponeva pagine vecchie */
   .bnav{display:none!important}
 }
 /* Mobile improvements */
@@ -194,6 +215,9 @@ main{max-width:960px;margin:0 auto;padding:24px 14px 0}
 }
 @supports(-webkit-touch-callout:none){
   .page{padding-bottom:136px}
+}
+@media all and (display-mode:standalone){
+  .page{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
 }
 .metric-pill-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:-18px;position:relative;z-index:4}
 .metric-pill{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:rgba(174,176,165,.42);border:1px solid rgba(255,255,255,.38);border-radius:999px;padding:10px 6px;box-shadow:0 12px 28px rgba(72,60,40,.08);min-height:92px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
@@ -345,6 +369,11 @@ input[type=range]{width:100%;accent-color:var(--green);cursor:pointer;margin:6px
 .rdz .head-r{display:flex;gap:9px;align-items:center;}
 .rdz .hbtn{width:40px;height:40px;border-radius:50%;background:var(--card);border:1px solid var(--line);box-shadow:var(--sh);display:flex;align-items:center;justify-content:center;color:var(--t2);cursor:pointer;}
 .rdz .hbtn svg{width:18px;height:18px;}
+.rdz .loc-pill{display:flex;align-items:center;gap:7px;max-width:min(52vw,250px);background:var(--card);border:1px solid var(--line);box-shadow:var(--sh);border-radius:14px;padding:7px 11px;cursor:pointer;}
+.rdz .loc-pin{width:16px;height:16px;flex-shrink:0;color:var(--green-deep);}
+.rdz .loc-txt{display:flex;flex-direction:column;min-width:0;line-height:1.15;}
+.rdz .loc-txt b{font-size:12px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.rdz .loc-txt i{font-size:10.5px;font-style:normal;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .rdz .page-eyebrow{font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-deep);}
 .rdz .page-title{font-size:30px;font-weight:800;letter-spacing:-1px;line-height:1;margin-top:5px;}
 .rdz .page-title .serif{font-family:var(--serif);font-weight:600;font-style:italic;letter-spacing:-0.5px;}
@@ -401,6 +430,17 @@ input[type=range]{width:100%;accent-color:var(--green);cursor:pointer;margin:6px
 .rdz .next-day{margin-left:auto;text-align:center;flex-shrink:0;}
 .rdz .next-day b{font-size:16px;font-weight:800;display:block;color:var(--amber-deep);}
 .rdz .next-day span{font-size:10px;color:var(--t3);font-weight:600;text-transform:uppercase;}
+.rdz .virr{display:flex;flex-wrap:wrap;gap:16px;margin:8px 0 8px;}
+.rdz .virr-z{display:flex;flex-direction:column;}
+.rdz .virr-min{font-size:23px;font-weight:800;color:var(--green-deep);letter-spacing:-0.6px;line-height:1;font-family:var(--ff-num);font-feature-settings:"tnum" 1;}
+.rdz .virr-zn{font-size:10.5px;font-weight:700;color:var(--t3);letter-spacing:0.04em;text-transform:uppercase;margin-top:4px;}
+.rdz .card.next-card{display:flex;align-items:center;gap:15px;border-left:4px solid var(--amber);cursor:pointer;}
+.rdz .card.next-card .next{flex:1;min-width:0;}
+.rdz .next-prod{font-size:19px;font-weight:800;letter-spacing:-0.3px;color:var(--ink);line-height:1.15;}
+.rdz .cons-day{display:flex;align-items:center;gap:13px;border-left:4px solid var(--amber);cursor:pointer;}
+.rdz .cons-ic{font-size:26px;flex-shrink:0;line-height:1;}
+.rdz .cons-eye{font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--t3);margin-bottom:3px;}
+.rdz .cons-txt{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.45;}
 .rdz .qa{display:flex;gap:10px;}
 .rdz .qbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;padding:14px 6px;border-radius:var(--r-md);background:var(--card);border:1px solid var(--line);box-shadow:var(--sh);cursor:pointer;}
 .rdz .qbtn svg{width:21px;height:21px;color:var(--green);}
@@ -452,6 +492,7 @@ input[type=range]{width:100%;accent-color:var(--green);cursor:pointer;margin:6px
 .rdz .mbar{flex:1;height:7px;border-radius:var(--r-pill);background:var(--line);overflow:hidden;}
 .rdz .mbar i{display:block;height:100%;border-radius:var(--r-pill);}
 .rdz .mval{font-size:13px;font-weight:800;width:46px;text-align:right;flex-shrink:0;}
+.rdz .mpill{margin-left:auto;font-size:12px;font-weight:800;letter-spacing:.02em;padding:5px 14px;border-radius:999px;flex-shrink:0;}
 .rdz .diag{display:flex;align-items:center;gap:15px;}
 .rdz .dring{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;flex-shrink:0;border:4px solid var(--green);color:var(--green-deep);}
 .rdz .dtags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
@@ -518,6 +559,22 @@ input[type=range]{width:100%;accent-color:var(--green);cursor:pointer;margin:6px
 .rdz .prod-bar{height:6px;border-radius:999px;background:var(--line);overflow:hidden;max-width:150px;margin-top:8px;}
 .rdz .prod-bar i{display:block;height:100%;border-radius:999px;}
 .rdz .prod-r{text-align:right;flex-shrink:0;}
+.rdz .pd-head{display:flex;align-items:center;gap:14px;margin-bottom:6px;}
+.rdz .pd-badge{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.05em;color:var(--green-deep);background:var(--green-soft);padding:3px 9px;border-radius:999px;margin-bottom:4px;}
+.rdz .pd-name{font-size:20px;font-weight:800;letter-spacing:-.4px;color:var(--ink);line-height:1.1;}
+.rdz .pd-sub{font-size:12.5px;color:var(--t3);margin-top:3px;text-transform:capitalize;}
+.rdz .pd-brand-padana{display:inline-block;margin-top:5px;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#1f5e2e;background:linear-gradient(135deg,#cfe9bf,#a9d98c);padding:3px 10px;border-radius:6px;}
+.rdz .pd-logo-padana{display:block;height:20px;width:auto;margin-top:6px;}
+html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
+.rdz .pd-have{font-size:13px;color:var(--green-deep);background:var(--green-soft);border-radius:10px;padding:9px 12px;margin:10px 0 4px;}
+.rdz .pd-desc{font-size:13.5px;color:var(--t2);line-height:1.5;margin:12px 0;}
+.rdz .pd-sec{background:var(--card2);border:1px solid var(--line2);border-radius:14px;padding:11px 14px;margin-top:9px;}
+.rdz .pd-sec-h{font-size:10.5px;font-weight:800;letter-spacing:.04em;color:var(--t3);margin-bottom:4px;}
+.rdz .pd-sec-v{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.4;}
+.rdz .np-have{font-size:13px;color:var(--green-deep);background:var(--green-soft);border-radius:12px;padding:11px 13px;margin-top:12px;}
+.rdz .np-suggest{margin-top:12px;}
+.rdz .np-sg{padding:9px 0;border-bottom:1px solid var(--line2);font-size:13.5px;color:var(--ink);}
+.rdz .np-sg:last-of-type{border-bottom:none;}
 .rdz .prod-q{font-size:16px;font-weight:800;letter-spacing:-.3px;}
 .rdz .prod-q small{font-size:10px;color:var(--t3);font-weight:600;}
 .rdz .pbadge{display:inline-block;font-size:9px;font-weight:800;text-transform:uppercase;padding:3px 8px;border-radius:999px;margin-top:5px;letter-spacing:.03em;}
@@ -5515,6 +5572,14 @@ try{window.__LAWNLY_CATALOG__=[
   window.__LAWNLY_GET_PRODUCT__ = getProductById;
   window.__LAWNLY_GET_FORMAT__ = getFormatBySku;
 
+  // Scelta soci 1/9: Padana Sementi unico fornitore PROPOSTO. Il catalogo completo resta per i
+  // lookup per id (prodotti gia' a magazzino di altre marche); si filtra solo dove si SCEGLIE.
+  window.__LAWNLY_PICKABLE__ = () => {
+    const c = window.__LAWNLY_CATALOG__ || [];
+    const p = c.filter(x => x.brand === 'Padana Sementi');
+    return p.length ? p : c; // catalogo Padana non ancora unito: meglio tutto che una lista vuota
+  };
+
   // Evento per segnalare catalogo caricato
   window.dispatchEvent(new CustomEvent('lawnly-catalog-ready', { detail: { count: PRODUCT_CATALOG.length } }));
   console.log('[Lawnly] PRODUCT_CATALOG caricato:', PRODUCT_CATALOG.length, 'prodotti');
@@ -5625,6 +5690,7 @@ const supa = {
             const r = await fetch('/api/state',{ headers:auth() });
             if(r.status===401) return { data:null, error:null, status:401 };
             const d = await r.json().catch(()=>({}));
+            try{ if(d&&d.updatedAt) _lwLastSyncedAt=d.updatedAt; }catch(e){}
             return { data: d.data ? { data:d.data } : null, error:null, status:(r.ok?200:r.status) };
           }catch(e){ return { data:null, error:{ message:e.message }, status:0 }; }
         }, async single(){ return this.maybeSingle(); } }; } }; }
@@ -5636,15 +5702,63 @@ const supa = {
   }
 };
 
-/* ── Sync al cloud (debounced 2s) ── */
+/* ── Sync al cloud (debounce 1s) + flush on-unload + tracking updatedAt (PATCH v9 — live Neon) ── */
 let syncTimer = null;
-async function syncCloud(userId, data){
-  if(!supa||!userId)return;
+let _lwPending = null;        // ultimo { userId, data } da pushare
+let _lwLastSyncedAt = null;   // updatedAt (ISO) confermato dal server — per capire se il server è più recente
+let _lwDirty = false;         // modifiche locali NON ancora confermate sul server
+function _lwApplyMergedState(data){
+  // Il server ha FUSO lo stato di un altro device col nostro → adotta il blob riconciliato.
+  try{
+    Object.entries(data||{}).forEach(([k,v])=>{ if(k==='profile')S.set('dss_profile',v); else S.set(k,v); });
+    console.log('[sync] merge server applicato (modifiche concorrenti da altro device) → reload per riallineare UI');
+    if(typeof window!=='undefined') setTimeout(()=>{ try{ location.reload(); }catch(e){} },400);
+  }catch(e){ console.warn('[sync] applyMerged',e); }
+}
+async function _lwPutState(userId, data, opts){
+  const r = await fetch('/api/state', {
+    method:'PUT',
+    headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+((typeof _lwToken==='function'&&_lwToken())||'') },
+    body:JSON.stringify({ data, baseUpdatedAt:_lwLastSyncedAt }),
+    keepalive: !!(opts&&opts.keepalive)
+  });
+  if(!r.ok) throw new Error('HTTP '+r.status);
+  try{
+    const j=await r.json();
+    if(j&&j.updatedAt) _lwLastSyncedAt=j.updatedAt;
+    // se il server ha riconciliato (G3) e non stiamo chiudendo la pagina (keepalive), adotta il merge
+    if(j&&j.merged&&j.data&&!(opts&&opts.keepalive)) _lwApplyMergedState(j.data);
+  }catch(e){}
+  return true;
+}
+function syncCloud(userId, data){
+  if(!userId)return;
+  _lwPending = { userId, data };
+  _lwDirty = true;
   clearTimeout(syncTimer);
   syncTimer=setTimeout(async()=>{
-    try{await supa.from('garden_data').upsert({user_id:userId,data,updated_at:new Date().toISOString()},{onConflict:'user_id'});}
-    catch(e){console.warn('[sync]',e.message);}
-  },2000);
+    const p=_lwPending; if(!p)return;
+    try{ await _lwPutState(p.userId,p.data); _lwDirty=false; }
+    catch(e){
+      console.warn('[sync] PUT fallito, retry 3s:',e.message);
+      setTimeout(async()=>{
+        try{ await _lwPutState(p.userId,p.data); _lwDirty=false; }
+        catch(e2){ console.warn('[sync] retry fallito:',e2.message); try{ if(typeof showGlobalToast==='function') showGlobalToast('Salvataggio cloud non riuscito — controlla la connessione','warning',6000); }catch(_){} }
+      },3000);
+    }
+  },1000);
+}
+/* Flush immediato (chiusura/minimizza tab): bypassa il debounce, keepalive così la PUT parte
+   anche mentre la pagina si chiude — evita la perdita della modifica nella finestra di debounce. */
+function flushCloudNow(){
+  if(!_lwPending||!_lwDirty)return;
+  clearTimeout(syncTimer);
+  const p=_lwPending;
+  try{ _lwPutState(p.userId,p.data,{keepalive:true}); }catch(e){}
+}
+if(typeof window!=='undefined'){
+  window.addEventListener('pagehide',()=>{try{flushCloudNow();}catch(e){}});
+  document.addEventListener('visibilitychange',()=>{try{if(document.visibilityState==='hidden')flushCloudNow();}catch(e){}});
 }
 async function loadCloud(userId){
   if(!supa||!userId)return{status:'no-supa',data:null};
@@ -6188,7 +6302,10 @@ function computeClimateIndicators(wx,prof,soilData){
   const fertilizationWindow=stress.total<0.4&&rainNext7d<40&&gddNorm>0.1;
 
   // Suolo
-  const soilTheta=soilData?.humidity!=null?parseFloat(soilData.humidity)/100:null;
+  // Sonda consumer = scala relativa wp..sat, non VWC assoluta: inverti la stessa scala del display.
+  const _spTheta=getSoilParams(prof.soilType||'loam');
+  const _humFrac=soilData?.humidity!=null?Math.max(0,Math.min(1,parseFloat(soilData.humidity)/100)):null;
+  const soilTheta=_humFrac!=null?(_spTheta.wp+_humFrac*(_spTheta.sat-_spTheta.wp)):null;
   const soilTempEst=(tmx+tmn)/2-2; // proxy
 
   // Meteo corrente (Step 10.7): condizione/intensità/label da WMO
@@ -6542,7 +6659,7 @@ async function fetchMultiSourceRainArrays(lat,lon,startDate,endDate,tz){
   /* PATCH v8.5 — Cache deterministica. La mediana multi-source dipende da QUALI fonti
      rispondono entro il timeout: senza cache il valore di pioggia (e quindi l'umidita)
      oscilla ad ogni reload. Cache 12h per coordinate arrotondate -> pioggia riproducibile. */
-  const _ckey='lawnly_msr_v1';
+  const _ckey='lawnly_msr_v3';
   const _round=(v)=>Math.round(v*100)/100;
   try{
     const c=S.get(_ckey);
@@ -6556,27 +6673,31 @@ async function fetchMultiSourceRainArrays(lat,lon,startDate,endDate,tz){
   const hrf=(model)=>`https://historical-forecast-api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&start_date=${startDate}&end_date=${endDate}&daily=precipitation_sum&timezone=${encodeURIComponent(tz)}&models=${model}`;
   /* omJson: tutte le chiamate Open-Meteo/NASA passano dal proxy server-side (niente CORS) */
   const omJson=(url)=>wxProxy(url,null);
-  const tasks=[
-    omJson(hrf('ecmwf_ifs025')),
-    omJson(hrf('icon_eu')),
-    inItaly?omJson(hrf('italia_meteo_arpae_icon_2i')):Promise.resolve(null),
-    inItaly?omJson(hrf('icon_d2')):Promise.resolve(null),
-    inFrance?omJson(hrf('meteofrance_arome_france_hd')):Promise.resolve(null),
-    (async()=>{ try{
+  /* PATCH v9.1 — ogni fonte e' ETICHETTATA col modello, cosi' il merge puo' pesarla
+     per risoluzione (high-res convettivi contano piu' dei globali grossi). byDay[d]=[{m,v}]. */
+  const _src=[
+    {m:'ecmwf_ifs025', p:omJson(hrf('ecmwf_ifs025'))},
+    {m:'icon_eu',      p:omJson(hrf('icon_eu'))},
+    {m:'italia_meteo_arpae_icon_2i', p:inItaly?omJson(hrf('italia_meteo_arpae_icon_2i')):Promise.resolve(null)},
+    {m:'icon_d2',      p:inItaly?omJson(hrf('icon_d2')):Promise.resolve(null)},
+    {m:'meteofrance_arome_france_hd', p:inFrance?omJson(hrf('meteofrance_arome_france_hd')):Promise.resolve(null)},
+  ];
+  const nasaTask=(async()=>{ try{
       const ns=startDate.replace(/-/g,''), ne=endDate.replace(/-/g,'');
       const j=await wxProxy(`https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR&community=AG&longitude=${lon}&latitude=${lat}&start=${ns}&end=${ne}&format=JSON`,null);
       const raw=j&&j.properties&&j.properties.parameter&&j.properties.parameter.PRECTOTCORR; if(!raw) return null;
       const m={}; Object.keys(raw).forEach(k=>{const v=raw[k]; if(v!=null&&v>-900){m[k.slice(0,4)+'-'+k.slice(4,6)+'-'+k.slice(6,8)]=v;}}); return {__nasa:m};
-    }catch(e){return null;} })()
-  ];
-  const res=await Promise.all(tasks);
+    }catch(e){return null;} })();
+  const res=await Promise.all(_src.map(s=>s.p));
+  const nasa=await nasaTask;
   const byDay={};
-  res.forEach(r=>{
+  res.forEach((r,i)=>{
     if(!r) return;
-    if(r.__nasa){ Object.keys(r.__nasa).forEach(d=>{(byDay[d]=byDay[d]||[]).push(r.__nasa[d]);}); return; }
+    const mdl=_src[i].m;
     const t=r&&r.daily&&r.daily.time, p=r&&r.daily&&r.daily.precipitation_sum;
-    if(Array.isArray(t)&&Array.isArray(p)){ t.forEach((d,i)=>{const v=p[i]; if(v!=null&&!isNaN(v)){(byDay[d]=byDay[d]||[]).push(v);}}); }
+    if(Array.isArray(t)&&Array.isArray(p)){ t.forEach((d,j)=>{const v=p[j]; if(v!=null&&!isNaN(v)){(byDay[d]=byDay[d]||[]).push({m:mdl,v:v});}}); }
   });
+  if(nasa&&nasa.__nasa){ Object.keys(nasa.__nasa).forEach(d=>{(byDay[d]=byDay[d]||[]).push({m:'nasa',v:nasa.__nasa[d]});}); }
   try{ if(Object.keys(byDay).length){ S.set(_ckey,{at:Date.now(),lat:_round(lat),lon:_round(lon),end:endDate,byDay}); } }catch{}
   return byDay;
 }
@@ -6749,30 +6870,58 @@ async function loadWx(lat,lon,year,gddBase,tz){
   } catch (e) {
     try { console.warn('[Lawnly 06D-A.11] hourly precipitation integration failed:', e?.message); } catch {}
   }
-  /* PATCH v8.2 — Merge mediana multi-source nella history (ground-truth pioggia del modello idrico).
-     Per ogni giorno: mediana di [ERA5(corretto hourly), ECMWF, ICON-EU, ICON-2I, ICON-D2, AROME, NASA].
-     ERA5 resta membro. Si fonde solo se >=1 fonte extra e' presente quel giorno. */
+  /* PATCH v9.1 — Blend pioggia PESATO PER RISOLUZIONE (sostituisce la mediana cieca v8.2).
+     PERCHE': la mediana di N modelli era dominata dai modelli a griglia GROSSA
+     (ERA5/ECMWF/ICON-EU ~25km, NASA ~50km) che LISCIANO i temporali convettivi
+     -> sottostima sistematica (caso reale: 35mm caduti -> 18mm mediana). I modelli
+     regionali ad alta risoluzione (ARPAE-2i 2km radar-assimilato IT, ICON-D2 2km,
+     AROME 1.3km) catturano la cella convettiva ma venivano "votati fuori" dalla mediana.
+     Ora ogni fonte pesa in base alla risoluzione/qualita': gli high-res dominano.
+
+     PATCH v9.2 — combine ADATTIVO regime-aware (#1) + tail-lean convettivo (#2):
+     - Giorno UNIFORME (modelli concordi): blend pesato per risoluzione (stabile).
+     - Giorno CONVETTIVO (high-res >> globali grossi -> firma del temporale locale):
+       scarto i globali che lisciano e uso SOLO gli high-res, con bias verso il picco
+       (0.5*media + 0.5*max) per catturare la cella che un modello azzecca sul punto.
+     NB: l'ensemble P80 e' stato testato e SCARTATO per la storia: l'archivio ensemble
+     Open-Meteo copre solo ~2 giorni, non i 60gg che servono al bilancio idrico. */
+  const RAIN_W={ italia_meteo_arpae_icon_2i:5, icon_d2:4, meteofrance_arome_france_hd:4, icon_eu:1.5, ecmwf_ifs025:1, era5:1, nasa:0.5 };
+  const RAIN_HR={ italia_meteo_arpae_icon_2i:1, icon_d2:1, meteofrance_arome_france_hd:1 }; // set high-res (<=2km)
   try {
     const msr = await _msrPromise;
     if (msr && Object.keys(msr).length) {
-      const _med=(a)=>{ a=a.filter(x=>x!=null&&!isNaN(x)).sort((x,y)=>x-y); if(!a.length) return null; const m=Math.floor(a.length/2); return a.length%2?a[m]:(a[m-1]+a[m])/2; };
+      const _wmean=(arr)=>{ let sw=0,sv=0; arr.forEach(o=>{ if(o&&o.v!=null&&!isNaN(o.v)){ const w=RAIN_W[o.m]??1; sw+=w; sv+=w*o.v; } }); return sw>0?sv/sw:null; };
+      const _mean=(a)=>a.length?a.reduce((s,x)=>s+x,0)/a.length:null;
+      const _combine=(arr)=>{
+        const valid=arr.filter(o=>o&&o.v!=null&&!isNaN(o.v));
+        if(!valid.length) return null;
+        const hr=valid.filter(o=>RAIN_HR[o.m]).map(o=>o.v);
+        const co=valid.filter(o=>!RAIN_HR[o.m]);
+        const wm=_wmean(valid);
+        if(!hr.length) return wm;                          // nessun high-res -> blend pesato
+        const hrMean=_mean(hr), hrMax=Math.max(...hr);
+        const coMean=co.length?_wmean(co):null;
+        const convective = coMean!=null ? (hrMean>coMean*1.5 && (hrMean-coMean)>5) : (hrMean>8);
+        if(convective) return 0.5*hrMean+0.5*hrMax;        // temporale -> high-res + cattura picco
+        return wm;                                          // uniforme -> blend pesato stabile
+      };
       const _log=[]; let _nBlend=0;
       history.forEach(hd=>{
         const extra=(msr[hd.date]||[]).slice();
         if(!extra.length) return;
         const era5v=parseFloat(hd.precipitation);
-        if(!isNaN(era5v)) extra.push(era5v);
+        if(!isNaN(era5v)) extra.push({m:'era5',v:era5v});
         if(extra.length<2) return;
-        const med=_med(extra);
-        if(med==null) return;
-        const medR=parseFloat(med.toFixed(2));
+        const blended=_combine(extra);
+        if(blended==null) return;
+        const blendedR=parseFloat(blended.toFixed(2));
         const base=isNaN(era5v)?0:era5v;
-        if(Math.abs(medR-base)>0.3){
+        if(Math.abs(blendedR-base)>0.3){
           hd._era5=isNaN(era5v)?null:parseFloat(era5v.toFixed(1));
           hd._nSrc=extra.length;
-          hd.precipitation=medR;
+          hd.precipitation=blendedR;
           _nBlend++;
-          if(_log.length<6) _log.push(`${hd.date}: ${hd._era5}->${medR} (${extra.length}f)`);
+          if(_log.length<6) _log.push(`${hd.date}: ${hd._era5}->${blendedR} (${extra.length}f)`);
         }
       });
       const _wRain2=new Array(8).fill(0); const _nowMs=Date.now();
@@ -6780,11 +6929,11 @@ async function loadWx(lat,lon,year,gddBase,tz){
       for(let i=0;i<8;i++) wRain[i]=parseFloat(_wRain2[i].toFixed(1));
       weekly8.forEach((w,i)=>{ w.rain=parseFloat((wRain[7-i]||0).toFixed(1)); });
       waterStress7=parseFloat((wEto[0]-wRain[0]).toFixed(1));
-      try{ const r30=history.slice(-30).reduce((s,d)=>s+(parseFloat(d.precipitation)||0),0); console.log(`[Lawnly v8.2] pioggia multi-source: ${_nBlend} giorni fusi - rain30d=${r30.toFixed(1)}mm (mediana) - es: ${_log.join(' | ')}`); }catch{}
+      try{ const r30=history.slice(-30).reduce((s,d)=>s+(parseFloat(d.precipitation)||0),0); console.log(`[Lawnly v9.2] pioggia blend adattivo (regime-aware+tail-lean): ${_nBlend} giorni - rain30d=${r30.toFixed(1)}mm - es: ${_log.join(' | ')}`); }catch{}
     } else {
-      try{ console.log('[Lawnly v8.2] multi-source pioggia non disponibile -> fallback ERA5'); }catch{}
+      try{ console.log('[Lawnly v9.2] multi-source pioggia non disponibile -> fallback ERA5'); }catch{}
     }
-  } catch(e){ try{ console.warn('[Lawnly v8.2] merge multi-source fallito -> fallback ERA5:', e&&e.message); }catch{} }
+  } catch(e){ try{ console.warn('[Lawnly v9.2] merge multi-source fallito -> fallback ERA5:', e&&e.message); }catch{} }
 
   /* ── Fungal risk from hourly data (T>15 AND humidity>80) ── */
   let fungalH=0;
@@ -7853,6 +8002,47 @@ function calcWaterBalance(params){
     const _KsD=Math.max(0,Math.min(1,(_tR-_lp.root.wp)/Math.max(0.001,_lp.root.fc-_lp.root.wp)));
     _tR=Math.max(_lp.root.wpFloor||_lp.root.wp,_tR-_et0*_Kcb*_KsD*_kexp/_lp.root.depth/1000);
   }
+  /* PATCH v9 — ANCORA ALLA MISURA: se esiste una misurazione recente di umidità (um%),
+     re-inizializza θ root dal valore MISURATO al momento della misura e lo evolve giorno
+     per giorno fino a oggi (ET drawdown - pioggia/irrigazione). Così la stima parte dal
+     dato strumentale reale e mostra un andamento DECRESCENTE coerente, invece di ignorare
+     la misura (modello puro) o congelarla piatta. Unica fonte di verità per tutte le card. */
+  let _measAnchor=null;
+  try{
+    let _sd=params?.soilData;
+    if(_sd&&!Array.isArray(_sd))_sd=[_sd];
+    if(!_sd||!_sd.length){try{_sd=(typeof S!=='undefined')?(S.get('dss_soil_data',[])||[]):[];}catch(e){_sd=[];}}
+    const _measRows=(_sd||[]).filter(d=>d&&d.um!=null&&!isNaN(parseFloat(d.um))&&d.dt)
+      .sort((a,b)=>new Date(b.dt).getTime()-new Date(a.dt).getTime());
+    const _meas=_measRows[0];
+    if(_meas){
+      const _measTs=new Date(_meas.dt).getTime();
+      const _ageD=(Date.now()-_measTs)/86400000;
+      if(isFinite(_measTs)&&_ageD>=-0.5&&_ageD<=30){
+        let _thM=vwcUserScaleToTheta(parseFloat(_meas.um),_soilType);
+        _thM=Math.max(_lp.root.wpFloor||_lp.root.wp,Math.min(_lp.root.fc,_thM));
+        const _measDay=new Date(_measTs).toISOString().slice(0,10);
+        const _todayDay2=new Date().toISOString().slice(0,10);
+        const _satTh=Math.min(0.5,_lp.root.fc*1.6);
+        const _Zm=_lp.root.depth*1000;
+        // evolve dai giorni SUCCESSIVI alla misura (il giorno della misura = ancora) fino a oggi
+        for(const _day of _recent){
+          const _dk=(_day.date||'').slice(0,10);
+          if(_dk<=_measDay||_dk>_todayDay2)continue;
+          const _et0=+(_day.et0||_day.referenceEvapotranspiration||0);
+          const _rain=+(_day.precipitation_sum??_day.precipitation??0)*_lp.rainCoeff;
+          const _irrMm=_irrHist.filter(i=>(i.date||'').slice(0,10)===_dk).reduce((s,i)=>s+(i.mm||0),0);
+          const _KsM=Math.max(0,Math.min(1,(_thM-_lp.root.wp)/Math.max(0.001,_lp.root.fc-_lp.root.wp)));
+          const _etc=_et0*_Kcb*_KsM*_kexp;
+          _thM=_thM+(_rain+_irrMm-_etc)/_Zm;
+          _thM=Math.max(_lp.root.wpFloor||_lp.root.wp,Math.min(_satTh,_thM));
+        }
+        _tR=_thM;
+        _measAnchor={measuredUm:parseFloat(_meas.um),measTs:_meas.dt,ageDays:+_ageD.toFixed(2)};
+        try{console.log('[CWB] ancora misura',_meas.um+'% ('+_measDay+') → θ evoluto oggi vwc',thetaToVwcUserScale(_tR,_soilType).toFixed(1)+'%');}catch(e){}
+      }
+    }
+  }catch(e){console.warn('[CWB] anchor misura skip:',e);}
   // Persist theta if requested
   if(params?.persistTheta!==false){
     try{setStoredThetaDual(_zoneId,_tS,_tR,_soilType,{lat:_lat,lon:_lon,rootSource:'simulation'});}catch(e){}
@@ -7862,20 +8052,45 @@ function calcWaterBalance(params){
   const _tawMm=(_lp.root.fc-_lp.root.wp)*_lp.root.depth*1000;
   const _availMm=Math.max(0,(_tR-_lp.root.wp)*_lp.root.depth*1000);
   const _rawMm=_lp.root.raw||_tawMm*0.5;
-  // Forecast rain next 2 days
-  const _fcArr=wxData?.forecast||wxData?.forecastDaily||[];
-  const _rainNext2d=+(_fcArr.slice(0,2).reduce((s,d)=>s+(+(d.precipitation_sum??d.precipitation??0)),0)).toFixed(1);
-  // Today ET and need
+  // Forecast rain next 2 days (legge forecast7 — wx non espone "forecast")
+  const _fcAll=wxData?.forecast||wxData?.forecast7||wxData?.forecastDaily||[];
+  const _todayK=new Date().toISOString().slice(0,10);
+  const _fcArr=(()=>{const fut=_fcAll.filter(d=>((d.date||d.dt||'')>=_todayK));return (fut.length?fut:_fcAll);})();
+  const _rainNext2d=+(_fcArr.slice(0,2).reduce((s,d)=>s+(+(d.precipitation_sum??d.precipitation??d.rain??0)),0)).toFixed(1);
+  // Today ET and need — PATCH v9: usa ET₀ di OGGI (todayData/forecast), non l'ultimo archivio (ieri)
   const _todayWx=_hist[_hist.length-1]||{};
-  const _et0Today=+(_todayWx.et0||_todayWx.referenceEvapotranspiration||0);
+  const _fcToday=(_fcAll.find(d=>(d.date||d.dt||'').startsWith(_todayK))||{});
+  const _et0Today=Math.max(
+    +(_todayWx.et0||_todayWx.referenceEvapotranspiration||0),
+    +((wxData?.todayData?.et0)||0),
+    +(_fcToday.et0_fao_evapotranspiration||_fcToday.et0||0)
+  );
   const _KsNow=Math.max(0,Math.min(1,(_tR-_lp.root.wp)/Math.max(0.001,_lp.root.fc-_lp.root.wp)));
   const _etcToday=_et0Today*_Kcb*_KsNow;
   const _displayNeedMm=Math.max(0,+(_etcToday-_rainNext2d*0.3).toFixed(1));
   const _totalLiters=+(_displayNeedMm*_area).toFixed(0);
+  // ET₀ ultimi 7 giorni (per box card Irrigazione)
+  const _eto7d=+(_hist.slice(-7).reduce((s,d)=>s+(+(d.et0||d.referenceEvapotranspiration||d.et0_fao_evapotranspiration||0)),0)).toFixed(1);
   // Verdict based on θ vs RAW threshold
   const _thresh30=_lp.root.wp+0.30*(_lp.root.fc-_lp.root.wp);
   const _thresh45=_lp.root.wp+0.45*(_lp.root.fc-_lp.root.wp);
   const _verdict=_tR<=_thresh30?'yes':_tR<=_thresh45?'wait':'no';
+  // PATCH v9: campi che la card Irrigazione + prompt AI leggono ma CWB inline non ritornava
+  const _vzNow=getVwcZone(_vwcR);
+  const _reason=_verdict==='yes'
+    ?'Bilancio idrico in deficit: suolo sotto la soglia ottimale.'
+    :_verdict==='wait'
+      ?(_rainNext2d>=2?('Pioggia prevista nei prossimi 2 giorni (~'+_rainNext2d+' mm): meglio attendere.'):'Umidità al limite: rivaluta tra 24h prima di irrigare.')
+      :('Suolo a '+Math.round(_vwcR)+'% di umidità: scorta idrica sufficiente, non serve irrigare.');
+  const _icon=_verdict==='yes'?'💧':_verdict==='wait'?'⏳':'✓';
+  // Minuti/litri PER ZONA — unica fonte (= header card), evita "—/0L" e divergenza con Dashboard
+  const _flowLpm=+(_gd.flowRateLpm||_gd.irrigationSetup?.flowRateLpm||0)||20;
+  const _zonesOut=(_zones.length?_zones:[{id:'A',name:'Zona A',area:_area}]).map(z=>{
+    const za=Math.max(0,+(z.area||0))||0;
+    const liters=Math.round(_displayNeedMm*za);
+    const minutes=_flowLpm>0?Math.round(liters/_flowLpm):0;
+    return{id:z.id,name:z.name||('Zona '+z.id),area:za,liters,needL:liters,minutes,minutesAtFlowRate:minutes,needMm:_displayNeedMm};
+  });
   const result={
     vwcDisplayed:+_vwcR.toFixed(1),
     verdict:_verdict,
@@ -7885,7 +8100,16 @@ function calcWaterBalance(params){
     totalLiters:_totalLiters,
     needLiters:_totalLiters,     // alias per compatibilità UI
     pending:false,
+    reason:_reason,
+    icon:_icon,
+    soilMoisturePct:Math.round(_vwcR),
+    soilMoistureLabel:(_vzNow&&_vzNow.label&&(_vzNow.label.it||_vzNow.label))||'',
+    rainNext48h:_rainNext2d,
+    rainNext2d:_rainNext2d,
+    eto7d:_eto7d,
+    zones:_zonesOut,
     diagnostics:{rainNext2d:_rainNext2d,et0Today:+_et0Today.toFixed(1),Ks:+_KsNow.toFixed(2)},
+    measAnchor:_measAnchor,
     trace:[],
     layers:{
       root:{theta:_tR,fc:_lp.root.fc,wp:_lp.root.wp,vwcDisplayed:+_vwcR.toFixed(1),
@@ -8218,7 +8442,7 @@ async function aiChat(messages,sys,useHaiku=true,timeoutMs=60000){
       method:'POST',
       signal:ctrl.signal,
       headers:{'Content-Type':'application/json','Authorization':`Bearer ${session.access_token}`,'apikey':SUPABASE_KEY},
-      body:JSON.stringify({model:useHaiku?'claude-haiku-4-5-20251001':'claude-sonnet-4-20250514',max_tokens:1500,system:sys,messages})
+      body:JSON.stringify({model:useHaiku?'claude-haiku-4-5-20251001':'claude-sonnet-4-20250514',max_tokens:700,system:sys,messages})
     });
     const d=await r.json();
     if(r.status===429)throw new Error(d.error?.message||'Limite giornaliero raggiunto.');
@@ -8251,17 +8475,219 @@ function normalizeCalendarOp(op){
     o.month=MONTH_NAME_TO_NUM[mn]||parseInt(mn,10)||null;
   }
   if(o.month!=null&&typeof o.month!=='number')o.month=parseInt(o.month,10)||null;
+  /* PATCH v9 — gli eventi AI salvano date valida ma week:0 e status:'planned'.
+     Le viste Calendario/Dashboard filtrano per week e per status==='programmato' →
+     senza questa normalizzazione gli eventi AI sono INVISIBILI e "Da fare ora" è vuota. */
+  const _d=o.date||o.dt;
+  if(_d){
+    const dd=new Date((''+_d).slice(0,10)+'T12:00:00');
+    if(!isNaN(dd.getTime())){
+      if(!o.week||o.week<=0){
+        try{ o.week=(typeof _isoWeek==='function')?_isoWeek(dd):Math.ceil(((dd-new Date(dd.getFullYear(),0,1))/86400000+1)/7); }catch(e){}
+      }
+      if(o.month==null)o.month=dd.getMonth()+1;
+      if(o.year==null)o.year=dd.getFullYear();
+    }
+  }
+  // 'planned' (default eventi AI) è uno scheduled attivo come 'programmato' — unifica per i filtri
+  if(o.status==='planned')o.status='programmato';
   return o;
 }
 function readCalendarEvents(){
   return(S.get('dss_calendar_events',[])||[]).filter(Boolean).map(normalizeCalendarOp);
 }
 
+/* ═══ PATCH 06D-B.3a — MACCHINA A STATI CALENDARIO (donor Elia, adattata date-based)
+   7 stati canonici. Gli status legacy ('completato','programmato','saltato','posticipato')
+   restano nello storage per compat con tutti i filtri esistenti: qui solo LETTURA via predicati. */
+const OP_STATUS={DA_VALUTARE:'da_valutare',IN_ATTESA:'in_attesa',CONFERMATA:'confermata',ESEGUITA:'eseguita',POSTICIPATA:'posticipata',SALTATA:'saltata',BLOCCATA:'bloccata'};
+const OP_STATUS_LABEL={da_valutare:'Da valutare',in_attesa:'In attesa',confermata:'Confermata',eseguita:'Eseguita',posticipata:'Posticipata',saltata:'Saltata',bloccata:'Bloccata'};
+const OP_STATUS_COLOR={
+  da_valutare:{bg:'#EEF2FF',fg:'#4338CA',bd:'#C7D2FE',dfg:'#A5B4FC'},
+  in_attesa:  {bg:'#F8FAFC',fg:'#475569',bd:'#E2E8F0',dfg:'#94A3B8'},
+  confermata: {bg:'#ECFDF5',fg:'#047857',bd:'#A7F3D0',dfg:'#6EE7B7'},
+  eseguita:   {bg:'#DCFCE7',fg:'#166534',bd:'#86EFAC',dfg:'#86EFAC'},
+  posticipata:{bg:'#FFFBEB',fg:'#B45309',bd:'#FDE68A',dfg:'#FCD34D'},
+  saltata:    {bg:'#F1F5F9',fg:'#64748B',bd:'#CBD5E1',dfg:'#94A3B8'},
+  bloccata:   {bg:'#FEF2F2',fg:'#B91C1C',bd:'#FECACA',dfg:'#FCA5A5'}
+};
+const _LEGACY_STATUS_MAP={
+  completato:OP_STATUS.ESEGUITA,done:OP_STATUS.ESEGUITA,confirmed:OP_STATUS.ESEGUITA,eseguita:OP_STATUS.ESEGUITA,completed:OP_STATUS.ESEGUITA,
+  programmato:OP_STATUS.IN_ATTESA,planned:OP_STATUS.IN_ATTESA,in_attesa:OP_STATUS.IN_ATTESA,pianificato:OP_STATUS.IN_ATTESA,
+  saltato:OP_STATUS.SALTATA,saltata:OP_STATUS.SALTATA,skipped:OP_STATUS.SALTATA,
+  posticipato:OP_STATUS.POSTICIPATA,posticipata:OP_STATUS.POSTICIPATA,postponed:OP_STATUS.POSTICIPATA,
+  confermata:OP_STATUS.CONFERMATA,confermato:OP_STATUS.CONFERMATA,
+  bloccata:OP_STATUS.BLOCCATA,bloccato:OP_STATUS.BLOCCATA,blocked:OP_STATUS.BLOCCATA,
+  da_valutare:OP_STATUS.DA_VALUTARE
+};
+function migrateOpStatus(op){
+  if(!op||typeof op!=='object')return OP_STATUS.IN_ATTESA;
+  if(op.confirmed===true&&!op.status)return OP_STATUS.ESEGUITA;
+  if(op.done===true||op.completed===true)return OP_STATUS.ESEGUITA;
+  const raw=String(op.status||'').trim().toLowerCase();
+  if(!raw)return(op.ai_generated||op.ai)?OP_STATUS.DA_VALUTARE:OP_STATUS.IN_ATTESA;
+  return _LEGACY_STATUS_MAP[raw]||OP_STATUS.IN_ATTESA;
+}
+const opStatus=op=>migrateOpStatus(op);
+const isOpSkipped=op=>opStatus(op)===OP_STATUS.SALTATA;
+const isOpOpen=op=>{const s=opStatus(op);return s===OP_STATUS.DA_VALUTARE||s===OP_STATUS.IN_ATTESA||s===OP_STATUS.CONFERMATA||s===OP_STATUS.POSTICIPATA;};
+const isOpClosed=op=>{const s=opStatus(op);return s===OP_STATUS.ESEGUITA||s===OP_STATUS.SALTATA;};
+
+/* ═══ PATCH 06D-B.3b — ORIZZONTE MOBILE (adattato date-based: 12 settimane = 84 giorni).
+   Il piano avanza solo quando gli arretrati sono chiusi. */
+const HORIZON_DAYS=84;
+const STALE_BATCH_DAYS=60,STALE_RESET_DAYS=180;
+const _opISO=op=>((op&&(op.date||op.dt))||'').slice(0,10);
+const isOpOverdue=(op,todayISO)=>{const d=_opISO(op);return !!d&&d<(todayISO||new Date().toISOString().slice(0,10))&&isOpOpen(op);};
+function getOverdueOps(evs){const t=new Date().toISOString().slice(0,10);return(evs||[]).filter(o=>o&&isOpOverdue(o,t));}
+let _sessionDaysAway=null;
+function daysSinceLastActive(){
+  if(_sessionDaysAway!==null)return _sessionDaysAway;
+  try{const t=S.get('dss_last_active_at',null);_sessionDaysAway=t?Math.max(0,Math.floor((Date.now()-new Date(t).getTime())/86400000)):0;}catch(e){_sessionDaysAway=0;}
+  return _sessionDaysAway;
+}
+function markActive(){daysSinceLastActive();try{S.set('dss_last_active_at',new Date().toISOString());}catch(e){}}
+function calendarStaleness(evs){
+  const days=daysSinceLastActive();
+  const overdue=getOverdueOps(evs);
+  if(days>=STALE_RESET_DAYS)return{level:'reset',days,overdue,count:overdue.length};
+  if(days>=STALE_BATCH_DAYS||overdue.length>=6)return{level:'batch',days,overdue,count:overdue.length};
+  return{level:'ok',days,overdue,count:overdue.length};
+}
+function computeHorizon(evs){
+  const overdue=getOverdueOps(evs);
+  const stale=calendarStaleness(evs);
+  const today=new Date();
+  if(overdue.length>0)return{dateISO:new Date(today.getTime()+HORIZON_DAYS*86400000).toISOString().slice(0,10),blocked:true,reason:stale.level==='reset'?'reset':'overdue',overdueCount:overdue.length,staleness:stale};
+  return{dateISO:new Date(today.getTime()+HORIZON_DAYS*86400000).toISOString().slice(0,10),blocked:false,reason:null,overdueCount:0,staleness:stale};
+}
+function withinHorizon(op,horizonISO){
+  const d=_opISO(op);
+  if(!d)return true;
+  if(isOpClosed(op))return true;
+  return d<=horizonISO;
+}
+try{window.OP_STATUS=OP_STATUS;window.__LAWNLY_DEBUG=window.__LAWNLY_DEBUG||{};Object.assign(window.__LAWNLY_DEBUG,{opStatus,getOverdueOps,computeHorizon,calendarStaleness});}catch(e){}
+
+function computeGrowthPotential(tmax,tmin,grassType){
+  if(tmax==null||tmin==null)return null;
+  const tAvg=(parseFloat(tmax)+parseFloat(tmin))/2;
+  const isCool=!grassType||/micro|festuca|lolium|poa|cool/i.test(grassType);
+  const tOpt=isCool?20:31;
+  const sigma=isCool?5.5:7.0;
+  const score=Math.round(Math.exp(-0.5*Math.pow((tAvg-tOpt)/sigma,2))*100);
+  return{score,tOpt,tAvg:Math.round(tAvg*10)/10};
+}
+
+/* PATCH 06D-B.2 — validateOperation rule engine
+   B.1 N/K timing (14gg) · B.2 scarif+arieg (21gg) · B.3 max 2 meccaniche/mese · B.5 stesso prodotto (7gg)
+   Ritorna {errors:string[], warnings:string[], valid:bool}
+   errors = hard block · warnings = conferma utente */
+function validateOperation(newEv,allEvs,catalog,wx,grassType){
+  const errors=[];
+  const warnings=[];
+  const week=newEv.week||0;
+  const month=newEv.month||0;
+  const getNpk=id=>{
+    if(!id||!catalog)return null;
+    const p=catalog.find(c=>c.id===id);
+    return p?.npk||null;
+  };
+  const isHighN=npk=>npk&&npk.n>=15&&npk.n>(npk.k||0)*1.4;
+  const isHighK=npk=>npk&&npk.k>=10&&npk.k>(npk.n||0)*1.2;
+  const nearby=dw=>(allEvs||[]).filter(e=>
+    e.id!==newEv.id&&week>0&&Math.abs((e.week||0)-week)<=dw
+  );
+  // B.1 — N/K entro 14gg (2 settimane)
+  if(newEv.category==='concimazione'&&newEv.finalProductId){
+    const npk=getNpk(newEv.finalProductId);
+    if(isHighN(npk)){
+      const c=nearby(2).find(e=>e.category==='concimazione'&&isHighK(getNpk(e.finalProductId)));
+      if(c)warnings.push('N + K a '+(Math.abs((c.week||0)-week))+' sett. di distanza: rischio eccesso salino. Consigliato ≥14 giorni tra le due applicazioni.');
+    }
+    if(isHighK(npk)){
+      const c=nearby(2).find(e=>e.category==='concimazione'&&isHighN(getNpk(e.finalProductId)));
+      if(c)warnings.push('K + N a '+(Math.abs((c.week||0)-week))+' sett. di distanza: rischio eccesso salino. Consigliato ≥14 giorni tra le due applicazioni.');
+    }
+  }
+  // B.2 — Scarif + Arieg entro 21gg (3 settimane) — hard block
+  if(newEv.category==='meccanica'){
+    const nm=(newEv.name||'').toLowerCase();
+    const isSc=/scarif/.test(nm);
+    const isAr=/arieg/.test(nm);
+    if(isSc||isAr){
+      const rx=isSc?/arieg/:/scarif/;
+      const c=nearby(3).find(e=>e.category==='meccanica'&&rx.test((e.name||'').toLowerCase()));
+      if(c)errors.push('Scarificatura e arieggiatura non possono essere eseguite entro 21 giorni (rilevato: '+(Math.abs((c.week||0)-week))+' sett.). Lascia riprendere il prato.');
+    }
+  }
+  // B.3 — Max 2 meccaniche per mese
+  if(newEv.category==='meccanica'&&month>0){
+    const same=(allEvs||[]).filter(e=>e.id!==newEv.id&&e.category==='meccanica'&&(e.month||0)===month);
+    if(same.length>=2)warnings.push('Hai già '+same.length+' operazioni meccaniche questo mese. Il prato rischia stress da lavorazioni eccessive.');
+  }
+  // B.5 — Stesso prodotto entro 7gg (1 settimana)
+  if(newEv.finalProductId){
+    const c=nearby(1).find(e=>e.finalProductId===newEv.finalProductId);
+    if(c)warnings.push('Stesso prodotto applicato a '+(Math.abs((c.week||0)-week))+' sett. di distanza. Verifica l\'intervallo minimo di riapplicazione.');
+  }
+  // B.4 — Trigger stagionali (richiede wx + grassType)
+  if(wx){
+    const _gp=computeGrowthPotential(wx.tmax,wx.tmin,grassType||'microterme');
+    // B.4a — GP-N switch: blocca azoto se prato non cresce
+    if(newEv.category==='concimazione'&&newEv.finalProductId){
+      const _npk4=getNpk(newEv.finalProductId);
+      if(isHighN(_npk4)&&_gp!=null){
+        if(_gp.score<25)errors.push('GP: '+_gp.score+'% — crescita minima. L\'azoto non viene assorbito e rischia di bruciare il prato. Aspetta condizioni migliori (GP > 35%).');
+        else if(_gp.score<35)warnings.push('GP: '+_gp.score+'% — crescita rallentata. L\'azoto sarà poco efficace. Considera dosi ridotte o un biostimolante al posto del concime N.');
+      }
+    }
+    // B.4b — Stress estivo: no meccanica con tmax >= 32°C
+    if(newEv.category==='meccanica'&&wx.tmax!=null&&wx.tmax>=32){
+      warnings.push('Temperatura massima: '+wx.tmax+'°C. Le lavorazioni meccaniche sotto stress termico danneggiano il prato. Aspetta temperature < 28°C.');
+    }
+    // B.4c — Microdochium: concimazione N con T bassa + umidità alta
+    if(newEv.category==='concimazione'&&newEv.finalProductId&&
+       wx.tmin!=null&&wx.tmax!=null&&wx.humidity!=null&&
+       wx.tmin<=5&&wx.tmax<=15&&wx.humidity>=80){
+      const _npk4c=getNpk(newEv.finalProductId);
+      if(isHighN(_npk4c))warnings.push('Rischio Microdochium: T '+wx.tmin+'–'+wx.tmax+'°C + umidità '+Math.round(wx.humidity)+'%. Evita l\'azoto in queste condizioni — valuta prima un trattamento fungicida preventivo.');
+    }
+    // B.4d — Pre-inverno: no N pesante in ott-nov
+    if(newEv.category==='concimazione'&&newEv.month>=10&&newEv.month<=11){
+      const _npk4d=getNpk(newEv.finalProductId);
+      if(isHighN(_npk4d))warnings.push('Concimazione azotata in '+(['Ottobre','Novembre'][newEv.month-10])+': il prato rallenta la crescita. Preferisci un fertilizzante equilibrato o a prevalenza K per prepararlo all\'inverno.');
+    }
+  }
+  return{errors,warnings,valid:errors.length===0};
+}
+
+/* === PORT da base Elia (repo prato-smart, commit 7ago2026) — PATCH 06D-B.2 + B.4 ===
+   Guard unico chiamato dai 3 punti utente che creano operazioni:
+   addPlanProp (Dottor Verde), RegistraLavorazioneSheet.pushEv, modal "+" save op.
+   NB: qui wx viene appiattito da todayData (nel donor B.4 leggeva wx.tmax alla radice
+   ma loadWxCached mette i campi in todayData -> trigger stagionali mai scattati). */
+function validateAndConfirmOp(newEv){
+  try{
+    if((newEv&&newEv.status)==='completato')return true; // registrare il passato non si blocca
+    const n=normalizeCalendarOp({...newEv});
+    const evs=readCalendarEvents();
+    const wxr=(typeof window!=='undefined'&&window.__LAWNLY_WX__)||null;
+    const td=(wxr&&wxr.todayData)||{};
+    const wx=wxr?{tmax:(td.tmax!=null?td.tmax:null),tmin:(td.tmin!=null?td.tmin:null),humidity:(td.humidity!=null?td.humidity:null)}:null;
+    const prof=S.get('dss_profile',{})||{};
+    const v=validateOperation(n,evs,(typeof window!=='undefined'&&window.__LAWNLY_CATALOG__)||[],wx,prof.grassMixture||'microterme');
+    if(v.errors.length>0){alert('\u26a0\ufe0f Operazione non consentita:\n\n'+v.errors.join('\n\n'));return false;}
+    if(v.warnings.length>0)return confirm('\u26a0\ufe0f Attenzione agronomica:\n\n'+v.warnings.join('\n\n')+'\n\nProcedere comunque?');
+    return true;
+  }catch(e){return true;}
+}
+
 function generateFallbackPlan(gardenData,profile){
   const grassType=gardenData?.grassMixture||'microterme';
   const zones=(gardenData?.zones||[]).map(z=>z.id||z.name).filter(Boolean);
   const zoneAreaSum=(gardenData?.zones||[]).reduce((s,z)=>s+(parseFloat(z.area)||0),0);
-  const catalog=window.__LAWNLY_CATALOG__||[];
+  const catalog=(window.__LAWNLY_PICKABLE__&&window.__LAWNLY_PICKABLE__())||window.__LAWNLY_CATALOG__||[];
   const matchFn=window.__LAWNLY_MATCH__;
 
   const templates=grassType==='microterme'?[
@@ -8347,9 +8773,10 @@ async function generateAnnualPlan({gardenData,profile,weather,diagnosisInputs},o
     .filter(w=>Array.isArray(w.packages)&&w.packages.some(pk=>(pk.remaining_qty||pk.remaining||0)>0))
     .map(w=>w.id||w.productId).filter(Boolean));
   // Prodotti in magazzino prima, poi il resto — max 80 totali
+  // Scelta soci 1/9: l'AI propone SOLO Padana (i prodotti già a magazzino restano validi qualunque marca)
   const sortedCatalog=[
     ...filteredCatalog.filter(p=>warehouseIds.has(p.id)),
-    ...filteredCatalog.filter(p=>!warehouseIds.has(p.id))
+    ...filteredCatalog.filter(p=>!warehouseIds.has(p.id)&&p.brand==='Padana Sementi')
   ];
   const catalogLines=sortedCatalog.slice(0,80).map(p=>{
     const npk=p.npkLabel?` NPK ${p.npkLabel}`:'';
@@ -8589,10 +9016,11 @@ Se il calendario è vuoto e l'utente non ha ancora raccontato cosa ha fatto, seg
 5. NON suggerire mai di "recuperare" trattamenti saltati — parti dalla situazione attuale
 
 SEPARAZIONE NETTA storico/futuro:
-- Un singolo CALENDAR_UPDATE NON può contenere MIX di operazioni passate e future
 - Se registri storico → tutto status:"completato", tutte settimane passate
-- Se suggerisci il futuro → descrivi a PAROLE, poi chiedi conferma prima di inserire nel calendario
-- MAI inserire automaticamente suggerimenti futuri insieme alla registrazione dello storico
+- Se suggerisci il futuro → descrivi a PAROLE e chiedi conferma. NON inserire nulla prima della conferma.
+- QUANDO L'UTENTE CONFERMA (anche solo "sì", "ok", "procedi", "aggiorna"): DEVI emettere il blocco
+  CALENDAR_UPDATE con le operazioni proposte, settimane >= corrente e status:"programmato".
+  Rispondere "ho aggiornato il piano" senza emettere il blocco NON aggiorna niente: è l'errore da non fare mai.
 
 REGOLE CALENDARIO — IRRIGAZIONE:
 - L'irrigazione NON è mai un'operazione standalone nel calendario. VIETATO creare eventi "Irrigazione settimanale" come voci separate.
@@ -8607,9 +9035,9 @@ CALENDAR_UPDATE:[{"week":N,"year":YYYY,"name":"Nome operazione","type":"trattame
 REGOLE TASSATIVE PER CALENDAR_UPDATE — storico operazioni:
 1. COMBINAZIONI: se l'utente ha applicato più prodotti INSIEME nella stessa sessione → UNA sola voce con nome combinato (es. "Humic + Mico Power"), MAI voci separate per ogni prodotto
 2. SE NON SEI SICURO del nome esatto del prodotto usato → CHIEDI prima di registrare. Non inventare nomi di prodotto.
-3. SOLO PASSATO: il blocco CALENDAR_UPDATE per lo storico contiene SOLO operazioni già eseguite (status:"completato"). NON aggiungere suggerimenti futuri nello stesso blocco storico.
+3. STORICO vs PIANO: il blocco dello storico contiene SOLO operazioni già eseguite (status:"completato"). Le operazioni future si emettono in un blocco a parte, dopo la conferma dell'utente, con status:"programmato".
 4. NO DUPLICATI: prima di registrare, considera che il calendario potrebbe già avere quell'operazione. Se il nome è già presente nella stessa settimana, segnalalo invece di crearne un secondo.
-5. SUGGERIMENTI FUTURI separati: se dopo aver registrato lo storico vuoi suggerire cosa fare ora, descrivilo a parole — NON includerlo nel CALENDAR_UPDATE storico.`;
+5. SUGGERIMENTI FUTURI separati: se dopo aver registrato lo storico vuoi suggerire cosa fare ora, descrivilo a parole — NON includerlo nel CALENDAR_UPDATE storico. Appena l'utente conferma, emetti il blocco con status:"programmato".`;
 const DOTTOR_VERDE_PROMPT=DOTTOR_VERDE;
 
 /* ── Dottor Verde indicatori-first (Step 10.4) ───────────────────────
@@ -9741,13 +10169,13 @@ function Zone({prof,wx}){
   const scoreColor=s=>s>=75?'#059669':s>=50?'#d97706':'#dc2626';
   const scoreBg=s=>s>=75?'#dcfce7':s>=50?'#fef9c3':'#fee2e2';
 
-  if(zones.length===0)return html`<div class="page anim"><div class="glass" style="text-align:center;padding:32px">
+  if(zones.length===0)return html`<div class="page anim olx"><div class="olx-bg"></div><div class="glass" style="text-align:center;padding:32px">
     <div style="font-size:36px;margin-bottom:10px">🗺️</div>
     <div style="font-size:14px;font-weight:700;margin-bottom:6px">Nessuna zona configurata</div>
     <div style="font-size:12px;color:var(--muted)">Aggiungi le zone nel Profilo per iniziare</div>
   </div></div>`;
 
-  return html`<div class="page anim">
+  return html`<div class="page anim olx"><div class="olx-bg"></div>
 
     <div class="glass" style="margin-bottom:12px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between">
       <div>
@@ -9791,7 +10219,7 @@ function Zone({prof,wx}){
                       <div style="font-size:16px;font-weight:700;color:${scoreColor(latestScore)}">${latestScore}/100</div>
                       <div style="font-size:8px;color:var(--muted);margin-top:1px">Score foto 📷</div>
                     </div>`:''}
-                    ${lastSoil?html`<div style="background:#f3f4f6;border-radius:.6rem;padding:6px 10px;text-align:center">
+                    ${lastSoil?html`<div style="background:var(--card2,#f3f4f6);border-radius:.6rem;padding:6px 10px;text-align:center">
                       ${lastSoil.ph!=null?html`<div style="font-size:14px;font-weight:700">pH ${lastSoil.ph}</div>`:''}
                       ${lastSoil.um!=null?html`<div style="font-size:11px;color:#3b82f6">💧${lastSoil.um}%</div>`:''}
                       <div style="font-size:8px;color:var(--muted);margin-top:1px">Suolo</div>
@@ -9908,27 +10336,32 @@ const SOIL_GAUGES=[
 function soilStatus(key,val,grassMix){
   const g=SOIL_GAUGES.find(x=>x.key===key);
   if(!g||val==null)return null;
+  // palette dark-aware: in dark tinte traslucide + testo chiaro (chip pallidi illeggibili su glass scuro)
+  const dk=typeof document!=='undefined'&&document.documentElement.getAttribute('data-theme')==='dark';
+  const P=dk
+    ?{green:['#34d399','rgba(52,211,153,.16)'],red:['#f87171','rgba(248,113,113,.16)'],amber:['#fbbf24','rgba(251,191,36,.16)'],blue:['#60a5fa','rgba(96,165,250,.16)'],gray:['#9ca3af','rgba(255,255,255,.08)']}
+    :{green:['#059669','#dcfce7'],red:['#ef4444','#fee2e2'],amber:['#f59e0b','#fef9c3'],blue:['#3b82f6','#dbeafe'],gray:['#6b7280','#f3f4f6']};
   if(key==='ts'){
     const isWarm=(grassMix||'').includes('macro');
     const opt=isWarm?[18,35]:[10,24];
-    if(val<opt[0]-3)return{s:'low', c:'#3b82f6',bg:'#dbeafe',msg:'Suolo freddo — attività radicale ridotta'};
-    if(val>opt[1]+3)return{s:'high',c:'#ef4444',bg:'#fee2e2',msg:'Suolo caldo — rischio stress termico'};
-    if(val>=opt[0]&&val<=opt[1])return{s:'ok',  c:'#059669',bg:'#dcfce7',msg:'Temperatura ottimale per crescita'};
-    return{s:'warn',c:'#f59e0b',bg:'#fef9c3',msg:'Borderline — monitorare'};
+    if(val<opt[0]-3)return{s:'low', c:P.blue[0],bg:P.blue[1],msg:'Suolo freddo — attività radicale ridotta'};
+    if(val>opt[1]+3)return{s:'high',c:P.red[0],bg:P.red[1],msg:'Suolo caldo — rischio stress termico'};
+    if(val>=opt[0]&&val<=opt[1])return{s:'ok',  c:P.green[0],bg:P.green[1],msg:'Temperatura ottimale per crescita'};
+    return{s:'warn',c:P.amber[0],bg:P.amber[1],msg:'Borderline — monitorare'};
   }
-  if(key==='lux')return{s:'info',c:'#6b7280',bg:'#f3f4f6',msg:'Solo informativo'};
+  if(key==='lux')return{s:'info',c:P.gray[0],bg:P.gray[1],msg:'Solo informativo'};
   const[lo,hi]=g.opt;
-  if(val>=lo&&val<=hi) return{s:'ok',  c:'#059669',bg:'#dcfce7',msg:'Valore ottimale'};
+  if(val>=lo&&val<=hi) return{s:'ok',  c:P.green[0],bg:P.green[1],msg:'Valore ottimale'};
   if(g.lo!=null&&val<g.lo){
     const msg=key==='ph'?'Troppo acido — considera calce o calcite':key==='um'?'Suolo secco — irrigare subito':key==='ec'?'EC molto bassa':'Sotto soglia critica';
-    return{s:'low',c:'#ef4444',bg:'#fee2e2',msg};
+    return{s:'low',c:P.red[0],bg:P.red[1],msg};
   }
   if(g.hi!=null&&val>g.hi){
     const msg=key==='ph'?'Troppo alcalino — considera zolfo elementare':key==='um'?'Suolo saturo — ridurre irrigazione':key==='ec'?'EC elevata — rischio sale, sospendi fertilizzazioni':'Sopra soglia critica';
-    return{s:'high',c:'#ef4444',bg:'#fee2e2',msg};
+    return{s:'high',c:P.red[0],bg:P.red[1],msg};
   }
-  if(val<lo)return{s:'warn',c:'#f59e0b',bg:'#fef9c3',msg:'Leggermente basso — monitorare'};
-  return{s:'warn',c:'#f59e0b',bg:'#fef9c3',msg:'Leggermente alto — monitorare'};
+  if(val<lo)return{s:'warn',c:P.amber[0],bg:P.amber[1],msg:'Leggermente basso — monitorare'};
+  return{s:'warn',c:P.amber[0],bg:P.amber[1],msg:'Leggermente alto — monitorare'};
 }
 
 function SoilSparkline({vals,optLo,optHi,vmin,vmax,color}){
@@ -9955,9 +10388,9 @@ function Suolo({prof,wx}){
   const up=(k,v)=>setForm(f=>({...f,[k]:v}));
   const grassMix=prof?.grassMixture||'microterme';
 
-  /* ── Check dry streak (3+ consecutive um < 30) ── */
+  /* ── Check dry streak (3+ misurazioni consecutive um < 20) ── */
   const dryStreak=useMemo(()=>{
-    const zd=data.filter(d=>d.zona===selZone&&d.um!=null).slice(0,5);
+    const zd=data.filter(d=>d.zona===selZone&&d.um!=null).slice().sort((a,b)=>new Date(b.dt||0).getTime()-new Date(a.dt||0).getTime()).slice(0,5);
     if(zd.length<3)return false;
     return zd[0].um<20&&zd[1].um<20&&zd[2].um<20;
   },[data,selZone]);
@@ -10000,8 +10433,12 @@ function Suolo({prof,wx}){
     setForm(f=>({...f,ph:'',um:'',ts:'',ec:'',lux:'',note:'',dt:new Date().toISOString().slice(0,16)}));
   };
 
-  const zoneData=data.filter(d=>d.zona===selZone);
+  // PATCH v9 — ordina per dt desc (come le altre viste): "ultima" = data più recente, non ordine di inserimento
+  const zoneData=data.filter(d=>d.zona===selZone).slice().sort((a,b)=>new Date(b.dt||0).getTime()-new Date(a.dt||0).getTime());
   const last=zoneData[0]||null;
+  // misura più recente CHE HA quel campo valorizzato (ph/ec spesso null sull'ultima misura solo-umidità)
+  const lastPh=zoneData.find(d=>d.ph!=null)||null;
+  const lastEc=zoneData.find(d=>d.ec!=null)||null;
   const maxShow=showMore[selZone]?zoneData.length:10;
 
   /* ── Sparkline data (last 8 for selected zone) ── */
@@ -10011,9 +10448,10 @@ function Suolo({prof,wx}){
   /* ── Alert badges from last measurement ── */
   const alerts=[];
   if(last){
-    if(last.ph!=null&&last.ph<5.5)alerts.push({col:'#fee2e2',tc:'#991b1b',msg:'pH critico ('+last.ph+') — Correzione pH aggiunta al calendario'});
-    if(last.ph!=null&&last.ph>7.5)alerts.push({col:'#fef9c3',tc:'#92400e',msg:'pH alcalino ('+last.ph+') — considera zolfo elementare'});
-    if(last.ec!=null&&last.ec>1200)alerts.push({col:'#fee2e2',tc:'#991b1b',msg:'EC elevata ('+last.ec+' μS/cm) — sospendere fertilizzazioni'});
+    if(lastPh&&lastPh.ph<5.5)alerts.push({col:'#fee2e2',tc:'#991b1b',msg:'pH critico ('+lastPh.ph+') — Correzione pH aggiunta al calendario'});
+    else if(lastPh&&lastPh.ph<6.0)alerts.push({col:'#fef9c3',tc:'#92400e',msg:'pH leggermente acido ('+lastPh.ph+') — sotto l\'ottimale per microterme, monitora'});
+    if(lastPh&&lastPh.ph>7.5)alerts.push({col:'#fef9c3',tc:'#92400e',msg:'pH alcalino ('+lastPh.ph+') — considera zolfo elementare'});
+    if(lastEc&&lastEc.ec>1200)alerts.push({col:'#fee2e2',tc:'#991b1b',msg:'EC elevata ('+lastEc.ec+' μS/cm) — sospendere fertilizzazioni'});
     if(last.um!=null&&last.um<20)alerts.push({col:'#fef9c3',tc:'#92400e',msg:'Suolo secco ('+last.um+'%) — irrigare'});
     if(last.um!=null&&last.um>75)alerts.push({col:'#dbeafe',tc:'#1e40af',msg:'Suolo molto umido ('+last.um+'%) — ridurre irrigazione'});
     if(dryStreak)alerts.push({col:'#fee2e2',tc:'#991b1b',msg:'Siccità persistente (3+ misurazioni < 20%) — aumenta frequenza irrigazione'});
@@ -10034,12 +10472,12 @@ function Suolo({prof,wx}){
     return Math.max(0,parseFloat((0.0023*Ra*(Tm+17.8)*Math.sqrt(TD)).toFixed(1)));
   },[_t.tmax,_t.tmin,_t.et0,prof?.lat]);
 
-  return html`<div class="page anim">
+  return html`<div class="page anim olx"><div class="olx-bg"></div>
 
     <!-- GAP-2: indice Fertilità (EC + ultima concimazione) per zona selezionata -->
     ${(()=>{
       const evs=(typeof S!=='undefined'&&S.get('dss_calendar_events',[]))||[];
-      const ec=(last&&last.ec!=null)?last.ec:null;
+      const ec=(lastEc&&lastEc.ec!=null)?lastEc.ec:null;
       let lastFertDays=null;
       try{
         const isFert=e=>/concimaz|fertiliz|nutriz/i.test(((e.category||'')+' '+(e.type||'')+' '+(e.name||'')+' '+(e.title||'')));
@@ -10048,22 +10486,23 @@ function Suolo({prof,wx}){
         if(ds.length){const md=Math.max(...ds.map(d=>d.getTime()));lastFertDays=Math.max(0,Math.round((Date.now()-md)/864e5));}
       }catch(e){}
       if(ec==null&&lastFertDays==null)
-        return html`<div style="background:#fff;border:1px dashed var(--border,#e5e7eb);border-radius:14px;padding:13px 16px;margin-bottom:12px;font-size:12px;color:var(--muted,#8B907F);line-height:1.5"><b style="color:var(--text,#1A2016)">🌱 Fertilità</b> — registra una misura EC o segna una concimazione per calcolare l'indice di questa zona.</div>`;
+        return html`<div style="background:var(--card,#fff);border:1px dashed var(--border,#e5e7eb);border-radius:14px;padding:13px 16px;margin-bottom:12px;font-size:12px;color:var(--muted,#8B907F);line-height:1.5"><b style="color:var(--text,#1A2016)">🌱 Fertilità</b> — registra una misura EC o segna una concimazione per calcolare l'indice di questa zona.</div>`;
       let ecScore=null;
       if(ec!=null)ecScore=(ec>=200&&ec<=800)?100:(ec<200?Math.max(15,Math.round(ec/200*100)):Math.max(15,Math.round(100-(ec-800)/400*70)));
       let recScore;
       if(lastFertDays==null)recScore=25;else if(lastFertDays<=21)recScore=100;else if(lastFertDays<=45)recScore=80;else if(lastFertDays<=75)recScore=55;else if(lastFertDays<=120)recScore=35;else recScore=20;
-      const idx=(ecScore!=null)?Math.round(ecScore*0.6+recScore*0.4):Math.round(recScore*0.75+30*0.25);
+      // PATCH v9 — senza EC misurata l'indice si basa SOLO su recScore (no costante fantasma +7.5 che gonfiava)
+      const idx=(ecScore!=null)?Math.round(ecScore*0.6+recScore*0.4):Math.round(recScore);
       const lab=idx>=80?{t:'Ottima',c:'#059669',bg:'#dcfce7'}:idx>=60?{t:'Buona',c:'#16a34a',bg:'#dcfce7'}:idx>=40?{t:'Media',c:'#b45309',bg:'#fef9c3'}:{t:'Scarsa',c:'#dc2626',bg:'#fee2e2'};
       const zn=(zones.find(z=>(z.id||z.name)===selZone)||{}).name||('Zona '+selZone);
       const ecMsg=ec!=null?('EC '+ec+' μS/cm'+(ec>=200&&ec<=800?' (ottimale)':ec<200?' (bassa, nutrienti scarsi)':' (alta, rischio sale)')):'EC non misurata';
       const fMsg=lastFertDays==null?'nessuna concimazione registrata':('ultima concimazione '+lastFertDays+' gg fa');
-      return html`<div style="background:#fff;border:1px solid var(--border,#e5e7eb);border-radius:14px;padding:14px 16px;margin-bottom:12px">
+      return html`<div style="background:var(--card,#fff);border:1px solid var(--border,#e5e7eb);border-radius:14px;padding:14px 16px;margin-bottom:12px">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
           <div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px">🌱</span><span style="font-size:13px;font-weight:700;color:var(--text,#1A2016)">Fertilità · ${zn}</span></div>
           <span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;background:${lab.bg};color:${lab.c}">${lab.t} · ${idx}/100</span>
         </div>
-        <div style="height:8px;border-radius:99px;background:#eef0ea;margin-top:10px;overflow:hidden"><div style="height:100%;width:${idx}%;background:${lab.c};border-radius:99px;transition:width .4s"></div></div>
+        <div style="height:8px;border-radius:99px;background:var(--line2,#eef0ea);margin-top:10px;overflow:hidden"><div style="height:100%;width:${idx}%;background:${lab.c};border-radius:99px;transition:width .4s"></div></div>
         <div style="font-size:11px;color:var(--muted,#8B907F);margin-top:8px;line-height:1.5">${ecMsg} · ${fMsg}</div>
       </div>`;
     })()}
@@ -10121,14 +10560,14 @@ function Suolo({prof,wx}){
           const val=last[g.key];
           if(val==null)return html`<div key=${g.key} style="opacity:.3;font-size:11px;color:var(--muted)">${g.e} ${g.l}: —</div>`;
           const st=soilStatus(g.key,val,grassMix);
-          return html`<div key=${g.key} style="background:${st?.bg||'#f9fafb'};border-radius:.65rem;padding:9px 12px">
+          return html`<div key=${g.key} style="background:${st?.bg||'var(--card2,#f9fafb)'};border-radius:.65rem;padding:9px 12px">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:${st?.msg&&st.s!=='ok'&&st.s!=='info'?'5px':'0'}">
               <span style="font-size:16px">${g.e}</span>
               <div style="flex:1">
                 <span style="font-size:13px;font-weight:700;color:${st?.c||'var(--text)'}">${val}${g.unit}</span>
                 <span style="font-size:11px;color:var(--muted);margin-left:5px">${g.l}</span>
               </div>
-              <span style="font-size:10px;font-weight:600;color:${st?.c||'#6b7280'};background:rgba(255,255,255,.6);padding:2px 8px;border-radius:99px">
+              <span style="font-size:10px;font-weight:600;color:${st?.c||'#6b7280'};background:var(--card2,rgba(255,255,255,.6));padding:2px 8px;border-radius:99px">
                 ${st?.s==='ok'?'✓ OK':st?.s==='info'?'ℹ':st?.s==='low'?'↓ BASSO':'↑ ALTO'}
               </span>
             </div>
@@ -10344,7 +10783,7 @@ Contesto:
     setAnalyzingId(null);
   };
 
-  return html`<div class="page anim">
+  return html`<div class="page anim olx"><div class="olx-bg"></div>
     <div class="glass" style="margin-bottom:12px">
       <div style="font-size:15px;font-weight:600;margin-bottom:6px">🏡 Giardino — Materiale per analisi AI</div>
       <div style="font-size:12px;color:var(--muted);line-height:1.6">Carica foto, immagini o PDF del giardino (anche disegni a mano o tecnici). Dottor Verde usera questo materiale per migliorare diagnosi e piano operativo.</div>
@@ -10423,6 +10862,7 @@ const NAVS=[
 /* ===== LAWNLY RE-SKIN — Sezione PRATO (1:1 plus.html) ===== */
 function _expoLabP(e){e=(e||'').toString().toLowerCase();if(e.includes('mezz')||e.includes('part'))return"mezz'ombra";if(e.includes('sun')||e.includes('sole'))return'pieno sole';if(e.includes('shade')||e.includes('ombra'))return'ombra';return e||'';}
 function soilStateText(m){if(!m)return'Nessuna misura recente.';const p=[];if(m.um!=null)p.push(m.um<25?'asciutto in superficie':(m.um>65?'ben idratato':'umidità adeguata'));if(m.ph!=null)p.push((m.ph>=6&&m.ph<=7)?'pH ottimale per le microterme':(m.ph<6?'pH acido, valuta correzione':'pH basico, valuta correzione'));if(m.ts!=null&&m.ts>=28)p.push('temperatura del suolo elevata');return p.length?(p.join(', ')+'.'):'Misura registrata.';}
+function _photoSrc(p){if(!p)return'';if(typeof p==='string')return p;const u=p.url||p.src||p.data||p.dataUrl||p.image;if(u)return u;const b=p.b64;if(b)return String(b).startsWith('data:')?b:('data:'+(p.mediaType||'image/jpeg')+';base64,'+b);return'';}
 function Prato({prof,wx}){
   const soilData=S.get('dss_soil_data',[])||[];
   const zonePhotos=S.get('dss_zone_photos',{})||{};
@@ -10443,8 +10883,8 @@ function Prato({prof,wx}){
   const phM=(v)=>v==null?null:{val:(+v).toFixed(1),w:Math.max(4,Math.min(100,((v-4)/5)*100)),c:(v>=6&&v<=7)?'var(--green)':((v>=5.5&&v<=7.6)?'var(--amber)':'var(--red)')};
   const umM=(v)=>v==null?null:{val:Math.round(v)+'%',w:Math.max(4,Math.min(100,v)),c:(v<25)?'var(--amber)':((v<=65)?'var(--green)':'var(--amber)')};
   const tsM=(v)=>v==null?null:{val:(+v).toFixed(1)+'°',w:Math.max(4,Math.min(100,(v/40)*100)),c:(v<24)?'var(--green)':((v<28)?'var(--amber)':'var(--red)')};
-  const fertM=(ec)=>ec==null?null:(ec<0.2?{val:'Bassa',w:30,c:'var(--red)'}:(ec<0.8?{val:'Media',w:55,c:'var(--amber)'}:(ec<2.0?{val:'Buona',w:75,c:'var(--green)'}:{val:'Alta',w:90,c:'var(--amber)'})));
-  const mrow=(lab,m)=>m==null?html`<div class="mrow"><span class="mlab">${lab}</span><span class="mbar"></span><span class="mval" style="color:var(--t4)">—</span></div>`:html`<div class="mrow"><span class="mlab">${lab}</span><span class="mbar"><i style=${'width:'+m.w+'%;background:'+m.c}></i></span><span class="mval">${m.val}</span></div>`;
+  const fertM=(ec)=>ec==null?null:(ec<0.4?{val:'Bassa',c:'var(--amber)',pill:true}:(ec<=1.6?{val:'Normale',c:'var(--green)',pill:true}:{val:'Alta',c:'var(--amber)',pill:true}));
+  const mrow=(lab,m)=>m==null?html`<div class="mrow"><span class="mlab">${lab}</span><span class="mbar"></span><span class="mval" style="color:var(--t4)">—</span></div>`:(m.pill?html`<div class="mrow"><span class="mlab">${lab}</span><span class="mpill" style=${'color:'+m.c+';background:color-mix(in srgb,'+m.c+' 16%,transparent)'}>${m.val}</span></div>`:html`<div class="mrow"><span class="mlab">${lab}</span><span class="mbar"><i style=${'width:'+m.w+'%;background:'+m.c}></i></span><span class="mval">${m.val}</span></div>`);
 
   const fr=(wx&&typeof wx.fungalRisk==='number')?wx.fungalRisk:null;
   const frInfo=(fr==null)?null:(fr>=60?{l:'Rischio elevato',c:'var(--red)'}:(fr>=25?{l:'Rischio moderato',c:'var(--amber)'}:{l:'Rischio basso',c:'var(--green)'}));
@@ -10498,7 +10938,7 @@ function Prato({prof,wx}){
       <div class="sheet on"><div class="sh-handle"></div><div class="sh-head"><div class="sh-title">${sheetZone.name||('Zona '+sheetZone.id)}</div><div class="sh-x" onClick=${()=>setSheetZone(null)}>${closeX}</div></div>
         <div class="sh-body">
           <div class="zp-desc"><b>${zsub(sheetZone)}.</b> ${soilStateText(latest(sheetZone.id))}</div>
-          ${(()=>{const ph=zonePhotos[sheetZone.id]||[];if(!ph.length)return html`<div class="zp-empty">📷 Carica la prima immagine di questa zona per ricevere il voto AI e seguirne l'evoluzione.</div>`;return html`<div class="zp-grid">${ph.slice(0,6).map((p,i)=>{const u=(typeof p==='string')?p:(p.url||p.src||p.data||'');const dt=p.date||p.dt,sc=p.score,de=p.caption||p.note;return html`<div class="zp" key=${i} style=${'background-image:url('+u+')'}>${(dt||sc!=null||de)?html`<div class="zp-ov"><div class="zp-top"><span class="zp-dt">${dt?(''+dt).slice(0,10):''}</span>${sc!=null?html`<span class="zp-sc">${sc}</span>`:''}</div>${de?html`<div class="zp-de">${de}</div>`:''}</div>`:''}</div>`;})}</div>`;})()}
+          ${(()=>{const ph=zonePhotos[sheetZone.id]||[];if(!ph.length)return html`<div class="zp-empty">📷 Carica la prima immagine di questa zona per ricevere il voto AI e seguirne l'evoluzione.</div>`;return html`<div class="zp-grid">${ph.slice(0,6).map((p,i)=>{const u=_photoSrc(p);const dt=p.date||p.dt,sc=p.score,de=p.caption||p.note;return html`<div class="zp" key=${i} style=${'background-image:url('+u+')'}>${(dt||sc!=null||de)?html`<div class="zp-ov"><div class="zp-top"><span class="zp-dt">${dt?(''+dt).slice(0,10):''}</span>${sc!=null?html`<span class="zp-sc">${sc}</span>`:''}</div>${de?html`<div class="zp-de">${de}</div>`:''}</div>`:''}</div>`;})}</div>`;})()}
         </div>
       </div>
     </div></${ModalPortal}>`:''}
@@ -10512,7 +10952,19 @@ function DottorVerdeChat({prof,wx,onClose}){
   const nm=(prof&&(prof.userName||prof.gardenName||prof.ownerName))||'';
   const salute=(()=>{try{const d=S.get('dss_diagnosis_data',null);return d&&d.analisi&&d.analisi.salute_score!=null?d.analisi.salute_score:null;}catch(e){return null;}})();
   const greet='Ciao '+(nm||'')+', sono il Dottor Verde 🌱 Chiedimi quello che vuoi sul tuo prato, oppure carica una foto col tasto 📷 e dimmi la zona: la salvo in "Il mio prato" e te la analizzo.';
-  const [msgs,setMsgs]=useState([{role:'bot',text:greet}]);
+  // Una sola conversazione col Dottor Verde: sheet e pagina Consulente condividono
+  // dss_consultant_chat (feedback Elia: "sembrano due cose distinte, dev'essere uno specchio")
+  const [msgs,setMsgs]=useState(()=>{
+    try{
+      const h=(S.get('dss_consultant_chat',[])||[]).filter(m=>m&&m.content).map(m=>({role:m.role==='user'?'user':'bot',text:m.content}));
+      if(h.length)return h.slice(-40);
+    }catch(e){}
+    return [{role:'bot',text:greet}];
+  });
+  useEffect(()=>{
+    if(msgs.length<2)return; // solo il saluto: niente da condividere
+    try{S.set('dss_consultant_chat',msgs.filter(m=>m.text).map(m=>({role:m.role==='user'?'user':'assistant',content:m.text})));}catch(e){}
+  },[msgs]);
   const [input,setInput]=useState('');
   const [busy,setBusy]=useState(false);
   const [pending,setPending]=useState(null);
@@ -10530,7 +10982,8 @@ function DottorVerdeChat({prof,wx,onClose}){
       'Salute prato: '+(salute!=null?(salute+'/100'):'n/d')+'\n</contesto>\n'+
       '<piano_prossime_operazioni>\n'+(evs||'(nessuna pianificata)')+'\n</piano_prossime_operazioni>\n'+
       '<ultime_irrigazioni>\n'+(irr||'(nessuna registrata)')+'\n</ultime_irrigazioni>'+
-      '\n\nQuando proponi UNA operazione concreta da aggiungere al calendario, chiedi sempre conferma all\'utente e termina il messaggio con UNA riga esatta in questo formato (niente testo dopo): [[PLAN]]{"name":"...","category":"concimazione|irrigazione|meccanica|trattamento","date":"YYYY-MM-DD","product":"...","doseGm2":0}[[/PLAN]] — product e doseGm2 sono opzionali.';
+      '\n\nQuando proponi UNA operazione concreta da aggiungere al calendario, chiedi sempre conferma all\'utente e termina il messaggio con UNA riga esatta in questo formato (niente testo dopo): [[PLAN]]{"name":"...","category":"concimazione|irrigazione|meccanica|trattamento","date":"YYYY-MM-DD","product":"...","doseGm2":0}[[/PLAN]] — product e doseGm2 sono opzionali.'+
+      '\nSe l\'utente conferma (anche solo "sì", "ok", "procedi", "aggiorna il piano"), riemetti il blocco [[PLAN]] con le operazioni concordate: senza quel blocco il calendario NON cambia, quindi non dire mai di averlo aggiornato. Per più operazioni usa un array: [[PLAN]][{...},{...}][[/PLAN]].';
   };
   const send=async(txt)=>{
     const q=(txt!=null?txt:input).trim(); if(!q||busy)return;
@@ -10542,7 +10995,8 @@ function DottorVerdeChat({prof,wx,onClose}){
       let prop=null;
       try{const mm=(reply||'').match(/\[\[PLAN\]\]([\s\S]*?)\[\[\/PLAN\]\]/);if(mm){try{prop=JSON.parse(mm[1].trim());}catch(e){}reply=reply.replace(mm[0],'').trim();}}catch(e){}
       setMsgs(m=>[...m,{role:'bot',text:reply||'…'}]);
-      if(prop&&prop.name)setPlanProp(prop);
+      const props=(Array.isArray(prop)?prop:[prop]).filter(p=>p&&p.name);
+      if(props.length)setPlanProp(props.length===1?props[0]:props);
     }catch(e){setMsgs(m=>[...m,{role:'bot',text:'Non riesco a rispondere adesso ('+((e&&e.message)||'errore')+'). Serve connessione e login attivo.'}]);}
     setBusy(false);
   };
@@ -10571,13 +11025,22 @@ function DottorVerdeChat({prof,wx,onClose}){
     setBusy(false);
   };
   const addPlanProp=()=>{
-    if(!planProp)return;const p=planProp;const cat=p.category||'concimazione';
-    const legacy=(typeof CATEGORY_TO_LEGACY_TYPE!=='undefined'&&CATEGORY_TO_LEGACY_TYPE[cat])||'trattamento';
-    const ev={id:'op_'+Date.now().toString(36),date:p.date||new Date().toISOString().slice(0,10),category:cat,type:legacy,name:p.name,title:p.name,phase:p.name,zones:(zones||[]).map(z=>z.id||z.name),product:p.product||null,doseGm2:p.doseGm2||0,doses:[],notes:'Suggerita dal Dottor Verde',status:'programmato',year:new Date().getFullYear(),ai_generated:true,_source:'dottorverde'};
-    try{const d=S.get('dss_calendar_events',[])||[];S.set('dss_calendar_events',[ev,...d]);}catch(e){}
-    try{if(typeof queueOperationFeedback==='function')queueOperationFeedback({type:'added',operation:ev,oldOperation:null,gardenData:prof,profile:prof,gdd:wx});}catch(e){}
+    if(!planProp)return;
+    const props=(Array.isArray(planProp)?planProp:[planProp]).filter(p=>p&&p.name);
+    const added=[];
+    props.forEach((p,i)=>{
+      const cat=p.category||'concimazione';
+      const legacy=(typeof CATEGORY_TO_LEGACY_TYPE!=='undefined'&&CATEGORY_TO_LEGACY_TYPE[cat])||'trattamento';
+      const ev={id:'op_'+Date.now().toString(36)+'_'+i,date:p.date||new Date().toISOString().slice(0,10),category:cat,type:legacy,name:p.name,title:p.name,phase:p.name,zones:(zones||[]).map(z=>z.id||z.name),product:p.product||null,doseGm2:p.doseGm2||0,doses:[],notes:'Suggerita dal Dottor Verde',status:'programmato',year:new Date().getFullYear(),ai_generated:true,_source:'dottorverde'};
+      if(!validateAndConfirmOp(ev))return;
+      try{const d=S.get('dss_calendar_events',[])||[];S.set('dss_calendar_events',[ev,...d]);}catch(e){}
+      try{if(typeof queueOperationFeedback==='function')queueOperationFeedback({type:'added',operation:ev,oldOperation:null,gardenData:prof,profile:prof,gdd:wx});}catch(e){}
+      added.push(p);
+    });
+    if(!added.length){setPlanProp(null);return;}
     try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}
-    setMsgs(m=>[...m,{role:'bot',text:'Fatto ✓ Ho aggiunto "'+p.name+'" al piano'+(p.date?(' per il '+p.date):'')+'. Lo trovi nella sezione Piano.'}]);
+    const lbl=added.length===1?('"'+added[0].name+'"'+(added[0].date?(' per il '+added[0].date):'')):(added.length+' operazioni');
+    setMsgs(m=>[...m,{role:'bot',text:'Fatto ✓ Ho aggiunto '+lbl+' al piano. Lo trovi nella sezione Piano.'}]);
     setPlanProp(null);
   };
   const quick=['Quanto devo irrigare questa settimana?','Cosa devo fare adesso sul prato?','Analizza una foto'];
@@ -10588,9 +11051,9 @@ function DottorVerdeChat({prof,wx,onClose}){
       <div class="sh-head"><div class="sh-title">Dottor Verde</div><div class="sh-x" onClick=${onClose}>${closeX}</div></div>
       <div class="sh-body" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;">
         ${msgs.map((m,i)=>m.img?html`<div key=${i} style="align-self:flex-end;max-width:70%;"><img src=${m.img} style="width:100%;border-radius:14px;border:1px solid var(--line);"/></div>`
-          :html`<div key=${i} class=${m.role==='user'?'':'aimsg aibot'} style=${m.role==='user'?'align-self:flex-end;max-width:80%;background:var(--green);color:#fff;border-radius:16px 16px 4px 16px;padding:10px 13px;font-size:13.5px;line-height:1.45;':'align-self:flex-start;max-width:85%;'}>${m.text}</div>`)}
+          :html`<div key=${i} class=${m.role==='user'?'':'aimsg aibot'} style=${m.role==='user'?'align-self:flex-end;max-width:80%;background:var(--green);color:#fff;border-radius:16px 16px 4px 16px;padding:10px 13px;font-size:13.5px;line-height:1.45;':'align-self:flex-start;max-width:85%;'}>${m.role==='user'?m.text:cleanReply(m.text)}</div>`)}
         ${pending?html`<div style="align-self:flex-start;display:flex;flex-wrap:wrap;gap:8px;">${zones.map(z=>html`<span key=${z.id||z.name} class="fchip" onClick=${()=>pickZone(z)}>${z.name||('Zona '+(z.id||''))}</span>`)}</div>`:''}
-        ${planProp?html`<div style="align-self:flex-start;background:var(--green-soft);border:1px solid var(--green);border-radius:14px;padding:12px;max-width:92%;"><div style="font-weight:800;font-size:13px;color:var(--green-deep);margin-bottom:8px;">Aggiungo al piano: ${planProp.name}${planProp.date?(' · '+planProp.date):''}?</div><div style="display:flex;gap:8px;"><span class="fchip on" onClick=${addPlanProp}>Sì, aggiungi</span><span class="fchip" onClick=${()=>setPlanProp(null)}>No grazie</span></div></div>`:''}
+        ${planProp?html`<div style="align-self:flex-start;background:var(--green-soft);border:1px solid var(--green);border-radius:14px;padding:12px;max-width:92%;"><div style="font-weight:800;font-size:13px;color:var(--green-deep);margin-bottom:8px;">Aggiungo al piano: ${(Array.isArray(planProp)?planProp:[planProp]).map(p=>p.name+(p.date?(' · '+p.date):'')).join(' · ')}?</div><div style="display:flex;gap:8px;"><span class="fchip on" onClick=${addPlanProp}>Sì, aggiungi</span><span class="fchip" onClick=${()=>setPlanProp(null)}>No grazie</span></div></div>`:''}
         ${busy?html`<div class="aimsg aibot" style="align-self:flex-start;opacity:.7;">…</div>`:''}
         ${(msgs.length<=1&&!pending)?html`<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">${quick.map((q,i)=>html`<span key=${i} class="fchip" onClick=${()=>q==='Analizza una foto'?(fileRef.current&&fileRef.current.click()):send(q)}>${q}</span>`)}</div>`:''}
         <div ref=${endRef}></div>
@@ -10622,7 +11085,9 @@ function Oggi({wx,prof,setPg}){
   const photosObj=S.get('dss_zone_photos',{})||{};
   const zones=(prof&&prof.zones&&prof.zones.length)?prof.zones:[{id:'A'}];
   const heroRef=useRef(null);
+  const touchX=useRef(null);
   const [slide,setSlide]=useState(0);
+  const heroSwipe=(dir)=>{const n=slides.length;if(n<2)return;setSlide(s=>((s+dir)%n+n)%n);};
   const [sheet,setSheet]=useState(null);
   const openS=(id)=>()=>setSheet(id); const closeS=()=>setSheet(null);
   const [histTick,setHistTick]=useState(0);
@@ -10641,9 +11106,8 @@ function Oggi({wx,prof,setPg}){
   const td=new Date().toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'});
   const dateLabel=td.charAt(0).toUpperCase()+td.slice(1);
 
-  const photos=[];try{Object.keys(photosObj).forEach(k=>{(photosObj[k]||[]).forEach(p=>{const u=(typeof p==='string')?p:(p.url||p.src||p.data||'');if(u)photos.push(u);});});}catch(e){}
-  const HERO_IMGS=['https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?auto=format&fit=crop&w=680&q=70','https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=680&q=70','https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=680&q=70'];
-  const slides=photos.length?photos.slice(0,3):HERO_IMGS;
+  const photos=[];try{Object.keys(photosObj).forEach(k=>{(photosObj[k]||[]).forEach(p=>{const u=_photoSrc(p);if(u)photos.push(u);});});}catch(e){}
+  const slides=photos.length?photos.slice(0,3):[null]; // niente foto stock: gradiente finche' l'utente non carica le sue
   useEffect(()=>{const n=slides.length;if(n<2)return;const id=setInterval(()=>setSlide(s=>(s+1)%n),3500);return()=>clearInterval(id);},[slides.length]);
   useEffect(()=>{const el=heroRef.current;if(!el)return;el.style.strokeDashoffset=251;const v=(salute==null)?0:salute/100;requestAnimationFrame(()=>{requestAnimationFrame(()=>{el.style.strokeDashoffset=251*(1-v);});});},[salute]);
 
@@ -10661,9 +11125,17 @@ function Oggi({wx,prof,setPg}){
   const isYes=verdict&&(verdict.verdict==='yes');
   const vState=verdict?verdict.verdict:'no';
   const vCls=isYes?'yes':'no';
-  const vNoLabel=vState==='wait'?'Aspetta, pioggia in arrivo':(vState==='monitor'?'Valuta: bilancio al limite':'No, il suolo è umido');
-  const vReason=verdict?verdict.reason:'Dati in caricamento…';
+  // pioggia realmente prevista (per coerenza etichetta — evita "pioggia in arrivo" col sereno)
+  const rainSoon=(()=>{const r=verdict&&((verdict.diagnostics&&verdict.diagnostics.rainNext2d)??verdict.forecastRain5d);return (typeof r==='number')?r:0;})();
+  // umidità: il modello (vwcRoot) è già ANCORATO all'ultima misura strumentale ed evoluto
+  // fino a oggi (andamento decrescente) — vedi PATCH v9 in calcWaterBalance. Unica fonte.
+  const soilFresh=(()=>{if(!latestSoil||latestSoil.um==null||!latestSoil.dt)return false;const age=(Date.now()-new Date(latestSoil.dt).getTime())/86400000;return age>=0&&age<=4;})();
   const moist=(()=>{if(vwcRoot!=null&&!isNaN(vwcRoot))return Math.round(vwcRoot);if(latestSoil&&latestSoil.um!=null)return Math.round(latestSoil.um);if(verdict&&typeof verdict.soilHumidity==='number')return Math.round(verdict.soilHumidity);return null;})();
+  const vNoLabel=vState==='wait'?(rainSoon>=2?'Aspetta, pioggia in arrivo':'Valuta: bilancio al limite'):(vState==='monitor'?'Valuta: bilancio al limite':'No, il suolo è umido');
+  const vReason=verdict?(verdict.reason||(isYes?'Bilancio idrico in deficit: suolo sotto la soglia ottimale.':(vState==='wait'?(rainSoon>=2?('Pioggia prevista nei prossimi 2 giorni (~'+rainSoon+' mm): meglio attendere.'):'Umidità al limite: rivaluta tra 24h prima di irrigare.'):(moist!=null?('Suolo a '+moist+'% di umidità: scorta idrica sufficiente.'):'Suolo con buona scorta idrica.')))):'Dati in caricamento…';
+  // Minuti per zona consigliati (fonte: WaterEngine.computeDailyNeed) — evidenziati in card quando isYes
+  let dailyNeed=null;try{dailyNeed=(wx&&prof)?computeDailyNeed(prof||{},buildWaterWeatherFromWx(wx)):null;}catch(e){dailyNeed=null;}
+  const irrZonesRaw=(dailyNeed&&Array.isArray(dailyNeed.perZone))?dailyNeed.perZone.filter(z=>(z.minutesAtFlowRate>0||z.liters>0)):[];
 
   const fr=(wx&&typeof wx.fungalRisk==='number')?wx.fungalRisk:null;
   const issues=[];zones.forEach(z=>{const m=soilData.filter(d=>d.zona===z.id&&d.dt).sort((a,b)=>(b.dt||'').localeCompare(a.dt||''))[0];if(m){if(m.um!=null&&m.um<25)issues.push(1);if(m.ph!=null&&(m.ph<6||m.ph>7.2))issues.push(1);}});
@@ -10672,7 +11144,7 @@ function Oggi({wx,prof,setPg}){
   const fc=(()=>{const a=(wx&&(wx.forecast7||wx.forecast||(Array.isArray(wx.daily)?wx.daily:null)))||[];if(!Array.isArray(a)||!a.length)return [];const td=new Date().toISOString().slice(0,10);const fut=a.filter(d=>((d.date||d.dt||'')>=td));return (fut.length?fut:a).slice(0,8);})();
   const fcDays=(n)=>fc.slice(0,n).map((d,i)=>{const dt=new Date(d.date||d.dt||Date.now());const lbl=i===0?'Oggi':dt.toLocaleDateString('it-IT',{weekday:'short'}).replace('.','').replace(/^./,c=>c.toUpperCase());return{lbl,dd:dt.getDate()+'/'+(dt.getMonth()+1),t:Math.round(d.tmax),mm:(d.precipitation??d.rain??0),kind:_wxIcon(d.weathercode??d.weather_code,d.precipitation??d.rain)};});
 
-  const nextOp=(()=>{const evs=S.get('dss_calendar_events',[])||[];const tk=new Date().toISOString().slice(0,10);const fut=evs.filter(e=>e&&(e.date||e.dt)&&(e.date||e.dt).slice(0,10)>=tk&&!e.done&&!e.completed&&e.status!=='completato').sort((a,b)=>((a.date||a.dt)).localeCompare(b.date||b.dt));return fut[0]||null;})();
+  const nextOp=(()=>{const evs=S.get('dss_calendar_events',[])||[];const cutoff=new Date(Date.now()-14*86400000).toISOString().slice(0,10);const fut=evs.filter(e=>e&&(e.date||e.dt)&&(e.date||e.dt).slice(0,10)>=cutoff&&!e.done&&!e.completed&&e.status!=='completato').sort((a,b)=>((a.date||a.dt)).localeCompare(b.date||b.dt));return fut[0]||null;})();
   const nextDay=(()=>{if(!nextOp)return null;const d=new Date((nextOp.date||nextOp.dt));return{wd:d.toLocaleDateString('it-IT',{weekday:'short'}).toUpperCase().slice(0,3),wk:'S.'+Math.ceil(((d-new Date(d.getFullYear(),0,1))/86400000+1)/7),full:d.toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'})};})();
 
   const goChev=html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`;
@@ -10737,6 +11209,41 @@ function Oggi({wx,prof,setPg}){
   const opArea=(()=>{if(!nextOp)return (prof&&prof.totalArea)||null;const zs=(prof&&prof.zones)||[];const ids=Array.isArray(nextOp.zones)?nextOp.zones:null;if(ids&&ids.length&&zs.length){const tot=zs.filter(z=>ids.includes(z.id||z.name)).reduce((s,z)=>s+(parseFloat(z.area||z.m2)||0),0);if(tot>0)return tot;}return (prof&&prof.totalArea)||null;})();
   const opTotal=(()=>{if(!nextOp)return null;if(nextOp.doseGm2>0&&opArea){const kg=(nextOp.doseGm2*opArea)/1000;return kg>=1?('~'+kg.toFixed(2)+' kg'):('~'+Math.round(kg*1000)+' g');}return opTot;})();
   const val=(l,r)=>html`<div class="dt-val"><span class="dt-val-l">${l}</span><span class="dt-val-r">${r}</span></div>`;
+  // Prossimo intervento: nome prodotto in evidenza + descrizione
+  // PATCH v9 — gli eventi AI hanno brand/product null ma finalProductId/suggestedProductId:
+  // risolvi il nome dal catalogo, altrimenti il prodotto suggerito non compare mai.
+  const npProd=(()=>{
+    const direct=[nextOp&&nextOp.brand,nextOp&&nextOp.product].filter(Boolean).join(' ');
+    if(direct)return direct;
+    try{const getFn=window.__LAWNLY_GET_PRODUCT__;const pid=nextOp&&(nextOp.finalProductId||nextOp.suggestedProductId);if(getFn&&pid){const p=getFn(pid);if(p)return [p.brand,p.name].filter(Boolean).join(' ').trim();}}catch(e){}
+    return '';
+  })();
+  const npTitle=npProd||(nextOp&&nextOp.name)||'Operazione';
+  const npDesc=npProd?((nextOp&&(nextOp.name||nextOp.note||nextOp.description||nextOp.category))||''):((nextOp&&(nextOp.note||nextOp.description||nextOp.category))||'');
+  // #7 — il prodotto è già a magazzino? altrimenti suggerisci dal catalogo
+  const npCat=npProd?_findCatalogProduct(npProd):null;
+  const npInWh=(()=>{if(!npProd)return null;try{const whp=(typeof whProducts==='function'?(whProducts()||[]):[]);const q=npProd.toLowerCase();const f=whp.find(p=>(((p.brand?p.brand+' ':'')+(p.name||'')).toLowerCase()).includes(q.split(' ').slice(0,2).join(' ')));return f?(typeof whTotal==='function'?whTotal(f):(f.qty||0)):null;}catch(e){return null;}})();
+  const npSuggest=(()=>{if(!npProd||npInWh!=null)return [];try{const c=((typeof window!=='undefined'&&window.__LAWNLY_CATALOG__)||[]).filter(p=>p.brand==='Padana Sementi');const t=npCat&&npCat.type;const base=t?c.filter(p=>p.type===t):[];return (base.length?base:c).slice(0,3);}catch(e){return [];}})();
+  // Consiglio del giorno — calcolato dai dati freschi al caricamento (meteo/GDD/bilancio idrico). Solo informativo, l'utente resta al comando.
+  const consiglioGiorno=(()=>{
+    const parts=[];
+    if(isYes&&irrZonesRaw.length){const z0=irrZonesRaw[0];parts.push('Irriga oggi: '+(z0.minutesAtFlowRate>0?(z0.minutesAtFlowRate+' min'):(z0.liters+' L'))+(irrZonesRaw.length>1?' per zona':'')+'.');}
+    else if(vState==='wait')parts.push(rainSoon>=2?'Non irrigare: pioggia in arrivo.':'Bilancio idrico al limite: rivaluta domani.');
+    else parts.push('Oggi non serve irrigare'+(moist!=null?(' (suolo '+moist+'%)'):'')+'.');
+    try{if(INDS&&INDS.thermalStress&&INDS.thermalStress.value>=5)parts.push('Attenzione allo stress termico.');}catch(e){}
+    try{if(INDS&&INDS.fungal&&INDS.fungal.value>=6)parts.push('Rischio fungino in aumento: valuta una profilassi.');}catch(e){}
+    /* PATCH 06D-B.5 — winterkill alert macroterme: bermuda/cynodon < −5°C, zoysia < −11°C */
+    try{
+      const _mix=((prof&&(prof.grassMixture||prof.grassType))||'').toLowerCase();
+      if(/macro|bermuda|cynodon|zoysia|paspalum/.test(_mix)){
+        const _thr=/zoysia/.test(_mix)?-11:-5;
+        const _minF=Math.min.apply(null,(wx?.forecast7||[]).map(d=>d&&d.tmin!=null?d.tmin:99).filter(v=>v<99));
+        if(isFinite(_minF)&&_minF<=_thr)parts.push('❄️ Rischio winterkill: minime a '+_minF+'°C nei prossimi giorni (soglia '+_thr+'°C per il tuo prato). Evita traffico e lavorazioni finché non risale.');
+      }
+    }catch(e){}
+    if(nextOp)parts.push('Prossimo intervento: '+(npTitle||'da pianificare')+(nextDay?(' ('+nextDay.wd.toLowerCase()+')'):'')+'.');
+    return parts.join(' ');
+  })();
   // Dottor Verde: messaggio iniziale a dati reali
   const aiGreet='Ciao '+(name||'')+', sono il Dottor Verde.'+(salute!=null?(' Il tuo prato è a '+salute+'/100.'):'')+' Oggi '+(isYes?'meglio irrigare':'non serve irrigare')+(moist!=null?(' (umidità '+moist+'%).'):'.') + (INDS&&INDS.thermalStress&&INDS.thermalStress.value>=5?' Attenzione allo stress termico in arrivo.':'');
 
@@ -10752,7 +11259,7 @@ function Oggi({wx,prof,setPg}){
       ${sp?html`<div class="dt-note">${usableMm!=null?html`<b>${usableMm}mm utilizzabili</b> · capacità ${capMm}mm · suolo ${soilType}.<br/>`:''}Acqua ricevuta: <b>${rain7}mm</b> ultimi 7gg · <b>${rain30}mm</b> ultimi 30gg.</div>`:''}
       <div class="dt-eye" style="margin-top:18px;">Ultime irrigazioni · 7 giorni</div>
       ${irrHist7.length?html`<div>${irrHist7.slice(0,2).map((h,i)=>{const f=_irrFmt(h);return html`<div class="dt-val" key=${i}><span class="dt-val-l">${f.dd} · ${f.zn}</span><span class="dt-val-r">${f.mins!=null?(f.mins+' min'):''}${f.lit!=null?(' · '+f.lit+' L'):''}</span></div>`;})}<button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${openS('sh-irrhist')}>Vedi tutte le irrigazioni (${irrHist7.length}) ${goChev}</button></div>`:html`<div class="dt-note">Nessuna irrigazione registrata negli ultimi 7 giorni. Registrala col tasto + o dal bottone Irrigazione.</div>`}
-      <button class="dt-goto" onClick=${()=>{closeS();setPg&&setPg('irrigazione');}}>Vai a Il mio prato ${goChev}</button></div>`},
+      <button class="dt-goto" onClick=${()=>{setSheet('sh-irrlog');}}>Registra irrigazione ${goChev}</button></div>`},
     'sh-irrhist':{title:'Ultime irrigazioni',body:html`<div>
       <div class="dt-note" style="margin-top:0;">Irrigazioni registrate negli ultimi 7 giorni. Incidono sul bilancio idrico e sull'umidità stimata del suolo.</div>
       ${irrHist7.length?irrHist7.map((h,i)=>{const f=_irrFmt(h);return html`<div class="dt-val" key=${h.id||i} style="align-items:center;">
@@ -10777,6 +11284,24 @@ function Oggi({wx,prof,setPg}){
       <div class="dt-gph">${phaseName||'Crescita'} · ${prof?.grassMixture||'microterme'}</div>
       ${gddWeek!=null?html`<div class="dt-gline">Settimana corrente: +${gddWeek} GDD</div>`:''}
       <div class="dt-note" style="text-align:center;">${gddDesc}</div>
+      ${(()=>{/* PATCH 06D-B.1 — Growth Potential nello sheet GDD */
+        try{
+          const _td=wx?.todayData||{};
+          const _gpv=computeGrowthPotential(_td.tmax,_td.tmin,prof?.grassMixture||prof?.grassType||'microterme');
+          if(!_gpv)return'';
+          const _dk=document.documentElement.getAttribute('data-theme')==='dark';
+          const _c=_gpv.score>=60?(_dk?'#34d399':'#059669'):_gpv.score>=35?(_dk?'#fbbf24':'#f59e0b'):(_dk?'#f87171':'#ef4444');
+          const _l=_gpv.score>=60?'Crescita attiva':_gpv.score>=35?'Crescita moderata':'Crescita minima';
+          return html`<div style="margin-top:14px;padding:10px 12px;border-radius:12px;background:var(--green-soft,rgba(103,178,74,.12))">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+              <span style="font-size:11px;font-weight:800;letter-spacing:.02em">🌡 GROWTH POTENTIAL</span>
+              <span style="font-size:13px;font-weight:800;color:${_c}">${_gpv.score}% · ${_l}</span>
+            </div>
+            <div style="height:6px;border-radius:99px;background:var(--line2,rgba(0,0,0,.08));overflow:hidden"><div style="height:100%;width:${_gpv.score}%;background:${_c};border-radius:99px;transition:width .4s"></div></div>
+            <div class="dt-note" style="margin-top:6px">T media oggi ${_gpv.tAvg}°C · ottimale ${_gpv.tOpt}°C — quanto il clima favorisce crescita e assorbimento nutrienti. Sotto il 35% le concimazioni azotate sono poco efficaci.</div>
+          </div>`;
+        }catch(e){return'';}
+      })()}
       <div class="dt-gddbar"><${SlideI} mode="left" target=${Math.round(markerPctStage)}/></div>
       <div class="dt-scale"><span>0</span><span>550</span><span>1100</span><span>1650</span><span>2200</span></div>
       <div class="dt-phases">${PHASES8.map((p,i)=>html`<span key=${i} class=${'dt-phase'+(i===phaseIdx?' on':'')}>${p}</span>`)}</div>
@@ -10807,6 +11332,8 @@ function Oggi({wx,prof,setPg}){
         ${opArea?val('Superficie',opArea+' m²'):''}
         ${opTotal?val('Totale prodotto',opTotal):''}
       </div>
+      ${npProd?(npInWh!=null?html`<div class="np-have">✓ Hai <b>${npProd}</b> a magazzino${npInWh?(' · '+npInWh+(npCat&&npCat.unit?(' '+npCat.unit):'')):''}.${npCat&&npCat.notes?html`<div class="dt-note" style="margin-top:6px;">${npCat.notes}</div>`:''}</div>`
+        :html`<div class="np-suggest"><div class="dt-eye">Non a magazzino · prodotti consigliati</div>${npSuggest.length?npSuggest.map((s,i)=>html`<div class="np-sg" key=${i}><b>${[s.brand,s.name].filter(Boolean).join(' ')}</b>${s.npkLabel?html`<span> · ${s.npkLabel}</span>`:''}${s.notes?html`<div class="dt-note" style="margin-top:2px;">${s.notes.length>80?s.notes.slice(0,78)+'…':s.notes}</div>`:''}</div>`):html`<div class="dt-note">Aggiungi prodotti dal catalogo in Magazzino per ricevere consigli mirati.</div>`}<button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>{closeS();setPg&&setPg('mag');}}>Vai al Magazzino ${goChev}</button></div>`):''}
       <button class="dt-goto" onClick=${()=>{closeS();setPg&&setPg('piano');}}>Vai al Calendario ${goChev}</button></div>`:html`<div class="dt-note">Nessun intervento in programma.</div>`}
   };
   const sd=(sheet&&sheet!=='sh-ai')?sheetDefs[sheet]:null;
@@ -10815,10 +11342,16 @@ function Oggi({wx,prof,setPg}){
     <div class="rdz-ambient"></div>
     <div class="head">
       <div><div class="head-hi">${greet}</div><div class="head-name">${name?name+', il ':'Il '}<span class="serif">prato</span> ti aspetta</div></div>
-      <div class="head-r"><div class="hbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></div></div>
+      <div class="head-r">${(()=>{const via=[prof&&prof.street,prof&&prof.streetNumber].filter(Boolean).join(' ');const citta=(prof&&(prof.city||prof.location))||'';return (via||citta)?html`<div class="loc-pill" onClick=${()=>setPg&&setPg('profilo2')}><svg class="loc-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg><span class="loc-txt">${via?html`<b>${via}</b>`:''}${citta?html`<i>${citta}</i>`:''}</span></div>`:'';})()}</div>
     </div>
 
-    <div class="phero fade">
+    ${consiglioGiorno?html`<div class="card cons-day fade" onClick=${openS('sh-ai')}>
+      <div class="cons-ic">☀️</div>
+      <div style="flex:1;min-width:0;"><div class="cons-eye">Consiglio del giorno · ${dateLabel}</div><div class="cons-txt">${consiglioGiorno}</div></div>
+      <span class="vchev">${goChev}</span>
+    </div>`:''}
+
+    <div class="phero fade" onTouchStart=${e=>{touchX.current=e.touches[0].clientX;}} onTouchEnd=${e=>{if(touchX.current==null)return;const dx=e.changedTouches[0].clientX-touchX.current;touchX.current=null;if(Math.abs(dx)>40)heroSwipe(dx<0?1:-1);}}>
       ${slides.map((u,i)=>html`<div key=${i} class=${'pslide'+(i===slide?' on':'')} style=${u?('background-image:url('+u+')'):'background:linear-gradient(150deg,#6FA84B,#3C6A2B)'}></div>`)}
       <div class="phero-grad"></div>
       <div class="phero-top"><span class="hstatus"><i></i>${dateLabel} · Live</span><div class="pdots">${slides.map((_,i)=>html`<span key=${i} class=${'pdot'+(i===slide?' on':'')} onClick=${()=>setSlide(i)}></span>`)}</div></div>
@@ -10830,8 +11363,17 @@ function Oggi({wx,prof,setPg}){
       <div class="verdict-ic"><svg viewBox="0 0 24 24" class="dropico" fill="none">${isYes?html`<g class="yesart"><path d="M3.2 19.4q4.4-1.5 8.8 0t8.8 0" fill="none" stroke="#5E8C44" stroke-width="2.2" stroke-linecap="round"/><path class="fdrop" d="M12 1.6S8.4 5.6 8.4 8.1a3.6 3.6 0 0 0 7.2 0C15.6 5.6 12 1.6 12 1.6Z" fill="#5B93C9" stroke="none"/><g class="splash" fill="none" stroke="#5B93C9" stroke-width="1.8" stroke-linecap="round"><path d="M8.4 18.2q1.4-2.5 2.6 0"/><path d="M12.9 18.2q1.4-2.5 2.6 0"/></g></g>`:html`<g class="noart" fill="none" stroke="#5B93C9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.6v4.6"/><path d="M3 8.7h7.4a2.4 2.4 0 0 1 2.4 2.4v1.5"/><path class="taphandle" d="M6.5 8.7V5.4M4.8 6.1h3.4"/></g><path class="noart tapdrop" d="M12.8 13.4s-1.3 1.6-1.3 2.5a1.3 1.3 0 0 0 2.6 0c0-.9-1.3-2.5-1.3-2.5Z" fill="#5B93C9" stroke="none"/><g class="noart noslash" stroke="#E0563E" stroke-width="2" stroke-linecap="round" fill="none"><circle cx="12.7" cy="16" r="4.6"/><path d="M9.4 12.8 16 19.2"/></g>`}</svg></div>
       <div style="flex:1;min-width:0;"><div class="verdict-q">Devo irrigare oggi?</div>
         <div class="verdict-a">${isYes?'Sì, meglio irrigare':vNoLabel}</div>
+        ${isYes&&irrZonesRaw.length?html`<div class="virr">${irrZonesRaw.map(z=>html`<div class="virr-z" key=${z.zoneId||z.name}><span class="virr-min">${z.minutesAtFlowRate>0?(z.minutesAtFlowRate+' min'):(z.liters+' L')}</span><span class="virr-zn">${z.name}</span></div>`)}</div>`:''}
         <div class="vmoist"><span class="vmoist-v">${moist==null?'—':moist}%</span><span class="vmoist-bar"><${SlideI} mode="width" target=${moist||0}/></span></div>
         <div class="verdict-d">${vReason}</div></div>
+      <span class="vchev">${goChev}</span>
+    </div>
+
+    <div class="card next-card fade" onClick=${openS('sh-prossimo')}>
+      <div class="next"><div class="next-ic"><svg class="ic-spray" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21.5h5.2a2 2 0 0 0 2-2v-6.6a2.6 2.6 0 0 0-2.6-2.6H9a2 2 0 0 0-2 2v7.2a2 2 0 0 0 2 2Z"/><path d="M9.6 10.3V7.4h4v2.9"/><path d="M13.6 7.4h3.3a1.6 1.6 0 0 1 1.6 1.6"/><path d="M7.4 14.6h8.6"/><g fill="currentColor" stroke="none"><circle cx="20.6" cy="6.2" r=".85"/><circle cx="22" cy="7.7" r=".75"/><circle cx="20.9" cy="9.2" r=".7"/></g></svg></div>
+        <div style="flex:1;min-width:0;"><div class="tile-lab" style="margin-bottom:3px;">Prossimo intervento</div>
+          ${nextOp?html`<div class="next-prod">${npTitle}</div>${npDesc?html`<div class="next-s">${npDesc}</div>`:''}<div class="next-meta">${[opDose&&('Dose '+opDose),opArea&&(opArea+' m²')].filter(Boolean).map((x,i,a)=>html`<span>${x}</span>${i<a.length-1?html`<span>·</span>`:''}`)}</div>`:html`<div class="next-prod" style="font-size:16px;">Nessun intervento in programma</div><div class="next-s">Il calendario è libero</div>`}
+        </div>${nextDay?html`<div class="next-day"><b>${nextDay.wd}</b><span>${nextDay.wk}</span></div>`:''}</div>
       <span class="vchev">${goChev}</span>
     </div>
 
@@ -10848,11 +11390,6 @@ function Oggi({wx,prof,setPg}){
       <div class="tile" onClick=${openS('sh-ai')}>
         <div class="tile-top"><span class="tile-lab">Dottor Verde</span><span class="tile-ic ic-g"><svg viewBox="0 0 24 24" class="ic-spark" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path class="spk1" d="M10 3l1.35 3.65L15 8l-3.65 1.35L10 13 8.65 9.35 5 8l3.65-1.35Z"/><path class="spk2" d="M17.6 12.5l.7 1.9 1.9.7-1.9.7-.7 1.9-.7-1.9-1.9-.7 1.9-.7Z"/></svg></span></div>
         <div class="tile-v txt sm">Chiedi un consiglio</div><div class="tile-s">Assistente agronomico AI</div><span class="tile-go">${goChev}</span></div>
-      <div class="tile span2" onClick=${openS('sh-prossimo')}>
-        <div class="next"><div class="next-ic"><svg class="ic-spray" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21.5h5.2a2 2 0 0 0 2-2v-6.6a2.6 2.6 0 0 0-2.6-2.6H9a2 2 0 0 0-2 2v7.2a2 2 0 0 0 2 2Z"/><path d="M9.6 10.3V7.4h4v2.9"/><path d="M13.6 7.4h3.3a1.6 1.6 0 0 1 1.6 1.6"/><path d="M7.4 14.6h8.6"/><g fill="currentColor" stroke="none"><circle cx="20.6" cy="6.2" r=".85"/><circle cx="22" cy="7.7" r=".75"/><circle cx="20.9" cy="9.2" r=".7"/></g></svg></div>
-          <div style="flex:1;min-width:0;"><div class="tile-lab" style="margin-bottom:3px;">Prossimo intervento</div>
-            ${nextOp?html`<div class="next-t">${nextOp.name||nextOp.product||'Operazione'}</div><div class="next-s">${nextOp.note||nextOp.description||nextOp.category||''}</div><div class="next-meta">${[opDose&&('Dose '+opDose),opArea&&(opArea+' m²')].filter(Boolean).map((x,i,a)=>html`<span>${x}</span>${i<a.length-1?html`<span>·</span>`:''}`)}</div>`:html`<div class="next-t">Nessun intervento in programma</div><div class="next-s">Il calendario è libero</div>`}
-          </div>${nextDay?html`<div class="next-day"><b>${nextDay.wd}</b><span>${nextDay.wk}</span></div>`:''}</div><span class="tile-go">${goChev}</span></div>
     </div>
 
     <div class="qa fade">
@@ -10865,10 +11402,10 @@ function Oggi({wx,prof,setPg}){
       <div class="ov on" onClick=${closeS}></div>
       <div class="sheet on"><div class="sh-handle"></div><div class="sh-head"><div class="sh-title">${sd.title}</div><div class="sh-x" onClick=${closeS}>${closeX}</div></div><div class="sh-body">${sd.body}</div></div>
     </div></${ModalPortal}>`:''}
-    ${sheet==='sh-soil'?html`<${MisuraSuoloSheet} prof=${prof} onClose=${closeS}/>`:''}
-    ${sheet==='sh-photo'?html`<${FotoZonaSheet} prof=${prof} onClose=${closeS}/>`:''}
-    ${sheet==='sh-lav'?html`<${RegistraLavorazioneSheet} prof=${prof} onClose=${closeS}/>`:''}
-    ${sheet==='sh-irrlog'?html`<${RegistraLavorazioneSheet} prof=${prof} only="irr" onClose=${closeS}/>`:''}
+    ${sheet==='sh-soil'?html`<${MisuraSuoloSheet} prof=${prof} onClose=${closeS} setPg=${setPg}/>`:''}
+    ${sheet==='sh-photo'?html`<${FotoZonaSheet} prof=${prof} onClose=${closeS} setPg=${setPg}/>`:''}
+    ${sheet==='sh-lav'?html`<${RegistraLavorazioneSheet} prof=${prof} onClose=${closeS} setPg=${setPg}/>`:''}
+    ${sheet==='sh-irrlog'?html`<${RegistraLavorazioneSheet} prof=${prof} only="irr" onClose=${closeS} setPg=${setPg}/>`:''}
     ${sheet==='sh-ai'?html`<${DottorVerdeChat} prof=${prof} wx=${wx} onClose=${closeS}/>`:''}
     ${editIrr?html`<${ModalPortal}><div class="rdz" style="position:fixed;inset:0;z-index:260;padding:0;min-height:0;display:block;gap:0">
       <div class="ov on" onClick=${()=>setEditIrr(null)}></div>
@@ -11000,25 +11537,50 @@ function Piano({prof,wx,setPg}){
     const done=!!(e.status==='completato'||e.status==='done'||e.done||e.completed);
     const dose=e.dose||((e.qty&&e.unit)?(e.qty+' '+e.unit):'')||'';
     const doseArea=[dose,e.area?(e.area+' m²'):''].filter(Boolean).join(' · ');
-    return {d,title,sub:e.note||e.description||e.sub||e.category||e.type||'',dose:doseArea,done,cat:e.category||e.type||e.name||'',qty:e.qtyUsed||e.consumo||null,zona:e.zona||e.zone||null,id:e.id||null,_raw:e};
+    // PATCH v9 — risolvi il nome prodotto dal catalogo (eventi AI: brand/product null, solo *ProductId)
+    const _prodName=(()=>{
+      if(e.product)return [e.brand,e.product].filter(Boolean).join(' ').trim();
+      try{const getFn=window.__LAWNLY_GET_PRODUCT__;const pid=e.finalProductId||e.suggestedProductId;if(getFn&&pid){const p=getFn(pid);if(p)return [p.brand,p.name].filter(Boolean).join(' ').trim();}}catch(_e){}
+      return null;
+    })();
+    return {d,title,sub:e.note||e.description||e.sub||e.category||e.type||'',dose:doseArea,done,cat:e.category||e.type||e.name||'',product:_prodName,qty:e.qtyUsed||e.consumo||null,zona:e.zona||e.zone||null,id:e.id||null,_raw:e};
   }).filter(x=>x.d&&!isNaN(x.d.getTime()));
 
   const [view,setView]=useState('prog');
   const [openG,setOpenG]=useState(0);
   const [regen,setRegen]=useState(false);
   const [tick,setTick]=useState(0);
+  const _isDoneOp=(e)=>!!(e&&(e.status==='completato'||e.status==='done'||e.done||e.completed));
+  // Fonde piano rigenerato con la storia: mantiene le operazioni COMPLETATE,
+  // tiene solo le pianificate FUTURE non già coperte da un completato dello stesso mese/categoria.
+  const mergePlan=(doneOps,planned)=>{
+    const todayK=new Date().toISOString().slice(0,10);
+    const key=(e)=>((e.month||(e.date?new Date(e.date).getMonth()+1:0))+'|'+((e.category||e.type||'')+'').toLowerCase());
+    const doneKeys=new Set(doneOps.map(key));
+    const futurePlanned=(planned||[]).filter(p=>{const dk=(p.date||p.dt||'').slice(0,10);return dk>=todayK&&!doneKeys.has(key(p));});
+    return [...doneOps,...futurePlanned];
+  };
+  const lastRegen=(S.get('dss_plan_last_regen',0))||0;
+  const daysSinceRegen=lastRegen?((Date.now()-lastRegen)/86400000):999;
+  const regenUnlocked=daysSinceRegen>=14;
+  const nextRegenDays=Math.max(0,Math.ceil(14-daysSinceRegen));
   const doRegen=()=>{
     if(regen)return; setRegen(true);
+    try{S.set('dss_plan_last_regen',Date.now());}catch(e){}
     try{
+      const existing=S.get('dss_calendar_events',[])||[];
+      const doneOps=existing.filter(_isDoneOp);
       const gardenData={...(prof||{}),zones:(prof&&prof.zones)||[]};
       const profile=(S.get('dss_profile',prof||{}))||{};
       let ops=[];
       try{ if(typeof generateFallbackPlan==='function') ops=generateFallbackPlan(gardenData,profile)||[]; }catch(e){}
-      if(ops&&ops.length){ try{S.set('dss_calendar_events',ops);}catch(e){} try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){} }
+      ops=(ops||[]).map(o=>o&&!_isDoneOp(o)?{...o,status:'da_valutare',ai_generated:true}:o); // B.3: proposte AI da valutare
+      const merged=mergePlan(doneOps,ops);
+      if(merged.length){ try{S.set('dss_calendar_events',merged);}catch(e){} try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){} }
       try{
         if(typeof generateAnnualPlan==='function'){
           generateAnnualPlan({gardenData,profile,weather:wx,diagnosisInputs:{}},{maxTokens:4000,useHaiku:false,timeoutMs:45000,backgroundRefine:true})
-            .then(newOps=>{ if(newOps&&newOps.length){ try{S.set('dss_calendar_events',newOps);}catch(e){} try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){} setTick(t=>t+1);} })
+            .then(newOps=>{ if(newOps&&newOps.length){ const m2=mergePlan(doneOps,newOps.map(o=>o&&!_isDoneOp(o)?{...o,status:'da_valutare',ai_generated:true}:o)); try{S.set('dss_calendar_events',m2);}catch(e){} try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){} setTick(t=>t+1);} })
             .catch(()=>{});
         }
       }catch(e){}
@@ -11049,14 +11611,43 @@ function Piano({prof,wx,setPg}){
     }catch(e){}
     _upd(ev.id,{status:'completato',completed_date:new Date().toISOString().slice(0,10)},'completed');
   };
-  const skipOp=(ev)=>_upd(ev.id,{status:'saltato'},'skipped');
-  const postponeOp=(ev)=>{const d=new Date(ev.date||ev.dt||Date.now());d.setDate(d.getDate()+7);_upd(ev.id,{date:d.toISOString().slice(0,10),status:'posticipato'},'modified');};
+  // Operazione "chiave" in finestra stagionale (saltarla compromette il prato)
+  const _isMandatory=(ev)=>{const m=ev.month||(ev.date?new Date(ev.date).getMonth()+1:null);const inSeason=m!=null&&m>=3&&m<=11;const txt=((ev.category||'')+' '+(ev.type||'')+' '+(ev.family||'')+' '+(ev.name||'')).toLowerCase();return inSeason&&/concim|potassic|azotat|spinta|radicaz|antifung|fungic/.test(txt);};
+  const skipOp=(ev)=>{
+    if(_isMandatory(ev)&&typeof window!=='undefined'&&!window.confirm('"'+(ev.name||ev.title||'Operazione')+'" è una lavorazione chiave nella sua finestra stagionale (es. concimazione). Saltarla può compromettere il prato.\n\nSaltare comunque?'))return;
+    _upd(ev.id,{status:'saltato'},'skipped');
+  };
+  // Posticipa a cascata: sposta anche le operazioni pianificate successive (mantiene la spaziatura del piano)
+  const postponeOp=(ev)=>{
+    const DELTA=7;
+    try{
+      const all=S.get('dss_calendar_events',[])||[];
+      const base=new Date(ev.date||ev.dt||Date.now());
+      const next=all.map(e=>{
+        if(!e)return e;
+        const ed=new Date(e.date||e.dt||0);
+        const isCascade=!_isDoneOp(e)&&!isNaN(ed.getTime())&&ed.getTime()>=base.getTime();
+        if(e.id===ev.id||isCascade){const nd=new Date(ed);nd.setDate(nd.getDate()+DELTA);return {...e,date:nd.toISOString().slice(0,10),status:e.id===ev.id?'posticipato':e.status};}
+        return e;
+      });
+      S.set('dss_calendar_events',next);
+      try{if(typeof queueOperationFeedback==='function')queueOperationFeedback({type:'modified',operation:ev,oldOperation:null,gardenData:prof,profile:prof,gdd:wx});}catch(e){}
+      try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}
+    }catch(e){}
+    setDetail(null);setTick(t=>t+1);
+  };
   const now=new Date();const curM=now.getMonth();const curWeek=_isoWeek(now);
   const months=[];for(let i=0;i<4;i++)months.push((curM+i)%12);
   const [selM,setSelM]=useState(curM);
   const dayLbl=(d)=>{const wd=d.toLocaleDateString('it-IT',{weekday:'short'}).replace('.','');return wd.charAt(0).toUpperCase()+wd.slice(1)+' '+d.getDate();};
 
-  const inMonth=evs.filter(e=>!e.done&&e.d.getMonth()===selM).sort((a,b)=>a.d-b.d);
+  /* ═══ PATCH 06D-B.3 — orizzonte + arretrati (Q&A) ═══ */
+  useEffect(()=>{markActive();},[]);
+  const _dkP=typeof document!=='undefined'&&document.documentElement.getAttribute('data-theme')==='dark';
+  const _hor=computeHorizon(raw);
+  const _overdue=getOverdueOps(raw).sort((a,b)=>_opISO(a).localeCompare(_opISO(b)));
+
+  const inMonth=evs.filter(e=>!e.done&&!isOpSkipped(e._raw||{})&&withinHorizon(e._raw||{},_hor.dateISO)&&e.d.getMonth()===selM).sort((a,b)=>a.d-b.d);
   const weeks=[];const seen={};
   inMonth.forEach(e=>{const w=_isoWeek(e.d);if(!seen[w]){seen[w]={w,d:e.d,ops:[]};weeks.push(seen[w]);}seen[w].ops.push(e);});
 
@@ -11064,9 +11655,14 @@ function Piano({prof,wx,setPg}){
   const diaByMonth=[];const dseen={};
   diario.forEach(e=>{const k=e.d.getFullYear()+'-'+e.d.getMonth();if(!dseen[k]){dseen[k]={y:e.d.getFullYear(),m:e.d.getMonth(),ops:[]};diaByMonth.push(dseen[k]);}dseen[k].ops.push(e);});
 
-  const opRow=(e,isCur,withBadge)=>{const ic=_opCat(e.cat);return html`<div class=${'ag-op'+(isCur?' current':'')+(e.done?' past':'')} style=${e.done?'':'cursor:pointer'} onClick=${()=>e._raw&&setDetail(e._raw)}>
+  const opRow=(e,isCur,withBadge)=>{const ic=_opCat(e.cat);
+    const _st=e._raw?opStatus(e._raw):null;
+    const _showSt=_st&&!e.done&&_st!==OP_STATUS.IN_ATTESA;
+    const _sc=_showSt?OP_STATUS_COLOR[_st]:null;
+    return html`<div class=${'ag-op'+(isCur?' current':'')+(e.done?' past':'')} style=${e.done?'':'cursor:pointer'} onClick=${()=>e._raw&&setDetail(e._raw)}>
     <span class=${'ag-ic '+ic.cls}>${ic.i}</span>
     <div class="ag-body">${withBadge?html`<span class="ag-badge">Da fare ora</span>`:''}
+      ${_showSt?html`<span style="display:inline-block;font-size:9px;font-weight:800;padding:2px 8px;border-radius:99px;margin-bottom:3px;background:${_dkP?(_sc.fg+'33'):_sc.bg};color:${_dkP?_sc.dfg:_sc.fg};border:1px solid ${_dkP?'transparent':_sc.bd}">${OP_STATUS_LABEL[_st]}</span>`:''}
       <div class="ag-row"><div class="ag-title">${e.title}</div><div class="ag-day">${dayLbl(e.d)}</div></div>
       ${e.sub?html`<div class="ag-sub">${e.sub}</div>`:''}${e.dose?html`<div class="ag-dose">${e.dose}</div>`:''}</div>
     ${e.done?html`<span class="ag-done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>`:''}
@@ -11076,16 +11672,43 @@ function Piano({prof,wx,setPg}){
   return html`<div class="rdz">
     <div class="rdz-ambient"></div>
     <div class="head"><div><div class="page-eyebrow">Piano agronomico</div><div class="page-title">Il tuo <span class="serif">piano</span></div></div>
-      <button class=${'pf-guida'+(view==='guida'?' on':'')} onClick=${()=>setView(view==='guida'?'prog':'guida')}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg> Guida lavorazioni</button></div>
+      <div style="display:flex;gap:8px;align-items:center;">
+      ${(view==='prog'&&raw.length>0)?html`<button class="pf-guida" onClick=${doRegen} disabled=${regen||!regenUnlocked} title=${regenUnlocked?'Ricalibra in base a GDD, meteo e operazioni svolte':('Si sblocca tra '+nextRegenDays+' giorni')}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> ${regen?'Ricalibro…':(regenUnlocked?'Ricalibra':'Ricalibra ('+nextRegenDays+'g)')}</button>`:''}
+      <button class=${'pf-guida'+(view==='guida'?' on':'')} onClick=${()=>setView(view==='guida'?'prog':'guida')}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg> Guida</button></div></div>
 
     ${view!=='guida'?html`<div class="seg2 fade"><div class=${'seg2t'+(view==='prog'?' on':'')} onClick=${()=>setView('prog')}>In programma</div><div class=${'seg2t'+(view==='diario'?' on':'')} onClick=${()=>setView('diario')}>Diario</div></div>`:''}
 
-    ${view==='prog'?html`<div>
+    ${(view==='prog'&&raw.length===0)?html`<div class="card fade" style="text-align:center;padding:26px 18px;">
+      <div style="font-size:36px;line-height:1;">🌱</div>
+      <div style="font-size:16px;font-weight:800;margin:10px 0 4px;">Nessuna operazione in programma</div>
+      <div class="dt-note" style="margin:0 0 16px;">Genera il piano con l'AI: il Dottor Verde ti chiederà quali lavorazioni hai già fatto e costruirà il calendario su misura.</div>
+      <button class="sh-save" onClick=${doRegen} disabled=${regen} style="margin-bottom:10px;">${regen?'Genero il piano…':"Genera il piano con l'AI"}</button>
+      <button class="dt-goto dt-ghost" style="width:100%;justify-content:center;" onClick=${()=>setPg&&setPg('consulente')}>Parla col Dottor Verde ${chev}</button>
+    </div>`:''}
+
+    ${(view==='prog'&&raw.length>0)?html`<div>
+      ${regenUnlocked?html`<div class="card fade plan-update" style="display:flex;align-items:center;gap:12px;">
+        <div style="font-size:22px;line-height:1;">🔄</div>
+        <div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:800;color:var(--ink);">Piano aggiornabile</div><div class="dt-note" style="margin:2px 0 0;">Sono passate 2 settimane: ricalibra in base a GDD e meteo, o fatti consigliare dal Dottor Verde.</div></div>
+        <button class="dt-goto dt-ghost" style="flex-shrink:0;width:auto;padding:8px 12px;" onClick=${()=>setPg&&setPg('consulente')}>Dottor Verde ${chev}</button>
+      </div>`:''}
+      ${_overdue.length?html`<div class="card fade" style="border-left:4px solid ${_dkP?'#FCD34D':'#B45309'};">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="font-size:20px;line-height:1;">📌</span>
+          <div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:800;">${_overdue.length===1?'1 operazione arretrata':_overdue.length+' operazioni arretrate'}</div>
+          <div class="dt-note" style="margin:2px 0 0;">${_hor.staleness.level==='reset'?'È passato molto tempo: chiudi gli arretrati e poi Ricalibra il piano con l’AI.':'Dimmi cosa è successo: il piano si aggiorna in base alle tue risposte.'}</div></div></div>
+        ${_overdue.map(o=>html`<div key=${o.id} style="display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--line2,rgba(0,0,0,.06));flex-wrap:wrap;">
+          <div style="flex:1;min-width:140px;"><div style="font-size:12.5px;font-weight:700;">${o.name||o.title||'Operazione'}</div><div class="dt-note" style="margin:0;">${_opISO(o)?new Date(_opISO(o)+'T12:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'short'}):''}</div></div>
+          <div style="display:flex;gap:6px;flex-shrink:0;">
+            <button class="pf-edit" style="padding:6px 10px;font-size:11px;" onClick=${()=>markDone(o)}>✓ Fatta</button>
+            <button class="pf-edit" style="padding:6px 10px;font-size:11px;" onClick=${()=>postponeOp(o)}>+1 sett.</button>
+            <button class="pf-edit" style="padding:6px 10px;font-size:11px;" onClick=${()=>skipOp(o)}>Salta</button>
+          </div></div>`)}
+      </div>`:''}
       <div class="pills">${months.map(m=>html`<div key=${m} class=${'pill'+(selM===m?' on':'')} onClick=${()=>setSelM(m)}>${_MESIF[m]}</div>`)}</div>
       ${weeks.length?html`<div class="ag-month">${weeks.map(wk=>{const isCur=wk.w===curWeek;return html`<div key=${wk.w}>
         <div class=${'ag-wlab'+(isCur?' cur':'')}>Settimana ${wk.w}${isCur?' · questa settimana':''}<span class="rng">${_weekRange(wk.d)}</span></div>
         ${wk.ops.map((e,i)=>opRow(e,isCur,isCur&&i===0))}</div>`;})}</div>`
-        :html`<div class="zp-empty">Nessuna operazione in programma per ${_MESIF[selM]}.<br/>Genera il piano con l'AI.</div>`}
+        :html`<div class="zp-empty">Nessuna operazione in programma per ${_MESIF[selM]}.<br/><button class="dt-goto dt-ghost" style="margin-top:10px;display:inline-flex;" onClick=${doRegen} disabled=${regen}>${regen?'Genero…':"Rigenera il piano con l'AI"}</button></div>`}
     </div>`:''}
 
     ${view==='diario'?html`<div>
@@ -11116,6 +11739,7 @@ function Piano({prof,wx,setPg}){
           ${(detail.status==='completato')?html`<div class="dt-note" style="text-align:center;color:var(--green-deep);font-weight:800;margin-top:14px;">✓ Operazione completata</div>`:html`
           <button class="sh-save" onClick=${()=>markDone(detail)}>✓ Segna come fatta</button>
           <div style="display:flex;gap:10px;margin-top:10px;">
+            ${opStatus(detail)!==OP_STATUS.CONFERMATA?html`<button class="pf-edit" style="flex:1;justify-content:center;" onClick=${()=>_upd(detail.id,{status:'confermata'},'modified')}>👍 Conferma</button>`:''}
             <button class="pf-edit" style="flex:1;justify-content:center;" onClick=${()=>postponeOp(detail)}>Posticipa +1 sett.</button>
             <button class="pf-edit" style="flex:1;justify-content:center;" onClick=${()=>skipOp(detail)}>Salta</button>
           </div>`}
@@ -11141,8 +11765,44 @@ function _mSvg(k){
   if(k==='cat-ter')return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-4 9 4-9 4-9-4Z"/><path d="M3 13l9 4 9-4M3 18l9 4 9-4"/></svg>`;
   return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="1.6"/><circle cx="13.5" cy="8" r="1.6"/><circle cx="16.5" cy="12.5" r="1.6"/><circle cx="11" cy="13" r="1.6"/><circle cx="7" cy="14.5" r="1.6"/><circle cx="14" cy="16.5" r="1.6"/></svg>`;
 }
+function _monthsLabel(arr){if(!Array.isArray(arr)||!arr.length)return null;const M=['','Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];const s=[...new Set(arr)].sort((a,b)=>a-b);if(s.length>=11)return"Tutto l'anno";return M[s[0]]+'–'+M[s[s.length-1]];}
+function _findCatalogProduct(query){try{const cat=(typeof window!=='undefined'&&window.__LAWNLY_CATALOG__)||[];const q=(query||'').toLowerCase().trim();if(!q||!cat.length)return null;let m=cat.find(p=>(((p.brand?p.brand+' ':'')+(p.name||'')).toLowerCase())===q);if(m)return m;return cat.find(p=>{const full=((p.brand?p.brand+' ':'')+(p.name||'')).toLowerCase();const nm=(p.name||'').toLowerCase();return (nm&&q.includes(nm))||full.includes(q)||(nm&&nm.includes(q.split(' ').slice(-2).join(' ')));})||null;}catch(e){return null;}}
+function ProductDetailSheet({prod,onClose,qtyInWarehouse}){
+  const closeX=html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+  if(!prod)return '';
+  const badge=(prod.subtype||prod.type||'').toString();
+  const secs=prod.secondary&&typeof prod.secondary==='object'?Object.entries(prod.secondary).map(([k,v])=>k+' '+v):[];
+  const compo=[prod.npkLabel||(prod.npk&&('NPK '+prod.npk)),...secs,prod.organic?'BIO':''].filter(Boolean).join(' · ');
+  const dose=prod.dose?(prod.dose.min&&prod.dose.max?(prod.dose.min+'–'+prod.dose.max+' '+(prod.dose.unit||'')):((prod.dose.min||prod.dose.max||'')+' '+(prod.dose.unit||''))).trim():null;
+  const conf=(prod.formats&&prod.formats.length)?prod.formats.map(f=>f.label||((f.size||'')+' '+(f.unit||''))).join(', '):null;
+  const periodo=_monthsLabel(prod.seasonMicro||prod.seasonMacro);
+  const cat=_catFromType(prod.subtype||prod.type||prod.name);
+  const pdsec=(ic,lab,val)=>val?html`<div class="pd-sec"><div class="pd-sec-h">${ic} ${lab}</div><div class="pd-sec-v">${val}</div></div>`:'';
+  return html`<${ModalPortal}><div class="rdz" style="position:fixed;inset:0;z-index:240;padding:0;min-height:0;display:block;gap:0">
+    <div class="ov on" onClick=${onClose}></div>
+    <div class="sheet on"><div class="sh-handle"></div>
+      <div class="sh-head"><div class="sh-title">Scheda prodotto</div><div class="sh-x" onClick=${onClose}>${closeX}</div></div>
+      <div class="sh-body">
+        <div class="pd-head"><span class=${'prod-ic '+cat} style="width:62px;height:62px;border-radius:16px;">${_mSvg(cat)}</span>
+          <div style="flex:1;min-width:0;">${badge?html`<span class="pd-badge">${badge.toUpperCase()}</span>`:''}
+            <div class="pd-name">${prod.brand==='Padana Sementi'?prod.name:([prod.brand,prod.name].filter(Boolean).join(' ')||prod.name)}</div>
+            ${prod.brand==='Padana Sementi'?html`<img class="pd-logo-padana" src="padana-logo.png" alt="Padana Sementi"/>`:''}
+            ${prod.family?html`<div class="pd-sub">${(''+prod.family).replace(/_/g,' ')}</div>`:''}
+          </div></div>
+        ${qtyInWarehouse!=null?html`<div class="pd-have"><b>In magazzino:</b> ${qtyInWarehouse} ${prod.unit||''}</div>`:''}
+        ${prod.notes?html`<div class="pd-desc">${prod.notes}</div>`:''}
+        ${pdsec('🧪','COMPOSIZIONE',compo)}
+        ${pdsec('📐','DOSAGGIO',dose)}
+        ${pdsec('📦','CONFEZIONE',conf)}
+        ${pdsec('🗓️','PERIODO',periodo)}
+        ${prod.sourceUrl?html`<a class="sh-save" style="display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;margin-top:6px;" href=${prod.sourceUrl} target="_blank" rel="noopener">📄 Scheda tecnica / fornitore</a>`:''}
+      </div>
+    </div>
+  </div></${ModalPortal}>`;
+}
 function Magazzino2({prof,setPg}){
   const wh=S.get('dss_warehouse_v2',[])||[];
+  const [detail,setDetail]=useState(null);
   const items=wh.filter(Boolean).map(p=>{
     const qty=(typeof whTotal==='function')?whTotal(p):Number(p.qty||0);
     const reorder=qty<=(p.reorderAt||p.minQty||1);
@@ -11150,20 +11810,22 @@ function Magazzino2({prof,setPg}){
     const pct=reorder?14:(qty<=3?55:80);
     const meta=[p.category,p.format||(p.unit?('conf. '+p.unit):'')].filter(Boolean).join(' · ');
     const qd=Number.isInteger(qty)?qty:(''+qty).replace('.',',');
-    return {name:[p.brand,p.name].filter(Boolean).join(' '),meta,qty:qd,unit:p.unit||'',reorder,cat,pct,material:_isMaterial(p.category||p.name)};
+    const prodCat=_findCatalogProduct([p.brand,p.name].filter(Boolean).join(' '));
+    const desc=(prodCat&&prodCat.notes)||p.notes||p.description||(prodCat&&(prodCat.npkLabel||prodCat.family))||'';
+    return {name:[p.brand,p.name].filter(Boolean).join(' '),meta,qty:qd,unit:p.unit||'',reorder,cat,pct,material:_isMaterial(p.category||p.name),prodCat,desc,rawQty:qd};
   });
   const tot=items.length, low=items.filter(i=>i.reorder).length, ok=tot-low;
   const prods=items.filter(i=>!i.material), mats=items.filter(i=>i.material);
   const open=()=>setPg&&setPg('magazzino');
   const [shProd,setShProd]=useState(false);
-  const row=(p,i)=>html`<div class="prod" key=${i} onClick=${open}>
+  const row=(p,i)=>html`<div class="prod" key=${i} onClick=${()=>p.prodCat?setDetail({prod:p.prodCat,qty:p.rawQty}):open()}>
     <span class=${'prod-ic '+p.cat}>${_mSvg(p.cat)}</span>
-    <div class="prod-m"><div class="prod-n">${p.name||'Prodotto'}</div>${p.meta?html`<div class="prod-meta">${p.meta}</div>`:''}
+    <div class="prod-m"><div class="prod-n">${p.name||'Prodotto'}</div>${p.desc?html`<div class="prod-meta">${p.desc.length>72?p.desc.slice(0,70)+'…':p.desc}</div>`:(p.meta?html`<div class="prod-meta">${p.meta}</div>`:'')}
       <div class="prod-bar"><i style=${'width:'+p.pct+'%;background:'+(p.reorder?'var(--red)':'var(--green)')}></i></div></div>
     <div class="prod-r"><div class="prod-q">${p.qty}<small> ${p.unit}</small></div><span class=${'pbadge '+(p.reorder?'r':'g')}>${p.reorder?'Riordina':'OK'}</span></div>
   </div>`;
 
-  return html`<div class="rdz">
+  return html`<div class="rdz olx">
     <div class="rdz-ambient"></div>
     <div class="head"><div><div class="page-eyebrow">Scorte e prodotti</div><div class="page-title">Il <span class="serif">magazzino</span></div></div></div>
     <div class="mag3 fade">
@@ -11176,12 +11838,52 @@ function Magazzino2({prof,setPg}){
     ${prods.length?html`<div class="card fade"><div class="c-eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8l9 5 9-5Z"/><path d="m3 8 0 8 9 5 9-5 0-8"/></svg> Prodotti in magazzino</div>${prods.map(row)}</div>`:''}
     ${shProd?html`<${AggiungiProdottoSheet} onClose=${()=>setShProd(false)}/>`:''}
     ${mats.length?html`<div class="card fade"><div class="c-eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-4 9 4-9 4-9-4Z"/><path d="m3 14 9 4 9-4"/></svg> Materiali per lavorazioni meccaniche</div>${mats.map(row)}</div>`:''}
+    ${detail?html`<${ProductDetailSheet} prod=${detail.prod} qtyInWarehouse=${detail.qty} onClose=${()=>setDetail(null)}/>`:''}
   </div>`;
 }
 /* ===== fine Sezione MAGAZZINO ===== */
 
 /* ===== LAWNLY RE-SKIN — Sezione PROFILO (1:1 plus.html) ===== */
 function _expoLab(e){e=(e||'').toString().toLowerCase();if(e.includes('mezz')||e.includes('part'))return"Mezz'ombra";if(e.includes('sun')||e.includes('sole'))return'Sole pieno';if(e.includes('shade')||e.includes('ombra'))return'Ombra';return e?e.charAt(0).toUpperCase()+e.slice(1):'—';}
+function ProfiloEditSheet({prof,onClose,onSave}){
+  const p=prof||{};
+  const [gardenName,setGardenName]=useState(p.gardenName||p.userName||'');
+  const [street,setStreet]=useState(p.street||'');
+  const [streetNumber,setStreetNumber]=useState(p.streetNumber||'');
+  const [city,setCity]=useState(p.city||p.location||'');
+  const [totalArea,setTotalArea]=useState(String(p.totalArea||p.area||''));
+  const [grassMix,setGrassMix]=useState(p.grassMixture||'microterme');
+  const [gddBase,setGddBase]=useState(String(p.gddBase!=null?p.gddBase:10));
+  const [flowRate,setFlowRate]=useState(String(p.flowRateLpm!=null?p.flowRateLpm:''));
+  const [zoneAreas,setZoneAreas]=useState(()=>(Array.isArray(p.zones)?p.zones:[]).map(z=>String(z.area||z.m2||'')));
+  const zones=Array.isArray(p.zones)?p.zones:[];
+  const num=(s)=>{const v=parseFloat((s||'').toString().replace(',','.'));return isNaN(v)?null:v;};
+  const save=()=>{
+    const patch={gardenName:gardenName.trim()||p.gardenName,street:street.trim(),streetNumber:streetNumber.trim(),city:city.trim()||p.city,location:city.trim()||p.location,grassMixture:grassMix};
+    const ta=num(totalArea);if(ta!=null)patch.totalArea=ta;
+    const gb=num(gddBase);if(gb!=null)patch.gddBase=gb;
+    const fr=num(flowRate);if(fr!=null)patch.flowRateLpm=fr;
+    if(zones.length){patch.zones=zones.map((z,i)=>{const a=num(zoneAreas[i]);return a!=null?{...z,area:a}:z;});}
+    onSave&&onSave(patch);
+  };
+  const closeX=html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+  return html`<${ModalPortal}><div class="rdz" style="position:fixed;inset:0;z-index:200;padding:0;min-height:0;display:block;gap:0">
+    <div class="ov on" onClick=${onClose}></div>
+    <div class="sheet on"><div class="sh-handle"></div>
+      <div class="sh-head"><div class="sh-title">Modifica dati prato</div><div class="sh-x" onClick=${onClose}>${closeX}</div></div>
+      <div class="sh-body">
+        <div class="field"><label class="flab">Nome giardino</label><input class="finput" type="text" value=${gardenName} onInput=${e=>setGardenName(e.target.value)}/></div>
+        <div class="frow"><div class="field" style="flex:2;"><label class="flab">Via</label><input class="finput" type="text" value=${street} onInput=${e=>setStreet(e.target.value)}/></div><div class="field" style="flex:1;"><label class="flab">N.</label><input class="finput" type="text" value=${streetNumber} onInput=${e=>setStreetNumber(e.target.value)}/></div></div>
+        <div class="field"><label class="flab">Città</label><input class="finput" type="text" value=${city} onInput=${e=>setCity(e.target.value)}/></div>
+        <div class="frow"><div class="field"><label class="flab">Superficie totale (m²)</label><input class="finput" type="text" inputmode="decimal" value=${totalArea} onInput=${e=>setTotalArea(e.target.value)}/></div><div class="field"><label class="flab">Portata impianto (L/min)</label><input class="finput" type="text" inputmode="decimal" placeholder="es. 8" value=${flowRate} onInput=${e=>setFlowRate(e.target.value)}/></div></div>
+        <div class="field"><label class="flab">Tipo prato</label><div class="fchips">${[['microterme','Microterme'],['macroterme','Macroterme'],['misto','Misto']].map(([k,l])=>html`<span key=${k} class=${'fchip'+(grassMix===k?' on':'')} onClick=${()=>setGrassMix(k)}>${l}</span>`)}</div></div>
+        <div class="field"><label class="flab">Base GDD (°C)</label><input class="finput" type="text" inputmode="decimal" value=${gddBase} onInput=${e=>setGddBase(e.target.value)}/></div>
+        ${zones.length?html`<div class="field"><label class="flab">Superficie per zona (m²)</label>${zones.map((z,i)=>html`<div class="frow" key=${z.id||i} style="align-items:center;margin-bottom:8px;"><span style="flex:1;font-size:13px;font-weight:700;color:var(--t2);">${z.name||('Zona '+(z.id||(i+1)))}</span><input class="finput" style="flex:1;" type="text" inputmode="decimal" value=${zoneAreas[i]} onInput=${e=>setZoneAreas(a=>{const n=[...a];n[i]=e.target.value;return n;})}/></div>`)}</div>`:''}
+        <button class="sh-save" onClick=${save}>Salva modifiche</button>
+      </div>
+    </div>
+  </div></${ModalPortal}>`;
+}
 function Profilo2({prof,wx,setPg,setProf,onResetGarden,onLogout,onDeleteAccount}){
   const [openSec,setOpenSec]=useState(0);
   const name=(prof&&(prof.userName||prof.gardenName||prof.ownerName))||'Profilo';
@@ -11198,7 +11900,10 @@ function Profilo2({prof,wx,setPg,setProf,onResetGarden,onLogout,onDeleteAccount}
   const lastCalib=(()=>{try{const d=S.get('dss_diagnosis_data',null);const t=(d&&(d.generatedAt||d.updatedAt))||(prof&&(prof.calibratedAt||prof.onboardingCompletedAt||prof.updatedAt));if(!t)return null;const dt=new Date(t);if(isNaN(dt))return null;return dt.toLocaleDateString('it-IT',{day:'numeric',month:'short',year:'numeric'});}catch(e){return null;}})();
   const [theme,setTheme]=useState(()=>{try{return localStorage.getItem('dss_theme')||'auto';}catch(e){return 'auto';}});
   const applyTheme=(t)=>{setTheme(t);try{localStorage.setItem('dss_theme',t);}catch(e){}try{const d=(t==='dark')||(t==='auto'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}};
-  const edit=()=>{if(setProf){setProf(p=>({...(p||{}),onboardingCompleted:false}));}else if(setPg){setPg('profilo');}};
+  const [editSheet,setEditSheet]=useState(false);
+  const edit=()=>setEditSheet(true);
+  const restartOnboarding=()=>{if(typeof window!=='undefined'&&!window.confirm('Rifare la configurazione guidata da zero? I dati attuali del prato verranno reimpostati.'))return;try{['dss_diagnosis_data','dss_soil_data'].forEach(k=>localStorage.removeItem(k));Object.keys(localStorage).filter(k=>k.startsWith('dss_soil_theta_')).forEach(k=>localStorage.removeItem(k));}catch(e){}if(setProf){setProf(p=>({...(p||{}),onboardingCompleted:false}));}else if(setPg){setPg('profilo');}};
+  const saveProfEdit=(patch)=>{if(!setProf)return;setProf(p=>{const np={...(p||{}),...patch,onboardingCompleted:true};try{S.set('dss_profile',np);}catch(e){}return np;});try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}setEditSheet(false);};
   const doReset=()=>{if(typeof window!=='undefined'&&!window.confirm('Azzerare il giardino? Perderai zone, piano, magazzino e dati registrati.'))return;if(onResetGarden)onResetGarden();};
   const doLogout=()=>{if(onLogout)onLogout();};
   const doDelete=()=>{if(typeof window!=='undefined'&&!window.confirm('Eliminare definitivamente l\'account? Operazione irreversibile.'))return;if(onDeleteAccount)onDeleteAccount();};
@@ -11209,7 +11914,7 @@ function Profilo2({prof,wx,setPg,setProf,onResetGarden,onLogout,onDeleteAccount}
   const icGps=html`<span class="prow-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>`;
   const icCal=html`<span class="prow-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg></span>`;
 
-  return html`<div class="rdz">
+  return html`<div class="rdz olx">
     <div class="rdz-ambient"></div>
     <div class="head"><div><div class="page-eyebrow">Account</div><div class="page-title"><span class="serif">Profilo</span></div></div></div>
 
@@ -11259,6 +11964,7 @@ function Profilo2({prof,wx,setPg,setProf,onResetGarden,onLogout,onDeleteAccount}
     <div class="card fade">
       <div class="c-eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v1a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3Z"/><path d="M4 22a8 8 0 0 1 16 0"/></svg> Account e dati</div>
       <button class="pf-edit" style="justify-content:center;width:100%;margin-top:8px;" onClick=${edit}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg> Modifica dati prato</button>
+      <button class="pf-edit" style="justify-content:center;width:100%;margin-top:8px;" onClick=${restartOnboarding}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><circle cx="12" cy="12" r="1"/></svg> Rifai configurazione guidata</button>
       <button class="pf-edit" style="justify-content:center;width:100%;margin-top:8px;" onClick=${doReset}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> Reset giardino</button>
       <button class="pf-edit" style="justify-content:center;width:100%;margin-top:8px;" onClick=${doLogout}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Esci</button>
       <button class="pf-edit" style="justify-content:center;width:100%;margin-top:8px;color:#B5503A;border-color:rgba(181,80,58,.3);" onClick=${doDelete}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> Elimina account</button>
@@ -11268,12 +11974,13 @@ function Profilo2({prof,wx,setPg,setProf,onResetGarden,onLogout,onDeleteAccount}
       <div style="font-size:12.5px;color:var(--t3);line-height:1.5;margin:4px 0 12px;">Apri il mockup <b>Plus</b> per confrontare il design con l'app reale.</div>
       <button class="pf-edit" style="justify-content:center;width:100%;" onClick=${()=>{try{window.open('plus.html','_blank');}catch(e){window.location.href='plus.html';}}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Apri demo Plus</button>
     </div>
+    ${editSheet?html`<${ProfiloEditSheet} prof=${prof} onClose=${()=>setEditSheet(false)} onSave=${saveProfEdit}/>`:''}
   </div>`;
 }
 /* ===== fine Sezione PROFILO ===== */
 
 /* ===== LAWNLY RE-SKIN — Form Misura suolo (sh-soil) ===== */
-function MisuraSuoloSheet({prof,onClose}){
+function MisuraSuoloSheet({prof,onClose,setPg}){
   const zones=(prof&&prof.zones&&prof.zones.length)?prof.zones:[{id:'A',name:'Zona A'}];
   const [zona,setZona]=useState(zones[0].id||'A');
   const [ph,setPh]=useState('');const [um,setUm]=useState('');const [ts,setTs]=useState('');
@@ -11305,6 +12012,7 @@ function MisuraSuoloSheet({prof,onClose}){
         <div class="field"><label class="flab">Conducibilità EC (facolt.)</label><input class="finput" type="text" inputmode="decimal" placeholder="mS/cm" value=${ec} onInput=${e=>setEc(e.target.value)}/></div>
         <div class="field"><label class="flab">Data</label><input class="finput" type="datetime-local" value=${dt} onInput=${e=>setDt(e.target.value)}/></div>
         <button class="sh-save" onClick=${save}>Salva misurazione</button>
+        ${setPg?html`<button class="dt-goto dt-ghost" style="margin-top:8px" onClick=${()=>{onClose&&onClose();setPg('suolo');}}>Apri la sezione Suolo</button>`:''}
         </div>`}
       </div>
     </div>
@@ -11313,7 +12021,7 @@ function MisuraSuoloSheet({prof,onClose}){
 /* ===== fine Form Misura suolo ===== */
 
 /* ===== LAWNLY RE-SKIN — Form Foto zona (sh-photo) ===== */
-function FotoZonaSheet({prof,onClose}){
+function FotoZonaSheet({prof,onClose,setPg}){
   const zones=(prof&&prof.zones&&prof.zones.length)?prof.zones:[{id:'A',name:'Zona A'}];
   const [zona,setZona]=useState(zones[0].id||'A');
   const [file,setFile]=useState(null);
@@ -11345,6 +12053,7 @@ function FotoZonaSheet({prof,onClose}){
           </label></div>
         <div class="field"><div class=${'fswitch'+(ai?' on':'')} onClick=${()=>setAi(!ai)}><span class="fswitch-t">Analizza con l'AI</span><span class="sw"><i></i></span></div></div>
         <button class="sh-save" onClick=${save} disabled=${!file||busy}>${busy?'Carico…':(ai?'Carica e analizza':'Carica foto')}</button>
+        ${setPg?html`<button class="dt-goto dt-ghost" style="margin-top:8px" onClick=${()=>{onClose&&onClose();setPg('prato');}}>Apri "Il mio prato"</button>`:''}
         </div>`}
       </div>
     </div>
@@ -11369,7 +12078,7 @@ function Num({end,dur,dec}){
 }
 
 /* ===== LAWNLY RE-SKIN — Form Registra lavorazione (sh-lav) — completa come plus ===== */
-function RegistraLavorazioneSheet({prof,onClose,only}){
+function RegistraLavorazioneSheet({prof,onClose,only,setPg}){
   const irrOnly=(only==='irr');
   const prof2=prof||(typeof S!=='undefined'&&S.get('dss_profile',{}))||{};
   const zones=(prof2.zones&&prof2.zones.length)?prof2.zones:[{id:'A',name:'Zona A'}];
@@ -11403,7 +12112,7 @@ function RegistraLavorazioneSheet({prof,onClose,only}){
     const zlist=zones;const zoneIds=zona==='all'?zlist.map(z=>z.id||z.name):[zona];
     const selZones=zlist.filter(z=>zoneIds.includes(z.id||z.name));
     const yr=new Date().getFullYear();
-    const pushEv=(ev)=>{try{const d=S.get('dss_calendar_events',[])||[];S.set('dss_calendar_events',[ev,...d]);}catch(e){}
+    const pushEv=(ev)=>{if(!validateAndConfirmOp(ev))return;try{const d=S.get('dss_calendar_events',[])||[];S.set('dss_calendar_events',[ev,...d]);}catch(e){}
       try{if(typeof queueOperationFeedback==='function')queueOperationFeedback({type:'added',operation:ev,oldOperation:null,gardenData:prof2,profile:prof2,gdd:(typeof window!=='undefined'&&window.__LAWNLY_WX__)||null});}catch(e){}};
     // IRRIGAZIONE -> storico (ricalibra bilancio idrico)
     if(tipi.irr){
@@ -11438,7 +12147,7 @@ function RegistraLavorazioneSheet({prof,onClose,only}){
       <div class="sh-body">
         ${saved?html`<div style="text-align:center;padding:30px 0;"><div style="font-size:40px;color:var(--green);">✓</div><div style="font-size:15px;font-weight:800;margin-top:8px;">${irrOnly?'Irrigazione registrata':'Lavorazione registrata'}</div></div>`:html`<div>
         <div class="field"><label class="flab">Stato</label><div class="fchips">${['Fatta','In programma'].map(s=>html`<span key=${s} class=${'fchip'+(stato===s?' on':'')} onClick=${()=>setStato(s)}>${s}</span>`)}</div></div>
-        ${irrOnly?'':html`<div class="field"><label class="flab">Tipo</label><div class="ftipo">${[['mecc','Meccanica'],['prod','Prodotto'],['irr','Irrigazione']].map(([k,l])=>html`<span key=${k} class=${'ftipo-c'+(tipi[k]?' on':'')} onClick=${()=>toggleTipo(k)}>${l}</span>`)}</div></div>`}
+        ${irrOnly?html`<div class="field"><label class="flab">Tipo</label><div class="ftipo"><span class="ftipo-c on">Irrigazione</span></div></div>`:html`<div class="field"><label class="flab">Tipo</label><div class="ftipo">${[['mecc','Meccanica'],['prod','Prodotto'],['irr','Irrigazione']].map(([k,l])=>html`<span key=${k} class=${'ftipo-c'+(tipi[k]?' on':'')} onClick=${()=>toggleTipo(k)}>${l}</span>`)}</div></div>`}
         <div class="field"><label class="flab">Zona</label><div class="fchips">${[...zones.map(z=>z.id),'all'].map(zid=>html`<span key=${zid} class=${'fchip'+(zona===zid?' on':'')} onClick=${()=>setZona(zid)}>${zName(zid)}</span>`)}</div></div>
         ${tipi.mecc?html`<div class="lav-sec"><div class="field"><label class="flab">Lavorazione meccanica</label>${sel(mecc,setMecc,MECC)}</div></div>`:''}
         ${tipi.prod?html`<div class="lav-sec">
@@ -11452,6 +12161,7 @@ function RegistraLavorazioneSheet({prof,onClose,only}){
         <div class="field"><label class="flab">Data</label><input class="finput" type="date" value=${data} onInput=${e=>setData(e.target.value)}/></div>
         <div class="field"><label class="flab">Note (facoltativo)</label><input class="finput" type="text" placeholder="Es. dopo arieggiatura…" value=${note} onInput=${e=>setNote(e.target.value)}/></div>
         <button class="sh-save" onClick=${save}>${irrOnly?'Salva irrigazione':'Salva lavorazione'}</button>
+        ${setPg?html`<button class="dt-goto dt-ghost" style="margin-top:8px" onClick=${()=>{onClose&&onClose();setPg(irrOnly?'irrigazione':'piano');}}>${irrOnly?'Apri la sezione Irrigazione':'Apri il Piano'}</button>`:''}
         </div>`}
       </div>
     </div>
@@ -11473,7 +12183,8 @@ function AggiungiProdottoSheet({onClose}){
     return()=>{try{window.removeEventListener('lawnly-catalog-ready',h);}catch(e){}clearTimeout(t1);clearTimeout(t2);clearTimeout(t3);};
   },[]);
   const items=cat.map(p=>{const name=p.name||p.label||'Prodotto';const brand=p.brand||p.marca||(name.split(' ')[0]);const type=p.type||p.subtype||p.category||'';const formats=(p.formats&&p.formats.length)?p.formats:[{label:(p.size?(p.size+' '+(p.unit||'')):'Confezione'),size:p.size||1,unit:p.unit||'conf'}];const fmt=(formats[0]&&(formats[0].label||(formats[0].size+' '+formats[0].unit)))||'';const desc=p.notes||p.description||[p.npkLabel||p.npk,p.slowRelease&&'a cessione lenta',p.organic&&'organico'].filter(Boolean).join(' · ')||'';
-    return {name,brand,type,formats,fmt,desc,cat:_catFromType(type+' '+name),pid:p.id};});
+    return {name,brand,type,formats,fmt,desc,cat:_catFromType(type+' '+name),pid:p.id};})
+    .filter(i=>i.brand==='Padana Sementi'); // scelta soci 1/9: per ora in catalogo solo Padana
   const brands=['Tutte',...[...new Set(items.map(i=>i.brand))].slice(0,6)];
   const [brand,setBrand]=useState('Tutte');
   const [sel,setSel]=useState(null);
@@ -11721,7 +12432,7 @@ function RegMenuSheet({onClose,onPick}){
 function RegisterOpModal({onClose}){
   const prof=(typeof S!=='undefined'&&S.get('dss_profile',{}))||{};
   const zones=(prof.zones&&prof.zones.length)?prof.zones:[{id:'A',name:'Zona A'}];
-  const catalog=(()=>{try{const w=(typeof window!=='undefined'&&window.__LAWNLY_CATALOG__);if(w&&w.length)return w;if(typeof APP_PRODUCT_CATALOG!=='undefined'&&APP_PRODUCT_CATALOG&&APP_PRODUCT_CATALOG.length)return APP_PRODUCT_CATALOG;}catch(e){}return [];})();
+  const catalog=(()=>{try{const w=(typeof window!=='undefined'&&window.__LAWNLY_PICKABLE__&&window.__LAWNLY_PICKABLE__());if(w&&w.length)return w;if(typeof APP_PRODUCT_CATALOG!=='undefined'&&APP_PRODUCT_CATALOG&&APP_PRODUCT_CATALOG.length)return APP_PRODUCT_CATALOG;}catch(e){}return [];})();
   const wh=(typeof whProducts==='function'?(whProducts()||[]):[]);
   const onSave=(op)=>{
     try{
@@ -11731,6 +12442,7 @@ function RegisterOpModal({onClose}){
       const selZones=(zones||[]).filter(z=>(op.zones||[]).includes(z.id||z.name));
       const legacyDoses=(op.doseGm2>0&&selZones.length)?selZones.map(z=>({zone:z.name||z.id,amount:((op.doseGm2*(parseFloat(z.area)||0))/1000).toFixed(2),unit:'kg'})):[];
       const newEv={id:op.id||('op_'+Date.now().toString(36)),date:op.date,month:op.month,week:op.week,category:op.category,type:legacyType,name:op.name,title:op.name,phase:op.name,zones:op.zones,suggestedProductId:op.suggestedProductId||null,finalProductId:op.finalProductId||null,finalFormatSku:op.finalFormatSku||null,doseGm2:op.doseGm2||0,quantityTotal:op.quantityTotal,unit:op.unit||'kg',notes:op.notes||'',product:productName,doses:legacyDoses,year:new Date().getFullYear(),status:'programmato',ai_generated:false,_source:'user_added'};
+      if(!validateAndConfirmOp(newEv))return;
       const evs=S.get('dss_calendar_events',[])||[];
       const idx=evs.findIndex(e=>e&&e.id===newEv.id);
       if(idx>=0){evs[idx]={...evs[idx],...newEv};}else{evs.push(newEv);}
@@ -12181,31 +12893,31 @@ function HelpModal({section,onClose}){
   const s=t.steps[step];
   const total=t.steps.length;
   return html`<${ModalPortal}>
-    <div style="position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px"
+    <div style="position:fixed;inset:0;z-index:9999;background:rgba(20,26,16,.28);-webkit-backdrop-filter:blur(10px) saturate(115%);backdrop-filter:blur(10px) saturate(115%);display:flex;align-items:center;justify-content:center;padding:16px"
          onClick=${e=>{if(e.target===e.currentTarget)onClose();}}>
-      <div style="background:linear-gradient(180deg,#fff 0%,#f8f9f6 100%);border-radius:24px;width:100%;max-width:480px;max-height:85vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.22);display:flex;flex-direction:column">
+      <div class="help-modal" style="background:var(--hm-bg,linear-gradient(180deg,#fff 0%,#f8f9f6 100%));border-radius:24px;width:100%;max-width:480px;max-height:85vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.22);display:flex;flex-direction:column">
         <!-- Header -->
         <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 20px 0">
           <div style="display:flex;align-items:center;gap:9px">
             <span style="font-size:24px">${t.icon}</span>
             <span style="font-size:15px;font-weight:700;color:var(--text)">${t.title}</span>
           </div>
-          <button onClick=${onClose} style="background:rgba(0,0,0,.07);border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">✕</button>
+          <button onClick=${onClose} style="background:var(--hm-btn,rgba(0,0,0,.07));color:var(--text);border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">✕</button>
         </div>
         <!-- Step dots -->
         <div style="display:flex;gap:5px;justify-content:center;padding:14px 20px 0">
           ${t.steps.map((_,i)=>html`
-            <button key=${i} onClick=${()=>setStep(i)} style="width:${i===step?'22':'7'}px;height:7px;border-radius:4px;border:none;cursor:pointer;transition:all .25s;background:${i===step?'var(--green)':'rgba(0,0,0,.14)'}"></button>
+            <button key=${i} onClick=${()=>setStep(i)} style="width:${i===step?'22':'7'}px;height:7px;border-radius:4px;border:none;cursor:pointer;transition:all .25s;background:${i===step?'var(--green)':'var(--hm-btn,rgba(0,0,0,.14))'}"></button>
           `)}
         </div>
         <!-- Content -->
         <div style="padding:20px 22px 18px;flex:1">
           <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:9px">${s.title}</div>
-          <div style="font-size:13px;color:#444;line-height:1.7">${s.body}</div>
+          <div style="font-size:13px;color:var(--hm-txt,#444);line-height:1.7">${s.body}</div>
         </div>
         <!-- Navigation -->
         <div style="display:flex;align-items:center;justify-content:space-between;padding:0 22px 22px">
-          <button onClick=${()=>setStep(v=>Math.max(0,v-1))} style="background:rgba(0,0,0,.06);border:none;border-radius:999px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;opacity:${step===0?.3:1}">← Indietro</button>
+          <button onClick=${()=>setStep(v=>Math.max(0,v-1))} style="background:var(--hm-btn,rgba(0,0,0,.06));color:var(--text);border:none;border-radius:999px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;opacity:${step===0?.3:1}">← Indietro</button>
           <span style="font-size:11px;color:var(--muted)">${step+1} / ${total}</span>
           ${step<total-1
             ?html`<button onClick=${()=>setStep(v=>v+1)} style="background:var(--green);color:#fff;border:none;border-radius:999px;padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer">Avanti →</button>`
@@ -12312,6 +13024,11 @@ function Dashboard({wx,ldg,err,prof,retry,setPg}){
   useEffect(()=>{ try{ if(typeof window!=='undefined'){ window.__LAWNLY_DEBUG=window.__LAWNLY_DEBUG||{}; window.__LAWNLY_DEBUG.climateAssessment=climateAssessment; } }catch{} },[climateAssessment]);
   const markerPct=gddState.stages.length<=1?0:Math.min(100,Math.max(0,(gddState.stageIndex/Math.max(1,gddState.stages.length-1))*100));
   const t=wx?.todayData||{};
+  /* PATCH 06D-B.1 — Growth Potential card (Tmin/Tmax → GP%) */
+  const gp=useMemo(()=>{try{return computeGrowthPotential(t.tmax,t.tmin,prof?.grassMixture||prof?.grassType||'microterme');}catch(e){return null;}},[t.tmax,t.tmin,prof?.grassMixture,prof?.grassType]);
+  const gpDk=typeof document!=='undefined'&&document.documentElement.getAttribute('data-theme')==='dark';
+  const gpCol=gp?(gp.score>=60?(gpDk?'#34d399':'#059669'):gp.score>=35?(gpDk?'#fbbf24':'#f59e0b'):(gpDk?'#f87171':'#ef4444')):null;
+  const gpLab=gp?(gp.score>=60?'Crescita attiva':gp.score>=35?'Crescita moderata':'Crescita minima'):null;
   const soilData=(S.get('dss_soil_data',[])||[])[0];
   const f7=wx?.forecast7||[];
   const diag=S.get('dss_diagnosis_data',null);
@@ -12763,7 +13480,7 @@ function Dashboard({wx,ldg,err,prof,retry,setPg}){
         `;})}
       </div>
     </${CollapsibleCard}>
-    ${gddInfo?html`<${ModalPortal}><div style="position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:16px" onClick=${e=>{if(e.target===e.currentTarget)setGddInfo(false);}}>
+    ${gddInfo?html`<${ModalPortal}><div style="position:fixed;inset:0;z-index:9999;background:rgba(20,26,16,.28);-webkit-backdrop-filter:blur(10px) saturate(115%);backdrop-filter:blur(10px) saturate(115%);display:flex;align-items:center;justify-content:center;padding:16px" onClick=${e=>{if(e.target===e.currentTarget)setGddInfo(false);}}>
       <div style="background:#fff;border-radius:20px;max-width:460px;width:100%;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.25);max-height:88vh;overflow-y:auto">
         <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:14px">
           <div>
@@ -12779,6 +13496,7 @@ function Dashboard({wx,ldg,err,prof,retry,setPg}){
           <div style="padding:10px;border-radius:.65rem;background:var(--green-l);font-size:12px"><strong>Il tuo prato:</strong> ${gddState.grassType} · base <strong>${gddState.base}°C</strong></div>
           <div style="padding:10px;border-radius:.65rem;background:rgba(107,158,107,.07);font-size:12px"><strong>GDD cumulativo ${new Date().getFullYear()}:</strong> ${gdd}</div>
           <div style="padding:10px;border-radius:.65rem;background:rgba(107,158,107,.07);font-size:12px"><strong>Fase fenologica:</strong> ${gddState.stageLabel} — ${gddState.stageAdvice}</div>
+          ${gp?html`<div style="padding:10px;border-radius:.65rem;background:rgba(107,158,107,.07);font-size:12px"><strong>Growth Potential oggi:</strong> ${gp.score}% (${gpLab}). Curva gaussiana sulla T media (${gp.tAvg}°C) centrata sull'ottimale di specie (${gp.tOpt}°C): indica quanto il prato può effettivamente crescere e assorbire nutrienti oggi.</div>`:''}
         </div>
         <div style="font-size:11px;color:var(--muted);line-height:1.55;padding-top:10px;border-top:1px solid var(--border)">
           <strong>Perché le basi diverse?</strong> Microterme (festuca, lolium, poa) iniziano a crescere da 5°C; macroterme (zoysia, cynodon, paspalum) da 10°C. Se hai un mix custom puoi configurare la base dal profilo.
@@ -12851,6 +13569,15 @@ function Dashboard({wx,ldg,err,prof,retry,setPg}){
             </div>
           </div>
         `}
+
+      ${gp?html`<div style="margin-bottom:14px;padding:10px 12px;border-radius:.75rem;background:var(--green-l)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <span style="font-size:11px;font-weight:700;color:var(--text)">🌡 Growth Potential</span>
+          <span style="font-size:13px;font-weight:700;color:${gpCol}">${gp.score}% · ${gpLab}</span>
+        </div>
+        <div style="height:6px;border-radius:99px;background:var(--line2,rgba(0,0,0,.08));overflow:hidden"><div style="height:100%;width:${gp.score}%;background:${gpCol};border-radius:99px;transition:width .4s"></div></div>
+        <div style="font-size:10px;color:var(--muted);margin-top:6px;line-height:1.45">T media oggi ${gp.tAvg}°C · ottimale ${gp.tOpt}°C — quanto il clima favorisce la crescita. Sotto il 35% le concimazioni azotate sono poco efficaci.</div>
+      </div>`:''}
 
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
         ${pills.map((p,i)=>html`<div key=${i} style="display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--green-l);border-radius:999px;padding:10px 4px">
@@ -13485,7 +14212,7 @@ function CalDetailModal({op,zones,wh,onDone,onSkip,onPostpone,onEdit,onDelete,on
   const SC={programmato:'#94A3B8',completato:'#22C55E',saltato:'#EF4444',posticipato:'#F59E0B'};
   const totalDose=op.doses?.reduce((s,d)=>s+parseFloat(d.amount||0),0)||0;
   const modalVDom = html`<div style="position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center" onClick=${e=>{if(e.target===e.currentTarget)onClose();}}>
-    <div style="background:#fff;border-radius:1.4rem 1.4rem 0 0;width:100%;max-width:540px;padding:18px 18px 32px;max-height:88vh;overflow-y:auto;box-shadow:0 -8px 48px rgba(0,0,0,.18)">
+    <div class="cal-theme" style="background:#fff;border-radius:1.4rem 1.4rem 0 0;width:100%;max-width:540px;padding:18px 18px 32px;max-height:88vh;overflow-y:auto;box-shadow:0 -8px 48px rgba(0,0,0,.18)">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
         <div style="display:flex;align-items:center;gap:8px">
           <span style=${'font-size:18px;padding:5px 8px;border-radius:.5rem;background:'+tc.bg}>${tc.icon}</span>
@@ -14666,7 +15393,13 @@ function Calendario({wx,prof,setPg}){
         const ops=(JSON.parse(m[0]).operations||[]).filter(Boolean);
         if(ops.length){
           const kept=rawEvs.filter(e=>{const w=e.week||e.w||0;return!(w>=cw&&w<=cw+4&&(!e.status||e.status==='programmato'));});
-          const fresh=ops.map((o,i)=>({id:'ai_r_'+Date.now()+'_'+i,name:o.name||'Op AI',type:o.type||'trattamento',product:o.product||null,week:Number(o.week)||cw,year:curYear,status:'programmato',doses:o.doses||[],notes:o.notes||'',gdd_trigger:o.gdd_trigger||null,ai_generated:true}));
+          const fresh=ops.map((o,i)=>{
+            const wk=Number(o.week)||cw;
+            // PATCH v9 — gli eventi rigenerati DEVONO avere una date (week→date ISO), altrimenti
+            // sono invisibili nelle viste date-based (Piano/Oggi) e non normalizzabili.
+            const dt=(()=>{try{return new Date(curYear,0,1+(wk-1)*7).toISOString().slice(0,10);}catch(e){return null;}})();
+            return{id:'ai_r_'+Date.now()+'_'+i,name:o.name||'Op AI',type:o.type||'trattamento',product:o.product||null,date:dt,week:wk,month:dt?parseInt(dt.slice(5,7),10):null,year:curYear,status:'programmato',doses:o.doses||[],notes:o.notes||'',gdd_trigger:o.gdd_trigger||null,ai_generated:true};
+          });
           saveEvs([...kept,...fresh]);
           entry.count=fresh.length;
           entry.message=`${fresh.length} operazioni aggiornate (sett. ${cw}–${cw+3})`;
@@ -14765,7 +15498,7 @@ function Calendario({wx,prof,setPg}){
   const done=evs.filter(e=>e.status==='completato'&&e.year>=curYear).length;
   const upcoming=evs.filter(e=>e.status==='programmato'&&e.week>=cw&&e.year>=curYear).length;
 
-  return html`<div class="page anim">
+  return html`<div class="page anim cal-theme">
     ${detailOp?html`<${CalDetailModal} op=${detailOp} zones=${zones} wh=${wh} onDone=${markDone} onSkip=${skipEv} onPostpone=${postponeEv} onEdit=${openEdit} onDelete=${deleteEv} onClose=${()=>setDetailOpId(null)} onChangeProduct=${openProductPicker}/>`:''}
     ${rawEvs.length===0?html`<div style="background:var(--green-l);border:1.5px solid rgba(45,106,79,.25);border-radius:14px;padding:18px 20px;margin-bottom:16px;display:flex;align-items:flex-start;gap:14px">
       <div style="font-size:28px;flex-shrink:0">🌿</div>
@@ -14781,7 +15514,7 @@ function Calendario({wx,prof,setPg}){
       </div>
     </div>`:''}
     ${prodModal?html`<${ModalPortal}><div onClick=${()=>setProdModal(null)} style="position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:9999;padding:1rem">
-      <div style="background:#fff;border-radius:18px;max-width:420px;width:100%;max-height:85vh;overflow:auto;padding:18px;box-shadow:0 16px 48px rgba(0,0,0,.22)" onClick=${e=>e.stopPropagation()}>
+      <div class="cal-theme" style="background:#fff;border-radius:18px;max-width:420px;width:100%;max-height:85vh;overflow:auto;padding:18px;box-shadow:0 16px 48px rgba(0,0,0,.22)" onClick=${e=>e.stopPropagation()}>
         <h3 style="margin:0 0 14px;font-size:16px;font-weight:700">Seleziona prodotto dal magazzino</h3>
         <div style="display:flex;flex-direction:column;gap:8px">
           ${prodModal.compatibleProducts.length===0
@@ -15759,7 +16492,7 @@ const NEW_CATALOG=window.__LAWNLY_CATALOG__||[];
 if(NEW_CATALOG.length===0){
   console.error('[Lawnly] FATAL: PRODUCT_CATALOG non caricato. Verifica import productCatalog.js.');
 }
-const WH_PRESETS=NEW_CATALOG.map(toLegacyShape);
+const WH_PRESETS=(window.__LAWNLY_PICKABLE__?window.__LAWNLY_PICKABLE__():NEW_CATALOG).map(toLegacyShape);
 console.log('[Lawnly] WH_PRESETS size:',WH_PRESETS.length,'brands:',[...new Set(WH_PRESETS.map(p=>p.brand))]);
 const TICONS={fertilizzante:'🌿',biostimolante:'💚',fungicida:'🍄',insetticida:'🦟',ammendante:'🌑',sementi:'🌱',altro:'📦'};
 const TCOLS={fertilizzante:'#dcfce7',biostimolante:'#d1fae5',fungicida:'#fef3c7',insetticida:'#fee2e2',ammendante:'#e5e7eb',sementi:'#ecfccb',altro:'#f3f4f6'};
@@ -15809,13 +16542,13 @@ function Magazzino(){
 
   /* ── Wizard: brand e prodotti disponibili (filtrati per audience) ── */
   const availableBrands=useMemo(()=>{
-    const list=(window.__LAWNLY_CATALOG__||[]).filter(p=>showAllAudience?true:audienceAllowed(p.audienceLevel,userAudience));
+    const list=(window.__LAWNLY_PICKABLE__?window.__LAWNLY_PICKABLE__():(window.__LAWNLY_CATALOG__||[])).filter(p=>showAllAudience?true:audienceAllowed(p.audienceLevel,userAudience));
     return [...new Set(list.map(p=>p.brand).filter(Boolean))].sort();
   },[showAllAudience,userAudience]);
 
   const productsInBrand=useMemo(()=>{
     if(!addWizard||addWizard.brand==='ALTRO'||!addWizard.brand)return[];
-    return(window.__LAWNLY_CATALOG__||[])
+    return(window.__LAWNLY_PICKABLE__?window.__LAWNLY_PICKABLE__():(window.__LAWNLY_CATALOG__||[]))
       .filter(p=>p.brand===addWizard.brand)
       .filter(p=>showAllAudience?true:audienceAllowed(p.audienceLevel,userAudience))
       .sort((a,b)=>a.name.localeCompare(b.name));
@@ -16209,6 +16942,18 @@ function Magazzino(){
   </div>`;
 }
 
+function cleanReply(t){
+  if(t==null)return '';
+  let s=(''+t);
+  s=s.replace(/^[ \t]*([*\-_=+/~]){3,}[ \t]*$/gm,'');           // righe-divisore decorative
+  s=s.replace(/^#{1,6}\s*/gm,'');                                  // heading markers
+  s=s.replace(/\*\*\*(.*?)\*\*\*/g,'$1').replace(/\*\*(.*?)\*\*/g,'$1').replace(/__(.*?)__/g,'$1'); // grassetto
+  s=s.replace(/^[ \t]*[*\-+]\s+/gm,'• ');                         // bullet -> •
+  s=s.replace(/[ \t]*(\+{2,}|\/{3,}|~{2,}|={3,})[ \t]*/g,' ');    // simboli decorativi residui
+  s=s.replace(/`+/g,'');                                           // backtick
+  s=s.replace(/\n{3,}/g,'\n\n').trim();                           // newline multipli
+  return s;
+}
 function Consulente({wx,prof,wxLoading}){
   const [msgs,setMsgs]=useState(()=>S.get('dss_consultant_chat',[]));
   const [inp,setInp]=useState('');
@@ -16273,6 +17018,11 @@ function Consulente({wx,prof,wxLoading}){
     const opRules=deriveOperationalRules(indicators);
     const agroHeader=indicators?buildAgroSystemPrompt({indicators,rules:opRules,profile:{gardenName:prof?.gardenName,city:prof?.city,country:prof?.country,totalArea:prof?.totalArea,audienceLevel:prof?.audienceLevel||'prosumer'},zones:prof?.zones||[],soil,userTraits:prof?.userTraits||S.get('dss_profile',{})?.userTraits}):'';
     return `${agroHeader}
+
+REGOLE DI RISPOSTA (PRIORITÀ MASSIMA):
+- Massimo 80-120 parole. Vai dritto al consiglio pratico, niente preamboli ("Certo!", "Ottima domanda").
+- TESTO SEMPLICE: VIETATI i simboli decorativi *** --- +++ /// ___ === e il grassetto markdown ** **. Niente titoli con #.
+- Per gli elenchi usa "1. 2. 3." oppure "• ". Le emoji/icone sono ammesse con moderazione.
 
 ===== CONTESTO LEGACY (integrativo) =====
 
@@ -16565,13 +17315,9 @@ Non consigliare prodotti fuori da questa lista salvo richiesta esplicita dell'ut
         try{
           const _allOps=JSON.parse(calUpdateMatch[1]);
           const _cw=curWeek();
-          // Se il blocco contiene un mix di passato+futuro, prendi SOLO il passato
-          // (le future devono essere confermate separatamente dall'utente)
-          const hasFuture=_allOps.some(o=>o&&(o.week||0)>=_cw&&(o.status||'completato')==='completato');
-          const hasPast=_allOps.some(o=>o&&(o.week||0)<_cw);
-          const ops=hasFuture&&hasPast
-            ?_allOps.filter(o=>o&&(o.week||0)<_cw)  // mix → prendi solo passato
-            :_allOps;
+          // Passato e futuro nello stesso blocco: le passate si marcano completate,
+          // le future entrano nel piano come 'programmato' (feedback Elia: "dico si' e non succede nulla")
+          const ops=_allOps;
           const evs=S.get('dss_calendar_events',[])||[];
           // Matching fuzzy: prime 2 parole significative + finestra ±N settimane
           const _bn=n=>(n||'').toLowerCase().replace(/[^a-z0-9\s]/gi,' ').trim().split(/\s+/).slice(0,2).join(' ');
@@ -16584,13 +17330,26 @@ Non consigliare prodotti fuori da questa lista salvo richiesta esplicita dell'ut
           // Se non trovato, crea nuova voce solo se non già presente
           const updatedEvs=[...evs];
           const addedNew=[];
+          let nMarked=0;
           ops.forEach(op=>{
             if(!op||!op.name||!op.week)return;
-            if((op.status||'completato')!=='completato'&&op.week<_cw)return;
+            // Da fare (settimana corrente in avanti, o status non completato) → va nel piano
+            if(op.week>=_cw||(op.status||'completato')!=='completato'){
+              if(!updatedEvs.some(e=>_similar(op,e,1)))addedNew.push({
+                id:'chat_plan_'+Date.now()+'_'+Math.random().toString(36).slice(2),
+                name:op.name,type:op.type||'trattamento',
+                week:op.week,year:op.year||new Date().getFullYear(),
+                status:'programmato',doses:[],
+                product:op.product||null,
+                notes:op.notes||'',ai_generated:true,from_chat:true
+              });
+              return;
+            }
             const matchIdx=updatedEvs.findIndex(e=>
               (e.status==='programmato'||!e.status)&&_similar(op,e,2)
             );
             if(matchIdx>=0){
+              nMarked++;
               updatedEvs[matchIdx]={...updatedEvs[matchIdx],status:'completato',confirmed:true,doneAt:new Date().toISOString(),from_chat:true};
             }else if(!updatedEvs.some(e=>_similar(op,e,1))){
               addedNew.push({
@@ -16603,7 +17362,6 @@ Non consigliare prodotti fuori da questa lista salvo richiesta esplicita dell'ut
             }
           });
           const finalEvs=[...updatedEvs,...addedNew];
-          const nMarked=ops.length-addedNew.length;
           S.set('dss_calendar_events',finalEvs);
           if(nMarked>0||addedNew.length>0){
             const msg1=nMarked>0?nMarked+' operazioni aggiornate':'';
@@ -16723,7 +17481,7 @@ Rispondi SOLO con JSON (no markdown): [{"week":N,"name":"Nome prodotto o operazi
           ${m.role==='assistant'?html`<div class="ai-av">🌿</div>`:''}
           ${m.role==='system_note'
             ?html`<div style="width:100%;text-align:center;padding:2px 0"><span style="font-size:9px;color:var(--green);background:var(--green-l);padding:3px 10px;border-radius:99px">📅 ${m.content}</span></div>`
-            :html`<div class=${m.role==='user'?'msg-u':'msg-a'}>${m.content}</div>`}
+            :html`<div class=${m.role==='user'?'msg-u':'msg-a'}>${m.role==='assistant'?cleanReply(m.content):m.content}</div>`}
         </div>`;
       })}
 
@@ -17113,6 +17871,20 @@ function App(){
       try{
         if(document.visibilityState==='visible'){
           setWxRefreshKey(k=>k+1);
+          /* PATCH v9 (G2) — riallinea da Neon al rientro in foreground se il server è più recente
+             del nostro ultimo sync E non ci sono modifiche locali pendenti (no clobber). Reload =
+             garanzia di stato fresco. Su singolo device non scatta mai (siamo noi a scrivere). */
+          if(!_lwDirty && typeof _lwToken==='function' && _lwToken()){
+            fetch('/api/state',{headers:{'Authorization':'Bearer '+_lwToken()}})
+              .then(r=>r.ok?r.json():null)
+              .then(j=>{
+                if(j&&j.updatedAt&&_lwLastSyncedAt&&!_lwDirty&&
+                   new Date(j.updatedAt).getTime()>new Date(_lwLastSyncedAt).getTime()+1500){
+                  console.log('[sync] stato Neon più recente → reload per riallineare');
+                  location.reload();
+                }
+              }).catch(()=>{});
+          }
         }
       }catch{}
     };
@@ -17221,7 +17993,13 @@ function App(){
     console.log('[loadUserData] userId:',userId);
     const result=await loadCloudWithRetry(userId);
     console.log('[loadUserData] cloud result:',result.status);
-    const localProf=S.get('dss_profile');
+    let localProf=S.get('dss_profile');
+    const localOwner=S.get('dss_owner_uid',null);
+    if(localOwner&&localOwner!==userId){
+      console.warn('[loadUserData] local data owner mismatch ('+localOwner+'!='+userId+') — purge local garden');
+      try{Object.keys(localStorage).forEach(k=>{if((k.startsWith('dss_')||k.startsWith('lawnly_'))&&k!==LAWNLY_JWT_KEY)localStorage.removeItem(k);});}catch(e){}
+      localProf=null;
+    }
     const localValid=localProf&&isProfileConfigured(localProf);
     const cloudValid=result.status==='ok'&&hasValidGardenData(result.data);
 
@@ -17231,6 +18009,7 @@ function App(){
       const wasLegacy=!raw.audienceLevel;
       setProf({...normalized,_cloudUnreachable:false});
       S.set('dss_profile',normalized);
+      S.set('dss_owner_uid',userId);
       Object.entries(result.data).forEach(([k,v])=>{if(k!=='profile')S.set(k,v);});
       if(wasLegacy&&userId)setTimeout(()=>profSet(normalized),0);
       if(normalized.lat&&normalized.onboardingCompleted)setTimeout(()=>fetchWx(normalized),200);
@@ -17243,6 +18022,7 @@ function App(){
       const pClean={...localProf};delete pClean._cloudUnreachable;
       setProf({...pClean,_cloudUnreachable:false});
       S.set('dss_profile',pClean);
+      S.set('dss_owner_uid',userId);
       if(pClean.lat&&pClean.onboardingCompleted)setTimeout(()=>fetchWx(pClean),200);
       setTimeout(()=>profSet(pClean),500);
       return;
@@ -17265,6 +18045,7 @@ function App(){
     console.log('[loadUserData] truly first login — onboarding required');
     const forcedProf={...DEF_PROF,onboardingCompleted:false};
     S.set('dss_profile',forcedProf);
+    S.set('dss_owner_uid',userId);
     setProf(forcedProf);
     setWx(null);
     setPg('oggi');
@@ -17397,6 +18178,7 @@ function App(){
         d=await loadWxCached(p.lat,p.lon,p.year||new Date().getFullYear(),p.gddBase||5,p.timezone||'Europe/Rome',p.grassMixture||'microterme',true);
       }
       setWx(d);
+      try{window.__LAWNLY_WX__=d;}catch(e){}
       setLastFetchAt(new Date().toISOString());
     }catch(e){
       const msg=e.message||'';
@@ -17703,6 +18485,8 @@ function App(){
     <footer style="text-align:center;padding:14px;font-size:10px;color:rgba(45,106,79,.35);padding-bottom:calc(14px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:center;gap:7px">
       <img src="lawnly-logo.png" alt="Lawnly" style="width:16px;height:16px;border-radius:5px;object-fit:cover;opacity:.8"/>
       <span>Lawnly · Love only your Lawn${authUser?.email?' · '+authUser.email.split('@')[0]:''}${prof?.lat?' · '+prof.lat?.toFixed?.(3)+'°N':''}</span>
+      <span style="opacity:.5">·</span>
+      <span style="display:inline-flex;align-items:center;gap:5px">prodotti <img src="padana-logo.png" alt="Padana Sementi" style="height:14px;width:auto;opacity:.85"/></span>
     </footer>
   </div>`;
 }
@@ -17763,12 +18547,16 @@ render(html`<${App}/>`,document.getElementById('app'));
 @media (min-width:768px){
   .rdz .app{max-width:none !important;}
   .rdz .viewport{padding-left:96px !important;}
+  /* le pagine rese in <main> (Calendario, Meteo, Suolo…) non hanno .viewport:
+     senza questo la barra laterale ci finisce sopra su tablet e desktop */
+  main{padding-left:calc(96px + 14px) !important;}
   .rdz .page{padding-bottom:44px !important;}
   .rdz-navwrap{left:0 !important;right:auto !important;top:0 !important;bottom:0 !important;width:96px !important;padding:0 !important;align-items:center !important;justify-content:center !important;}
   .rdz-navwrap .nav{flex-direction:column !important;width:76px !important;max-width:76px !important;height:auto !important;border-radius:0 26px 26px 0 !important;padding:18px 0 calc(18px + env(safe-area-inset-bottom)) 0 !important;gap:4px !important;justify-content:center !important;}
   .rdz-navwrap .nav-lens{display:none !important;}
   .rdz-navwrap .nv{flex-direction:column !important;width:64px !important;padding:9px 0 !important;gap:3px !important;border-radius:16px !important;justify-content:center !important;}
-  .rdz-navwrap .nv-l{display:block !important;font-size:9.5px !important;font-weight:700 !important;max-width:none !important;opacity:.82;margin:2px 0 0 0 !important;text-align:center !important;line-height:1.05 !important;letter-spacing:0 !important;white-space:nowrap;}
+  /* la pill mobile (.rdz .nv-l position:absolute sopra l'icona) in colonna si sovrappone all'icona precedente: qui torna statica sotto l'icona */
+  .rdz-navwrap .nv-l{display:block !important;position:static !important;transform:none !important;bottom:auto !important;left:auto !important;background:none !important;border:none !important;box-shadow:none !important;padding:0 !important;animation:none !important;color:inherit;font-size:9.5px !important;font-weight:700 !important;max-width:none !important;opacity:.82;margin:2px 0 0 0 !important;text-align:center !important;line-height:1.05 !important;letter-spacing:0 !important;white-space:nowrap;}
   .rdz-navwrap .nv.on{padding:9px 0 !important;}
   .rdz-navwrap .nv.on .nv-l{display:block !important;opacity:1 !important;max-width:none !important;margin:2px 0 0 0 !important;color:var(--green) !important;}
   .rdz-navwrap .nav-plus{margin:8px auto !important;}
@@ -17789,6 +18577,195 @@ html[data-theme="dark"] .rdz-navwrap .nav{background:rgba(28,34,24,.92) !importa
 html[data-theme="dark"] .rdz .finput,html[data-theme="dark"] .rdz .fselect{background:rgba(46,54,40,.6) !important;color:var(--ink) !important;border-color:rgba(255,255,255,.12) !important;}
 html[data-theme="dark"] .rdz .fchip{background:rgba(46,54,40,.6) !important;color:var(--t2) !important;}
 html[data-theme="dark"] .rdz .fchip.on{background:var(--green) !important;color:#fff !important;}
+/* fix #16 — sfondo pagina realmente scuro + header scuro + card meno "nere" */
+html[data-theme="dark"] .rdz{background:#0E120C;}
+html[data-theme="dark"] .rdz .card,html[data-theme="dark"] .rdz .tile,html[data-theme="dark"] .rdz .sheet{background:rgba(40,48,35,.94) !important;border-color:rgba(255,255,255,.12) !important;box-shadow:0 8px 24px rgba(0,0,0,.32) !important;}
+html[data-theme="dark"] header{background:rgba(16,20,12,.9) !important;border-bottom:1px solid rgba(255,255,255,.08);}
+html[data-theme="dark"] header::after{background:linear-gradient(to bottom,rgba(16,20,12,.72) 0%,transparent 100%);}
+html[data-theme="dark"] header .hdr-top div{color:#EAF0E2 !important;}
+html[data-theme="dark"] header .hdr-top div div:last-child{color:rgba(234,240,226,.55) !important;}
+html[data-theme="dark"] header .hdr-top div[style*="color:var(--text)"],html[data-theme="dark"] header .logo + div,html[data-theme="dark"] header .hdr-top{color:#EAF0E2 !important;}
+html[data-theme="dark"] .rdz .loc-pill{background:rgba(40,48,35,.94);border-color:rgba(255,255,255,.12);}
+html[data-theme="dark"] .rdz .virr-min,html[data-theme="dark"] .rdz .next-prod{color:#9FD27E;}
+html[data-theme="dark"] .rdz .mpill{filter:brightness(1.25);}
+html[data-theme="dark"] .help-modal{--hm-bg:linear-gradient(180deg,#242A1E 0%,#161B12 100%);--hm-txt:#C7D2BC;--hm-btn:rgba(255,255,255,.12);--text:#EAF0E2;--muted:#9CAA8E;}
+html[data-theme="dark"] .rdz{--amber-soft:rgba(232,197,71,.14);--green-soft:rgba(127,176,105,.16);}
+/* fix "confusione dark/light" (feedback Luca 1/9): ambient e velo ::after restavano chiari in dark */
+/* (la regola .olx .rdz-ambient più sotto ha specificità maggiore e continua a vincere sulle pagine olx) */
+html[data-theme="dark"] .rdz-ambient{background:
+  radial-gradient(120% 75% at 12% -5%, rgba(127,176,105,.12) 0%, rgba(127,176,105,0) 55%),
+  radial-gradient(110% 70% at 95% 5%, rgba(103,178,74,.08) 0%, rgba(103,178,74,0) 52%),
+  linear-gradient(158deg,#151A11 0%,#0E120C 100%) !important;}
+html[data-theme="dark"] .rdz-ambient::after{background:none;}
+</style>
+<script>/* LAWNLY_PADANA_CATALOG — concimi Padana Sementi (estratti da CATALOGO_TURF_2026, dati verificati) */
+(function(){
+  var SRC='https://www.padanasementi.com/';
+  var P=function(id,name,type,subtype,family,npk,dmin,dmax,du,fmts,seas,notes){
+    return {id:'padana-'+id,brand:'Padana Sementi',name:name,type:type,subtype:subtype||null,family:family||null,
+      npkLabel:npk?('NPK '+npk):null,npk:npk||null,organic:/organic|organo/.test(type+''+subtype),
+      dose:(dmin!=null)?{min:dmin,max:dmax,unit:du||'g/m²'}:null,
+      formats:(fmts||[]).map(function(f){return {label:f};}),
+      seasonMicro:seas||[3,4,5,6,7,8,9,10,11],seasonMacro:seas||[4,5,6,7,8,9,10],
+      audienceLevel:'prosumer',notes:notes||null,sourceUrl:SRC};
+  };
+  // prodotto a scheda sintetica (sementi/biostimolanti/linee) — dati completi nel catalogo Padana
+  var S=function(id,name,type,subtype,note){
+    return {id:'padana-'+id,brand:'Padana Sementi',name:name,type:type,subtype:subtype||null,family:null,
+      npkLabel:null,npk:null,organic:/sementi|bio|organ/.test(type+''+subtype),dose:null,formats:[],
+      seasonMicro:[3,4,5,8,9,10],seasonMacro:[4,5,6,9,10],audienceLevel:'prosumer',notes:note,verified:false,sourceUrl:SRC};
+  };
+  var PADANA=[
+    P('rooting-plus','Rooting Plus','concime','organo-minerale','radicazione','10-0-5',40,50,'g/m²',['Astuccio 1 kg','Sacco 10 kg','Sacco 4 kg'],null,'Organo-minerale con acidi umici/fulvici e zuccheri. Rende l\'azoto disponibile e riduce il dilavamento; migliora la fertilità del suolo e lo sviluppo radicale. Anti-stress.'),
+    P('ferti-force-plus','Ferti Force Plus','concime','organo-minerale','mantenimento','8-6-14+2MgO',40,60,'g/m²',['Sacco 20 kg'],null,'Concime organico vegetale ad azione ammendante: rigenera il suolo e ne attiva la microflora, contrasta la stanchezza del terreno. Ricco di azoto e carbonio biodegradabili.'),
+    P('ferti-go','Ferti Go','concime','granulare','spinta_vegetativa','18-7-9',35,40,'g/m²',['Sacco 4 kg','Sacco 25 kg'],null,'Concime granulare equilibrato per la nutrizione di mantenimento del tappeto erboso.'),
+    P('ferti-sowing','Ferti Sowing','concime','granulare','radicazione','10-17-10',35,40,'g/m²',['Sacco 4 kg','Sacco 25 kg'],[2,3,4,8,9,10],'Concime starter ad alto fosforo per semine e trasemine: favorisce radicazione e attecchimento.'),
+    P('control-advance','Control Advance','concime','granulare','spinta_vegetativa','21-5-9+3MgO+30SO3',25,35,'g/m²',['Sacco 25 kg'],null,'Concime a cessione controllata per nutrizione prolungata e crescita uniforme.'),
+    P('control-field','Control Field','concime','granulare','mantenimento','24-5-8+2,5MgO',25,35,'g/m²',['Sacco 25 kg'],null,'Concime professionale per aree sportive e grandi superfici, azoto elevato.'),
+    P('control-strong','Control Strong','concime','granulare','resistenza_stress','18-0-18+3MgO',25,35,'g/m²',['Sacco 25 kg'],[6,7,8,9,10,11],'Formula azoto-potassio senza fosforo: resistenza a stress termico e usura, irrobustimento.'),
+    P('pse-slow-n','PSE Slow N','concime','granulare','spinta_vegetativa','33-0-0',20,25,'g/m²',['Sacco 25 kg'],null,'Azoto a lenta cessione per crescita costante e prolungata senza picchi.'),
+    P('ferti-grow','Ferti Grow','concime','granulare','mantenimento','12-6-14+2MgO',25,35,'g/m²',['Sacco 25 kg'],null,'Concime bilanciato di mantenimento con magnesio e microelementi.'),
+    P('ferti-leaf','Ferti Leaf','concime','liquido','biostimolante','10-5-7',null,null,'kg/ha',['Bottiglia 1 kg'],null,'Concime liquido fogliare a pronto effetto, con microelementi.'),
+    P('ferti-k','Ferti K','concime','liquido','resistenza_stress','0-0-24+40SO3',null,null,'kg/ha',['Tanica 5 kg'],[6,7,8,9,10],'Potassio liquido per resistenza a caldo, siccità e malattie.'),
+    P('ferti-n','Ferti N','concime','liquido','spinta_vegetativa','24-0-0+15SO3',null,null,'kg/ha',['Bottiglia 1 kg','Tanica 6 kg'],null,'Azoto liquido a rapido assorbimento fogliare per spinta di colore.')
+  ].concat([
+    S('radici-piu-forti',"Radici PIÙ Forti",'biostimolante','liquido',"Biostimolante / coating Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('aquacoat-rto-plus',"Aquacoat Rto+",'biostimolante','liquido',"Biostimolante / coating Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('aquacoat-rto',"Aquacoat RTO",'biostimolante','liquido',"Biostimolante / coating Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('activecoat',"Activecoat",'biostimolante','liquido',"Biostimolante / coating Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('sportplay',"Sportplay",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('extreme-blue',"Extreme Blue",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('rigenervit-prof-new',"Rigenervit Prof NEW",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('blue-lex-revolution',"Blue LEX Revolution",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('self-repair',"Self Repair",'biostimolante','liquido',"Biostimolante / coating Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('cynodon-dactylon-paul-1',"Cynodon Dactylon Paul 1",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('naturstrong',"Naturstrong",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('naturfast',"Naturfast",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('top-class-4-sod',"TOP Class 4 SOD",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('top-class',"TOP Class",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('natural-garden',"Natural Garden",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('top-green',"TOP Green",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('turf-green',"Turf Green",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('forte-new-plus',"Forte NEW Plus",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    P('special-sod','Special SOD','sementi','miscuglio',null,null,35,45,'g/m²',['Sacco 10 kg'],[3,4,5,9,10],'Miscuglio da seme Padana Sementi di alta qualità. Dose di semina 35-45 g/mq.'),
+    S('sportfield-regeneration',"Sportfield Regeneration",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('winter-sportfield-regeneration',"Winter Sportfield Regeneration",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('unirustic-plus',"Unirustic Plus",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('sporting',"Sporting",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('brillante',"Brillante",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('rigenervit',"Rigenervit",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('prestige',"Prestige",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('micromacro',"Micromacro",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('sport',"Sport",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('sun-seed',"SUN Seed",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('festumix',"Festumix",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('rusticus-lawn',"Rusticus Lawn",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('ombra',"Ombra",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('ripristini-ambientali',"Ripristini Ambientali",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('miscugli-operation-pollinator',"Miscugli Operation Pollinator",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('ferti-fum-turf',"Ferti-fum Turf",'concime','linea',"Linea concimi Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('sana-terra',"Sana Terra",'concime','linea',"Linea concimi Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('ferti-green',"Ferti Green",'concime','linea',"Linea concimi Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('ferti-control',"Ferti Control",'concime','linea',"Linea concimi Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('ferti-slow',"Ferti Slow",'concime','linea',"Linea concimi Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('ferti-liquid',"Ferti Liquid",'concime','linea',"Linea concimi Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('ferti-defence',"Ferti Defence",'concime','linea',"Linea concimi Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('ferti-flora',"Ferti Flora",'concime','linea',"Linea concimi Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('mulch',"Mulch",'biostimolante','liquido',"Biostimolante / coating Padana Sementi (scheda completa nel catalogo 2026)."),
+    S('collanti',"Collanti",'biostimolante','liquido',"Biostimolante / coating Padana Sementi (scheda completa nel catalogo 2026).")
+  ]);
+  function merge(){try{var c=window.__LAWNLY_CATALOG__||[];var have={};c.forEach(function(p){if(p&&p.id)have[p.id]=1;});PADANA.forEach(function(p){if(!have[p.id])c.push(p);});window.__LAWNLY_CATALOG__=c;}catch(e){}}
+  merge();
+  try{window.addEventListener('lawnly-catalog-ready',merge);}catch(e){}
+})();
+</script>
+
+<style id="lawnly-olx">
+/* ═══ ORGELUX LIQUID GLASS — re-skin sezioni Suolo/Zone/Giardino/Magazzino/Profilo (dossier Luca 13giu) ═══
+   Scope .olx: ridefinisce i token dei due vocabolari esistenti (.rdz vars + :root vars) sui valori Orgelux.
+   ponytail: niente ::before lensing band (conflitti con pseudo esistenti) — bordo + speculare inset. */
+.olx{
+  /* palette Orgelux */
+  --gold:#E8C547;--gold-2:#F0D666;--gold-deep:#C9A82E;--gold-bg:rgba(232,197,71,0.14);
+  /* token LIGHT (default) */
+  --t1x:#14110E;
+  --ink:#14110E;--text:#14110E;
+  --t2:#46413A;--t3:#6E685E;--t4:#8A8478;--muted:#6E685E;
+  --card:rgba(252,250,245,0.55);--card2:rgba(252,250,245,0.42);
+  --glass:rgba(252,250,245,0.55);--glass-strong:rgba(255,255,255,0.62);
+  --line:rgba(180,172,156,0.32);--line2:rgba(160,152,138,0.12);
+  --glass-line:rgba(180,172,156,0.32);--border:rgba(180,172,156,0.32);
+  --gedge:rgba(255,255,255,0.55);--ghi:rgba(255,255,255,0.6);
+  --spec-top:rgba(255,255,255,0.6);
+  --sh:0 10px 30px rgba(120,100,60,0.12),0 2px 8px rgba(120,100,60,0.08);
+  --sh-lg:0 18px 48px rgba(120,100,60,0.18);
+  --shadow:0 10px 30px rgba(120,100,60,0.12),0 2px 8px rgba(120,100,60,0.08);
+  --blur:28px;
+  padding-left:4px;padding-right:4px; /* 14px main + 4 = 18px laterali da dossier */
+  color:var(--ink);
+  position:relative;z-index:1;
+}
+html[data-theme="dark"] .olx{
+  --ink:#F2EFE9;--text:#F2EFE9;--t1x:#F2EFE9;
+  --t2:#B5AFA3;--t3:#857F73;--t4:#5A554C;--muted:#857F73;
+  --card:rgba(40,37,32,0.34);--card2:rgba(52,48,40,0.30);
+  --glass:rgba(40,37,32,0.34);--glass-strong:rgba(70,64,52,0.4);
+  --line:rgba(255,255,255,0.16);--line2:rgba(255,255,255,0.07);
+  --glass-line:rgba(255,255,255,0.16);--border:rgba(255,255,255,0.16);
+  --gedge:rgba(255,255,255,0.20);--ghi:rgba(255,255,255,0.28);
+  --spec-top:rgba(255,255,255,0.45);
+  --sh:0 10px 36px rgba(0,0,0,0.28),0 2px 8px rgba(0,0,0,0.16);
+  --sh-lg:0 18px 52px rgba(0,0,0,0.4);
+  --shadow:0 10px 36px rgba(0,0,0,0.28),0 2px 8px rgba(0,0,0,0.16);
+  --green-soft:rgba(127,176,105,0.16);--amber-soft:rgba(232,197,71,0.14);
+  --blue-soft:rgba(107,155,209,0.14);--red-soft:rgba(209,123,107,0.14);
+  --green-deep:#9CCB84;--amber-deep:#E8C547;
+}
+/* ambient backdrop Orgelux (gradiente, niente asset immagine) */
+.olx .olx-bg,.olx .rdz-ambient{position:absolute;inset:0;z-index:-1;pointer-events:none;border-radius:0;
+  background:
+    radial-gradient(120% 70% at 15% -5%, rgba(127,176,105,0.20) 0%, rgba(127,176,105,0) 55%),
+    radial-gradient(110% 65% at 92% 8%, rgba(232,197,71,0.16) 0%, rgba(232,197,71,0) 52%),
+    radial-gradient(130% 90% at 80% 105%, rgba(201,168,46,0.10) 0%, rgba(201,168,46,0) 55%),
+    linear-gradient(170deg,#F2EFE7 0%,#E2DDD0 100%) !important;}
+html[data-theme="dark"] .olx .olx-bg,html[data-theme="dark"] .olx .rdz-ambient{
+  background:
+    radial-gradient(120% 70% at 15% -5%, rgba(127,176,105,0.14) 0%, rgba(127,176,105,0) 55%),
+    radial-gradient(110% 65% at 92% 8%, rgba(232,197,71,0.10) 0%, rgba(232,197,71,0) 52%),
+    radial-gradient(130% 90% at 80% 105%, rgba(107,155,209,0.08) 0%, rgba(107,155,209,0) 55%),
+    linear-gradient(170deg,#16130F 0%,#0E0D0B 100%) !important;}
+/* liquid glass sulle superfici */
+.olx .card,.olx .glass,.olx .tile,.olx .mst,.olx .collapsible-card{
+  background:var(--card) !important;
+  border:1px solid var(--gedge) !important;
+  backdrop-filter:blur(28px) saturate(200%);
+  -webkit-backdrop-filter:blur(28px) saturate(200%);
+  box-shadow:var(--sh),inset 0 1px 0.5px var(--spec-top) !important;
+  color:var(--ink);
+}
+html[data-theme="dark"] .olx .card,html[data-theme="dark"] .olx .glass,html[data-theme="dark"] .olx .tile,html[data-theme="dark"] .olx .collapsible-card{
+  background:var(--card) !important;border-color:var(--gedge) !important;}
+/* input e form in glass */
+.olx .finput,.olx .fselect,.olx .inp,.olx textarea.inp,.olx select{
+  background:var(--card2) !important;border:1px solid var(--line) !important;color:var(--ink) !important;
+  backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);}
+.olx .flab,.olx .c-eye,.olx .sec-label,.olx .page-eyebrow{color:var(--t3);}
+/* titolo pagina: accento oro Orgelux sul serif */
+.olx .page-title{color:var(--ink);}
+.olx .page-title .serif{color:var(--gold-deep);}
+html[data-theme="dark"] .olx .page-title .serif{color:var(--gold);}
+/* bottoni secondari in glass, primari restano verdi */
+.olx .btn:not(.btn-p){background:var(--card2);border:1px solid var(--line);color:var(--ink);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);}
+/* stagger di sezione a ogni ingresso (dossier: delay scalati 0.04→0.22s) */
+@keyframes olx-in{0%{opacity:0;transform:translateY(26px) scale(0.94);filter:blur(8px);}
+  100%{opacity:1;transform:none;filter:none;}}
+.olx>*:not(.olx-bg):not(.rdz-ambient){animation:olx-in .55s cubic-bezier(.22,.9,.28,1) backwards;}
+.olx>*:nth-child(2){animation-delay:.04s}.olx>*:nth-child(3){animation-delay:.07s}
+.olx>*:nth-child(4){animation-delay:.10s}.olx>*:nth-child(5){animation-delay:.13s}
+.olx>*:nth-child(6){animation-delay:.16s}.olx>*:nth-child(7){animation-delay:.19s}
+.olx>*:nth-child(n+8){animation-delay:.22s}
+@media (prefers-reduced-motion:reduce){.olx>*{animation:none !important;}}
 </style>
 </body>
 </html>

@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lawnly — Board Test</title>
+<style>
+:root{--bg:#F2F4F0;--card:#fff;--ink:#1A2218;--muted:#7C8A6E;--green:#4A7A4A;--line:rgba(0,0,0,.08);--chip:#EDF2EA}
+@media(prefers-color-scheme:dark){:root{--bg:#11150F;--card:#1C221A;--ink:#EAF0E2;--muted:#9CAA8E;--green:#9FD27E;--line:rgba(255,255,255,.10);--chip:#26301F}}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,'Inter',sans-serif;padding:16px;max-width:760px;margin:0 auto}
+h1{font-size:20px;margin:8px 0 2px}
+.sub{color:var(--muted);font-size:12px;margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}
+.stat b{font-size:22px;display:block}
+.stat span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+label{font-size:11px;color:var(--muted);display:block;margin:10px 0 4px;text-transform:uppercase;letter-spacing:.04em}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+textarea{min-height:70px;resize:vertical}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{padding:7px 14px;border-radius:99px;border:1px solid var(--line);background:var(--chip);cursor:pointer;font-size:12px;font-weight:600;color:var(--ink)}
+.chip.on{background:var(--green);color:#fff;border-color:transparent}
+.stars{display:flex;gap:4px;font-size:24px;cursor:pointer;user-select:none}
+.stars span{opacity:.25}.stars span.on{opacity:1}
+button.send{width:100%;margin-top:14px;padding:12px;border:none;border-radius:12px;background:var(--green);color:#fff;font-weight:700;font-size:14px;cursor:pointer}
+.item{border-top:1px solid var(--line);padding:10px 0}
+.item:first-child{border-top:none}
+.i-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.i-head b{font-size:13px}
+.tag{font-size:10px;font-weight:700;padding:2px 9px;border-radius:99px}
+.t-bug{background:#FEE2E2;color:#B91C1C}.t-migl{background:#EEF2FF;color:#4338CA}.t-val{background:#ECFDF5;color:#047857}
+.s-aperto{background:#FEF9C3;color:#92400E}.s-in_lavorazione{background:#DBEAFE;color:#1D4ED8}.s-risolto{background:#DCFCE7;color:#166534}
+@media(prefers-color-scheme:dark){
+.t-bug{background:#B91C1C33;color:#FCA5A5}.t-migl{background:#4338CA33;color:#A5B4FC}.t-val{background:#04785733;color:#6EE7B7}
+.s-aperto{background:#92400E33;color:#FCD34D}.s-in_lavorazione{background:#1D4ED833;color:#93C5FD}.s-risolto{background:#16653433;color:#86EFAC}}
+.i-txt{font-size:13px;margin-top:4px;white-space:pre-wrap}
+.i-meta{font-size:11px;color:var(--muted);margin-top:4px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.i-meta button{border:1px solid var(--line);background:none;color:var(--muted);border-radius:8px;padding:3px 10px;font-size:11px;cursor:pointer}
+.filter{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+table{width:100%;border-collapse:collapse;font-size:12px}
+td,th{padding:6px 4px;text-align:left;border-top:1px solid var(--line)}
+th{color:var(--muted);font-size:10px;text-transform:uppercase;border-top:none}
+.i-photo{margin-top:6px;max-width:220px;width:100%;border-radius:10px;border:1px solid var(--line);display:block;cursor:zoom-in}
+#prev{margin-top:8px;max-width:160px;border-radius:10px;display:none}
+.ok{color:var(--green);font-weight:700;text-align:center;margin-top:10px;display:none}
+</style>
+</head>
+<body>
+<h1>🌱 Lawnly — Board di test</h1>
+<div class="sub">Valutazioni, bug e miglioramenti · scrivete qui a ogni giro di test, ripartiamo da questa lista</div>
+
+<div class="stats">
+  <div class="stat"><b id="stAvg">—</b><span>Voto medio</span></div>
+  <div class="stat"><b id="stOpen">—</b><span>Aperti</span></div>
+  <div class="stat"><b id="stDone">—</b><span>Risolti</span></div>
+</div>
+
+<div class="card">
+  <label>Chi sei</label>
+  <div class="chips" id="who">
+    <div class="chip" data-v="Luca">Luca</div>
+    <div class="chip" data-v="Elia">Elia</div>
+    <div class="chip" data-v="Lukas">Lukas</div>
+  </div>
+  <label>Tipo</label>
+  <div class="chips" id="type">
+    <div class="chip" data-v="bug">🐛 Bug</div>
+    <div class="chip" data-v="miglioramento">💡 Miglioramento</div>
+    <div class="chip" data-v="valutazione">⭐ Valutazione</div>
+  </div>
+  <label>Sezione / area (scrivi liberamente o scegli)</label>
+  <input id="section" list="sections" placeholder="Es. Oggi, Irrigazione, Grafica dark…"/>
+  <datalist id="sections">
+    <option>Generale</option>
+    <option>Oggi (home)</option><option>Consiglio del giorno</option><option>Hero / foto prato</option>
+    <option>Devo irrigare oggi?</option><option>Prossimo intervento</option>
+    <option>Piano / Calendario</option><option>Operazioni arretrate</option><option>Rigenera piano AI</option>
+    <option>Registra lavorazione (+)</option>
+    <option>Irrigazione</option><option>Umidità suolo</option><option>Pioggia / previsioni</option>
+    <option>GDD / Growth Potential</option><option>Stato del prato</option>
+    <option>Suolo</option><option>Misurazioni suolo</option><option>Fertilità</option>
+    <option>Zone</option><option>Foto zona / analisi AI</option><option>Note zona</option>
+    <option>Giardino (analisi AI)</option>
+    <option>Magazzino</option><option>Catalogo prodotti</option><option>Scheda prodotto</option>
+    <option>Meteo</option><option>Dottor Verde (chat AI)</option>
+    <option>Profilo</option><option>Onboarding / configurazione</option><option>Login / registrazione</option>
+    <option>Sincronizzazione dati</option><option>Velocità / caricamento</option>
+    <option>Grafica light</option><option>Grafica dark</option><option>Testi / chiarezza</option>
+    <option>Tutorial "Come funziona"</option><option>Navigazione / menu</option>
+    <option>iPad / tablet</option><option>Telefono</option><option>Idea nuova funzione</option>
+  </datalist>
+  <div id="ratingWrap" style="display:none"><label>Voto</label>
+    <div class="stars" id="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+  </div>
+  <label>Descrizione</label>
+  <textarea id="text" placeholder="Cosa hai visto? Cosa ti aspettavi? Dove?"></textarea>
+  <label>Foto (opzionale)</label>
+  <input id="photo" type="file" accept="image/*"/>
+  <img id="prev" alt="anteprima"/>
+  <button class="send" id="send">Invia</button>
+  <div class="ok" id="ok">✓ Salvato, grazie!</div>
+</div>
+
+<div class="card">
+  <div class="filter" id="filter">
+    <div class="chip on" data-v="">Tutti</div>
+    <div class="chip" data-v="aperto">Aperti</div>
+    <div class="chip" data-v="in_lavorazione">In lavorazione</div>
+    <div class="chip" data-v="risolto">Risolti</div>
+  </div>
+  <div id="list">Carico…</div>
+</div>
+
+<div class="card">
+  <label style="margin-top:0">Attività tester (ultima sincronizzazione)</label>
+  <table><thead><tr><th>Utente</th><th>Ultima attività</th></tr></thead><tbody id="usage"></tbody></table>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const API='/api/feedback';
+let who='',type='',rating=0,fStatus='',items=[];
+const NEXT={aperto:'in_lavorazione',in_lavorazione:'risolto',risolto:'aperto'};
+const TAGC={bug:'t-bug',miglioramento:'t-migl',valutazione:'t-val'};
+const TLAB={bug:'BUG',miglioramento:'MIGLIORAMENTO',valutazione:'VALUTAZIONE'};
+const SLAB={aperto:'Aperto',in_lavorazione:'In lavorazione',risolto:'Risolto'};
+
+function chips(id,cb){[...$(id).children].forEach(c=>c.onclick=()=>{[...$(id).children].forEach(x=>x.classList.remove('on'));c.classList.add('on');cb(c.dataset.v);});}
+chips('who',v=>who=v);
+chips('type',v=>{type=v;$('ratingWrap').style.display=v==='valutazione'?'block':'none';});
+chips('filter',v=>{fStatus=v;render();});
+[...$('stars').children].forEach((s,i)=>s.onclick=()=>{rating=i+1;[...$('stars').children].forEach((x,k)=>x.classList.toggle('on',k<rating));});
+
+function fmtD(d){try{return new Date(d).toLocaleString('it-IT',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});}catch(e){return'';}}
+
+function render(){
+  const vs=items.filter(i=>i.type==='valutazione'&&i.rating);
+  $('stAvg').textContent=vs.length?(vs.reduce((s,i)=>s+i.rating,0)/vs.length).toFixed(1)+'★':'—';
+  $('stOpen').textContent=items.filter(i=>i.status!=='risolto').length;
+  $('stDone').textContent=items.filter(i=>i.status==='risolto').length;
+  const show=items.filter(i=>!fStatus||i.status===fStatus);
+  $('list').innerHTML=show.length?show.map(i=>`
+    <div class="item">
+      <div class="i-head"><b>${esc(i.author)}</b>
+        <span class="tag ${TAGC[i.type]||''}">${TLAB[i.type]||i.type}</span>
+        ${i.section?`<span class="tag" style="background:var(--chip);color:var(--muted)">${esc(i.section)}</span>`:''}
+        ${i.rating?`<span>${'★'.repeat(i.rating)}${'☆'.repeat(5-i.rating)}</span>`:''}
+      </div>
+      <div class="i-txt">${esc(i.text)}</div>
+      ${i.has_photo?`<a href="${API}?photo=${i.id}" target="_blank"><img class="i-photo" loading="lazy" src="${API}?photo=${i.id}" alt="foto"/></a>`:''}
+      <div class="i-meta">${fmtD(i.created_at)}
+        <span class="tag s-${i.status}">${SLAB[i.status]||i.status}</span>
+        <button onclick="setSt(${i.id},'${NEXT[i.status]||'aperto'}')">→ ${SLAB[NEXT[i.status]]||'Aperto'}</button>
+      </div>
+    </div>`).join(''):'<div style="color:var(--muted);text-align:center;padding:14px">Nessun feedback qui.</div>';
+}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+async function load(){
+  try{
+    const r=await fetch(API);const j=await r.json();
+    items=j.items||[];render();
+    $('usage').innerHTML=(j.usage||[]).map(u=>`<tr><td>${esc(u.label||u.email||'—')}</td><td>${u.updated_at?fmtD(u.updated_at):'mai'}</td></tr>`).join('')||'<tr><td colspan=2>—</td></tr>';
+  }catch(e){$('list').textContent='Errore di caricamento: '+e;}
+}
+async function setSt(id,status){
+  await fetch(API,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,status})});
+  load();
+}
+// foto: ridimensiona a 1280px lato lungo e comprime, cosi' sta in una colonna text
+let photoData=null;
+$('photo').onchange=async e=>{
+  const f=e.target.files&&e.target.files[0];
+  photoData=null;$('prev').style.display='none';
+  if(!f)return;
+  try{
+    const img=await createImageBitmap(f);
+    const sc=Math.min(1,1280/Math.max(img.width,img.height));
+    const c=Object.assign(document.createElement('canvas'),{width:Math.round(img.width*sc),height:Math.round(img.height*sc)});
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    photoData=c.toDataURL('image/jpeg',0.7);
+    $('prev').src=photoData;$('prev').style.display='block';
+  }catch(err){alert('Foto non leggibile: '+err.message);}
+};
+
+$('send').onclick=async()=>{
+  const text=$('text').value.trim();
+  if(!who)return alert('Seleziona chi sei');
+  if(!type)return alert('Seleziona il tipo');
+  if(!text)return alert('Scrivi una descrizione');
+  const b={author:who,type,section:$('section').value||null,text};
+  if(type==='valutazione'&&rating)b.rating=rating;
+  if(photoData)b.photo=photoData;
+  $('send').disabled=true;
+  try{
+    const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});
+    if(!(await r.json()).ok)throw new Error('salvataggio fallito');
+    $('text').value='';rating=0;photoData=null;$('photo').value='';$('prev').style.display='none';[...$('stars').children].forEach(x=>x.classList.remove('on'));
+    $('ok').style.display='block';setTimeout(()=>$('ok').style.display='none',2500);
+    load();
+  }catch(e){alert('Errore: '+e.message);}
+  $('send').disabled=false;
+};
+load();
+</script>
+</body>
+</html>

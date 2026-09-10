@@ -11,21 +11,40 @@
 //   ANTHROPIC_API_KEY   (https://console.anthropic.com -> API keys)
 //   AI_MODEL            optional, default 'claude-haiku-4-5'
 
-const AI_MODEL = process.env.AI_MODEL || 'claude-haiku-4-5';
+import { sql, verifyToken, bearer, readBody } from './_db.js';
 
-function readBody(req) {
-  if (req.body && typeof req.body === 'object') return Promise.resolve(req.body);
-  return new Promise((resolve) => {
-    let raw = '';
-    req.on('data', (c) => { raw += c; });
-    req.on('end', () => { try { resolve(JSON.parse(raw || '{}')); } catch { resolve({}); } });
-    req.on('error', () => resolve({}));
-  });
+const AI_MODEL = process.env.AI_MODEL || 'claude-haiku-4-5';
+const DAILY_LIMIT = Number(process.env.AI_DAILY_LIMIT || 40); // per utente, per giorno
+
+// Host consentiti al proxy meteo: senza allowlist l'endpoint inoltra ovunque (SSRF).
+const WX_HOSTS = new Set([
+  'api.open-meteo.com', 'archive-api.open-meteo.com', 'air-quality-api.open-meteo.com',
+  'geocoding-api.open-meteo.com', 'power.larc.nasa.gov', 'nominatim.openstreetmap.org',
+]);
+
+// Quota giornaliera server-side: il contatore client si azzera svuotando il browser.
+let _usageReady = false;
+async function overQuota(uid) {
+  if (!_usageReady) {
+    await sql`create table if not exists lawnly_ai_usage (
+      user_id text not null, day date not null, n int not null default 0,
+      primary key (user_id, day)
+    )`;
+    _usageReady = true;
+  }
+  const day = new Date().toISOString().slice(0, 10);
+  const rows = await sql`insert into lawnly_ai_usage (user_id, day, n) values (${uid}, ${day}, 1)
+    on conflict (user_id, day) do update set n = lawnly_ai_usage.n + 1 returning n`;
+  return (rows[0]?.n || 0) > DAILY_LIMIT;
 }
 
 // ---- Weather CORS proxy (unchanged behaviour) ----
 async function wxProxy(url, res) {
-  if (!/^https?:\/\//i.test(url || '')) { res.status(400).json({ error: { message: 'bad url' } }); return; }
+  let u;
+  try { u = new URL(url || ''); } catch { u = null; }
+  if (!u || u.protocol !== 'https:' || !WX_HOSTS.has(u.hostname)) {
+    res.status(400).json({ error: { message: 'bad url' } }); return;
+  }
   try {
     const r = await fetch(url, { headers: { 'User-Agent': 'lawnly/1.0' } });
     const text = await r.text();
@@ -42,6 +61,16 @@ export default async function handler(req, res) {
 
   if (body.action === 'wx-proxy') return wxProxy(body.url, res);
 
+  // Da qui in poi si spende: serve un utente autenticato, con una quota giornaliera.
+  const user = verifyToken(bearer(req));
+  if (!user || !user.uid) { res.status(401).json({ error: { message: 'login richiesto' } }); return; }
+  try {
+    if (await overQuota(user.uid)) {
+      res.status(429).json({ error: { message: 'Hai raggiunto il limite di ' + DAILY_LIMIT + ' domande al giorno. Riprova domani.' } });
+      return;
+    }
+  } catch (e) { console.warn('[ai] quota non verificabile:', e.message); }
+
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) { res.status(500).json({ error: { message: 'ANTHROPIC_API_KEY missing' } }); return; }
 
@@ -52,7 +81,14 @@ export default async function handler(req, res) {
 
   try {
     const payload = { model: AI_MODEL, max_tokens: maxTokens, messages };
-    if (system) payload.system = system;
+    // Prompt caching: system come blocco cacheabile (TTL ~5min). Chiamate successive
+    // con lo stesso system pagano ~10% degli input token → costo minimo, qualità invariata.
+    if (system) {
+      const sysText = typeof system === 'string' ? system : String(system);
+      payload.system = sysText.length > 800
+        ? [{ type: 'text', text: sysText, cache_control: { type: 'ephemeral' } }]
+        : sysText;
+    }
     const r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {

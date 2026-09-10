@@ -5,7 +5,11 @@ import crypto from 'crypto';
 
 export const sql = neon(process.env.DATABASE_URL);
 
-const SECRET = process.env.JWT_SECRET || 'dev-insecure-secret';
+// Nessun fallback: con un segreto noto chiunque puo' firmarsi un token valido.
+// Verificato su produzione (un token firmato col vecchio fallback riceve 401), quindi
+// JWT_SECRET e' configurato: toglierlo non slogga nessuno.
+const SECRET = process.env.JWT_SECRET;
+if (!SECRET) throw new Error('JWT_SECRET non configurato');
 const TTL_SECONDS = 60 * 60 * 24 * 30; // 30 days
 
 const b64u = (buf) => Buffer.from(buf).toString('base64url');
