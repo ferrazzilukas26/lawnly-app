@@ -443,8 +443,6 @@ input[type=range]{width:100%;accent-color:var(--green);cursor:pointer;margin:6px
 .rdz .cons-txt{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.45;}
 .rdz .qa{display:flex;gap:10px;}
 .rdz .qbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;padding:14px 6px;border-radius:var(--r-md);background:var(--card);border:1px solid var(--line);box-shadow:var(--sh);cursor:pointer;}
-.rdz .qbtn .qlab{font-size:11.5px;font-weight:700;color:var(--t2);text-align:center;line-height:1.15;}
-.rdz .qbtn .qsub{font-size:10px;font-weight:600;color:var(--t4);}
 .rdz .qbtn svg{width:21px;height:21px;color:var(--green);}
 .rdz .qbtn span{font-size:11px;font-weight:700;color:var(--t2);}
 .rdz .wmini{display:flex;align-items:center;gap:10px;}
@@ -820,6 +818,7 @@ html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
 .rdz .rf-day{flex:1;text-align:center;background:rgba(255,255,255,.04);border:1px solid var(--gedge,rgba(255,255,255,.12));border-radius:10px;padding:11px;}
 .rdz .rf-day-l{font-size:11px;font-weight:700;color:var(--t2);}
 .rdz .rf-dot{width:11px;height:11px;border-radius:50%;margin:8px auto 0;}
+.rdz .rf-day-s{font-size:11px;color:var(--t3);margin-top:6px;line-height:1.35;}
 .rdz .zp-desc{font-size:12px;color:var(--t2);line-height:1.5;margin-bottom:14px;}
 .rdz .zp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .rdz .zp{border-radius:14px;overflow:hidden;position:relative;aspect-ratio:4/3;background-size:cover;background-position:center;border:1px solid var(--gedge,rgba(255,255,255,.14));}
@@ -832,8 +831,7 @@ html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
 .rdz .ftipo{display:flex;gap:8px;flex-wrap:wrap;}
 .rdz .ftipo-c{padding:10px 15px;border-radius:999px;font-size:13.5px;font-weight:700;background:rgba(255,255,255,.06);border:1px solid var(--gedge,rgba(255,255,255,.16));color:var(--t2);cursor:pointer;}
 .rdz .ftipo-c.on{background:var(--green);color:#0c1408;border-color:transparent;}
-.rdz .lav-sec{display:none;margin-bottom:15px;}
-.rdz .lav-sec.show{display:block;}
+.rdz .lav-sec{margin-bottom:15px;}
 .rdz .lav-add{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--green);background:none;border:none;cursor:pointer;font-family:inherit;padding:4px 0;}
 .rdz .lav-add svg{width:15px;height:15px;}
 .rdz .soil-media{background:rgba(255,255,255,.05);border:1px solid var(--gedge,rgba(255,255,255,.14));border-radius:12px;padding:12px;margin-bottom:14px;}
@@ -10943,8 +10941,10 @@ function Prato({prof,wx}){
   const fr=(wx&&typeof wx.fungalRisk==='number')?wx.fungalRisk:null;
   const frInfo=(fr==null)?null:(fr>=60?{l:'Rischio elevato',c:'var(--red)'}:(fr>=25?{l:'Rischio moderato',c:'var(--amber)'}:{l:'Rischio basso',c:'var(--green)'}));
   const frHours=(fr==null)?null:Math.round((fr/80)*6);
-  const fc=(wx&&(wx.forecast||wx.daily||[]))||[];
-  const dayFav=(i)=>{const d=fc[i];if(!d)return null;const rain=(d.precipitation??d.rain??0);return rain<1;};
+  const fc=(wx&&(wx.forecast7||wx.forecast))||[];
+  // ponytail: data locale del browser (tester in Italia); +24h sbaglia solo nell'ora prima del cambio ora legale
+  const _ld=(o)=>new Date(Date.now()+o*864e5).toLocaleDateString('sv-SE');
+  const dayFav=(i)=>{const d=fc.find(x=>x.date===_ld(i));if(!d)return null;const rain=(d.precipitation??d.rain??0);return rain<1;};
   const favToday=dayFav(0),favTom=dayFav(1);
   const winOpen=(favToday||favTom);
 
@@ -10976,10 +10976,11 @@ function Prato({prof,wx}){
 
     <div class="card fade">
       <div class="rf-head"><span class="rf-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8M8 21h8"/><path d="M4 11a8 8 0 0 1 16 0Z"/></svg></span><div><div class="rf-t">Rischio fungino</div><div class="rf-st" style=${frInfo?('color:'+frInfo.c):''}>${frInfo?frInfo.l:'Dati meteo non disponibili'}</div></div></div>
-      ${frInfo?html`<div class="rf-desc">Condizioni ${fr<25?html`<b>non favorevoli</b>`:html`<b>da monitorare</b>`} allo sviluppo fungino. Servono T&gt;15°C + Umidità&gt;80%: previste <b>${frHours}h</b> oggi.</div>
+      ${frInfo?html`<div class="rf-desc">Condizioni ${fr<25?html`<b>non favorevoli</b>`:html`<b>da monitorare</b>`} allo sviluppo fungino. Servono temperatura oltre 15°C e umidità oltre l'80%: previste <b>${frHours}h</b> oggi.</div>
       <div class="rf-win"><div class="rf-win-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V5l-8-3Z"/></svg> Finestra trattamenti 48h</div>
         <div class="rf-banner">${winOpen?'Finestra aperta nelle prossime 48h':'Attendi condizioni migliori'}</div>
-        <div class="rf-days"><div class="rf-day"><div class="rf-day-l">Oggi</div><div class="rf-dot" style=${'background:'+(favToday?'var(--green)':'var(--amber)')}></div></div><div class="rf-day"><div class="rf-day-l">Domani</div><div class="rf-dot" style=${'background:'+(favTom?'var(--green)':'var(--amber)')}></div></div></div>
+        <div class="rf-days">${[['Oggi',favToday],['Domani',favTom]].map(([l,f])=>html`<div class="rf-day" key=${l}><div class="rf-day-l">${l}</div><div class="rf-dot" style=${'background:'+(f==null?'var(--t4)':f?'var(--green)':'var(--amber)')}></div><div class="rf-day-s">${f==null?'Previsioni n.d.':f?'Si può trattare':'Pioggia prevista'}</div></div>`)}</div>
+        <div class="rf-day-s" style="margin-top:10px;text-align:left">Verde: niente pioggia, il trattamento non viene dilavato. Arancio: pioggia prevista (1 mm o più), meglio rimandare.</div>
       </div>`:html`<div class="rf-desc">Collega il meteo per stimare il rischio fungino.</div>`}
     </div>
 
@@ -11180,27 +11181,6 @@ function Oggi({wx,prof,setPg}){
   const isYes=verdict&&(verdict.verdict==='yes');
   const vState=verdict?verdict.verdict:'no';
   const vCls=isYes?'yes':'no';
-  // Tasto rapido: durata suggerita dal motore, altrimenti l'ultima usata, altrimenti 20'
-  const irrQuickMin=(()=>{
-    const rec=verdict&&(verdict.minutesRecommended??verdict.minutes??(verdict.zones&&verdict.zones[0]&&verdict.zones[0].minutes));
-    if(typeof rec==='number'&&rec>0)return Math.round(rec);
-    const last=(irrHistAll[0]&&irrHistAll[0].zones&&irrHistAll[0].zones[0]&&irrHistAll[0].zones[0].minutes)||null;
-    return Math.round(last||20);
-  })();
-  const [irrQuickDone,setIrrQuickDone]=useState(false);
-  const logIrrQuick=()=>{
-    if(irrQuickDone)return;
-    const zs=(prof&&prof.zones&&prof.zones.length)?prof.zones:[{id:'A',name:'Prato'}];
-    const fr=(prof&&prof.flowRateLpm)||8;
-    const zonesDetail=zs.map(z=>({name:z.name||('Zona '+(z.id||'')),minutes:irrQuickMin,liters:Math.round(irrQuickMin*fr)}));
-    try{
-      appendIrrigationHistoryEntry({zonesDetail,et:null,note:'Tasto rapido (Oggi)',timestamp:new Date().toISOString()});
-      setIrrQuickDone(true);
-      if(typeof showGlobalToast==='function')showGlobalToast('Irrigazione registrata: '+irrQuickMin+' min · '+zonesDetail.reduce((t,z)=>t+z.liters,0)+' L','success',4000);
-      setTimeout(()=>setIrrQuickDone(false),60000); // niente doppio tocco per sbaglio
-    }catch(e){ if(typeof showGlobalToast==='function')showGlobalToast('Non sono riuscito a registrarla: '+(e&&e.message||''),'error',5000); }
-  };
-  // pioggia realmente prevista (per coerenza etichetta — evita "pioggia in arrivo" col sereno)
   const rainSoon=(()=>{const r=verdict&&((verdict.diagnostics&&verdict.diagnostics.rainNext2d)??verdict.forecastRain5d);return (typeof r==='number')?r:0;})();
   // umidità: il modello (vwcRoot) è già ANCORATO all'ultima misura strumentale ed evoluto
   // fino a oggi (andamento decrescente) — vedi PATCH v9 in calcWaterBalance. Unica fonte.
@@ -11216,7 +11196,7 @@ function Oggi({wx,prof,setPg}){
   const issues=[];zones.forEach(z=>{const m=soilData.filter(d=>d.zona===z.id&&d.dt).sort((a,b)=>(b.dt||'').localeCompare(a.dt||''))[0];if(m){if(m.um!=null&&m.um<25)issues.push(1);if(m.ph!=null&&(m.ph<6||m.ph>7.2))issues.push(1);}});
   const nIssues=issues.length;
 
-  const fc=(()=>{const a=(wx&&(wx.forecast7||wx.forecast||(Array.isArray(wx.daily)?wx.daily:null)))||[];if(!Array.isArray(a)||!a.length)return [];const td=new Date().toISOString().slice(0,10);const fut=a.filter(d=>((d.date||d.dt||'')>=td));return (fut.length?fut:a).slice(0,8);})();
+  const fc=(()=>{const a=(wx&&(wx.forecast7||wx.forecast||(Array.isArray(wx.daily)?wx.daily:null)))||[];if(!Array.isArray(a)||!a.length)return [];const td=new Date().toLocaleDateString('sv-SE');const fut=a.filter(d=>((d.date||d.dt||'')>=td));return (fut.length?fut:a).slice(0,8);})();
   const fcDays=(n)=>fc.slice(0,n).map((d,i)=>{const dt=new Date(d.date||d.dt||Date.now());const lbl=i===0?'Oggi':dt.toLocaleDateString('it-IT',{weekday:'short'}).replace('.','').replace(/^./,c=>c.toUpperCase());return{lbl,dd:dt.getDate()+'/'+(dt.getMonth()+1),t:Math.round(d.tmax),mm:(d.precipitation??d.rain??0),kind:_wxIcon(d.weathercode??d.weather_code,d.precipitation??d.rain)};});
 
   const nextOp=(()=>{const evs=S.get('dss_calendar_events',[])||[];const cutoff=new Date(Date.now()-14*86400000).toISOString().slice(0,10);const fut=evs.filter(e=>e&&(e.date||e.dt)&&(e.date||e.dt).slice(0,10)>=cutoff&&!e.done&&!e.completed&&e.status!=='completato').sort((a,b)=>((a.date||a.dt)).localeCompare(b.date||b.dt));return fut[0]||null;})();
@@ -11287,14 +11267,17 @@ function Oggi({wx,prof,setPg}){
   // Prossimo intervento: nome prodotto in evidenza + descrizione
   // PATCH v9 — gli eventi AI hanno brand/product null ma finalProductId/suggestedProductId:
   // risolvi il nome dal catalogo, altrimenti il prodotto suggerito non compare mai.
+  const npGuide=nextOp&&GUIDE.find(g=>[g.id,...g.t.split(/[()]/)].map(k=>k.trim().toLowerCase()).filter(Boolean).some(k=>(nextOp.name||'').toLowerCase().includes(k)));
+  const isMech=!!(nextOp&&(nextOp.category==='meccanica'||nextOp.type==='meccanico'||npGuide));
   const npProd=(()=>{
+    if(isMech)return '';
     const direct=[nextOp&&nextOp.brand,nextOp&&nextOp.product].filter(Boolean).join(' ');
     if(direct)return direct;
     try{const getFn=window.__LAWNLY_GET_PRODUCT__;const pid=nextOp&&(nextOp.finalProductId||nextOp.suggestedProductId);if(getFn&&pid){const p=getFn(pid);if(p)return [p.brand,p.name].filter(Boolean).join(' ').trim();}}catch(e){}
     return '';
   })();
   const npTitle=npProd||(nextOp&&nextOp.name)||'Operazione';
-  const npDesc=npProd?((nextOp&&(nextOp.name||nextOp.note||nextOp.description||nextOp.category))||''):((nextOp&&(nextOp.note||nextOp.description||nextOp.category))||'');
+  const npDesc=isMech?((npGuide&&npGuide.d)||(nextOp.note&&nextOp.note.trim().toLowerCase()!=='meccanica'?nextOp.note:'')||'Lavorazione meccanica per la cura e il mantenimento del prato.'):npProd?((nextOp&&(nextOp.name||nextOp.note||nextOp.description||nextOp.category))||''):((nextOp&&(nextOp.note||nextOp.description||nextOp.category))||'');
   // #7 — il prodotto è già a magazzino? altrimenti suggerisci dal catalogo
   const npCat=npProd?_findCatalogProduct(npProd):null;
   const npInWh=(()=>{if(!npProd)return null;try{const whp=(typeof whProducts==='function'?(whProducts()||[]):[]);const q=npProd.toLowerCase();const f=whp.find(p=>(((p.brand?p.brand+' ':'')+(p.name||'')).toLowerCase()).includes(q.split(' ').slice(0,2).join(' ')));return f?(typeof whTotal==='function'?whTotal(f):(f.qty||0)):null;}catch(e){return null;}})();
@@ -11399,13 +11382,13 @@ function Oggi({wx,prof,setPg}){
     'sh-prossimo':{title:'Prossimo intervento',body:nextOp?html`<div>
       <div style="font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--amber);">${nextDay?('Questa settimana · '+nextDay.wk+' · '+nextDay.full.split(' ')[0]):'In programma'}</div>
       <div style="font-size:21px;font-weight:800;letter-spacing:-.4px;color:var(--ink);margin:6px 0 8px;">${nextOp.name||nextOp.product||'Operazione'}</div>
-      <div class="dt-note" style="margin-top:0;">${nextOp.note||nextOp.description||nextOp.category||''}</div>
+      <div class="dt-note" style="margin-top:0;">${isMech?npDesc:(nextOp.note||nextOp.description||nextOp.category||'')}</div>
       <div style="margin-top:14px;">
-        ${(nextOp.brand||nextOp.product)?val('Prodotto',[nextOp.brand,nextOp.product].filter(Boolean).join(' ')):''}
-        ${opDose?val('Dose',opDose):''}
-        ${opWater?val('Acqua',opWater):''}
+        ${!isMech&&(nextOp.brand||nextOp.product)?val('Prodotto',[nextOp.brand,nextOp.product].filter(Boolean).join(' ')):''}
+        ${!isMech&&opDose?val('Dose',opDose):''}
+        ${!isMech&&opWater?val('Acqua',opWater):''}
         ${opArea?val('Superficie',opArea+' m²'):''}
-        ${opTotal?val('Totale prodotto',opTotal):''}
+        ${!isMech&&opTotal?val('Totale prodotto',opTotal):''}
       </div>
       ${npProd?(npInWh!=null?html`<div class="np-have">✓ Hai <b>${npProd}</b> a magazzino${npInWh?(' · '+npInWh+(npCat&&npCat.unit?(' '+npCat.unit):'')):''}.${npCat&&npCat.notes?html`<div class="dt-note" style="margin-top:6px;">${npCat.notes}</div>`:''}</div>`
         :html`<div class="np-suggest"><div class="dt-eye">Non a magazzino · prodotti consigliati</div>${npSuggest.length?npSuggest.map((s,i)=>html`<div class="np-sg" key=${i}><b>${[s.brand,s.name].filter(Boolean).join(' ')}</b>${s.npkLabel?html`<span> · ${s.npkLabel}</span>`:''}${s.notes?html`<div class="dt-note" style="margin-top:2px;">${s.notes.length>80?s.notes.slice(0,78)+'…':s.notes}</div>`:''}</div>`):html`<div class="dt-note">Aggiungi prodotti dal catalogo in Magazzino per ricevere consigli mirati.</div>`}<button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>{closeS();setPg&&setPg('mag');}}>Vai al Magazzino ${goChev}</button></div>`):''}
@@ -11445,9 +11428,9 @@ function Oggi({wx,prof,setPg}){
     </div>
 
     <div class="card next-card fade" onClick=${openS('sh-prossimo')}>
-      <div class="next"><div class="next-ic"><svg class="ic-spray" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21.5h5.2a2 2 0 0 0 2-2v-6.6a2.6 2.6 0 0 0-2.6-2.6H9a2 2 0 0 0-2 2v7.2a2 2 0 0 0 2 2Z"/><path d="M9.6 10.3V7.4h4v2.9"/><path d="M13.6 7.4h3.3a1.6 1.6 0 0 1 1.6 1.6"/><path d="M7.4 14.6h8.6"/><g fill="currentColor" stroke="none"><circle cx="20.6" cy="6.2" r=".85"/><circle cx="22" cy="7.7" r=".75"/><circle cx="20.9" cy="9.2" r=".7"/></g></svg></div>
+      <div class="next"><div class="next-ic">${isMech?html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M4 16h16M4 16v5M8 16v5M12 16v5M16 16v5M20 16v5"/></svg>`:html`<svg class="ic-spray" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21.5h5.2a2 2 0 0 0 2-2v-6.6a2.6 2.6 0 0 0-2.6-2.6H9a2 2 0 0 0-2 2v7.2a2 2 0 0 0 2 2Z"/><path d="M9.6 10.3V7.4h4v2.9"/><path d="M13.6 7.4h3.3a1.6 1.6 0 0 1 1.6 1.6"/><path d="M7.4 14.6h8.6"/><g fill="currentColor" stroke="none"><circle cx="20.6" cy="6.2" r=".85"/><circle cx="22" cy="7.7" r=".75"/><circle cx="20.9" cy="9.2" r=".7"/></g></svg>`}</div>
         <div style="flex:1;min-width:0;"><div class="tile-lab" style="margin-bottom:3px;">Prossimo intervento<${InfoDot} titolo="Prossimo intervento" testo="È la prima attività per data che il calendario non segna come completata, includendo gli ultimi 14 giorni. Ti ricorda cosa controllare o organizzare: può essere anche un arretrato recente. Nome, data e dosi vengono dalle operazioni salvate nel piano; verifica le condizioni del prato prima di procedere."/></div>
-          ${nextOp?html`<div class="next-prod">${npTitle}</div>${npDesc?html`<div class="next-s">${npDesc}</div>`:''}<div class="next-meta">${[opDose&&('Dose '+opDose),opArea&&(opArea+' m²')].filter(Boolean).map((x,i,a)=>html`<span>${x}</span>${i<a.length-1?html`<span>·</span>`:''}`)}</div>`:html`<div class="next-prod" style="font-size:16px;">Nessun intervento in programma</div><div class="next-s">Il calendario è libero</div>`}
+          ${nextOp?html`<div class="next-prod">${npTitle}</div>${npDesc?html`<div class="next-s">${npDesc}</div>`:''}<div class="next-meta">${[!isMech&&opDose&&('Dose '+opDose),opArea&&(opArea+' m²')].filter(Boolean).map((x,i,a)=>html`<span>${x}</span>${i<a.length-1?html`<span>·</span>`:''}`)}</div>`:html`<div class="next-prod" style="font-size:16px;">Nessun intervento in programma</div><div class="next-s">Il calendario è libero</div>`}
         </div>${nextDay?html`<div class="next-day"><b>${nextDay.wd}</b><span>${nextDay.wk}</span></div>`:''}</div>
       <span class="vchev">${goChev}</span>
     </div>
@@ -11468,11 +11451,6 @@ function Oggi({wx,prof,setPg}){
     </div>
 
     <div class="qa fade">
-      <div class="qbtn" onClick=${()=>{ if(rainSoon>=2&&!irrQuickDone&&typeof window!=='undefined'&&!window.confirm('Sono previsti ~'+Math.round(rainSoon)+' mm di pioggia nei prossimi giorni: di solito conviene aspettare.\n\nRegistro lo stesso l\'irrigazione?'))return; logIrrQuick(); }} style=${irrQuickDone?'opacity:.55;pointer-events:none':''} aria-label=${'Ho irrigato '+irrQuickMin+' minuti'}>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7S5 9.5 5 14a7 7 0 0 0 14 0c0-4.5-7-11.3-7-11.3Z"/><polyline points="9 13.5 11.2 15.7 15.4 11.5"/></svg>
-        <span class="qlab">${irrQuickDone?'Registrata ✓':'Ho irrigato'}</span>
-        <span class="qsub">${irrQuickMin} min</span>
-      </div>
       <div class="qbtn" onClick=${openS('sh-irrlog')}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7S5 9.5 5 14a7 7 0 0 0 14 0c0-4.5-7-11.3-7-11.3Z"/></svg><span>Irrigazione</span></div>
       <div class="qbtn" onClick=${openS('sh-photo')}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3"/></svg><span>Foto zona</span></div>
       <div class="qbtn" onClick=${openS('sh-soil')}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0Z"/></svg><span>Misura suolo</span></div>
@@ -11511,7 +11489,7 @@ function _wxSvg(kind){
 }
 function Meteo2({wx,prof}){
   const city=(prof&&(prof.city||prof.location||prof.gardenCity))||'Meteo';
-  const fc=(()=>{const a=(wx&&(wx.forecast7||wx.forecast||(Array.isArray(wx.daily)?wx.daily:null)))||[];if(!Array.isArray(a)||!a.length)return [];const td=new Date().toISOString().slice(0,10);const fut=a.filter(d=>((d.date||d.dt||'')>=td));return (fut.length?fut:a).slice(0,8);})();
+  const fc=(()=>{const a=(wx&&(wx.forecast7||wx.forecast||(Array.isArray(wx.daily)?wx.daily:null)))||[];if(!Array.isArray(a)||!a.length)return [];const td=new Date().toLocaleDateString('sv-SE');const fut=a.filter(d=>((d.date||d.dt||'')>=td));return (fut.length?fut:a).slice(0,8);})();
   const todayTemp=(()=>{let t=wx?.todayData?.tmax ?? wx?.current?.tmax ?? (fc[0]&&fc[0].tmax);t=Math.round(t);return isNaN(t)?null:t;})();
   let condLabel=wx?.todayData?.condition||wx?.weatherLabel||null;
   try{if(!condLabel){const code=wx?.todayData?.weathercode??wx?.current?.weathercode;if(code!=null&&typeof wmoCodeToIcon==='function')condLabel=wmoCodeToIcon(code).label;}}catch(e){}
@@ -12202,14 +12180,16 @@ function RegistraLavorazioneSheet({prof,onClose,only,setPg}){
   const wh=(typeof whProducts==='function'?(whProducts()||[]):[]);
   const whNames=wh.map(p=>[p.brand,p.name].filter(Boolean).join(' ')).filter(Boolean);
   const cat=(()=>{try{return (typeof window!=='undefined'&&window.__LAWNLY_CATALOG__)||[];}catch(e){return [];}})();
-  const catNames=cat.map(p=>[p.brand,p.name].filter(Boolean).join(' ')).filter(Boolean);
+  const pick=(()=>{try{return (window.__LAWNLY_PICKABLE__&&window.__LAWNLY_PICKABLE__())||cat;}catch(e){return cat;}})();
+  const catNames=pick.map(p=>[p.brand,p.name].filter(Boolean).join(' ')).filter(Boolean);
   const prodOpts=[...new Set([...whNames,...catNames])];
   const MECC=['Taglio regolare','Arieggiatura (scarificatura)','Top dressing (sabbiatura)','Verticuttatura','Foratura superficiale','Carotatura profonda (hollow tine)','Risemina (overseeding)','Altro'];
   const UNITS=['g/m²','kg','L','ml','ml/100m²','conf'];
 
   const [stato,setStato]=useState('Fatta');
   const [tipi,setTipi]=useState(irrOnly?{mecc:false,prod:false,irr:true}:{mecc:true,prod:false,irr:false});
-  const [zona,setZona]=useState(zones[0].id||'A');
+  const allIds=zones.map(z=>z.id||z.name);
+  const [zsel,setZsel]=useState([allIds[0]]);
   const [mecc,setMecc]=useState(MECC[0]);
   const [prod1,setProd1]=useState('');const [qty1,setQty1]=useState('');const [unit1,setUnit1]=useState('g/m²');
   const [showMix,setShowMix]=useState(false);
@@ -12218,23 +12198,27 @@ function RegistraLavorazioneSheet({prof,onClose,only,setPg}){
   const [data,setData]=useState(new Date().toISOString().slice(0,10));
   const [note,setNote]=useState('');
   const [saved,setSaved]=useState(false);
+  const [tried,setTried]=useState(false);
 
   const zName=(zid)=>{if(zid==='all')return'Tutte le zone';const z=zones.find(x=>x.id===zid);return z?(z.name||('Zona '+z.id)):('Zona '+zid);};
+  const toggleZ=(zid)=>setZsel(s=>zid==='all'?(s.length===allIds.length?[allIds[0]]:allIds):(s.includes(zid)?(s.length>1?s.filter(x=>x!==zid):s):[...s,zid]));
+  const minutesN=parseFloat((dur||'').replace(',','.'))||0;
+  const err=tipi.irr&&stato!=='Fatta'?'Le irrigazioni si registrano a cose fatte: scegli «Fatta».':(tipi.irr&&!(minutesN>0))?'Indica quanti minuti hai irrigato.':(tipi.prod&&!prod1)?'Scegli il prodotto usato.':'';
   const toggleTipo=(k)=>{ if(irrOnly)return; setTipi(t=>{const n={...t,[k]:!t[k]}; if(!n.mecc&&!n.prod&&!n.irr)n[k]=true; return n;}); };
   const matchPid=(name)=>{try{const needle=(name||'').toLowerCase();const m=cat.find(p=>(((p.brand?p.brand+' ':'')+(p.name||'')).toLowerCase()).includes(needle.split(' ').slice(0,2).join(' ')));return m?m.id:null;}catch(e){return null;}};
 
   const save=()=>{
     const done=stato==='Fatta';
-    const zlist=zones;const zoneIds=zona==='all'?zlist.map(z=>z.id||z.name):[zona];
+    const zlist=zones;const zoneIds=zsel;
     const selZones=zlist.filter(z=>zoneIds.includes(z.id||z.name));
     const yr=new Date().getFullYear();
     const pushEv=(ev)=>{if(!validateAndConfirmOp(ev))return;try{const d=S.get('dss_calendar_events',[])||[];S.set('dss_calendar_events',[ev,...d]);}catch(e){}
       try{if(typeof queueOperationFeedback==='function')queueOperationFeedback({type:'added',operation:ev,oldOperation:null,gardenData:prof2,profile:prof2,gdd:(typeof window!=='undefined'&&window.__LAWNLY_WX__)||null});}catch(e){}};
     // IRRIGAZIONE -> storico (ricalibra bilancio idrico)
     if(tipi.irr){
-      const minutes=parseFloat((dur||'').replace(',','.'))||0;
+      const minutes=minutesN;
       const fr=parseFloat((flowRate||'').toString().replace(',','.'))||8;
-      try{if(typeof appendIrrigationHistoryEntry==='function')appendIrrigationHistoryEntry({zonesDetail:[{name:zName(zona),minutes,minutesAtFlowRate:minutes,liters:Math.round(minutes*fr)}],et:null,note,timestamp:new Date(data).toISOString()});}catch(e){}
+      try{if(typeof appendIrrigationHistoryEntry==='function')appendIrrigationHistoryEntry({zonesDetail:selZones.map(z=>({name:z.name||('Zona '+z.id),minutes,minutesAtFlowRate:minutes,liters:Math.round(minutes*fr)})),et:null,note,timestamp:new Date(data).toISOString()});}catch(e){}
     }
     // MECCANICA -> evento canonico
     if(tipi.mecc){
@@ -12245,8 +12229,9 @@ function RegistraLavorazioneSheet({prof,onClose,only,setPg}){
       const mk=(pname,q,u)=>{const doseG=(u==='g/m²')?(parseFloat((q||'').toString().replace(',','.'))||0):0;
         const doses=(doseG>0&&selZones.length)?selZones.map(z=>({zone:z.name||z.id,amount:((doseG*(parseFloat(z.area||z.m2)||0))/1000).toFixed(2),unit:'kg'})):[];
         return {id:'op_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,5),date:data,category:'concimazione',type:'trattamento',name:pname||'Prodotto',title:pname||'Prodotto',phase:pname||'Prodotto',zones:zoneIds,finalProductId:matchPid(pname),doseGm2:doseG,quantityTotal:(u!=='g/m²'?(parseFloat((q||'').toString().replace(',','.'))||null):null),unit:u,product:pname||null,doses,notes:note,status:done?'completato':'programmato',year:yr,ai_generated:false,_source:'user_added'};};
-      if(prod1&&prod1!=='Altro (non in magazzino)')pushEv(mk(prod1,qty1,unit1));
-      if(showMix&&prod2&&prod2!=='Altro (non in magazzino)')pushEv(mk(prod2,qty2,unit2));
+      const nm=(p)=>p==='Altro (non in magazzino)'?(note||'Prodotto non in magazzino'):p;
+      if(prod1)pushEv(mk(nm(prod1),qty1,unit1));
+      if(showMix&&prod2)pushEv(mk(nm(prod2),qty2,unit2));
     }
     try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}
     setSaved(true);setTimeout(()=>onClose&&onClose(),900);
@@ -12264,7 +12249,7 @@ function RegistraLavorazioneSheet({prof,onClose,only,setPg}){
         ${saved?html`<div style="text-align:center;padding:30px 0;"><div style="font-size:40px;color:var(--green);">✓</div><div style="font-size:15px;font-weight:800;margin-top:8px;">${irrOnly?'Irrigazione registrata':'Lavorazione registrata'}</div></div>`:html`<div>
         <div class="field"><label class="flab">Stato</label><div class="fchips">${['Fatta','In programma'].map(s=>html`<span key=${s} class=${'fchip'+(stato===s?' on':'')} onClick=${()=>setStato(s)}>${s}</span>`)}</div></div>
         ${irrOnly?html`<div class="field"><label class="flab">Tipo</label><div class="ftipo"><span class="ftipo-c on">Irrigazione</span></div></div>`:html`<div class="field"><label class="flab">Tipo</label><div class="ftipo">${[['mecc','Meccanica'],['prod','Prodotto'],['irr','Irrigazione']].map(([k,l])=>html`<span key=${k} class=${'ftipo-c'+(tipi[k]?' on':'')} onClick=${()=>toggleTipo(k)}>${l}</span>`)}</div></div>`}
-        <div class="field"><label class="flab">Zona</label><div class="fchips">${[...zones.map(z=>z.id),'all'].map(zid=>html`<span key=${zid} class=${'fchip'+(zona===zid?' on':'')} onClick=${()=>setZona(zid)}>${zName(zid)}</span>`)}</div></div>
+        <div class="field"><label class="flab">${allIds.length>1?'Zone (anche più di una)':'Zona'}</label><div class="fchips">${[...allIds,...(allIds.length>1?['all']:[])].map(zid=>html`<span key=${zid} class=${'fchip'+((zid==='all'?zsel.length===allIds.length:zsel.includes(zid))?' on':'')} onClick=${()=>toggleZ(zid)}>${zName(zid)}</span>`)}</div></div>
         ${tipi.mecc?html`<div class="lav-sec"><div class="field"><label class="flab">Lavorazione meccanica</label>${sel(mecc,setMecc,MECC)}</div></div>`:''}
         ${tipi.prod?html`<div class="lav-sec">
           <div class="field"><label class="flab">Prodotto (dal magazzino)</label>${sel(prod1,setProd1,[...prodOpts,'Altro (non in magazzino)'],'Seleziona…')}</div>
@@ -12273,10 +12258,11 @@ function RegistraLavorazioneSheet({prof,onClose,only,setPg}){
             <div class="frow"><div class="field"><label class="flab">Quantità</label><input class="finput" type="text" inputmode="decimal" placeholder="es. 30" value=${qty2} onInput=${e=>setQty2(e.target.value)}/></div><div class="field"><label class="flab">Unità</label>${sel(unit2,setUnit2,UNITS)}</div></div></div>`:''}
           ${!showMix?html`<button class="lav-add" onClick=${()=>setShowMix(true)}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Aggiungi prodotto (miscela)</button>`:''}
         </div>`:''}
-        ${tipi.irr?html`<div class="lav-sec"><div class="frow"><div class="field"><label class="flab">Durata (minuti)</label><input class="finput" type="text" inputmode="numeric" placeholder="es. 20" value=${dur} onInput=${e=>setDur(e.target.value)}/></div><div class="field"><label class="flab">Portata impianto (L/min)</label><input class="finput" type="text" inputmode="decimal" placeholder="es. 8" value=${flowRate} onInput=${e=>setFlowRate(e.target.value)}/></div></div>${litri!=null?html`<div style="font-size:11.5px;color:var(--green-deep);background:var(--green-soft);border-radius:9px;padding:8px 10px;">≈ ${litri} litri erogati</div>`:''}</div>`:''}
+        ${tipi.irr?html`<div class="lav-sec"><div class="frow"><div class="field"><label class="flab">${zsel.length>1?'Minuti per zona':'Durata (minuti)'}</label><input class="finput" type="text" inputmode="numeric" placeholder="es. 20" value=${dur} onInput=${e=>setDur(e.target.value)}/></div><div class="field"><label class="flab">Portata impianto (L/min)</label><input class="finput" type="text" inputmode="decimal" placeholder="es. 8" value=${flowRate} onInput=${e=>setFlowRate(e.target.value)}/></div></div>${litri!=null?html`<div style="font-size:11.5px;color:var(--green-deep);background:var(--green-soft);border-radius:9px;padding:8px 10px;">≈ ${litri} litri erogati</div>`:''}</div>`:''}
         <div class="field"><label class="flab">Data</label><input class="finput" type="date" value=${data} onInput=${e=>setData(e.target.value)}/></div>
         <div class="field"><label class="flab">Note (facoltativo)</label><input class="finput" type="text" placeholder="Es. dopo arieggiatura…" value=${note} onInput=${e=>setNote(e.target.value)}/></div>
-        <button class="sh-save" onClick=${save}>${irrOnly?'Salva irrigazione':'Salva lavorazione'}</button>
+        ${tried&&err?html`<div style="font-size:12.5px;font-weight:700;color:var(--amber-deep,#9a5b12);margin:0 0 8px;">${err}</div>`:''}
+        <button class="sh-save" onClick=${()=>{setTried(true);if(!err)save();}}>${irrOnly?'Salva irrigazione':'Salva lavorazione'}</button>
         ${setPg?html`<button class="dt-goto dt-ghost" style="margin-top:8px" onClick=${()=>{onClose&&onClose();setPg(irrOnly?'irrigazione':'piano');}}>${irrOnly?'Apri la sezione Irrigazione':'Apri il Piano'}</button>`:''}
         </div>`}
       </div>
