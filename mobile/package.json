@@ -1,0 +1,25 @@
+{
+  "name": "lawnly-mobile",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "sync": "node build.mjs && npx cap sync",
+    "assets": "npx capacitor-assets generate --iconBackgroundColor '#F4F1E8' --splashBackgroundColor '#F4F1E8' --iconBackgroundColorDark '#1C1A16' --splashBackgroundColorDark '#1C1A16'",
+    "ios": "npx cap open ios",
+    "android": "npx cap open android"
+  },
+  "dependencies": {
+    "@capacitor-community/admob": "^8.1.0",
+    "@capacitor/android": "^8.5.1",
+    "@capacitor/app": "^8.1.1",
+    "@capacitor/browser": "^8.0.4",
+    "@capacitor/core": "^8.5.1",
+    "@capacitor/ios": "^8.5.1",
+    "@revenuecat/purchases-capacitor": "^13.5.1"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^8.5.1"
+  }
+}

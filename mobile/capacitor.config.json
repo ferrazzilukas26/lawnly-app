@@ -1,0 +1,20 @@
+{
+  "appId": "it.lawnly.app",
+  "appName": "Lawnly",
+  "webDir": "www",
+  "backgroundColor": "#F4F1E8",
+  "ios": {
+    "contentInset": "never",
+    "limitsNavigationsToAppBoundDomains": false
+  },
+  "android": {
+    "allowMixedContent": false
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 800,
+      "launchAutoHide": true,
+      "showSpinner": false
+    }
+  }
+}

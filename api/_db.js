@@ -39,6 +39,19 @@ export function verifyToken(tok) {
   }
 }
 
+export const passFp = (hash) => crypto.createHash('sha256').update(String(hash)).digest('hex').slice(0, 16);
+
+// Token valido E account ancora esistente con la stessa password: dopo un reset o una cancellazione
+// i token già emessi smettono di funzionare. I token senza `pv` (emessi prima di questa versione)
+// restano validi fino alla scadenza. ponytail: una query in più per ogni richiesta autenticata.
+export async function authUser(req) {
+  const p = verifyToken(bearer(req));
+  if (!p?.uid) return null;
+  const [u] = await sql`select pass_hash from users where id = ${p.uid}`;
+  if (!u || (p.pv && p.pv !== passFp(u.pass_hash))) return null;
+  return p;
+}
+
 export function hashPassword(pw) {
   const salt = crypto.randomBytes(16);
   const hash = crypto.scryptSync(pw, salt, 64);
@@ -66,4 +79,44 @@ export function readBody(req) {
     req.on('end', () => { try { resolve(JSON.parse(raw || '{}')); } catch { resolve({}); } });
     req.on('error', () => resolve({}));
   });
+}
+
+export function cors(req, res) {
+  const origin = req.headers.origin;
+  if (['capacitor://localhost', 'https://localhost', 'http://localhost', 'https://lawnly-app.vercel.app'].includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  const vary = res.getHeader('Vary');
+  res.setHeader('Vary', vary ? `${vary}, Origin` : 'Origin');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Max-Age', '86400');
+  if (req.method === 'OPTIONS') { res.status(204).end(); return true; }
+  return false;
+}
+
+let _accountReady = false;
+export async function ensureAccountTables() {
+  if (_accountReady) return;
+  const [column] = await sql`select data_type from information_schema.columns
+    where table_schema = current_schema() and table_name = 'users' and column_name = 'id'`;
+  // Il tipo arriva dallo schema, ma solo tipi esplicitamente consentiti entrano nel DDL.
+  const type = column?.data_type;
+  if (!['smallint', 'integer', 'bigint', 'text', 'uuid', 'character varying'].includes(type)) {
+    throw new Error('Tipo users.id non supportato');
+  }
+  await sql(`create table if not exists lawnly_password_resets (
+    id serial primary key, user_id ${type} not null references users(id),
+    code_hash text not null, attempts int default 0, expires_at timestamptz not null,
+    used boolean default false, created_at timestamptz default now()
+  )`);
+  await sql`create table if not exists lawnly_auth_attempts (
+    id bigserial, email text, ok boolean, created_at timestamptz default now()
+  )`;
+  await sql`alter table lawnly_auth_attempts add column if not exists id bigserial`;
+  await sql(`create table if not exists lawnly_affiliate_clicks (
+    id serial primary key, user_id ${type} references users(id), product_id text,
+    url text, created_at timestamptz default now()
+  )`);
+  _accountReady = true;
 }

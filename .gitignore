@@ -2,3 +2,5 @@
 .DS_Store
 CHECKPOINT.md
 index.html.backup-*
+node_modules
+mobile/www

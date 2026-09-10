@@ -10,7 +10,7 @@
 //   - oggetti (mappe)           → merge shallow per chiave (client vince sulla foglia)
 //   - scalari / nuove chiavi     → client
 // Così edit su chiavi/record diversi da device diversi non si cancellano a vicenda.
-import { sql, verifyToken, bearer, readBody } from './_db.js';
+import { cors, sql, readBody, authUser } from './_db.js';
 
 const TERMINAL = new Set(['done', 'completato', 'confirmed', 'saltato', 'saltata', 'eseguita']);
 
@@ -76,7 +76,8 @@ function mergeState(server, client) {
 }
 
 export default async function handler(req, res) {
-  const payload = verifyToken(bearer(req));
+  if (cors(req, res)) return;
+  const payload = await authUser(req);
   if (!payload) { res.status(401).json({ error: { message: 'unauthorized' } }); return; }
   const uid = payload.uid;
 
@@ -145,6 +146,7 @@ export default async function handler(req, res) {
     }
     res.status(405).json({ error: { message: 'method not allowed' } });
   } catch (e) {
-    res.status(500).json({ error: { message: e.message } });
+    // 23503 = utente non più esistente (account eliminato con un token ancora in giro): è un 401, non un guasto
+    res.status(e.code === '23503' ? 401 : 500).json({ error: { message: e.code === '23503' ? 'unauthorized' : e.message } });
   }
 }

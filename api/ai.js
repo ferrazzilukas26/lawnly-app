@@ -11,7 +11,7 @@
 //   ANTHROPIC_API_KEY   (https://console.anthropic.com -> API keys)
 //   AI_MODEL            optional, default 'claude-haiku-4-5'
 
-import { sql, verifyToken, bearer, readBody } from './_db.js';
+import { cors, sql, readBody, authUser } from './_db.js';
 
 const AI_MODEL = process.env.AI_MODEL || 'claude-haiku-4-5';
 const DAILY_LIMIT = Number(process.env.AI_DAILY_LIMIT || 40); // per utente, per giorno
@@ -56,13 +56,14 @@ async function wxProxy(url, res) {
 }
 
 export default async function handler(req, res) {
+  if (cors(req, res)) return;
   if (req.method !== 'POST') { res.status(405).json({ error: { message: 'POST only' } }); return; }
   const body = await readBody(req);
 
   if (body.action === 'wx-proxy') return wxProxy(body.url, res);
 
   // Da qui in poi si spende: serve un utente autenticato, con una quota giornaliera.
-  const user = verifyToken(bearer(req));
+  const user = await authUser(req); // account esistente: un token di un account eliminato non spende quota AI
   if (!user || !user.uid) { res.status(401).json({ error: { message: 'login richiesto' } }); return; }
   try {
     if (await overQuota(user.uid)) {

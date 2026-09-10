@@ -17,6 +17,7 @@
 <script src="https://cdn.jsdelivr.net/npm/htm@3/dist/htm.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/preact@10/compat/dist/compat.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="native.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/weather-icons@2.0.11/css/weather-icons.min.css">
 <style>
 :root{--bg:#F2F4F0;--card:#FFFFFF;--green:#6B9E6B;--green-l:rgba(107,158,107,0.10);--green-b:rgba(107,158,107,0.22);--green-dark:#4A7A4A;--muted:#9AAA96;--text:#1A2218;--r:1.4rem;--r-sm:1rem;--border:rgba(107,158,107,0.18);--shadow:0 4px 24px rgba(0,0,0,0.06);--glass:rgba(255,255,255,.50);--glass-strong:rgba(255,255,255,.66);--glass-line:rgba(255,255,255,.42);--blur:20px}
@@ -575,6 +576,7 @@ html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
 .rdz .np-suggest{margin-top:12px;}
 .rdz .np-sg{padding:9px 0;border-bottom:1px solid var(--line2);font-size:13.5px;color:var(--ink);}
 .rdz .np-sg:last-of-type{border-bottom:none;}
+.rdz .np-buy{float:right;margin-left:10px;background:var(--green-soft);color:var(--green-deep);border:none;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;}
 .rdz .prod-q{font-size:16px;font-weight:800;letter-spacing:-.3px;}
 .rdz .prod-q small{font-size:10px;color:var(--t3);font-weight:600;}
 .rdz .pbadge{display:inline-block;font-size:9px;font-weight:800;text-transform:uppercase;padding:3px 8px;border-radius:999px;margin-top:5px;letter-spacing:.03em;}
@@ -5605,7 +5607,7 @@ function bnavLuc(Icon){return html`<span class="bnav-ico-lucide"><${Icon} size=$
 ══════════════════════════════════════════════════ */
 const SUPABASE_URL = 'https://nioorknwpvjxldnxzjzh.supabase.co';   // es. https://xxxxx.supabase.co
 const SUPABASE_KEY = 'sb_publishable__FCiFm3E01ZwViDgSWTCXw_dmYyIuc6';
-const AI_PROXY_URL = '/api/ai';  // Vercel Function -> Anthropic (Haiku) + wx-proxy
+const AI_PROXY_URL = (window.LAWNLY_API_BASE||'')+'/api/ai';  // Vercel Function -> Anthropic (Haiku) + wx-proxy
 
 /* ── wxProxy: proxy server-side per Open-Meteo/NASA (risolve CORS su Vercel) ─
    Tutte le chiamate meteo passano dal nostro Edge Function invece che direttamente
@@ -5651,9 +5653,9 @@ function _lwSession(){
 }
 const _lwAuthCbs = [];
 function _lwFire(event){ const ses=_lwSession(); _lwAuthCbs.forEach(cb=>{ try{ cb(event,ses); }catch(e){} }); }
-async function _lwAuthPost(action,email,password){
+async function _lwAuthPost(action,email,password,extra){
   try{
-    const r = await fetch('/api/auth',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({action,email,password}) });
+    const r = await fetch((window.LAWNLY_API_BASE||'')+'/api/auth',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({action,email,password,...(extra||{})}) });
     const d = await r.json().catch(()=>({}));
     if(!r.ok || d.error) return { data:{user:null,session:null}, error:{ message:(d.error&&d.error.message)||('HTTP '+r.status) } };
     try{ localStorage.setItem(LAWNLY_JWT_KEY, d.token); }catch(e){}
@@ -5663,6 +5665,25 @@ async function _lwAuthPost(action,email,password){
     return { data:{ user:(ses&&ses.user)||d.user, session:ses }, error:null };
   }catch(e){ return { data:{user:null,session:null}, error:{ message:e.message } }; }
 }
+async function _lwApi(body,withAuth){
+  try{
+    const h={'Content-Type':'application/json'}; if(withAuth) h.Authorization='Bearer '+(_lwToken()||'');
+    const r=await fetch((window.LAWNLY_API_BASE||'')+'/api/auth',{method:'POST',headers:h,body:JSON.stringify(body)});
+    const d=await r.json().catch(()=>({}));
+    return (r.ok&&!d.error)?{data:d,error:null}:{data:null,error:{message:(d.error&&d.error.message)||('Errore '+r.status)}};
+  }catch(e){ return {data:null,error:{message:'Connessione assente: riprova.'}}; }
+}
+// Pagine legali: nell'app nativa si aprono nel browser di sistema (dentro la WebView non ci sarebbe il tasto indietro)
+function lawnlyOpenLegal(p){ try{ if(window.LawnlyNative&&window.LawnlyNative.isNative) return window.LawnlyNative.openExternal((window.LAWNLY_API_BASE||location.origin)+'/'+p); }catch(e){} window.open(p,'_blank','noopener'); }
+// Link di affiliazione Padana: registra il clic (commissioni) e apre il negozio
+function lawnlyBuyPadana(p){
+  const name=((p&&p.name)||'').replace(/^Padana Sementi\s*/i,'');
+  const base=(p&&p.url)||('https://www.padanasementi.com/?post_type=product&s='+encodeURIComponent(name));
+  const url=base+(base.includes('?')?'&':'?')+'utm_source=lawnly&utm_medium=app&utm_campaign=affiliate';
+  try{ const h={'Content-Type':'application/json'}; const t=_lwToken(); if(t) h.Authorization='Bearer '+t;
+    fetch((window.LAWNLY_API_BASE||'')+'/api/track',{method:'POST',keepalive:true,headers:h,body:JSON.stringify({productId:String((p&&(p.id||p.pid))||name),url})}).catch(()=>{}); }catch(e){}
+  if(window.LawnlyNative) window.LawnlyNative.openExternal(url); else window.open(url,'_blank','noopener');
+}
 const supa = {
   auth:{
     async getSession(){ return { data:{ session:_lwSession() } }; },
@@ -5670,7 +5691,9 @@ const supa = {
     async signInWithPassword({email,password}){ return _lwAuthPost('login',email,password); },
     async signUp({email,password}){ return _lwAuthPost('signup',email,password); },
     async signOut(){ try{ localStorage.removeItem(LAWNLY_JWT_KEY); }catch(e){} currentUserId=null; _lwFire('SIGNED_OUT'); return { error:null }; },
-    async resetPasswordForEmail(){ return { data:null, error:{ message:'Reset password non disponibile in questa versione.' } }; },
+    async resetPasswordForEmail(email){ const r=await _lwApi({action:'reset-request',email}); return r.error?{data:null,error:r.error}:{data:{},error:null}; },
+    async resetConfirm(email,code,password){ return _lwAuthPost('reset-confirm',email,password,{code}); },
+    async deleteAccount(password){ return _lwApi({action:'delete',password},true); },
     onAuthStateChange(cb){ _lwAuthCbs.push(cb); setTimeout(()=>{ try{ cb('INITIAL_SESSION',_lwSession()); }catch(e){} },0);
       return { data:{ subscription:{ unsubscribe(){ const i=_lwAuthCbs.indexOf(cb); if(i>=0)_lwAuthCbs.splice(i,1); } } } }; }
   },
@@ -5680,14 +5703,14 @@ const supa = {
       return {
         async upsert(row){
           try{
-            const r = await fetch('/api/state',{ method:'PUT', headers:auth(), body:JSON.stringify({ data: row && row.data }) });
+            const r = await fetch((window.LAWNLY_API_BASE||'')+'/api/state',{ method:'PUT', headers:auth(), body:JSON.stringify({ data: row && row.data }) });
             if(!r.ok) return { error:{ message:'HTTP '+r.status }, data:null };
             return { error:null, data:null };
           }catch(e){ return { error:{ message:e.message }, data:null }; }
         },
         select(){ return { eq(){ return { async maybeSingle(){
           try{
-            const r = await fetch('/api/state',{ headers:auth() });
+            const r = await fetch((window.LAWNLY_API_BASE||'')+'/api/state',{ headers:auth() });
             if(r.status===401) return { data:null, error:null, status:401 };
             const d = await r.json().catch(()=>({}));
             try{ if(d&&d.updatedAt) _lwLastSyncedAt=d.updatedAt; }catch(e){}
@@ -5716,7 +5739,7 @@ function _lwApplyMergedState(data){
   }catch(e){ console.warn('[sync] applyMerged',e); }
 }
 async function _lwPutState(userId, data, opts){
-  const r = await fetch('/api/state', {
+  const r = await fetch((window.LAWNLY_API_BASE||'')+'/api/state', {
     method:'PUT',
     headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+((typeof _lwToken==='function'&&_lwToken())||'') },
     body:JSON.stringify({ data, baseUpdatedAt:_lwLastSyncedAt }),
@@ -9141,11 +9164,21 @@ function AuthScreen({onAuth}){
   const [email,setEmail]=useState('');const [pass,setPass]=useState('');const [pass2,setPass2]=useState('');
   const [loading,setLoading]=useState(false);const [err,setErr]=useState('');const [info,setInfo]=useState('');
   const [showPass,setShowPass]=useState(false);const [showPass2,setShowPass2]=useState(false);
+  const [code,setCode]=useState('');const [terms,setTerms]=useState(false);
 
   const submit=async()=>{
+    if(mode==='reset'){
+      if(!code.trim()||pass.length<8){setErr('Inserisci il codice ricevuto e una nuova password di almeno 8 caratteri.');return;}
+      setLoading(true);setErr('');setInfo('');
+      const res=await supa.auth.resetConfirm(email.trim(),code.trim(),pass);
+      setLoading(false);
+      if(res.error){setErr(res.error.message);return;}
+      onAuth(res.data.user,res.data.session);return;
+    }
     if(!email.trim()||!pass.trim()){setErr('Inserisci email e password.');return;}
     if(mode==='register'&&pass!==pass2){setErr('Le password non coincidono.');return;}
     if(mode==='register'&&pass.length<8){setErr('Password minimo 8 caratteri.');return;}
+    if(mode==='register'&&!terms){setErr('Per registrarti accetta i Termini di servizio e l\'Informativa privacy.');return;}
     setLoading(true);setErr('');setInfo('');
     if(!supa){
       // Modalità offline (senza Supabase) — login locale
@@ -9165,11 +9198,11 @@ function AuthScreen({onAuth}){
 
   const forgotPwd=async()=>{
     if(!email.trim()){setErr('Inserisci la tua email prima.');return;}
-    if(!supa){setInfo('Funzione non disponibile in modalità offline.');return;}
-    setLoading(true);
+    setLoading(true);setErr('');setInfo('');
     const{error}=await supa.auth.resetPasswordForEmail(email.trim());
-    if(error)setErr(error.message);else setInfo('Email di reset inviata! Controlla la casella.');
     setLoading(false);
+    if(error){setErr(error.message);return;}
+    setMode('reset');setPass('');setInfo('Se l\'email è registrata ti abbiamo inviato un codice di 6 cifre (controlla anche lo spam).');
   };
 
   return html`<div class="rdz" style="position:fixed;inset:0;overflow:auto;-webkit-overflow-scrolling:touch;">
@@ -9185,8 +9218,8 @@ function AuthScreen({onAuth}){
         </div>
 
         <div class="card" style="box-shadow:var(--sh-lg);">
-          <div style="font-size:18px;font-weight:800;color:var(--ink);margin-bottom:4px;letter-spacing:-.01em;">${mode==='login'?'Bentornato 🌿':'Crea il tuo account'}</div>
-          <div style="font-size:13px;color:var(--t3);margin-bottom:16px;line-height:1.45;">${mode==='login'?'Accedi per continuare a curare il tuo prato.':'Bastano email e password per iniziare.'}</div>
+          <div style="font-size:18px;font-weight:800;color:var(--ink);margin-bottom:4px;letter-spacing:-.01em;">${mode==='login'?'Bentornato 🌿':mode==='reset'?'Nuova password':'Crea il tuo account'}</div>
+          <div style="font-size:13px;color:var(--t3);margin-bottom:16px;line-height:1.45;">${mode==='login'?'Accedi per continuare a curare il tuo prato.':mode==='reset'?'Inserisci il codice ricevuto via email e scegli una nuova password.':'Bastano email e password per iniziare.'}</div>
 
           <div class="fchips" style="margin-bottom:18px;gap:8px;">
             ${['login','register'].map(m=>html`<span key=${m} onClick=${()=>{setMode(m);setErr('');setInfo('');}} class=${'fchip'+(mode===m?' on':'')} style="flex:1;text-align:center;justify-content:center;">${m==='login'?'Accedi':'Registrati'}</span>`)}
@@ -9197,8 +9230,9 @@ function AuthScreen({onAuth}){
               <label class="flab">Email</label>
               <input class="finput" type="email" autocomplete="email" inputmode="email" placeholder="la-tua@email.com" value=${email} onInput=${e=>setEmail(e.target.value)} onKeyDown=${e=>e.key==='Enter'&&submit()}/>
             </div>
+            ${mode==='reset'?html`<div><label class="flab">Codice ricevuto via email</label><input class="finput" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="123456" value=${code} onInput=${e=>setCode(e.target.value.replace(/\D/g,''))}/></div>`:''}
             <div>
-              <label class="flab">Password</label>
+              <label class="flab">${mode==='reset'?'Nuova password':'Password'}</label>
               <div style="position:relative;">
                 <input class="finput" type=${showPass?'text':'password'} autocomplete=${mode==='login'?'current-password':'new-password'} placeholder=${mode==='register'?'Minimo 8 caratteri':'••••••••'} style="padding-right:46px;" value=${pass} onInput=${e=>setPass(e.target.value)} onKeyDown=${e=>e.key==='Enter'&&submit()}/>
                 <button type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--t3);padding:4px;display:flex;align-items:center;line-height:0;" onClick=${()=>setShowPass(v=>!v)} title=${showPass?'Nascondi password':'Mostra password'}>
@@ -9216,6 +9250,7 @@ function AuthScreen({onAuth}){
               </div>
             </div>`:''}
           </div>
+          ${mode==='register'?html`<label style="display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:12px;color:var(--t2);line-height:1.45;cursor:pointer;"><input type="checkbox" checked=${terms} onChange=${e=>setTerms(e.target.checked)} style="margin-top:1px;width:18px;height:18px;accent-color:var(--green);flex:none;"/><span>Ho almeno 14 anni e accetto i <a href="#" onClick=${e=>{e.preventDefault();lawnlyOpenLegal('termini.html');}} style="color:var(--green-deep);font-weight:700;">Termini di servizio</a> e l'<a href="#" onClick=${e=>{e.preventDefault();lawnlyOpenLegal('privacy.html');}} style="color:var(--green-deep);font-weight:700;">Informativa privacy</a>. I consigli sono generati anche con intelligenza artificiale.</span></label>`:''}
 
           ${err?html`<div style="background:var(--red-soft);border:1px solid rgba(207,97,73,.28);border-radius:12px;padding:11px 13px;font-size:12.5px;color:var(--red);margin-top:14px;font-weight:600;line-height:1.4;">${err}</div>`:''}
           ${info?html`<div style="background:var(--green-soft);border:1px solid rgba(76,140,63,.28);border-radius:12px;padding:11px 13px;font-size:12.5px;color:var(--green-deep);margin-top:14px;font-weight:600;line-height:1.4;">${info}</div>`:''}
@@ -9229,7 +9264,7 @@ function AuthScreen({onAuth}){
           ${!supa?html`<div style="margin-top:14px;padding:11px 12px;background:var(--amber-soft);border:1px solid rgba(222,142,44,.22);border-radius:12px;font-size:11.5px;color:var(--amber-deep);text-align:center;line-height:1.5;font-weight:600;">⚠️ Modalità offline — i dati restano solo su questo dispositivo.</div>`:''}
         </div>
 
-        <div style="text-align:center;margin-top:18px;font-size:11.5px;color:var(--t4);font-weight:500;">🔒 I tuoi dati sono protetti e accessibili solo da te</div>
+        <div style="text-align:center;margin-top:18px;font-size:11.5px;color:var(--t4);font-weight:500;">🔒 I tuoi dati sono protetti e accessibili solo da te<div style="margin-top:6px;"><a href="#" onClick=${e=>{e.preventDefault();lawnlyOpenLegal('privacy.html');}} style="color:var(--t3);">Privacy</a> · <a href="#" onClick=${e=>{e.preventDefault();lawnlyOpenLegal('termini.html');}} style="color:var(--t3);">Termini</a></div></div>
       </div>
     </div>
   </div>`;
@@ -11114,6 +11149,7 @@ function DottorVerdeChat({prof,wx,onClose}){
         ${(msgs.length<=1&&!pending)?html`<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">${quick.map((q,i)=>html`<span key=${i} class="fchip" onClick=${()=>q==='Analizza una foto'?(fileRef.current&&fileRef.current.click()):send(q)}>${q}</span>`)}</div>`:''}
         <div ref=${endRef}></div>
       </div>
+      <div style="font-size:10.5px;color:var(--t4);text-align:center;padding:6px 8px 0;line-height:1.35;">Risposte generate da intelligenza artificiale: possono contenere errori. Per dosi e sicurezza fa fede l'etichetta del prodotto.</div>
       <div style="display:flex;gap:8px;align-items:center;padding:10px 4px 4px;border-top:1px solid var(--line);">
         <button onClick=${()=>fileRef.current&&fileRef.current.click()} aria-label="Foto" style="flex:0 0 auto;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--card2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--green-deep);"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3"/></svg></button>
         <input ref=${fileRef} type="file" accept="image/*" style="display:none" onChange=${onFile}/>
@@ -11391,7 +11427,7 @@ function Oggi({wx,prof,setPg}){
         ${!isMech&&opTotal?val('Totale prodotto',opTotal):''}
       </div>
       ${npProd?(npInWh!=null?html`<div class="np-have">✓ Hai <b>${npProd}</b> a magazzino${npInWh?(' · '+npInWh+(npCat&&npCat.unit?(' '+npCat.unit):'')):''}.${npCat&&npCat.notes?html`<div class="dt-note" style="margin-top:6px;">${npCat.notes}</div>`:''}</div>`
-        :html`<div class="np-suggest"><div class="dt-eye">Non a magazzino · prodotti consigliati</div>${npSuggest.length?npSuggest.map((s,i)=>html`<div class="np-sg" key=${i}><b>${[s.brand,s.name].filter(Boolean).join(' ')}</b>${s.npkLabel?html`<span> · ${s.npkLabel}</span>`:''}${s.notes?html`<div class="dt-note" style="margin-top:2px;">${s.notes.length>80?s.notes.slice(0,78)+'…':s.notes}</div>`:''}</div>`):html`<div class="dt-note">Aggiungi prodotti dal catalogo in Magazzino per ricevere consigli mirati.</div>`}<button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>{closeS();setPg&&setPg('mag');}}>Vai al Magazzino ${goChev}</button></div>`):''}
+        :html`<div class="np-suggest"><div class="dt-eye">Non a magazzino · prodotti consigliati · link affiliati</div>${npSuggest.length?npSuggest.map((s,i)=>html`<div class="np-sg" key=${i}><button class="np-buy" onClick=${(e)=>{e.stopPropagation();lawnlyBuyPadana(s);}}>Acquista ↗</button><b>${[s.brand,s.name].filter(Boolean).join(' ')}</b>${s.npkLabel?html`<span> · ${s.npkLabel}</span>`:''}${s.notes?html`<div class="dt-note" style="margin-top:2px;">${s.notes.length>80?s.notes.slice(0,78)+'…':s.notes}</div>`:''}</div>`):html`<div class="dt-note">Aggiungi prodotti dal catalogo in Magazzino per ricevere consigli mirati.</div>`}<button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>{closeS();setPg&&setPg('mag');}}>Vai al Magazzino ${goChev}</button></div>`):''}
       <button class="dt-goto" onClick=${()=>{closeS();setPg&&setPg('piano');}}>Vai al Calendario ${goChev}</button></div>`:html`<div class="dt-note">Nessun intervento in programma.</div>`}
   };
   const sd=(sheet&&sheet!=='sh-ai')?sheetDefs[sheet]:null;
@@ -11978,6 +12014,32 @@ function ProfiloEditSheet({prof,onClose,onSave}){
     </div>
   </div></${ModalPortal}>`;
 }
+function ProAccountCard(){
+  const N=(typeof window!=='undefined'&&window.LawnlyNative)||null;
+  const nat=!!(N&&N.isNative);
+  const [pro,setPro]=useState(()=>!!(N&&N.isPro()));
+  const [offers,setOffers]=useState([]);const [privReq,setPrivReq]=useState(false);
+  const [busy,setBusy]=useState('');const [msg,setMsg]=useState('');
+  useEffect(()=>{if(!nat)return;const off=N.onProChange(v=>setPro(!!v));N.getOffers().then(setOffers).catch(()=>{});N.privacyOptionsRequired().then(v=>setPrivReq(!!v)).catch(()=>{});return()=>{try{off&&off();}catch(e){}};},[]);
+  const PER={P1W:'settimana',P1M:'mese',P3M:'3 mesi',P6M:'6 mesi',P1Y:'anno'};
+  const perks=(typeof window!=='undefined'&&window.LAWNLY_PRO_PERKS)||['Nessuna pubblicità'];
+  const buy=async(o)=>{setBusy(o.id);setMsg('');const r=await N.buy(o.id);setBusy('');if(!r.ok&&!r.cancelled)setMsg(r.message||'Acquisto non riuscito.');};
+  const restore=async()=>{setBusy('restore');setMsg('');const ok=await N.restore();setBusy('');setMsg(ok?'Abbonamento ripristinato.':'Nessun abbonamento attivo trovato su questo account '+(N.platform==='ios'?'Apple':'Google')+'.');};
+  const manage=()=>N.openExternal(N.platform==='ios'?'https://apps.apple.com/account/subscriptions':'https://play.google.com/store/account/subscriptions');
+  const link=(p,l)=>html`<a href="#" onClick=${e=>{e.preventDefault();lawnlyOpenLegal(p);}} style="color:var(--green-deep);font-weight:700;">${l}</a>`;
+  const btn='justify-content:center;width:100%;margin-top:8px;';
+  return html`<div class="card fade">
+    <div class="c-eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7Z"/></svg> ${nat?'Lawnly Pro e privacy':'Privacy e termini'}</div>
+    ${nat&&pro?html`<div style="font-size:14px;font-weight:800;color:var(--green-deep);margin:4px 0 4px;">Lawnly Pro attivo ✓</div><button class="pf-edit" style=${btn} onClick=${manage}>Gestisci abbonamento</button>`:''}
+    ${nat&&!pro&&offers.length?html`<div style="font-size:13px;color:var(--t2);margin:4px 0 4px;line-height:1.6;">${perks.map(p=>html`<div key=${p}>✓ ${p}</div>`)}</div>
+      ${offers.map(o=>html`<button key=${o.id} class="sh-save" style="margin-top:8px;" disabled=${!!busy} onClick=${()=>buy(o)}>${busy===o.id?'Attendere…':(o.title+' · '+o.price+(o.period?(' / '+(PER[o.period]||o.period)):''))}</button>`)}
+      <div style="font-size:11px;color:var(--t3);margin-top:8px;line-height:1.45;">Abbonamento con rinnovo automatico allo stesso prezzo, addebitato sul tuo account ${N.platform==='ios'?'Apple':'Google'}. Puoi disdire fino a 24 ore prima del rinnovo dalle impostazioni dello store.</div>`:''}
+    ${nat?html`<button class="pf-edit" style=${btn} disabled=${!!busy} onClick=${restore}>${busy==='restore'?'Attendere…':'Ripristina acquisti'}</button>`:''}
+    ${nat&&privReq?html`<button class="pf-edit" style=${btn} onClick=${()=>N.showPrivacyOptions()}>Preferenze pubblicità</button>`:''}
+    ${msg?html`<div style="font-size:12px;color:var(--t2);margin-top:8px;">${msg}</div>`:''}
+    <div style="font-size:12.5px;margin-top:12px;text-align:center;">${link('privacy.html','Informativa privacy')} · ${link('termini.html','Termini di servizio')}</div>
+  </div>`;
+}
 function Profilo2({prof,wx,setPg,setProf,onResetGarden,onLogout,onDeleteAccount}){
   const [openSec,setOpenSec]=useState(0);
   const name=(prof&&(prof.userName||prof.gardenName||prof.ownerName))||'Profilo';
@@ -12000,7 +12062,7 @@ function Profilo2({prof,wx,setPg,setProf,onResetGarden,onLogout,onDeleteAccount}
   const saveProfEdit=(patch)=>{if(!setProf)return;const base=(S.get('dss_profile',null))||prof||{};const np={...base,...patch,onboardingCompleted:true};try{S.set('dss_profile',np);}catch(e){}setProf(np);try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}setEditSheet(false);};
   const doReset=()=>{if(typeof window!=='undefined'&&!window.confirm('Azzerare il giardino? Perderai zone, piano, magazzino e dati registrati.'))return;if(onResetGarden)onResetGarden();};
   const doLogout=()=>{if(onLogout)onLogout();};
-  const doDelete=()=>{if(typeof window!=='undefined'&&!window.confirm('Eliminare definitivamente l\'account? Operazione irreversibile.'))return;if(onDeleteAccount)onDeleteAccount();};
+  const doDelete=()=>{if(onDeleteAccount)onDeleteAccount();};
   const row=(k,v)=>html`<div class="pf-row"><span class="k">${k}</span><span class="v">${v}</span></div>`;
   const arrow=html`<span class="prow-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>`;
   const editBtn=(lbl)=>html`<button class="pf-edit" onClick=${edit}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg> ${lbl}</button>`;
@@ -12063,11 +12125,7 @@ function Profilo2({prof,wx,setPg,setProf,onResetGarden,onLogout,onDeleteAccount}
       <button class="pf-edit" style="justify-content:center;width:100%;margin-top:8px;" onClick=${doLogout}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Esci</button>
       <button class="pf-edit" style="justify-content:center;width:100%;margin-top:8px;color:#B5503A;border-color:rgba(181,80,58,.3);" onClick=${doDelete}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> Elimina account</button>
     </div>
-    <div class="card fade" style="text-align:center;">
-      <div class="c-eye" style="justify-content:center;">Confronto design</div>
-      <div style="font-size:12.5px;color:var(--t3);line-height:1.5;margin:4px 0 12px;">Apri il mockup <b>Plus</b> per confrontare il design con l'app reale.</div>
-      <button class="pf-edit" style="justify-content:center;width:100%;" onClick=${()=>{try{window.open('plus.html','_blank');}catch(e){window.location.href='plus.html';}}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Apri demo Plus</button>
-    </div>
+    <${ProAccountCard}/>
     ${editSheet?html`<${ProfiloEditSheet} prof=${prof} onClose=${()=>setEditSheet(false)} onSave=${saveProfEdit}/>`:''}
   </div>`;
 }
@@ -12321,6 +12379,8 @@ function AggiungiProdottoSheet({onClose}){
           <div class="field"><label class="flab">Numero di confezioni</label><input class="finput" type="text" inputmode="numeric" value=${qty} onInput=${e=>setQty(e.target.value)}/></div>
           ${(()=>{const f=(sel.formats||[])[selFmt]||{};const sz=parseFloat((''+(f.size||1)).replace(',','.'))||1;const q=parseFloat((qty||'1').replace(',','.'))||1;const u=f.unit||'conf';return html`<div style="font-size:11.5px;color:var(--green-deep);background:var(--green-soft);border-radius:9px;padding:8px 10px;">Totale a magazzino: <b>${(sz*q).toLocaleString('it-IT')} ${u}</b> (${q} × ${sz} ${u})</div>`;})()}
           <button class="sh-save" onClick=${add}>Aggiungi al magazzino</button>
+          <button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>lawnlyBuyPadana({name:sel.name,id:sel.pid})}>Acquista su Padana Sementi ↗</button>
+          <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:6px;">Link di affiliazione: riceviamo una commissione, senza costi per te.</div>
         </div>`:html`<div>
           <p class="cat-intro">Scegli la marca, poi il prodotto dal catalogo Lawnly per aggiungerlo al magazzino.</p>
           <div class="cat-filter">${brands.map(b=>html`<span key=${b} class=${'fchip'+(brand===b?' on':'')} onClick=${()=>setBrand(b)}>${b}</span>`)}</div>
@@ -17649,6 +17709,7 @@ Rispondi SOLO con JSON (no markdown): [{"week":N,"name":"Nome prodotto o operazi
       </button>`)}
     </div>`:''}
 
+    <div style="font-size:10.5px;color:var(--t4);text-align:center;padding:6px 8px 0;line-height:1.35;">Risposte generate da intelligenza artificiale: possono contenere errori. Per dosi e sicurezza fa fede l'etichetta del prodotto.</div>
     <!-- Input bar -->
     <div style="display:flex;gap:8px;align-items:center">
       <input class="inp" placeholder="Chiedi al Dottor Verde…" value=${inp} onInput=${e=>setInp(e.target.value)} onKeyDown=${e=>e.key==='Enter'&&!e.shiftKey&&send()} disabled=${ldg} style="flex:1"/>
@@ -17999,7 +18060,7 @@ function App(){
              del nostro ultimo sync E non ci sono modifiche locali pendenti (no clobber). Reload =
              garanzia di stato fresco. Su singolo device non scatta mai (siamo noi a scrivere). */
           if(!_lwHasPendingLocal() && typeof _lwToken==='function' && _lwToken()){
-            fetch('/api/state',{headers:{'Authorization':'Bearer '+_lwToken()}})
+            fetch((window.LAWNLY_API_BASE||'')+'/api/state',{headers:{'Authorization':'Bearer '+_lwToken()}})
               .then(r=>r.ok?r.json():null)
               .then(j=>{
                 if(j&&j.updatedAt&&_lwLastSyncedAt&&!_lwHasPendingLocal()&&
@@ -18528,15 +18589,16 @@ function App(){
     return {ok:true,localKeysRemoved:localKeysRemoved.length};
   },[setProf,setZones,setOnboardingStep]);
 
-  const deleteAccount=useCallback(async(confirm=false)=>{
-    if(!confirm){
-      if(!window.confirm('CANCELLAZIONE ACCOUNT: l\'account verrà ELIMINATO definitivamente. Tutti i dati saranno persi. Operazione IRREVERSIBILE. Sei sicuro?'))return;
-      if(!window.confirm('Confermi DEFINITIVAMENTE la cancellazione?'))return;
-    }
+  const deleteAccount=useCallback(async()=>{
+    if(!window.confirm('Eliminare definitivamente l\'account? Account e dati del prato vengono cancellati dai nostri server. Operazione irreversibile.'))return;
+    const pw=window.prompt('Per confermare inserisci la password del tuo account'); // ponytail: prompt di sistema, mostra la password in chiaro; foglio dedicato se i tester lo chiedono
+    if(!pw)return;
+    const r=await supa.auth.deleteAccount(pw);
+    if(r.error){window.alert('Account non eliminato: '+r.error.message);return;}
+    try{window.LawnlyNative&&window.LawnlyNative.logOut();}catch(e){}
+    // token via PRIMA della pulizia: nessun salvataggio in sospeso può ricreare i dati sul server
+    await supa.auth.signOut();
     await resetGarden(true,{skipRedirect:true});
-    if(supa){
-      try{await supa.auth.signOut();}catch(e){console.error('[Lawnly] SignOut error:',e);}
-    }
     setAuthUser(null);
     setSession(null);
     window.location.href=window.location.pathname+'?reset=account';
@@ -18546,6 +18608,7 @@ function App(){
     // prima di uscire, chiudi il salvataggio in sospeso: il debounce di 1s bastava a perdere
     // l'ultima modifica di chi fa logout subito dopo aver toccato qualcosa
     try{ if(_lwPending&&_lwHasPendingLocal()){ clearTimeout(syncTimer); await _lwFlushPending(); } }catch(e){ console.warn('[logout] salvataggio finale non riuscito:',e.message); }
+    try{const N=window.LawnlyNative;if(N){N.hideBanner();N.logOut();}}catch(e){}
     if(supa)await supa.auth.signOut();S.set('dss_profile',DEF_PROF);setProf({...DEF_PROF});setAuthUser(null);setSession(null);setWx(null);};
 
   useEffect(()=>{
@@ -18553,6 +18616,7 @@ function App(){
     currentUserId=authUser?.id||session?.user?.id||null;
     window.__LAWNLY_DEBUG=window.__LAWNLY_DEBUG||{};
     window.__LAWNLY_DEBUG.currentUserId=currentUserId;
+    try{const N=window.LawnlyNative;if(N&&N.isNative&&N._uid!==currentUserId){N._uid=currentUserId;if(currentUserId)N.init(currentUserId).then(()=>{N.logIn(currentUserId);N.showBanner();});else N.hideBanner();}}catch(e){}
     window.__LAWNLY_DEBUG.currentGardenId=prof?.gardenId||null;
     window.__LAWNLY_DEBUG.resetFunctions={
       resetGarden,

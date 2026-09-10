@@ -3,7 +3,7 @@
 //   GET ?photo=<id>           -> l'immagine (binaria)
 //   POST { author,type,section,rating,text,photo? } -> { ok, item }   photo = data URL jpeg/png/webp < 2MB
 //   PATCH { id, status: 'aperto'|'in_lavorazione'|'risolto' } -> { ok }
-import { sql, readBody } from './_db.js';
+import { cors, sql, readBody } from './_db.js';
 
 let _ready = false;
 async function ensure() {
@@ -27,10 +27,7 @@ const TYPES = new Set(['bug', 'miglioramento', 'valutazione']);
 const STATUSES = new Set(['aperto', 'in_lavorazione', 'risolto']);
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  if (req.method === 'OPTIONS') return res.status(204).end();
+  if (cors(req, res)) return;
   try {
     await ensure();
     if (req.method === 'GET') {
