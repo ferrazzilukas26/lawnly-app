@@ -443,6 +443,8 @@ input[type=range]{width:100%;accent-color:var(--green);cursor:pointer;margin:6px
 .rdz .cons-txt{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.45;}
 .rdz .qa{display:flex;gap:10px;}
 .rdz .qbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;padding:14px 6px;border-radius:var(--r-md);background:var(--card);border:1px solid var(--line);box-shadow:var(--sh);cursor:pointer;}
+.rdz .qbtn .qlab{font-size:11.5px;font-weight:700;color:var(--t2);text-align:center;line-height:1.15;}
+.rdz .qbtn .qsub{font-size:10px;font-weight:600;color:var(--t4);}
 .rdz .qbtn svg{width:21px;height:21px;color:var(--green);}
 .rdz .qbtn span{font-size:11px;font-weight:700;color:var(--t2);}
 .rdz .wmini{display:flex;align-items:center;gap:10px;}
@@ -5731,27 +5733,60 @@ async function _lwPutState(userId, data, opts){
   }catch(e){}
   return true;
 }
+/* Snapshot dello stato locale da mandare al cloud. Serve in due punti: al salvataggio
+   del profilo e al login, quando ci sono modifiche locali mai confermate da riconciliare. */
+function collectLocalState(profile){
+  const _tutorialFlags={};
+  try{Object.keys(localStorage).filter(k=>k.startsWith('dss_help_seen_v2_')).forEach(k=>{_tutorialFlags[k]=S.get(k);});}catch(e){}
+  const newProf=profile;
+  const allData={profile:newProf,dss_diagnosis_data:S.get('dss_diagnosis_data'),dss_calendar_events:S.get('dss_calendar_events',[]),dss_warehouse_v2:S.get('dss_warehouse_v2',[]),dss_soil_data:S.get('dss_soil_data',[]),dss_irrigation_history:S.get('dss_irrigation_history',[]),dss_zone_photos:S.get('dss_zone_photos',{}),dss_garden_elements:S.get('dss_garden_elements',[]),dss_garden_documents:S.get('dss_garden_documents',[]),dss_garden_meta:S.get('dss_garden_meta',{}),dss_garden_ai_insights:S.get('dss_garden_ai_insights',[]),dss_garden_pending_ops:S.get('dss_garden_pending_ops',[]),dss_custom_products:S.get('dss_custom_products',[]),dss_zone_notes:S.get('dss_zone_notes',{}),dss_warehouse_log:S.get('dss_warehouse_log',[]),dss_consultant_chat:S.get('dss_consultant_chat',[]),..._tutorialFlags};
+  try{Object.keys(localStorage).filter(k=>k.startsWith('dss_soil_theta')).forEach(k=>{allData[k]=S.get(k);});}catch(e){}
+  return allData;
+}
+/* Una sola PUT in volo per volta, e sempre con l'ULTIMO stato: il retry precedente
+   rimandava lo snapshot vecchio catturato 3 secondi prima, cancellando le modifiche fatte
+   nel frattempo. `_lwSeq` conta le modifiche locali: il flag dirty si spegne solo se
+   nessuna e' arrivata durante l'invio. Il flag vive anche in localStorage, cosi' un reload
+   con modifiche non sincronizzate non le fa scavalcare dal cloud (vedi _lwHasPendingLocal). */
+let _lwSeq = 0, _lwSending = false, _lwRetries = 0;
+const _LW_DIRTY_KEY = 'dss_sync_pending';
+function _lwMarkDirty(on){
+  _lwDirty = on;
+  try{ on ? localStorage.setItem(_LW_DIRTY_KEY, new Date().toISOString()) : localStorage.removeItem(_LW_DIRTY_KEY); }catch(e){}
+}
+function _lwHasPendingLocal(){
+  if(_lwDirty) return true;
+  try{ return !!localStorage.getItem(_LW_DIRTY_KEY); }catch(e){ return false; }
+}
+async function _lwFlushPending(){
+  if(_lwSending||!_lwPending)return;
+  const seq=_lwSeq, p=_lwPending;
+  _lwSending=true;
+  try{
+    await _lwPutState(p.userId,p.data);
+    _lwSending=false; _lwRetries=0;
+    if(_lwSeq===seq) _lwMarkDirty(false);   // nessuna modifica arrivata mentre inviavamo
+    else _lwFlushPending();                 // ne sono arrivate: rimanda l'ultimo stato
+  }catch(e){
+    _lwSending=false; _lwRetries++;
+    console.warn('[sync] PUT fallita ('+_lwRetries+'):',e.message);
+    if(_lwRetries<=3) setTimeout(_lwFlushPending, 3000*_lwRetries);
+    else { _lwRetries=0; try{ if(typeof showGlobalToast==='function') showGlobalToast('Salvataggio cloud non riuscito — le modifiche restano sul telefono e riproviamo più tardi','warning',6000); }catch(_){}
+           setTimeout(_lwFlushPending, 30000); }
+  }
+}
 function syncCloud(userId, data){
   if(!userId)return;
   _lwPending = { userId, data };
-  _lwDirty = true;
+  _lwSeq++;
+  _lwMarkDirty(true);
   clearTimeout(syncTimer);
-  syncTimer=setTimeout(async()=>{
-    const p=_lwPending; if(!p)return;
-    try{ await _lwPutState(p.userId,p.data); _lwDirty=false; }
-    catch(e){
-      console.warn('[sync] PUT fallito, retry 3s:',e.message);
-      setTimeout(async()=>{
-        try{ await _lwPutState(p.userId,p.data); _lwDirty=false; }
-        catch(e2){ console.warn('[sync] retry fallito:',e2.message); try{ if(typeof showGlobalToast==='function') showGlobalToast('Salvataggio cloud non riuscito — controlla la connessione','warning',6000); }catch(_){} }
-      },3000);
-    }
-  },1000);
+  syncTimer=setTimeout(_lwFlushPending,1000);
 }
 /* Flush immediato (chiusura/minimizza tab): bypassa il debounce, keepalive così la PUT parte
    anche mentre la pagina si chiude — evita la perdita della modifica nella finestra di debounce. */
 function flushCloudNow(){
-  if(!_lwPending||!_lwDirty)return;
+  if(!_lwPending||!_lwHasPendingLocal())return;
   clearTimeout(syncTimer);
   const p=_lwPending;
   try{ _lwPutState(p.userId,p.data,{keepalive:true}); }catch(e){}
@@ -8459,6 +8494,25 @@ async function aiChat(messages,sys,useHaiku=true,timeoutMs=60000){
   }
 }
 async function fileToBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=e=>res(e.target.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
+/* Le foto dei telefoni pesano 3-6 MB l'una: salvate intere riempivano lo storage del browser
+   e gonfiavano ogni sincronizzazione. 1280px bastano sia all'analisi AI sia alla galleria. */
+async function shrinkImageFile(file,maxSide=1280,quality=0.72){
+  const mediaType=file&&file.type||'image/jpeg';
+  try{
+    const img=await createImageBitmap(file);
+    const sc=Math.min(1,maxSide/Math.max(img.width,img.height));
+    const c=document.createElement('canvas');
+    c.width=Math.round(img.width*sc); c.height=Math.round(img.height*sc);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    const url=c.toDataURL('image/jpeg',quality);
+    try{img.close&&img.close();}catch(e){}
+    return {b64:url.split(',')[1],mediaType:'image/jpeg',dataUrl:url};
+  }catch(e){
+    console.warn('[foto] ridimensionamento non riuscito, uso l\'originale:',e.message);
+    const b64=await fileToBase64(file);
+    return {b64,mediaType,dataUrl:'data:'+mediaType+';base64,'+b64};
+  }
+}
 function parseAIPlan(raw){
   try{let p=typeof raw==='string'?null:raw;if(typeof raw==='string'){const m=raw.match(/\{[\s\S]*\}/);if(m)try{p=JSON.parse(m[0])}catch{}}if(!p)return[];const ops=p.operations||p.operazioni_consigliate||[];if(!Array.isArray(ops)||!ops.length)return[];
   return ops.filter(Boolean).map(op=>{const wk=Number(op.weekOfYear||op.settimana||op.week||0),mNum=Number(op.month||op.mese_num||0),mName=mNum>=1&&mNum<=12?MONTH_NAMES[mNum-1]:(op.mese||'Aprile');const prods=Array.isArray(op.products)?op.products:[];const first=prods[0];const doseStr=first?`${first.dosePer100m2} ${first.unit}/100m²`:(op.dose_totale||'');return{operazione:String(op.title||op.operazione||'').trim(),tipo:op.category||op.tipo||'trattamento',settimana:wk||null,mese:mName,prodotto:first?.name||op.prodotto||null,dose_totale:doseStr||null,note:String(op.notes||op.description||op.note||'').trim()};}).filter(o=>o.operazione);}catch{return[];}}
@@ -10256,7 +10310,7 @@ function Zone({prof,wx}){
 
           <div class="glass" style="margin-bottom:12px">
             <div class="flex-between" style="margin-bottom:10px">
-              <div style="font-size:13px;font-weight:700">📷 Foto zona</div>
+              <div style="font-size:13px;font-weight:700">📷 Foto zona<${InfoDot} titolo="Foto zona e analisi AI" testo="Le foto conservano un riferimento visivo di ogni zona e permettono una valutazione AI del suo aspetto. Ti aiutano a confrontare i cambiamenti e individuare punti da controllare. Punteggio e suggerimenti vengono dalle immagini caricate e dal contesto del giardino: luce e inquadratura possono influenzare il risultato."/></div>
               <div style="display:flex;gap:6px">
                 ${zPhotos.length>=2?html`<button class="btn btn-s" style="font-size:11px;padding:5px 11px" onClick=${()=>setCmp(c=>({...c,[z.id]:!c[z.id]}))}>
                   ${compareMode?'✕':'🔍 Confronta'}
@@ -10486,7 +10540,7 @@ function Suolo({prof,wx}){
         if(ds.length){const md=Math.max(...ds.map(d=>d.getTime()));lastFertDays=Math.max(0,Math.round((Date.now()-md)/864e5));}
       }catch(e){}
       if(ec==null&&lastFertDays==null)
-        return html`<div style="background:var(--card,#fff);border:1px dashed var(--border,#e5e7eb);border-radius:14px;padding:13px 16px;margin-bottom:12px;font-size:12px;color:var(--muted,#8B907F);line-height:1.5"><b style="color:var(--text,#1A2016)">🌱 Fertilità</b> — registra una misura EC o segna una concimazione per calcolare l'indice di questa zona.</div>`;
+        return html`<div style="background:var(--card,#fff);border:1px dashed var(--border,#e5e7eb);border-radius:14px;padding:13px 16px;margin-bottom:12px;font-size:12px;color:var(--muted,#8B907F);line-height:1.5"><b style="color:var(--text,#1A2016)">🌱 Fertilità<${InfoDot} titolo="Fertilità" testo="È un indice orientativo delle condizioni nutritive della zona. Ti aiuta a capire se controllare il terreno e le concimazioni prima di aggiungere altro prodotto. Usa la misura EC registrata, che indica i sali nel suolo, e il tempo dalla concimazione segnata come completata; senza EC usa solo il tempo trascorso."/></b> — registra una misura EC o segna una concimazione per calcolare l'indice di questa zona.</div>`;
       let ecScore=null;
       if(ec!=null)ecScore=(ec>=200&&ec<=800)?100:(ec<200?Math.max(15,Math.round(ec/200*100)):Math.max(15,Math.round(100-(ec-800)/400*70)));
       let recScore;
@@ -10499,7 +10553,7 @@ function Suolo({prof,wx}){
       const fMsg=lastFertDays==null?'nessuna concimazione registrata':('ultima concimazione '+lastFertDays+' gg fa');
       return html`<div style="background:var(--card,#fff);border:1px solid var(--border,#e5e7eb);border-radius:14px;padding:14px 16px;margin-bottom:12px">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
-          <div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px">🌱</span><span style="font-size:13px;font-weight:700;color:var(--text,#1A2016)">Fertilità · ${zn}</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px">🌱</span><span style="font-size:13px;font-weight:700;color:var(--text,#1A2016)">Fertilità · ${zn}<${InfoDot} titolo="Fertilità" testo="È un indice orientativo delle condizioni nutritive della zona. Ti aiuta a capire se controllare il terreno e le concimazioni prima di aggiungere altro prodotto. Usa la misura EC registrata, che indica i sali nel suolo, e il tempo dalla concimazione segnata come completata; senza EC usa solo il tempo trascorso."/></span></div>
           <span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;background:${lab.bg};color:${lab.c}">${lab.t} · ${idx}/100</span>
         </div>
         <div style="height:8px;border-radius:99px;background:var(--line2,#eef0ea);margin-top:10px;overflow:hidden"><div style="height:100%;width:${idx}%;background:${lab.c};border-radius:99px;transition:width .4s"></div></div>
@@ -11002,9 +11056,10 @@ function DottorVerdeChat({prof,wx,onClose}){
   };
   const onFile=(e)=>{
     const f=e.target.files&&e.target.files[0]; if(!f)return;
-    const rd=new FileReader();
-    rd.onload=()=>{const url=String(rd.result);const mt=(url.match(/^data:([^;]+);/)||[])[1]||'image/jpeg';const b64=url.split(',')[1]||'';setPending({b64,mediaType:mt,url});setMsgs(m=>[...m,{role:'user',img:url},{role:'bot',text:'Bella foto! Di quale zona si tratta?'}]);};
-    rd.readAsDataURL(f);
+    shrinkImageFile(f).then(sh=>{
+      setPending({b64:sh.b64,mediaType:sh.mediaType,url:sh.dataUrl});
+      setMsgs(m=>[...m,{role:'user',img:sh.dataUrl},{role:'bot',text:'Bella foto! Di quale zona si tratta?'}]);
+    }).catch(err=>setMsgs(m=>[...m,{role:'bot',text:'Non riesco a leggere questa foto ('+(err&&err.message||'errore')+').'}]));
     if(e.target)e.target.value='';
   };
   const pickZone=async(z)=>{
@@ -11048,7 +11103,7 @@ function DottorVerdeChat({prof,wx,onClose}){
     <div class="ov on" onClick=${onClose}></div>
     <div class="sheet on" style="display:flex;flex-direction:column;max-height:86vh;">
       <div class="sh-handle"></div>
-      <div class="sh-head"><div class="sh-title">Dottor Verde</div><div class="sh-x" onClick=${onClose}>${closeX}</div></div>
+      <div class="sh-head"><div class="sh-title">Dottor Verde<${InfoDot} titolo="Dottor Verde" testo="È un assistente AI a cui chiedere spiegazioni e consigli per il prato. Puoi descrivere un problema o inviare una foto per valutare cosa fare. Le risposte usano la conversazione e i dati disponibili del giardino, come meteo, suolo e calendario; possono contenere errori, quindi confrontale con ciò che osservi."/></div><div class="sh-x" onClick=${onClose}>${closeX}</div></div>
       <div class="sh-body" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;">
         ${msgs.map((m,i)=>m.img?html`<div key=${i} style="align-self:flex-end;max-width:70%;"><img src=${m.img} style="width:100%;border-radius:14px;border:1px solid var(--line);"/></div>`
           :html`<div key=${i} class=${m.role==='user'?'':'aimsg aibot'} style=${m.role==='user'?'align-self:flex-end;max-width:80%;background:var(--green);color:#fff;border-radius:16px 16px 4px 16px;padding:10px 13px;font-size:13.5px;line-height:1.45;':'align-self:flex-start;max-width:85%;'}>${m.role==='user'?m.text:cleanReply(m.text)}</div>`)}
@@ -11125,6 +11180,26 @@ function Oggi({wx,prof,setPg}){
   const isYes=verdict&&(verdict.verdict==='yes');
   const vState=verdict?verdict.verdict:'no';
   const vCls=isYes?'yes':'no';
+  // Tasto rapido: durata suggerita dal motore, altrimenti l'ultima usata, altrimenti 20'
+  const irrQuickMin=(()=>{
+    const rec=verdict&&(verdict.minutesRecommended??verdict.minutes??(verdict.zones&&verdict.zones[0]&&verdict.zones[0].minutes));
+    if(typeof rec==='number'&&rec>0)return Math.round(rec);
+    const last=(irrHistAll[0]&&irrHistAll[0].zones&&irrHistAll[0].zones[0]&&irrHistAll[0].zones[0].minutes)||null;
+    return Math.round(last||20);
+  })();
+  const [irrQuickDone,setIrrQuickDone]=useState(false);
+  const logIrrQuick=()=>{
+    if(irrQuickDone)return;
+    const zs=(prof&&prof.zones&&prof.zones.length)?prof.zones:[{id:'A',name:'Prato'}];
+    const fr=(prof&&prof.flowRateLpm)||8;
+    const zonesDetail=zs.map(z=>({name:z.name||('Zona '+(z.id||'')),minutes:irrQuickMin,liters:Math.round(irrQuickMin*fr)}));
+    try{
+      appendIrrigationHistoryEntry({zonesDetail,et:null,note:'Tasto rapido (Oggi)',timestamp:new Date().toISOString()});
+      setIrrQuickDone(true);
+      if(typeof showGlobalToast==='function')showGlobalToast('Irrigazione registrata: '+irrQuickMin+' min · '+zonesDetail.reduce((t,z)=>t+z.liters,0)+' L','success',4000);
+      setTimeout(()=>setIrrQuickDone(false),60000); // niente doppio tocco per sbaglio
+    }catch(e){ if(typeof showGlobalToast==='function')showGlobalToast('Non sono riuscito a registrarla: '+(e&&e.message||''),'error',5000); }
+  };
   // pioggia realmente prevista (per coerenza etichetta — evita "pioggia in arrivo" col sereno)
   const rainSoon=(()=>{const r=verdict&&((verdict.diagnostics&&verdict.diagnostics.rainNext2d)??verdict.forecastRain5d);return (typeof r==='number')?r:0;})();
   // umidità: il modello (vwcRoot) è già ANCORATO all'ultima misura strumentale ed evoluto
@@ -11251,7 +11326,7 @@ function Oggi({wx,prof,setPg}){
     'sh-irrig':{title:'Irrigazione',body:html`<div>
       <div class="dt-eye">Pioggia prevista · prossimi 5 giorni</div>
       <div class="dt-fc">${fcDays(5).map((d,i)=>html`<div key=${i} class=${'dt-fcd'+(d.mm>=1?' on':'')}><span class="dt-fd">${d.lbl}</span><span class="dt-fdd">${d.dd}</span><span class="dt-fmm">${(+d.mm).toFixed(1)}</span><span class="dt-fdd">mm</span></div>`)}</div>
-      <div class="dt-eye" style="margin-top:18px;">Umidità suolo radicale (5–15cm)</div>
+      <div class="dt-eye" style="margin-top:18px;">Umidità suolo radicale (5–15cm)<${InfoDot} titolo="Umidità del suolo · VWC" testo="Indica quanto è umido il terreno vicino alle radici, su una scala da 0 a 100 adattata al tipo di suolo. Ti aiuta a valutare se serve acqua. La stima usa meteo, irrigazioni registrate e misure del suolo disponibili; il valore mostrato non è una percentuale diretta del volume di acqua nel terreno."/></div>
       <div class="dt-big" style=${'color:'+moistColor}>${umMeas==null?'—':html`<${Num} end=${Math.round(umMeas)}/>`}%</div>
       <div class="dt-biglab" style=${'color:'+moistColor}>${moistLabel}</div>
       <div class="dt-spec"><${SlideI} mode="left" target=${wfrac==null?50:Math.round(wfrac*100)}/></div>
@@ -11294,7 +11369,7 @@ function Oggi({wx,prof,setPg}){
           const _l=_gpv.score>=60?'Crescita attiva':_gpv.score>=35?'Crescita moderata':'Crescita minima';
           return html`<div style="margin-top:14px;padding:10px 12px;border-radius:12px;background:var(--green-soft,rgba(103,178,74,.12))">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-              <span style="font-size:11px;font-weight:800;letter-spacing:.02em">🌡 GROWTH POTENTIAL</span>
+              <span style="font-size:11px;font-weight:800;letter-spacing:.02em">🌡 GROWTH POTENTIAL<${InfoDot} titolo="Growth Potential" testo="Indica da 0 a 100 quanto la temperatura di oggi favorisce la crescita del prato. Ti aiuta a valutare il momento per concimare: un valore basso segnala condizioni poco favorevoli. Il calcolo usa la media tra minima e massima meteo e il tipo di erba del profilo; non misura quanto il prato è cresciuto davvero."/></span>
               <span style="font-size:13px;font-weight:800;color:${_c}">${_gpv.score}% · ${_l}</span>
             </div>
             <div style="height:6px;border-radius:99px;background:var(--line2,rgba(0,0,0,.08));overflow:hidden"><div style="height:100%;width:${_gpv.score}%;background:${_c};border-radius:99px;transition:width .4s"></div></div>
@@ -11356,12 +11431,12 @@ function Oggi({wx,prof,setPg}){
       <div class="phero-grad"></div>
       <div class="phero-top"><span class="hstatus"><i></i>${dateLabel} · Live</span><div class="pdots">${slides.map((_,i)=>html`<span key=${i} class=${'pdot'+(i===slide?' on':'')} onClick=${()=>setSlide(i)}></span>`)}</div></div>
       <div class="phero-bot"><div><div class="phero-h">${salute==null?'Il tuo prato':(salute>=75?'Il tuo prato sta bene':(salute>=50?'Il prato richiede attenzione':'Il prato ha bisogno di cure'))}</div><div class="phero-sub">${[phaseName,prof?.grassMixture||'microterme',(zones.length+' zon'+(zones.length===1?'a':'e'))].filter(Boolean).join(' · ')}</div></div>
-        <div class="ring"><svg viewBox="0 0 96 96"><circle class="ring-bg" cx="48" cy="48" r="40"/><circle class="ring-fill" ref=${heroRef} cx="48" cy="48" r="40"/></svg><div class="ring-in"><span class="ring-n">${salute==null?'—':html`<${Num} end=${salute}/>`}</span><span class="ring-l">Salute</span></div></div></div>
+        <div class="ring"><svg viewBox="0 0 96 96"><circle class="ring-bg" cx="48" cy="48" r="40"/><circle class="ring-fill" ref=${heroRef} cx="48" cy="48" r="40"/></svg><div class="ring-in"><span class="ring-n">${salute==null?'—':html`<${Num} end=${salute}/>`}</span><span class="ring-l">Salute<${InfoDot} titolo="Salute del prato" testo="È un punteggio su 100 che riassume la valutazione salvata del prato. Ti aiuta a capire se ci sono aspetti da controllare osservando il giardino. Viene dalla diagnosi e dalle analisi AI delle foto disponibili; in attesa di una diagnosi può essere un valore iniziale, non una misura aggiornata in tempo reale."/></span></div></div></div>
     </div>
 
     <div class=${'card verdict '+vCls+' fade'} onClick=${openS('sh-irrig')}>
       <div class="verdict-ic"><svg viewBox="0 0 24 24" class="dropico" fill="none">${isYes?html`<g class="yesart"><path d="M3.2 19.4q4.4-1.5 8.8 0t8.8 0" fill="none" stroke="#5E8C44" stroke-width="2.2" stroke-linecap="round"/><path class="fdrop" d="M12 1.6S8.4 5.6 8.4 8.1a3.6 3.6 0 0 0 7.2 0C15.6 5.6 12 1.6 12 1.6Z" fill="#5B93C9" stroke="none"/><g class="splash" fill="none" stroke="#5B93C9" stroke-width="1.8" stroke-linecap="round"><path d="M8.4 18.2q1.4-2.5 2.6 0"/><path d="M12.9 18.2q1.4-2.5 2.6 0"/></g></g>`:html`<g class="noart" fill="none" stroke="#5B93C9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.6v4.6"/><path d="M3 8.7h7.4a2.4 2.4 0 0 1 2.4 2.4v1.5"/><path class="taphandle" d="M6.5 8.7V5.4M4.8 6.1h3.4"/></g><path class="noart tapdrop" d="M12.8 13.4s-1.3 1.6-1.3 2.5a1.3 1.3 0 0 0 2.6 0c0-.9-1.3-2.5-1.3-2.5Z" fill="#5B93C9" stroke="none"/><g class="noart noslash" stroke="#E0563E" stroke-width="2" stroke-linecap="round" fill="none"><circle cx="12.7" cy="16" r="4.6"/><path d="M9.4 12.8 16 19.2"/></g>`}</svg></div>
-      <div style="flex:1;min-width:0;"><div class="verdict-q">Devo irrigare oggi?</div>
+      <div style="flex:1;min-width:0;"><div class="verdict-q">Devo irrigare oggi?<${InfoDot} titolo="Devo irrigare oggi?" testo="La risposta non viene da una regola fissa (\u00abogni 3 giorni\u00bb), ma da un bilancio idrico: quanta acqua \u00e8 entrata nel terreno con pioggia e irrigazioni, quanta ne \u00e8 uscita per evaporazione e traspirazione del prato, e quanta ne resta disponibile nella zona delle radici.\n\nMeteo e previsioni arrivano da Open-Meteo per le tue coordinate. Se hai inserito una misura con la sonda, il calcolo si ancora a quella.\n\nQuando dice di non irrigare, di solito \u00e8 perch\u00e9 il terreno ha ancora riserva o perch\u00e9 sta per piovere."/></div>
         <div class="verdict-a">${isYes?'Sì, meglio irrigare':vNoLabel}</div>
         ${isYes&&irrZonesRaw.length?html`<div class="virr">${irrZonesRaw.map(z=>html`<div class="virr-z" key=${z.zoneId||z.name}><span class="virr-min">${z.minutesAtFlowRate>0?(z.minutesAtFlowRate+' min'):(z.liters+' L')}</span><span class="virr-zn">${z.name}</span></div>`)}</div>`:''}
         <div class="vmoist"><span class="vmoist-v">${moist==null?'—':moist}%</span><span class="vmoist-bar"><${SlideI} mode="width" target=${moist||0}/></span></div>
@@ -11371,7 +11446,7 @@ function Oggi({wx,prof,setPg}){
 
     <div class="card next-card fade" onClick=${openS('sh-prossimo')}>
       <div class="next"><div class="next-ic"><svg class="ic-spray" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21.5h5.2a2 2 0 0 0 2-2v-6.6a2.6 2.6 0 0 0-2.6-2.6H9a2 2 0 0 0-2 2v7.2a2 2 0 0 0 2 2Z"/><path d="M9.6 10.3V7.4h4v2.9"/><path d="M13.6 7.4h3.3a1.6 1.6 0 0 1 1.6 1.6"/><path d="M7.4 14.6h8.6"/><g fill="currentColor" stroke="none"><circle cx="20.6" cy="6.2" r=".85"/><circle cx="22" cy="7.7" r=".75"/><circle cx="20.9" cy="9.2" r=".7"/></g></svg></div>
-        <div style="flex:1;min-width:0;"><div class="tile-lab" style="margin-bottom:3px;">Prossimo intervento</div>
+        <div style="flex:1;min-width:0;"><div class="tile-lab" style="margin-bottom:3px;">Prossimo intervento<${InfoDot} titolo="Prossimo intervento" testo="È la prima attività per data che il calendario non segna come completata, includendo gli ultimi 14 giorni. Ti ricorda cosa controllare o organizzare: può essere anche un arretrato recente. Nome, data e dosi vengono dalle operazioni salvate nel piano; verifica le condizioni del prato prima di procedere."/></div>
           ${nextOp?html`<div class="next-prod">${npTitle}</div>${npDesc?html`<div class="next-s">${npDesc}</div>`:''}<div class="next-meta">${[opDose&&('Dose '+opDose),opArea&&(opArea+' m²')].filter(Boolean).map((x,i,a)=>html`<span>${x}</span>${i<a.length-1?html`<span>·</span>`:''}`)}</div>`:html`<div class="next-prod" style="font-size:16px;">Nessun intervento in programma</div><div class="next-s">Il calendario è libero</div>`}
         </div>${nextDay?html`<div class="next-day"><b>${nextDay.wd}</b><span>${nextDay.wk}</span></div>`:''}</div>
       <span class="vchev">${goChev}</span>
@@ -11385,7 +11460,7 @@ function Oggi({wx,prof,setPg}){
         <div class="tile-top"><span class="tile-lab">Stato del prato</span><span class="tile-ic ic-a"><svg viewBox="0 0 24 24" class="ic-ecg" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path class="ecg-line" d="M2 12h4.2l1.6-5.2 2.7 10.4 2.1-7.2 1.5 2h5.9"/></svg></span></div>
         <div class="tile-v txt" style=${nIssues>0?'color:var(--amber)':'color:var(--green-deep)'}>${nIssues>0?'Attenzione':'Tutto bene'}</div><div class="tile-s">${nIssues>0?(nIssues+' parametr'+(nIssues===1?'o':'i')+' da curare'):'Nessuna criticità'}</div><span class="tile-go">${goChev}</span></div>
       <div class="tile" onClick=${openS('sh-gdd')}>
-        <div class="tile-top"><span class="tile-lab">GDD</span><span class="tile-ic ic-g"><svg viewBox="0 0 24 24" class="ic-sprout" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path class="sp-ground" d="M6 21h12"/><path class="sp-stem" d="M12 21V10.5"/><path class="sp-leafL" d="M12 12.6C8.9 12.6 6.4 10.6 6.4 7 10 7 12 9.2 12 12.6Z"/><path class="sp-leafR" d="M12 11.2C12 8.1 14 6.1 17.6 6.1 17.6 9.5 15.6 11.2 12 11.2Z"/></svg></span></div>
+        <div class="tile-top"><span class="tile-lab">GDD<${InfoDot} titolo="GDD · Gradi giorno" testo="I gradi giorno misurano il caldo accumulato sopra la temperatura minima utile alla crescita del prato. Ti aiutano a capire a che punto è la stagione prima di programmare tagli e concimazioni. Il totale viene dalle temperature meteo disponibili e dalla temperatura base impostata nel profilo."/></span><span class="tile-ic ic-g"><svg viewBox="0 0 24 24" class="ic-sprout" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path class="sp-ground" d="M6 21h12"/><path class="sp-stem" d="M12 21V10.5"/><path class="sp-leafL" d="M12 12.6C8.9 12.6 6.4 10.6 6.4 7 10 7 12 9.2 12 12.6Z"/><path class="sp-leafR" d="M12 11.2C12 8.1 14 6.1 17.6 6.1 17.6 9.5 15.6 11.2 12 11.2Z"/></svg></span></div>
         <div class="tile-v"><span>${gdd==null?'—':html`<${Num} end=${gdd}/>`}</span></div><div class="tile-s">${phaseName||'Crescita'}</div><span class="tile-go">${goChev}</span></div>
       <div class="tile" onClick=${openS('sh-ai')}>
         <div class="tile-top"><span class="tile-lab">Dottor Verde</span><span class="tile-ic ic-g"><svg viewBox="0 0 24 24" class="ic-spark" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path class="spk1" d="M10 3l1.35 3.65L15 8l-3.65 1.35L10 13 8.65 9.35 5 8l3.65-1.35Z"/><path class="spk2" d="M17.6 12.5l.7 1.9 1.9.7-1.9.7-.7 1.9-.7-1.9-1.9-.7 1.9-.7Z"/></svg></span></div>
@@ -11393,6 +11468,11 @@ function Oggi({wx,prof,setPg}){
     </div>
 
     <div class="qa fade">
+      <div class="qbtn" onClick=${()=>{ if(rainSoon>=2&&!irrQuickDone&&typeof window!=='undefined'&&!window.confirm('Sono previsti ~'+Math.round(rainSoon)+' mm di pioggia nei prossimi giorni: di solito conviene aspettare.\n\nRegistro lo stesso l\'irrigazione?'))return; logIrrQuick(); }} style=${irrQuickDone?'opacity:.55;pointer-events:none':''} aria-label=${'Ho irrigato '+irrQuickMin+' minuti'}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7S5 9.5 5 14a7 7 0 0 0 14 0c0-4.5-7-11.3-7-11.3Z"/><polyline points="9 13.5 11.2 15.7 15.4 11.5"/></svg>
+        <span class="qlab">${irrQuickDone?'Registrata ✓':'Ho irrigato'}</span>
+        <span class="qsub">${irrQuickMin} min</span>
+      </div>
       <div class="qbtn" onClick=${openS('sh-irrlog')}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7S5 9.5 5 14a7 7 0 0 0 14 0c0-4.5-7-11.3-7-11.3Z"/></svg><span>Irrigazione</span></div>
       <div class="qbtn" onClick=${openS('sh-photo')}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3"/></svg><span>Foto zona</span></div>
       <div class="qbtn" onClick=${openS('sh-soil')}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0Z"/></svg><span>Misura suolo</span></div>
@@ -11551,14 +11631,25 @@ function Piano({prof,wx,setPg}){
   const [regen,setRegen]=useState(false);
   const [tick,setTick]=useState(0);
   const _isDoneOp=(e)=>!!(e&&(e.status==='completato'||e.status==='done'||e.done||e.completed));
-  // Fonde piano rigenerato con la storia: mantiene le operazioni COMPLETATE,
-  // tiene solo le pianificate FUTURE non già coperte da un completato dello stesso mese/categoria.
-  const mergePlan=(doneOps,planned)=>{
+  const _isSkipped=(e)=>!!(e&&['saltato','saltata','posticipato'].includes(e.status));
+  // Cosa sopravvive a una rigenerazione: tutto ciò che porta traccia dell'utente.
+  // Prima restavano solo le completate, e sparivano le saltate, le operazioni aggiunte a mano
+  // e quelle passate mai chiuse — cioè il diario di chi stava usando l'app.
+  const _isUserOp=(e)=>{
+    if(!e)return false;
+    if(_isDoneOp(e)||_isSkipped(e)||e.confirmed)return true;
+    if(!e.ai_generated)return true;                                   // aggiunta o modificata a mano
+    const dk=(e.date||e.dt||'').slice(0,10);
+    return !!dk && dk < new Date().toISOString().slice(0,10);         // passata: è storia, non proposta
+  };
+  // Fonde piano rigenerato con la storia: tiene le operazioni dell'utente e aggiunge
+  // solo le nuove proposte FUTURE non già coperte nello stesso mese/categoria.
+  const mergePlan=(keptOps,planned)=>{
     const todayK=new Date().toISOString().slice(0,10);
     const key=(e)=>((e.month||(e.date?new Date(e.date).getMonth()+1:0))+'|'+((e.category||e.type||'')+'').toLowerCase());
-    const doneKeys=new Set(doneOps.map(key));
-    const futurePlanned=(planned||[]).filter(p=>{const dk=(p.date||p.dt||'').slice(0,10);return dk>=todayK&&!doneKeys.has(key(p));});
-    return [...doneOps,...futurePlanned];
+    const keptKeys=new Set(keptOps.map(key));
+    const futurePlanned=(planned||[]).filter(p=>{const dk=(p.date||p.dt||'').slice(0,10);return dk>=todayK&&!keptKeys.has(key(p));});
+    return [...keptOps,...futurePlanned];
   };
   const lastRegen=(S.get('dss_plan_last_regen',0))||0;
   const daysSinceRegen=lastRegen?((Date.now()-lastRegen)/86400000):999;
@@ -11569,7 +11660,7 @@ function Piano({prof,wx,setPg}){
     try{S.set('dss_plan_last_regen',Date.now());}catch(e){}
     try{
       const existing=S.get('dss_calendar_events',[])||[];
-      const doneOps=existing.filter(_isDoneOp);
+      const doneOps=existing.filter(_isUserOp);
       const gardenData={...(prof||{}),zones:(prof&&prof.zones)||[]};
       const profile=(S.get('dss_profile',prof||{}))||{};
       let ops=[];
@@ -11671,7 +11762,7 @@ function Piano({prof,wx,setPg}){
 
   return html`<div class="rdz">
     <div class="rdz-ambient"></div>
-    <div class="head"><div><div class="page-eyebrow">Piano agronomico</div><div class="page-title">Il tuo <span class="serif">piano</span></div></div>
+    <div class="head"><div><div class="page-eyebrow">Piano agronomico<${InfoDot} titolo="Piano agronomico" testo="È il calendario dei lavori da fare e di quelli registrati. Ti aiuta a organizzare le settimane: da valutare richiede una tua scelta, eseguita o saltata chiude la voce. Le attività vengono dal piano AI e dalle tue modifiche; la finestra di 12 settimane avanza quando chiudi gli arretrati."/></div><div class="page-title">Il tuo <span class="serif">piano</span></div></div>
       <div style="display:flex;gap:8px;align-items:center;">
       ${(view==='prog'&&raw.length>0)?html`<button class="pf-guida" onClick=${doRegen} disabled=${regen||!regenUnlocked} title=${regenUnlocked?'Ricalibra in base a GDD, meteo e operazioni svolte':('Si sblocca tra '+nextRegenDays+' giorni')}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> ${regen?'Ricalibro…':(regenUnlocked?'Ricalibra':'Ricalibra ('+nextRegenDays+'g)')}</button>`:''}
       <button class=${'pf-guida'+(view==='guida'?' on':'')} onClick=${()=>setView(view==='guida'?'prog':'guida')}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg> Guida</button></div></div>
@@ -11694,7 +11785,7 @@ function Piano({prof,wx,setPg}){
       </div>`:''}
       ${_overdue.length?html`<div class="card fade" style="border-left:4px solid ${_dkP?'#FCD34D':'#B45309'};">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="font-size:20px;line-height:1;">📌</span>
-          <div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:800;">${_overdue.length===1?'1 operazione arretrata':_overdue.length+' operazioni arretrate'}</div>
+          <div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:800;">${_overdue.length===1?'1 operazione arretrata':_overdue.length+' operazioni arretrate'}<${InfoDot} titolo="Operazioni arretrate" testo="Sono lavori con una data già passata che risultano ancora aperti. Indica se li hai fatti, spostali o saltali per tenere il piano aderente a ciò che succede nel prato. La lista deriva dalle date e dagli stati salvati nel calendario: una scadenza passata non significa che il lavoro vada fatto subito."/></div>
           <div class="dt-note" style="margin:2px 0 0;">${_hor.staleness.level==='reset'?'È passato molto tempo: chiudi gli arretrati e poi Ricalibra il piano con l’AI.':'Dimmi cosa è successo: il piano si aggiorna in base alle tue risposte.'}</div></div></div>
         ${_overdue.map(o=>html`<div key=${o.id} style="display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--line2,rgba(0,0,0,.06));flex-wrap:wrap;">
           <div style="flex:1;min-width:140px;"><div style="font-size:12.5px;font-weight:700;">${o.name||o.title||'Operazione'}</div><div class="dt-note" style="margin:0;">${_opISO(o)?new Date(_opISO(o)+'T12:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'short'}):''}</div></div>
@@ -11827,7 +11918,7 @@ function Magazzino2({prof,setPg}){
 
   return html`<div class="rdz olx">
     <div class="rdz-ambient"></div>
-    <div class="head"><div><div class="page-eyebrow">Scorte e prodotti</div><div class="page-title">Il <span class="serif">magazzino</span></div></div></div>
+    <div class="head"><div><div class="page-eyebrow">Scorte e prodotti</div><div class="page-title">Il <span class="serif">magazzino</span><${InfoDot} titolo="Magazzino e scorte" testo="È la lista dei prodotti e delle quantità che hai registrato. Ti aiuta a controllare cosa hai prima di comprare o preparare un trattamento. Le scorte vengono dai dati del magazzino; Riordina compare quando la quantità scende alla soglia prevista per il prodotto, quindi verifica che i dati siano aggiornati."/></div></div></div>
     <div class="mag3 fade">
       <div class="mst"><b>${tot}</b><span>Prodotti</span></div>
       <div class="mst"><b style="color:var(--green-deep)">${ok}</b><span>Scorte ok</span></div>
@@ -11855,15 +11946,33 @@ function ProfiloEditSheet({prof,onClose,onSave}){
   const [grassMix,setGrassMix]=useState(p.grassMixture||'microterme');
   const [gddBase,setGddBase]=useState(String(p.gddBase!=null?p.gddBase:10));
   const [flowRate,setFlowRate]=useState(String(p.flowRateLpm!=null?p.flowRateLpm:''));
-  const [zoneAreas,setZoneAreas]=useState(()=>(Array.isArray(p.zones)?p.zones:[]).map(z=>String(z.area||z.m2||'')));
-  const zones=Array.isArray(p.zones)?p.zones:[];
+  // Le zone si creavano solo nell'onboarding: chi ne voleva una in piu' doveva rifare tutto.
+  const [zoneList,setZoneList]=useState(()=>(Array.isArray(p.zones)?p.zones:[]).map(z=>({...z,area:String(z.area||z.m2||'')})));
+  const zones=zoneList;
+  const nextZoneId=()=>{const used=new Set(zoneList.map(z=>String(z.id||'').toUpperCase()));
+    for(const c of 'ABCDEFGH')if(!used.has(c))return c;
+    return 'Z'+(zoneList.length+1);};
+  const addZone=()=>setZoneList(l=>l.length>=8?l:[...l,{id:nextZoneId(),name:'Zona '+nextZoneId(),area:'',exposure:'semi'}]);
+  const removeZone=(i)=>{
+    const z=zoneList[i]; if(!z)return;
+    const nome=z.name||('Zona '+(z.id||''));
+    // foto, misure e operazioni restano archiviate sull'id della zona: si dice, non si cancella
+    if(typeof window!=='undefined'&&!window.confirm('Eliminare '+nome+'? Le operazioni e le foto gia\' registrate su questa zona restano nello storico, ma non la vedrai piu\' nelle scelte.'))return;
+    setZoneList(l=>l.filter((_,k)=>k!==i));
+  };
+  const setZoneField=(i,k,v)=>setZoneList(l=>l.map((z,n)=>n===i?{...z,[k]:v}:z));
   const num=(s)=>{const v=parseFloat((s||'').toString().replace(',','.'));return isNaN(v)?null:v;};
   const save=()=>{
     const patch={gardenName:gardenName.trim()||p.gardenName,street:street.trim(),streetNumber:streetNumber.trim(),city:city.trim()||p.city,location:city.trim()||p.location,grassMixture:grassMix};
     const ta=num(totalArea);if(ta!=null)patch.totalArea=ta;
     const gb=num(gddBase);if(gb!=null)patch.gddBase=gb;
     const fr=num(flowRate);if(fr!=null)patch.flowRateLpm=fr;
-    if(zones.length){patch.zones=zones.map((z,i)=>{const a=num(zoneAreas[i]);return a!=null?{...z,area:a}:z;});}
+    // le zone valgono anche se svuotate tutte tranne una: mai salvare un elenco vuoto
+    const zs=zoneList.filter(z=>z&&(z.name||'').trim()!=='' ).map((z,i)=>{
+      const a=num(z.area);
+      return {...z,id:z.id||String.fromCharCode(65+i),name:(z.name||('Zona '+(z.id||i+1))).trim(),area:a!=null?a:0};
+    });
+    if(zs.length)patch.zones=zs;
     onSave&&onSave(patch);
   };
   const closeX=html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
@@ -11878,7 +11987,14 @@ function ProfiloEditSheet({prof,onClose,onSave}){
         <div class="frow"><div class="field"><label class="flab">Superficie totale (m²)</label><input class="finput" type="text" inputmode="decimal" value=${totalArea} onInput=${e=>setTotalArea(e.target.value)}/></div><div class="field"><label class="flab">Portata impianto (L/min)</label><input class="finput" type="text" inputmode="decimal" placeholder="es. 8" value=${flowRate} onInput=${e=>setFlowRate(e.target.value)}/></div></div>
         <div class="field"><label class="flab">Tipo prato</label><div class="fchips">${[['microterme','Microterme'],['macroterme','Macroterme'],['misto','Misto']].map(([k,l])=>html`<span key=${k} class=${'fchip'+(grassMix===k?' on':'')} onClick=${()=>setGrassMix(k)}>${l}</span>`)}</div></div>
         <div class="field"><label class="flab">Base GDD (°C)</label><input class="finput" type="text" inputmode="decimal" value=${gddBase} onInput=${e=>setGddBase(e.target.value)}/></div>
-        ${zones.length?html`<div class="field"><label class="flab">Superficie per zona (m²)</label>${zones.map((z,i)=>html`<div class="frow" key=${z.id||i} style="align-items:center;margin-bottom:8px;"><span style="flex:1;font-size:13px;font-weight:700;color:var(--t2);">${z.name||('Zona '+(z.id||(i+1)))}</span><input class="finput" style="flex:1;" type="text" inputmode="decimal" value=${zoneAreas[i]} onInput=${e=>setZoneAreas(a=>{const n=[...a];n[i]=e.target.value;return n;})}/></div>`)}</div>`:''}
+        <div class="field"><label class="flab">Zone del prato<${InfoDot} titolo="Le zone" testo="Una zona e' una porzione di prato che tratti a se': davanti e dietro casa, la parte in ombra, il campo da gioco.\n\nServono a tre cose: dosare i prodotti sui metri quadri giusti, calcolare l'acqua per ogni zona (il sole pieno consuma piu' dell'ombra) e tenere separate foto e misure.\n\nSe hai un prato unico e omogeneo, una zona sola va benissimo."/></label>
+          ${zoneList.map((z,i)=>html`<div class="frow" key=${z.id||i} style="align-items:center;gap:6px;margin-bottom:8px;">
+            <input class="finput" style="flex:1.4;" type="text" placeholder="Nome zona" value=${z.name||''} onInput=${e=>setZoneField(i,'name',e.target.value)}/>
+            <input class="finput" style="flex:1;" type="text" inputmode="decimal" placeholder="m²" value=${z.area} onInput=${e=>setZoneField(i,'area',e.target.value)}/>
+            ${zoneList.length>1?html`<button onClick=${()=>removeZone(i)} aria-label=${'Elimina '+(z.name||'zona')} style="flex:0 0 auto;width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:none;color:var(--t3);font-size:15px;cursor:pointer">🗑</button>`:''}
+          </div>`)}
+          ${zoneList.length<8?html`<button class="dt-goto dt-ghost" style="margin-top:2px;border-style:dashed" onClick=${addZone}>+ Aggiungi zona</button>`:''}
+        </div>
         <button class="sh-save" onClick=${save}>Salva modifiche</button>
       </div>
     </div>
@@ -11903,7 +12019,7 @@ function Profilo2({prof,wx,setPg,setProf,onResetGarden,onLogout,onDeleteAccount}
   const [editSheet,setEditSheet]=useState(false);
   const edit=()=>setEditSheet(true);
   const restartOnboarding=()=>{if(typeof window!=='undefined'&&!window.confirm('Rifare la configurazione guidata da zero? I dati attuali del prato verranno reimpostati.'))return;try{['dss_diagnosis_data','dss_soil_data'].forEach(k=>localStorage.removeItem(k));Object.keys(localStorage).filter(k=>k.startsWith('dss_soil_theta_')).forEach(k=>localStorage.removeItem(k));}catch(e){}if(setProf){setProf(p=>({...(p||{}),onboardingCompleted:false}));}else if(setPg){setPg('profilo');}};
-  const saveProfEdit=(patch)=>{if(!setProf)return;setProf(p=>{const np={...(p||{}),...patch,onboardingCompleted:true};try{S.set('dss_profile',np);}catch(e){}return np;});try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}setEditSheet(false);};
+  const saveProfEdit=(patch)=>{if(!setProf)return;const base=(S.get('dss_profile',null))||prof||{};const np={...base,...patch,onboardingCompleted:true};try{S.set('dss_profile',np);}catch(e){}setProf(np);try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}setEditSheet(false);};
   const doReset=()=>{if(typeof window!=='undefined'&&!window.confirm('Azzerare il giardino? Perderai zone, piano, magazzino e dati registrati.'))return;if(onResetGarden)onResetGarden();};
   const doLogout=()=>{if(onLogout)onLogout();};
   const doDelete=()=>{if(typeof window!=='undefined'&&!window.confirm('Eliminare definitivamente l\'account? Operazione irreversibile.'))return;if(onDeleteAccount)onDeleteAccount();};
@@ -12002,7 +12118,7 @@ function MisuraSuoloSheet({prof,onClose,setPg}){
   return html`<${ModalPortal}><div class="rdz" style="position:fixed;inset:0;z-index:200;padding:0;min-height:0;display:block;gap:0">
     <div class="ov on" onClick=${onClose}></div>
     <div class="sheet on"><div class="sh-handle"></div>
-      <div class="sh-head"><div class="sh-title">Misurazione suolo</div><div class="sh-x" onClick=${onClose}>${closeX}</div></div>
+      <div class="sh-head"><div class="sh-title">Misurazione suolo<${InfoDot} titolo="Misurazione del suolo" testo="Qui registri i valori letti con la tua sonda, associandoli a una zona e a una data. Servono a seguire il terreno nel tempo e a dare al modello di irrigazione un riferimento misurato. I dati vengono dai numeri che inserisci a mano, quindi controlla unità, zona e orario prima di salvare."/></div><div class="sh-x" onClick=${onClose}>${closeX}</div></div>
       <div class="sh-body">
         ${saved?html`<div style="text-align:center;padding:30px 0;"><div style="font-size:40px;color:var(--green);">✓</div><div style="font-size:15px;font-weight:800;margin-top:8px;">Misurazione salvata</div></div>`:html`<div>
         <div class="field"><label class="flab">Zona</label><div class="fchips">${zones.map(z=>html`<span key=${z.id} class=${'fchip'+(zona===z.id?' on':'')} onClick=${()=>setZona(z.id)}>${zName(z.id)}</span>`)}</div></div>
@@ -12944,6 +13060,28 @@ function SvgInline({svg}){
    - Essendo in un useEffect, scatta solo quando il componente MONTA
      (= quando l'utente naviga su quella sezione, non tutte insieme)
    - Al reset onboarding (completeOnboarding) tutti i flag vengono cancellati  */
+/* (i) accanto a una funzione: spiega COSA fa e a cosa serve, senza uscire dalla pagina.
+   Diverso da HelpButton, che apre il tutorial dell'intera sezione. */
+function InfoDot({titolo,testo,size=18}){
+  const [open,setOpen]=useState(false);
+  return html`<span style="display:inline-flex;align-items:center;vertical-align:middle">
+    <button aria-label=${'Cosa significa: '+(titolo||'')} title=${titolo||'Che cos\'è'}
+      onClick=${(e)=>{e.stopPropagation();setOpen(true);}}
+      style=${'flex:0 0 auto;margin-left:6px;width:'+size+'px;height:'+size+'px;border-radius:50%;border:1px solid rgba(107,158,107,.45);background:rgba(107,158,107,.14);color:var(--green,#4A7A4A);font-size:'+(size*0.62)+'px;font-weight:800;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0'}>i</button>
+    ${open?html`<${ModalPortal}><div style="position:fixed;inset:0;z-index:9999;background:rgba(20,26,16,.28);-webkit-backdrop-filter:blur(10px) saturate(115%);backdrop-filter:blur(10px) saturate(115%);display:flex;align-items:center;justify-content:center;padding:18px"
+        onClick=${(e)=>{e.stopPropagation();setOpen(false);}}>
+      <div onClick=${(e)=>e.stopPropagation()} style="max-width:420px;width:100%;background:var(--card,#fff);color:var(--text,#1A2016);border:1px solid var(--line,rgba(0,0,0,.1));border-radius:20px;padding:20px 22px;box-shadow:0 24px 60px rgba(0,0,0,.28)">
+        <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px">
+          <div style="font-size:15px;font-weight:800;flex:1">${titolo||'Che cos\'è'}</div>
+          <button aria-label="Chiudi" onClick=${()=>setOpen(false)} style="border:none;background:none;font-size:20px;line-height:1;cursor:pointer;color:var(--muted,#7C8A6E)">×</button>
+        </div>
+        <div style="font-size:13.5px;line-height:1.55;color:var(--t2,#46413A);white-space:pre-line">${testo}</div>
+        <button onClick=${()=>setOpen(false)} style="margin-top:16px;width:100%;padding:11px;border:none;border-radius:12px;background:var(--green,#4A7A4A);color:#fff;font-weight:700;font-size:13.5px;cursor:pointer">Ho capito</button>
+      </div>
+    </div></${ModalPortal}>`:''}
+  </span>`;
+}
+
 function HelpButton({section}){
   const storKey='dss_help_seen_v2_'+section;
   const [open,setOpen]=useState(false); // SEMPRE false — mai auto-open sincrono
@@ -15926,9 +16064,9 @@ Rispondi SOLO con JSON valido (nessun testo fuori):
   return null;
 }
 async function appendZonePhotoFile(zoneId,file){
-  const b64Full=await new Promise((res,rej)=>{const r=new FileReader();r.onload=ev=>res(ev.target.result);r.onerror=rej;r.readAsDataURL(file);});
-  const b64=b64Full.split(',')[1];
-  const mediaType=file.type||'image/jpeg';
+  const _shrunk=await shrinkImageFile(file);
+  const b64=_shrunk.b64;
+  const mediaType=_shrunk.mediaType;
   // Recupera contesto zona per analisi contestuale (ombre strutturali vs problemi reali)
   const prof=S.get('dss_profile',{})||{};
   const zone=(prof.zones||[]).find(z=>z.id===zoneId)||{};
@@ -17458,7 +17596,7 @@ Rispondi SOLO con JSON (no markdown): [{"week":N,"name":"Nome prodotto o operazi
     <div class="glass" style="margin-bottom:10px"><div class="chat-area">
       ${msgs.length===0?html`<div style="text-align:center;padding:18px 0 8px">
         <div style="font-size:36px;margin-bottom:6px">🌿</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:3px">Dottor Verde</div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:3px">Dottor Verde<${InfoDot} titolo="Dottor Verde" testo="È un assistente AI a cui chiedere spiegazioni e consigli per il prato. Puoi descrivere un problema o inviare una foto per valutare cosa fare. Le risposte usano la conversazione e i dati disponibili del giardino, come meteo, suolo e calendario; possono contenere errori, quindi confrontale con ciò che osservi."/></div>
         <div style="font-size:11px;color:var(--muted);line-height:1.5">Agronomo specializzato · Risponde con i tuoi dati reali<br/>GDD ${gdd} · ${phase.e} ${phase.n} · S.${cw}</div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px">
@@ -17874,11 +18012,11 @@ function App(){
           /* PATCH v9 (G2) — riallinea da Neon al rientro in foreground se il server è più recente
              del nostro ultimo sync E non ci sono modifiche locali pendenti (no clobber). Reload =
              garanzia di stato fresco. Su singolo device non scatta mai (siamo noi a scrivere). */
-          if(!_lwDirty && typeof _lwToken==='function' && _lwToken()){
+          if(!_lwHasPendingLocal() && typeof _lwToken==='function' && _lwToken()){
             fetch('/api/state',{headers:{'Authorization':'Bearer '+_lwToken()}})
               .then(r=>r.ok?r.json():null)
               .then(j=>{
-                if(j&&j.updatedAt&&_lwLastSyncedAt&&!_lwDirty&&
+                if(j&&j.updatedAt&&_lwLastSyncedAt&&!_lwHasPendingLocal()&&
                    new Date(j.updatedAt).getTime()>new Date(_lwLastSyncedAt).getTime()+1500){
                   console.log('[sync] stato Neon più recente → reload per riallineare');
                   location.reload();
@@ -17991,6 +18129,19 @@ function App(){
   /* ── Load cloud data on login ── */
   const loadUserData=async userId=>{
     console.log('[loadUserData] userId:',userId);
+    // Modifiche locali mai confermate (es. l'app e' stata chiusa offline): mandale PRIMA di
+    // leggere, cosi' il server le fonde. Altrimenti il blob cloud, piu' vecchio, le cancella.
+    if(_lwHasPendingLocal()){
+      try{
+        const localProfPending=S.get('dss_profile',null);
+        const localOwnerPending=S.get('dss_owner_uid',null);
+        if(localProfPending&&(!localOwnerPending||localOwnerPending===userId)){
+          console.log('[loadUserData] modifiche locali pendenti → push prima della lettura');
+          await _lwPutState(userId,collectLocalState(localProfPending));
+          _lwMarkDirty(false);
+        } else { _lwMarkDirty(false); } // dati di un altro utente: non vanno spinti nel suo stato
+      }catch(e){ console.warn('[loadUserData] push pendente fallito:',e.message); }
+    }
     const result=await loadCloudWithRetry(userId);
     console.log('[loadUserData] cloud result:',result.status);
     let localProf=S.get('dss_profile');
@@ -18002,6 +18153,17 @@ function App(){
     }
     const localValid=localProf&&isProfileConfigured(localProf);
     const cloudValid=result.status==='ok'&&hasValidGardenData(result.data);
+
+    if(cloudValid&&_lwHasPendingLocal()&&S.get('dss_profile',null)){
+      // il push di riconciliazione (sopra) non e' andato a buon fine: tieni il locale e
+      // riprova al prossimo salvataggio, invece di far vincere un cloud piu' vecchio
+      console.warn('[loadUserData] modifiche locali non sincronizzate → tengo il locale');
+      const keep=S.get('dss_profile',null);
+      setProf({...normalizeProf(keep),_cloudUnreachable:false});
+      S.set('dss_owner_uid',userId);
+      if(keep.lat&&keep.onboardingCompleted)setTimeout(()=>fetchWx(keep),200);
+      return;
+    }
 
     if(cloudValid){
       const raw=result.data.profile;
@@ -18019,7 +18181,8 @@ function App(){
 
     if(result.status==='empty'&&localValid){
       console.log('[loadUserData] cloud empty, using local and syncing up');
-      const pClean={...localProf};delete pClean._cloudUnreachable;
+      // rileggi adesso: tra l'inizio del caricamento e questo punto l'utente puo' aver salvato
+      const pClean={...(S.get('dss_profile',null)||localProf)};delete pClean._cloudUnreachable;
       setProf({...pClean,_cloudUnreachable:false});
       S.set('dss_profile',pClean);
       S.set('dss_owner_uid',userId);
@@ -18031,7 +18194,7 @@ function App(){
     if(result.status==='error'){
       console.warn('[loadUserData] cloud error, using local fallback WITHOUT reset');
       if(localValid){
-        const pClean={...localProf};delete pClean._cloudUnreachable;
+        const pClean={...(S.get('dss_profile',null)||localProf)};delete pClean._cloudUnreachable;
         setProf({...pClean,_cloudUnreachable:false});
         S.set('dss_profile',pClean);
         if(pClean.lat&&pClean.onboardingCompleted)setTimeout(()=>fetchWx(pClean),200);
@@ -18141,22 +18304,12 @@ function App(){
   const profSet=async(newProf)=>{
     setProf(newProf);S.set('dss_profile',newProf);
     const uid=authUser?.id;if(!uid)return;
-    // Raccoglie i flag tutorial visti (dss_help_seen_v2_*) da sincronizzare sul cloud
-    const _tutorialFlags={};
-    try{Object.keys(localStorage).filter(k=>k.startsWith('dss_help_seen_v2_')).forEach(k=>{_tutorialFlags[k]=S.get(k);});}catch{}
-    const allData={profile:newProf,dss_diagnosis_data:S.get('dss_diagnosis_data'),dss_calendar_events:S.get('dss_calendar_events',[]),dss_warehouse_v2:S.get('dss_warehouse_v2',[]),dss_soil_data:S.get('dss_soil_data',[]),dss_irrigation_history:S.get('dss_irrigation_history',[]),dss_zone_photos:S.get('dss_zone_photos',{}),dss_garden_elements:S.get('dss_garden_elements',[]),dss_garden_documents:S.get('dss_garden_documents',[]),dss_garden_meta:S.get('dss_garden_meta',{}),dss_garden_ai_insights:S.get('dss_garden_ai_insights',[]),dss_garden_pending_ops:S.get('dss_garden_pending_ops',[]),dss_custom_products:S.get('dss_custom_products',[]),dss_zone_notes:S.get('dss_zone_notes',{}),dss_warehouse_log:S.get('dss_warehouse_log',[]),dss_consultant_chat:S.get('dss_consultant_chat',[]),..._tutorialFlags};
-    // Aggiunta Step 10.3: sync dinamico di dss_soil_theta_<zoneId> + last_run
-    try{
-      Object.keys(localStorage).filter(k=>k.startsWith('dss_soil_theta')).forEach(k=>{
-        allData[k]=S.get(k);
-      });
-    }catch{}
-    syncCloud(uid,allData);
+    syncCloud(uid,collectLocalState(newProf));
   };
 
   /* ── Sync on-demand da componenti figli (es. chat Dottor Verde) ── */
   useEffect(()=>{
-    const h=()=>{profSet(prof);};
+    const h=()=>{const cur=S.get('dss_profile',null);profSet(cur&&typeof cur==='object'?cur:prof);};
     window.addEventListener('lawnly:sync',h);
     return()=>window.removeEventListener('lawnly:sync',h);
   },[prof,authUser?.id]);
@@ -18403,7 +18556,11 @@ function App(){
     window.location.href=window.location.pathname+'?reset=account';
   },[resetGarden]);
 
-  const handleLogout=async()=>{if(supa)await supa.auth.signOut();S.set('dss_profile',DEF_PROF);setProf({...DEF_PROF});setAuthUser(null);setSession(null);setWx(null);};
+  const handleLogout=async()=>{
+    // prima di uscire, chiudi il salvataggio in sospeso: il debounce di 1s bastava a perdere
+    // l'ultima modifica di chi fa logout subito dopo aver toccato qualcosa
+    try{ if(_lwPending&&_lwHasPendingLocal()){ clearTimeout(syncTimer); await _lwFlushPending(); } }catch(e){ console.warn('[logout] salvataggio finale non riuscito:',e.message); }
+    if(supa)await supa.auth.signOut();S.set('dss_profile',DEF_PROF);setProf({...DEF_PROF});setAuthUser(null);setSession(null);setWx(null);};
 
   useEffect(()=>{
     if(typeof window==='undefined')return;
@@ -18491,7 +18648,27 @@ function App(){
   </div>`;
 }
 
-render(html`<${App}/>`,document.getElementById('app'));
+/* Rete di sicurezza: senza questa, un errore in un solo componente lasciava la pagina bianca
+   e l'unico rimedio era svuotare il browser (perdendo lo stato non sincronizzato). */
+class ErrorBoundary extends preact.Component{
+  constructor(p){super(p);this.state={err:null};}
+  static getDerivedStateFromError(err){return {err};}
+  componentDidCatch(err,info){console.error('[Lawnly] errore non gestito:',err,info);}
+  render(){
+    if(!this.state.err)return this.props.children;
+    const msg=String(this.state.err&&this.state.err.message||this.state.err||'errore');
+    return html`<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--bg,#F4F1E8);color:var(--ink,#1A2016);font-family:-apple-system,Inter,sans-serif">
+      <div style="max-width:420px;text-align:center">
+        <div style="font-size:40px;margin-bottom:10px">🌱</div>
+        <div style="font-size:18px;font-weight:800;margin-bottom:8px">Qualcosa si è inceppato</div>
+        <div style="font-size:13px;line-height:1.5;opacity:.75;margin-bottom:18px">I tuoi dati sono al sicuro sul telefono e sul tuo account. Ricarica la pagina: se ricapita, scrivilo sulla board dei test con questa riga.</div>
+        <div style="font-size:11px;font-family:ui-monospace,monospace;opacity:.6;word-break:break-word;margin-bottom:18px">${msg.slice(0,200)}</div>
+        <button onClick=${()=>location.reload()} style="padding:12px 22px;border:none;border-radius:999px;background:#4A7A4A;color:#fff;font-weight:700;font-size:14px;cursor:pointer">Ricarica</button>
+      </div>
+    </div>`;
+  }
+}
+render(html`<${ErrorBoundary}><${App}/><//>`,document.getElementById('app'));
 </script>
 <style id="rdz-final-overrides">
 /* marker GDD = stesso scorrimento del marker irrigazione */

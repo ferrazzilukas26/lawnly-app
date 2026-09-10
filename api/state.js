@@ -94,29 +94,50 @@ export default async function handler(req, res) {
       const data = body && body.data !== undefined ? body.data : {};
       const baseUpdatedAt = body && body.baseUpdatedAt ? new Date(body.baseUpdatedAt) : null;
 
-      const cur = await sql`select data, updated_at from app_state where user_id = ${uid}`;
+      // Scrittura compare-and-set: leggere e poi scrivere in due passaggi lascia passare
+      // due PUT paralleli (due tab, o un retry che rientra) e l'ultimo cancella l'altro.
+      // Qui si scrive solo se updated_at è ancora quello letto; altrimenti si rifonde e si riprova.
       let finalData = data;
       let merged = false;
-      if (cur.length) {
+      let saved = null;
+
+      for (let attempt = 0; attempt < 4 && !saved; attempt++) {
+        const cur = await sql`select data, updated_at from app_state where user_id = ${uid}`;
+
+        if (!cur.length) {
+          const ins = await sql`
+            insert into app_state (user_id, data, updated_at)
+            values (${uid}, ${JSON.stringify(finalData)}::jsonb, now())
+            on conflict (user_id) do nothing
+            returning updated_at`;
+          if (ins.length) { saved = ins[0].updated_at; break; }
+          continue; // qualcuno ha inserito nel frattempo: rileggi e fondi
+        }
+
         const serverUpdatedAt = new Date(cur[0].updated_at);
         // conflitto: il server è cambiato dopo il base del client (margine 1s per jitter)
         const changedSinceBase = !baseUpdatedAt || serverUpdatedAt.getTime() > baseUpdatedAt.getTime() + 1000;
         if (changedSinceBase) {
           finalData = mergeState(cur[0].data || {}, data);
           merged = true;
+        } else {
+          finalData = data;
         }
+
+        const upd = await sql`
+          update app_state set data = ${JSON.stringify(finalData)}::jsonb, updated_at = now()
+          where user_id = ${uid} and updated_at = ${cur[0].updated_at}
+          returning updated_at`;
+        if (upd.length) saved = upd[0].updated_at;
+        // 0 righe = un'altra scrittura è passata in mezzo: si rilegge e si rifonde
       }
 
-      const rows = await sql`
-        insert into app_state (user_id, data, updated_at)
-        values (${uid}, ${JSON.stringify(finalData)}::jsonb, now())
-        on conflict (user_id) do update set data = excluded.data, updated_at = now()
-        returning updated_at
-      `;
+      if (!saved) { res.status(409).json({ error: { message: 'conflitto di scrittura, riprova' } }); return; }
+
       res.status(200).json({
         ok: true,
         merged,
-        updatedAt: rows.length ? rows[0].updated_at : null,
+        updatedAt: saved,
         // ritorna il blob fuso SOLO in caso di merge, così il client adotta lo stato riconciliato
         data: merged ? finalData : undefined
       });
