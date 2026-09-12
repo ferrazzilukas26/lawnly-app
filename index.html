@@ -927,6 +927,12 @@ html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
 .rdz .psec.open .psec-body{display:block;animation:gvIn .3s ease;}
 .rdz .pf-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px dashed var(--line2);}
 .rdz .pf-row:first-child{border-top:none;}
+.rdz .centralina fieldset{border:0;padding:0;min-width:0;margin-inline:0;}
+.rdz .centralina button{font-family:inherit;}
+.rdz .centralina .fswitch{color:var(--ink);}
+.rdz .centralina button:disabled{opacity:.5;cursor:default;}
+.rdz .centralina :focus-visible{outline:2px solid var(--green);outline-offset:3px;}
+.rdz .centralina .frow>*{min-width:0;}
 .rdz .pf-row .k{font-size:12.5px;color:var(--t3);}
 .rdz .pf-row .v{font-size:12.5px;font-weight:700;color:var(--ink);text-align:right;}
 .rdz .pf-edit{margin-top:11px;width:100%;padding:9px;border-radius:999px;background:var(--card2);border:1px solid var(--line2);color:var(--ink);font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;}
@@ -9096,6 +9102,10 @@ SEPARAZIONE NETTA storico/futuro:
 - QUANDO L'UTENTE CONFERMA (anche solo "sì", "ok", "procedi", "aggiorna"): DEVI emettere il blocco
   CALENDAR_UPDATE con le operazioni proposte, settimane >= corrente e status:"programmato".
   Rispondere "ho aggiornato il piano" senza emettere il blocco NON aggiorna niente: è l'errore da non fare mai.
+  Alla conferma NON fare altre domande e non rimandare: emetti subito il blocco con le operazioni che hai
+  appena descritto, usando i dati che hai. Se ti manca un dettaglio, scegli l'ipotesi più prudente e scrivila
+  nelle note dell'operazione.
+- ANNO: il campo "year" è SEMPRE l'anno corrente indicato in CONTESTO PRATO ATTIVO. Non usare mai un anno diverso.
 
 REGOLE CALENDARIO — IRRIGAZIONE:
 - L'irrigazione NON è mai un'operazione standalone nel calendario. VIETATO creare eventi "Irrigazione settimanale" come voci separate.
@@ -11189,7 +11199,7 @@ function Oggi({wx,prof,setPg}){
   const delIrr=(id)=>{try{const all=S.get('dss_irrigation_history',[])||[];S.set('dss_irrigation_history',all.filter(h=>h&&h.id!==id));try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}}catch(e){}setHistTick(t=>t+1);};
   const [editIrr,setEditIrr]=useState(null);
   const [editMin,setEditMin]=useState('');
-  const saveIrrEdit=()=>{if(!editIrr)return;const m=parseFloat((editMin||'').toString().replace(',','.'))||0;const z0=(editIrr.zones&&editIrr.zones[0])||{};const fr=(prof&&prof.flowRateLpm)||((z0.minutes&&editIrr.totalLiters)?(editIrr.totalLiters/z0.minutes):8);const lit=Math.round(m*fr);const all=S.get('dss_irrigation_history',[])||[];const i=all.findIndex(x=>x&&x.id===editIrr.id);if(i>=0){all[i]={...all[i],zones:[{...z0,minutes:m,liters:lit}],totalLiters:lit};S.set('dss_irrigation_history',all);try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}}setEditIrr(null);setHistTick(t=>t+1);};
+  const saveIrrEdit=()=>{if(!editIrr)return;const m=parseFloat((editMin||'').toString().replace(',','.'))||0;const z0=(editIrr.zones&&editIrr.zones[0])||{};const fr=(prof&&prof.flowRateLpm)||((z0.minutes&&editIrr.totalLiters)?(editIrr.totalLiters/z0.minutes):8);const lit=Math.round(m*fr);const all=S.get('dss_irrigation_history',[])||[];const i=all.findIndex(x=>x&&x.id===editIrr.id);if(i>=0){const editedZones=all[i].auto?(all[i].zones||[]).map(z=>({...z,minutes:m,minutesAtFlowRate:m,liters:m*(prof?.flowRateLpm??IRRIG_FLOW_LMIN)})):[{...z0,minutes:m,liters:lit}];all[i]={...all[i],zones:editedZones,totalLiters:editedZones.reduce((sum,z)=>sum+z.liters,0)};S.set('dss_irrigation_history',all);try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}}setEditIrr(null);setHistTick(t=>t+1);};
   const _irrFmt=(h)=>{const d=new Date(h.timestamp||h.date||Date.now());const zn=(h.zones&&h.zones[0]&&(h.zones[0].name))||'Prato';const mins=(h.zones&&h.zones[0]&&(h.zones[0].minutes))||null;const lit=h.totalLiters||(h.zones&&h.zones[0]&&h.zones[0].liters)||null;return{dd:d.toLocaleDateString('it-IT',{day:'numeric',month:'short'}),zn,mins,lit};};
 
   const name=(prof&&(prof.userName||prof.gardenName||prof.ownerName))||'';
@@ -11462,6 +11472,8 @@ function Oggi({wx,prof,setPg}){
         <div class="verdict-d">${vReason}</div></div>
       <span class="vchev">${goChev}</span>
     </div>
+
+    <${Centralina} wx=${wx} setPg=${setPg}/>
 
     <div class="card next-card fade" onClick=${openS('sh-prossimo')}>
       <div class="next"><div class="next-ic">${isMech?html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M4 16h16M4 16v5M8 16v5M12 16v5M16 16v5M20 16v5"/></svg>`:html`<svg class="ic-spray" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21.5h5.2a2 2 0 0 0 2-2v-6.6a2.6 2.6 0 0 0-2.6-2.6H9a2 2 0 0 0-2 2v7.2a2 2 0 0 0 2 2Z"/><path d="M9.6 10.3V7.4h4v2.9"/><path d="M13.6 7.4h3.3a1.6 1.6 0 0 1 1.6 1.6"/><path d="M7.4 14.6h8.6"/><g fill="currentColor" stroke="none"><circle cx="20.6" cy="6.2" r=".85"/><circle cx="22" cy="7.7" r=".75"/><circle cx="20.9" cy="9.2" r=".7"/></g></svg>`}</div>
@@ -12040,6 +12052,99 @@ function ProAccountCard(){
     <div style="font-size:12.5px;margin-top:12px;text-align:center;">${link('privacy.html','Informativa privacy')} · ${link('termini.html','Termini di servizio')}</div>
   </div>`;
 }
+/* Stessa card in Oggi e Profilo; l'editor segue righe e campi del profilo. */
+function Centralina({wx,setPg,editor=false}){
+  const [,refresh]=useState(0), [draft,setDraft]=useState(null), [error,setError]=useState('');
+  useEffect(()=>{const update=()=>refresh(n=>n+1);window.addEventListener('lawnly:sync',update);return()=>window.removeEventListener('lawnly:sync',update);},[]);
+  const prof=S.get('dss_profile',{})||{};
+  const ctrl=prof.controller||{on:false,rainSkipMm:5,programs:[]};
+  const programs=ctrl.programs||[], zones=prof.zones||[], now=new Date();
+  const weekdays=['Dom','Lun','Mar','Mer','Gio','Ven','Sab'];
+  const zoneNames=ids=>ids.map(id=>zones.find(z=>z.id===id)?.name||('Zona '+id)).join(', ');
+  const patch=change=>{
+    const fresh=S.get('dss_profile',{})||{};
+    S.set('dss_profile',{...fresh,controller:{on:false,rainSkipMm:5,lastRun:new Date().toISOString(),programs:[],...fresh.controller,...change}});
+    window.dispatchEvent(new CustomEvent('lawnly:sync'));refresh(n=>n+1);
+  };
+  const toggle=()=>{
+    runControllerCatchup();
+    const fresh=S.get('dss_profile',{})||{};
+    patch({on:!fresh.controller?.on,lastRun:new Date().toISOString()});
+  };
+  let next=null;
+  if(ctrl.on)for(const program of programs){
+    if(!program.zones?.length||!program.days?.length||!/^([01]\d|2[0-3]):[0-5]\d$/.test(program.time))continue;
+    const [hour,minute]=program.time.split(':').map(Number);
+    for(let offset=0;offset<=7;offset++){
+      const at=new Date(now);at.setDate(at.getDate()+offset);at.setHours(hour,minute,0,0);
+      if(at>now&&program.days.includes(at.getDay())){if(!next||at<next.at)next={program,at};break;}
+    }
+  }
+  const today=now.toLocaleDateString('sv-SE'), tomorrow=new Date(now);tomorrow.setDate(tomorrow.getDate()+1);
+  const nextDate=next?.at.toLocaleDateString('sv-SE');
+  const nextLabel=nextDate===today?'oggi':nextDate===tomorrow.toLocaleDateString('sv-SE')?'domani':next?.at.toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'short'});
+  const nextWeather=wx?.forecast7?.find(d=>d.date===nextDate);
+  const nextRain=Number(nextWeather?.precipitation??nextWeather?.rain??0);
+  const hours=(wx?.hourly?.time||[]).map((t,i)=>({at:new Date(t),rain:Number(wx.hourly.precip?.[i]||0)})).filter(h=>h.at>now&&h.at.getTime()<=now.getTime()+864e5);
+  const rain24=hours.length?hours.reduce((sum,h)=>sum+h.rain,0):null;
+  const threshold=Number(ctrl.rainSkipMm??5);
+  const forced=next&&(ctrl.forceRuns||[]).some(r=>r.programId===next.program.id&&r.timestamp===next.at.toISOString());
+  const skipNext=next&&nextRain>=threshold&&!forced;
+  const rainAlert=next&&(rain24!=null&&rain24>=threshold||next.at-now<=864e5&&nextRain>=threshold);
+  const skipped=(ctrl.runs||[]).filter(r=>r.status==='skipped'&&now-new Date(r.timestamp)<864e5).length;
+  const edit=program=>{setError('');setDraft(program?{...program,zones:[...program.zones],days:[...program.days]}:{id:'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),name:'',zones:zones[0]?[zones[0].id]:[],days:[1,3,5],time:'06:30',minutes:20});};
+  const save=e=>{
+    e.preventDefault();
+    const validZones=(S.get('dss_profile',{})?.zones||[]).map(z=>z.id);
+    if(!draft.name.trim()||!draft.zones.length||draft.zones.some(id=>!validZones.includes(id))||!draft.days.length||!/^([01]\d|2[0-3]):[0-5]\d$/.test(draft.time)||!Number.isFinite(Number(draft.minutes))||Number(draft.minutes)<=0){setError('Inserisci nome, almeno una zona esistente, un giorno, ora e minuti maggiori di zero.');return;}
+    runControllerCatchup();
+    const current=S.get('dss_profile',{})?.controller?.programs||[];
+    if(!current.some(p=>p.id===draft.id)&&current.length>=8){setError('Puoi salvare al massimo 8 programmi.');return;}
+    const saved={...draft,name:draft.name.trim(),minutes:Number(draft.minutes)};
+    patch({programs:current.some(p=>p.id===saved.id)?current.map(p=>p.id===saved.id?saved:p):[...current,saved],lastRun:new Date().toISOString()});setDraft(null);
+  };
+  const remove=id=>{
+    runControllerCatchup();
+    const current=S.get('dss_profile',{})?.controller||{};
+    patch({programs:(current.programs||[]).filter(p=>p.id!==id),forceRuns:(current.forceRuns||[]).filter(r=>r.programId!==id)});
+    if(draft?.id===id)setDraft(null);
+  };
+  return html`<section class="card centralina" aria-label="Centralina">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <h2 style="font-size:18px;margin:0">Centralina</h2>
+      <button type="button" class=${'fswitch'+(ctrl.on?' on':'')} role="switch" aria-checked=${!!ctrl.on} aria-label="Registrazione automatica centralina" onClick=${toggle}><span class="fswitch-t">${ctrl.on?'Accesa':'Spenta'}</span><span class="sw" aria-hidden="true"><i></i></span></button>
+    </div>
+    ${!editor?html`<p class="dt-note">Registra da sola le irrigazioni dei tuoi programmi. Non comanda l'acqua: quella resta sulla centralina di casa.</p>`:''}
+    ${editor?html`<p class="dt-note">Copia qui gli stessi programmi della tua centralina di casa. Lawnly registra le irrigazioni all'apertura e al rientro nell'app, recuperando fino a 7 giorni. Per accendere o sospendere l'acqua, agisci sulla centralina fisica.</p>`:''}
+    ${!ctrl.on||!programs.length?html`<p class="dt-note">${!programs.length?'Aggiungi i programmi della tua centralina per registrare le irrigazioni in automatico.':'Registrazione automatica spenta. Controlla i programmi e accendila quando sei pronto.'}</p>`:next?html`
+      <p style="margin:14px 0 0;overflow-wrap:anywhere">${zoneNames(next.program.zones)} · ${nextLabel} ${next.program.time} · ${next.program.minutes} min</p>
+      ${rainAlert||skipNext?html`<div class="dt-note">
+        ${rain24!=null&&rain24>=threshold?('Pioggia nelle prossime 24 ore: ~'+rain24.toFixed(1)+' mm. '):('Pioggia prevista '+nextLabel+': ~'+nextRain.toFixed(1)+' mm. ')}
+        ${skipNext?('Sospendo la registrazione di '+nextLabel+' ('+next.program.name+'). Spegni anche la centralina di casa.'):forced?'La prossima irrigazione verrà registrata anche se piove.':'La prossima irrigazione resta programmata: la sospensione dipende dalla pioggia del suo giorno.'}
+        ${!forced?html`<button type="button" class="pf-edit" onClick=${()=>{const current=S.get('dss_profile',{})?.controller||{};patch({forceRuns:[...(current.forceRuns||[]),{programId:next.program.id,timestamp:next.at.toISOString()}]});}}>Registra comunque la prossima</button>`:''}
+      </div>`:forced?html`<p class="dt-note">La prossima irrigazione verrà registrata anche se piove.</p>`:''}
+      ${!wx?.forecast7?.length?html`<p class="dt-note">In attesa del meteo per recuperare le irrigazioni.</p>`:''}
+    `:html`<p class="dt-note">Controlla zone, giorni e orari dei programmi.</p>`}
+    <div role="status">${skipped?html`<p class="dt-note">${skipped} ${skipped===1?'irrigazione saltata':'irrigazioni saltate'} per pioggia nelle ultime 24 ore</p>`:''}</div>
+    ${editor?html`
+      <label class="flab" for="ctrl-rain">Sospendi da (mm di pioggia nel giorno)</label>
+      <input id="ctrl-rain" class="finput" type="number" min="0" step="0.5" value=${threshold} onChange=${e=>{const mm=Number(e.target.value);if(e.target.value!==''&&Number.isFinite(mm)&&mm>=0){runControllerCatchup();patch({rainSkipMm:mm});}else e.target.value=threshold;}}/>
+      ${programs.map(program=>html`<div class="pf-row" key=${program.id} style="flex-wrap:wrap">
+        <div style="min-width:0;flex:1;overflow-wrap:anywhere"><b>${program.name}</b><div class="dt-note" style="margin-top:4px">${zoneNames(program.zones)} · ${program.days.map(d=>weekdays[d]).join(', ')} · ${program.time} · ${program.minutes} min</div></div>
+        <button type="button" class="pf-edit" aria-label=${'Modifica '+program.name} onClick=${()=>edit(program)}>Modifica</button><button type="button" class="pf-edit" aria-label=${'Elimina '+program.name} onClick=${()=>remove(program.id)}>Elimina</button>
+      </div>`)}
+      ${draft?html`<form onSubmit=${save} style="margin-top:16px">
+        <div class="field"><label class="flab" for="ctrl-name">Nome programma</label><input id="ctrl-name" class="finput" required maxlength="60" value=${draft.name} onInput=${e=>setDraft({...draft,name:e.target.value})}/></div>
+        <fieldset class="field"><legend class="flab">Zone</legend><div class="fchips">${zones.map(z=>html`<button type="button" key=${z.id} class=${'fchip'+(draft.zones.includes(z.id)?' on':'')} aria-pressed=${draft.zones.includes(z.id)} onClick=${()=>setDraft({...draft,zones:draft.zones.includes(z.id)?draft.zones.filter(id=>id!==z.id):[...draft.zones,z.id]})}>${z.name||('Zona '+z.id)}</button>`)}</div>${!zones.length?html`<p class="dt-note">Aggiungi prima una zona in Giardino e superficie.</p>`:''}</fieldset>
+        <fieldset class="field"><legend class="flab">Giorni della settimana</legend><div class="fchips">${[1,2,3,4,5,6,0].map(d=>html`<button type="button" key=${d} class=${'fchip'+(draft.days.includes(d)?' on':'')} aria-pressed=${draft.days.includes(d)} onClick=${()=>setDraft({...draft,days:draft.days.includes(d)?draft.days.filter(day=>day!==d):[...draft.days,d]})}>${weekdays[d]}</button>`)}</div></fieldset>
+        <div class="frow"><div class="field"><label class="flab" for="ctrl-time">Ora locale</label><input id="ctrl-time" class="finput" type="time" required value=${draft.time} onInput=${e=>setDraft({...draft,time:e.target.value})}/></div><div class="field"><label class="flab" for="ctrl-minutes">Minuti per zona</label><input id="ctrl-minutes" class="finput" type="number" min="1" step="1" required value=${draft.minutes} onInput=${e=>setDraft({...draft,minutes:e.target.value})}/></div></div>
+        ${error?html`<p role="alert" class="dt-note">${error}</p>`:''}
+        <button class="sh-save" type="submit">Salva programma</button><button type="button" class="pf-edit" onClick=${()=>setDraft(null)}>Annulla</button>
+      </form>`:html`<button type="button" class="pf-edit" disabled=${programs.length>=8} onClick=${()=>edit(null)}>Aggiungi programma (${programs.length}/8)</button>`}
+    `:html`<button type="button" class="pf-edit" onClick=${()=>setPg('profilo2')}>Configura centralina</button>`}
+  </section>`;
+}
+
 function Profilo2({prof,wx,setPg,setProf,onResetGarden,onLogout,onDeleteAccount}){
   const [openSec,setOpenSec]=useState(0);
   const name=(prof&&(prof.userName||prof.gardenName||prof.ownerName))||'Profilo';
@@ -12112,6 +12217,7 @@ function Profilo2({prof,wx,setPg,setProf,onResetGarden,onLogout,onDeleteAccount}
           ${editBtn('Ricalibra modello')}
         </div></div>
     </div>
+    <${Centralina} wx=${wx} editor=${true}/>
     <div class="card fade">
       <div class="c-eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg> Aspetto</div>
       <div class="fchips" style="margin-top:4px;">${[['light','Chiaro'],['dark','Scuro'],['auto','Automatico']].map(([k,l])=>html`<span key=${k} class=${'fchip'+(theme===k?' on':'')} onClick=${()=>applyTheme(k)}>${l}</span>`)}</div>
@@ -15927,9 +16033,9 @@ const IRRIGATION_EVENT='lawnly:irrigation-changed';
 function emitIrrigationChanged(){
   try{window.dispatchEvent(new CustomEvent(IRRIGATION_EVENT));}catch{}
 }
-function appendIrrigationHistoryEntry({zonesDetail,et,note,timestamp}){
+function appendIrrigationHistoryEntry({zonesDetail,et,note,timestamp,auto,programId}){
   const totL=zonesDetail.reduce((s,z)=>s+(z.liters||0),0);
-  const entry={id:Date.now(),timestamp:timestamp||new Date().toISOString(),zones:zonesDetail,totalLiters:totL,et,note:note||''};
+  const entry={id:auto?('controller:'+programId+':'+timestamp):Date.now(),timestamp:timestamp||new Date().toISOString(),zones:zonesDetail,totalLiters:totL,et,note:note||'',...(auto?{auto:true,programId,date:new Date(timestamp).toLocaleDateString('sv-SE')}:{})};
   const hist=S.get('dss_irrigation_history',[])||[];
   const n=[entry,...hist].slice(0,100);
   S.set('dss_irrigation_history',n);
@@ -15937,6 +16043,62 @@ function appendIrrigationHistoryEntry({zonesDetail,et,note,timestamp}){
   try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch{}
   return n;
 }
+/* Centralina virtuale: nessun comando hardware; recupero locale degli ultimi 7 giorni. */
+function runControllerCatchup(){
+  const prof=S.get('dss_profile',{})||{}, ctrl=prof.controller;
+  const now=new Date(), cutoff=now.getTime()-7*864e5;
+  const result={registered:0,skipped:0};
+  if(!ctrl?.on||!ctrl.programs?.length)return result;
+  const wx=window.__LAWNLY_WX__;
+  // All'avvio attendi il meteo: il caricamento richiama il recupero.
+  if(!wx?.forecast7?.length)return {...result,pending:true};
+  const last=Date.parse(ctrl.lastRun), start=Math.max(Number.isFinite(last)?last:cutoff,cutoff);
+  if(start>=now.getTime())return result;
+  const runs=(ctrl.runs||[]).filter(r=>Date.parse(r.timestamp)>=cutoff);
+  const hist=S.get('dss_irrigation_history',[])||[];
+  const seen=new Set([...runs,...hist.filter(h=>h?.auto)].map(r=>r.programId+'|'+r.timestamp));
+  const occurrences=[];
+  for(const program of ctrl.programs.slice(0,8)){
+    if(!program.id||!Array.isArray(program.days)||!program.zones?.length||!/^([01]\d|2[0-3]):[0-5]\d$/.test(program.time)||!(Number(program.minutes)>0))continue;
+    const [hour,minute]=program.time.split(':').map(Number);
+    for(const day=new Date(start);day.getTime()<=now.getTime();day.setDate(day.getDate()+1)){
+      // Il contatore avanza a mezzanotte locale, anche nei giorni di cambio DST.
+      day.setHours(0,0,0,0);
+      if(!program.days.includes(day.getDay()))continue;
+      const at=new Date(day);at.setHours(hour,minute,0,0);
+      if(at.getTime()>start&&at.getTime()<=now.getTime())occurrences.push({program,at});
+    }
+  }
+  occurrences.sort((a,b)=>a.at-b.at);
+  for(const {program,at} of occurrences){
+    const timestamp=at.toISOString(), key=program.id+'|'+timestamp;
+    if(seen.has(key))continue;
+    const day=at.toLocaleDateString('sv-SE');
+    const weather=wx.forecast7.find(d=>d.date===day);
+    const rain=Number(weather?.precipitation??weather?.rain??0);
+    const forced=(ctrl.forceRuns||[]).some(r=>r.programId===program.id&&r.timestamp===timestamp);
+    if(!forced&&rain>=Number(ctrl.rainSkipMm??5)){
+      runs.push({programId:program.id,timestamp,status:'skipped',rainMm:rain});result.skipped++;
+    }else{
+      const minutes=Number(program.minutes), flow=prof.flowRateLpm??IRRIG_FLOW_LMIN;
+      const zonesDetail=[...new Set(program.zones)].map(id=>({id,name:(prof.zones||[]).find(z=>z.id===id)?.name||('Zona '+id),minutes,minutesAtFlowRate:minutes,liters:minutes*flow}));
+      appendIrrigationHistoryEntry({zonesDetail,et:weather?.et0??null,note:'Centralina · '+program.name,timestamp,auto:true,programId:program.id});
+      runs.push({programId:program.id,timestamp,status:'registered'});result.registered++;
+    }
+    seen.add(key);
+  }
+  // Gli eventi emessi dall'helper possono aver aggiornato altri campi del profilo.
+  const fresh=S.get('dss_profile',{})||{};
+  if(fresh.controller){
+    const merged=new Map([...(fresh.controller.runs||[]),...runs].filter(r=>Date.parse(r.timestamp)>=cutoff).map(r=>[r.programId+'|'+r.timestamp,r]));
+    S.set('dss_profile',{...fresh,controller:{...fresh.controller,lastRun:now.toISOString(),runs:[...merged.values()],forceRuns:(fresh.controller.forceRuns||[]).filter(r=>Date.parse(r.timestamp)>now.getTime())}});
+    window.dispatchEvent(new CustomEvent('lawnly:sync'));
+  }
+  if(result.registered&&typeof showGlobalToast==='function')showGlobalToast(result.registered+' '+(result.registered===1?'irrigazione registrata':'irrigazioni registrate')+' dalla centralina','success',6000);
+  return result;
+}
+window.__LAWNLY_CTRL__=runControllerCatchup;
+
 function soilEntrySideEffects(entry){
   const evs=S.get('dss_calendar_events',[])||[];
   const cw=curWeek();
@@ -17499,6 +17661,10 @@ Non consigliare prodotti fuori da questa lista salvo richiesta esplicita dell'ut
         try{
           const _allOps=JSON.parse(calUpdateMatch[1]);
           const _cw=curWeek();
+          // ponytail: l'anno lo mettiamo noi, il modello sbaglia (ha emesso 2025 per operazioni di quest'anno)
+          // e le voci finivano in un anno che il calendario non mostra. Storico pluriennale non supportato:
+          // se servira', passare l'anno nel blocco e fidarsi solo se e' <= corrente.
+          const _yr=new Date().getFullYear();
           // Passato e futuro nello stesso blocco: le passate si marcano completate,
           // le future entrano nel piano come 'programmato' (feedback Elia: "dico si' e non succede nulla")
           const ops=_allOps;
@@ -17522,7 +17688,7 @@ Non consigliare prodotti fuori da questa lista salvo richiesta esplicita dell'ut
               if(!updatedEvs.some(e=>_similar(op,e,1)))addedNew.push({
                 id:'chat_plan_'+Date.now()+'_'+Math.random().toString(36).slice(2),
                 name:op.name,type:op.type||'trattamento',
-                week:op.week,year:op.year||new Date().getFullYear(),
+                week:op.week,year:_yr,
                 status:'programmato',doses:[],
                 product:op.product||null,
                 notes:op.notes||'',ai_generated:true,from_chat:true
@@ -17539,7 +17705,7 @@ Non consigliare prodotti fuori da questa lista salvo richiesta esplicita dell'ut
               addedNew.push({
                 id:'chat_hist_'+Date.now()+'_'+Math.random().toString(36).slice(2),
                 name:op.name,type:op.type||'trattamento',
-                week:op.week,year:op.year||new Date().getFullYear(),
+                week:op.week,year:_yr,
                 status:'completato',doses:[],
                 notes:op.notes||'',ai_generated:true,from_chat:true
               });
@@ -17561,9 +17727,44 @@ Non consigliare prodotti fuori da questa lista salvo richiesta esplicita dell'ut
       if(mounted.current){
         setMsgs(upd);
         const isStorico=/storico|registr|ho fatto|ho dato|ho applicato|ho eseguito|lavorazioni fatte|operazioni fatte|aggiornare.*calendario|calendario.*aggiornare|cos.ho fatto|quello che ho fatto/i.test(msg||'');
+        // Conferma breve dell'utente ("si'", "ok", "procedi", "aggiorna il piano"): il piano proposto va scritto.
+        const _isConferma=/^\s*(s[i\u00ec]\b|ok\b|okay\b|va bene|certo\b|procedi|conferm|aggiorna)/i.test((msg||'').trim());
         // Se CALENDAR_UPDATE è già stato emesso non avviare estrazione parallela (evita duplicati)
         if(calUpdateMatch){
           // nessuna ulteriore estrazione — il blocco CALENDAR_UPDATE è sufficiente
+        }else if(_isConferma){
+          // #5 Elia: l'utente conferma ma il modello a volte non emette il blocco (haiku, comportamento
+          // non deterministico). Secondo giro dedicato: estrae le operazioni FUTURE dal piano appena proposto.
+          const cw=curWeek();const yr=new Date().getFullYear();
+          const _prevAssist=[...newMsgs].reverse().find(m=>m.role==='assistant')?.content||'';
+          const exSys='Sei un estrattore JSON. Rispondi SOLO con un array JSON valido, senza testo aggiuntivo, senza markdown.';
+          const exPrompt=`Estrai le operazioni FUTURE da programmare nel calendario, dal piano proposto qui sotto.
+Piano proposto: """${_prevAssist}
+${displayRep}"""
+Anno ${yr} · settimana attuale ${cw}. Usa solo week fra ${cw} e ${cw+12}. Nessuna voce di sola irrigazione.
+Se il piano non contiene operazioni concrete rispondi [].
+Rispondi SOLO con JSON: [{"week":N,"name":"Nome operazione","type":"trattamento","status":"programmato","notes":""}]`;
+          aiCall(exPrompt,exSys,400,true).then(exResp=>{
+            try{
+              const m3=exResp.match(/\[[\s\S]*\]/);
+              if(!m3)return;
+              const ops3=JSON.parse(m3[0]).filter(o=>o&&o.name&&o.week>=cw&&o.week<=cw+12);
+              if(!ops3.length||!mounted.current)return;
+              const _evs3=S.get('dss_calendar_events',[])||[];
+              const _bn3=n=>(n||'').toLowerCase().replace(/[^a-z0-9\s]/gi,' ').trim().split(/\s+/).slice(0,2).join(' ');
+              const _sim3=(a,b)=>{if(Math.abs((a.week||0)-(b.week||0))>1)return false;const ba=_bn3(a.name),bb=_bn3(b.name);return ba&&bb&&(ba===bb||ba.includes(bb)||bb.includes(ba));};
+              const _add3=ops3.filter(o=>!_evs3.some(e=>_sim3(o,e))).map(o=>({
+                id:'chat_plan_'+Date.now()+'_'+Math.random().toString(36).slice(2),
+                name:o.name,type:o.type||'trattamento',week:o.week,year:yr,
+                status:'programmato',doses:[],notes:o.notes||'',ai_generated:true,from_chat:true
+              }));
+              if(!_add3.length)return;
+              S.set('dss_calendar_events',[..._evs3,..._add3]);
+              showGlobalToast('\u2713 '+_add3.length+' operazioni aggiunte al piano','success',4000);
+              window.dispatchEvent(new CustomEvent('lawnly:sync'));
+              setMsgs(m=>[...m,{role:'system_note',content:'\u2705 '+_add3.length+' operazioni aggiunte al calendario'}]);
+            }catch(e3){console.warn('[extract piano fallback]',e3);}
+          }).catch(()=>{});
         }else if(isStorico){
           // Fallback: secondo AI call dedicato all'estrazione JSON dal messaggio utente
           const cw=curWeek();const yr=new Date().getFullYear();
@@ -18399,6 +18600,10 @@ function App(){
       if(ageMin>30) fetchWx(prof,false);
     }
   },[wxRefreshKey]);
+
+  useEffect(()=>{
+    if(!authLoading){runControllerCatchup();}
+  },[authLoading,wx,wxRefreshKey,prof?.controller?.on]);
 
   /* Auto-refresh orario: ogni 60 min controlla e ricarica se dati stale */
   useEffect(()=>{
