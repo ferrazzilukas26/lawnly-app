@@ -6753,9 +6753,102 @@ async function loadWxCached(lat,lon,year,gddBase,tz,grassType,forceFresh){
 
 const wxEmoji=c=>{if(c==null)return'❓';if(c===0)return'☀️';if(c<=3)return'⛅';if(c<=48)return'🌫️';if(c<=57)return'🌦️';if(c<=67)return'🌧️';if(c<=77)return'🌨️';return'⛈️'};
 
-/* Le icone meteo di Weather Icons sono state tolte: il foglio di stile rispondeva 404 da
-   tempo e nessuno chiamava piu' wxIcon/wxMeta/getMeteoIcon (verificato: zero riferimenti).
-   Le previsioni usano gli SVG inline di _wxIcon. */
+/* Weather Icons non c'e' piu' (il foglio di stile rispondeva 404): tolto `wxIcon`, che era
+   l'unica cosa a renderizzare quelle classi e non aveva chiamanti. Il resto RESTA: `wxMeta`
+   serve ancora a loadWxCached per condizione, intensita' ed etichetta del meteo. */
+/* Nomi stile meteocons (Bas Milius) per API/log — rendering: METEOCON_NAME_TO_WI + Weather Icons CSS.
+   Cartella public/meteocons/ assente: nessun file .svg in repo; mappati su classi wi-* correnti. */
+const WMO_ICON_MAP={
+  0:  {day:'clear-day',            night:'clear-night'},
+  1:  {day:'partly-cloudy-day',    night:'partly-cloudy-night'},
+  2:  {day:'partly-cloudy-day',    night:'partly-cloudy-night'},
+  3:  {day:'cloudy',               night:'cloudy'},
+  45: {day:'fog',                  night:'fog'},
+  48: {day:'fog',                  night:'fog'},
+  51: {day:'drizzle',              night:'drizzle'},
+  53: {day:'drizzle',              night:'drizzle'},
+  55: {day:'drizzle',              night:'drizzle'},
+  56: {day:'sleet',                night:'sleet'},
+  57: {day:'sleet',                night:'sleet'},
+  61: {day:'rain',                 night:'rain'},
+  63: {day:'rain',                 night:'rain'},
+  65: {day:'rain',                 night:'rain'},
+  66: {day:'sleet',                night:'sleet'},
+  67: {day:'sleet',                night:'sleet'},
+  71: {day:'snow',                 night:'snow'},
+  73: {day:'snow',                 night:'snow'},
+  75: {day:'snow',                 night:'snow'},
+  77: {day:'hail',                 night:'hail'},
+  80: {day:'rain',                 night:'rain'},
+  81: {day:'rain',                 night:'rain'},
+  82: {day:'extreme-rain',         night:'extreme-rain'},
+  85: {day:'snow',                 night:'snow'},
+  86: {day:'snow',                 night:'snow'},
+  95: {day:'thunderstorms',        night:'thunderstorms'},
+  96: {day:'thunderstorms-rain',   night:'thunderstorms-rain'},
+  99: {day:'thunderstorms-rain',   night:'thunderstorms-rain'}
+};
+const WMO_TEXT_META={
+  0:  {condition:'sereno',             intensity:'none',    label:'Sereno'},
+  1:  {condition:'prev_sereno',        intensity:'leggera', label:'Prev. sereno'},
+  2:  {condition:'parz_nuvoloso',      intensity:'media',   label:'Parz. nuvoloso'},
+  3:  {condition:'coperto',            intensity:'piena',   label:'Coperto'},
+  45: {condition:'nebbia',             intensity:'media',   label:'Nebbia'},
+  48: {condition:'nebbia_brina',       intensity:'forte',   label:'Nebbia con brina'},
+  51: {condition:'pioviggine',         intensity:'leggera', label:'Pioviggine leggera'},
+  53: {condition:'pioviggine',         intensity:'media',   label:'Pioviggine moderata'},
+  55: {condition:'pioviggine',         intensity:'forte',   label:'Pioviggine intensa'},
+  56: {condition:'gelicidio',          intensity:'leggera', label:'Gelicidio leggero'},
+  57: {condition:'gelicidio',          intensity:'forte',   label:'Gelicidio intenso'},
+  61: {condition:'pioggia',            intensity:'leggera', label:'Pioggia leggera'},
+  63: {condition:'pioggia',            intensity:'media',   label:'Pioggia moderata'},
+  65: {condition:'pioggia',            intensity:'forte',   label:'Pioggia intensa'},
+  66: {condition:'pioggia_gelata',     intensity:'leggera', label:'Pioggia gelata leggera'},
+  67: {condition:'pioggia_gelata',     intensity:'forte',   label:'Pioggia gelata intensa'},
+  71: {condition:'neve',               intensity:'leggera', label:'Nevicata leggera'},
+  73: {condition:'neve',               intensity:'media',   label:'Nevicata moderata'},
+  75: {condition:'neve',               intensity:'forte',   label:'Nevicata intensa'},
+  77: {condition:'neve_granulare',     intensity:'leggera', label:'Neve granulare'},
+  80: {condition:'rovesci',            intensity:'leggera', label:'Rovesci leggeri'},
+  81: {condition:'rovesci',            intensity:'media',   label:'Rovesci moderati'},
+  82: {condition:'rovesci_violenti', intensity:'forte',   label:'Rovesci violenti'},
+  85: {condition:'rovesci_neve',       intensity:'leggera', label:'Rovesci di neve'},
+  86: {condition:'rovesci_neve',       intensity:'forte',   label:'Rovesci di neve forti'},
+  95: {condition:'temporale',         intensity:'media',   label:'Temporale'},
+  96: {condition:'temporale_grandine',intensity:'media',  label:'Temporale con grandine'},
+  99: {condition:'temporale_grandine', intensity:'forte',   label:'Temporale con grandine forte'}
+};
+const WMO_UNKNOWN={day:'na',night:'na',condition:'unknown',intensity:'none',label:'Non disponibile'};
+function getMeteoIcon(wmoCode,isDay=true){
+  const mapping=WMO_ICON_MAP[wmoCode]??WMO_ICON_MAP[1];
+  return isDay?mapping.day:mapping.night;
+}
+function meteoconNameToWiClass(name,isDay=true){
+  if(name==null||name==='na')return'wi-na';
+  const t={
+    'clear-day':'wi-day-sunny','clear-night':'wi-night-clear',
+    'partly-cloudy-day':'wi-day-sunny-overcast','partly-cloudy-night':'wi-night-partly-cloudy',
+    'cloudy':'wi-cloudy',
+    'fog':isDay?'wi-day-fog':'wi-night-fog',
+    'drizzle':isDay?'wi-day-sprinkle':'wi-night-alt-sprinkle',
+    'sleet':isDay?'wi-day-sleet':'wi-night-alt-sleet',
+    'rain':isDay?'wi-day-rain':'wi-night-alt-rain',
+    'snow':isDay?'wi-day-snow':'wi-night-alt-snow',
+    'hail':isDay?'wi-day-snow':'wi-night-alt-snow',
+    'extreme-rain':isDay?'wi-day-storm-showers':'wi-night-alt-storm-showers',
+    'thunderstorms':isDay?'wi-day-thunderstorm':'wi-night-alt-thunderstorm',
+    'thunderstorms-rain':isDay?'wi-day-storm-showers':'wi-night-alt-storm-showers'
+  };
+  return t[name]||'wi-na';
+}
+function wxMeta(code,isDay=true){
+  if(code==null){
+    return{...WMO_UNKNOWN,iconClass:'wi-na',meteoconName:WMO_UNKNOWN.day};
+  }
+  const t=WMO_TEXT_META[code]||WMO_TEXT_META[1];
+  const mName=getMeteoIcon(code,isDay);
+  return{...t,iconClass:meteoconNameToWiClass(mName,isDay),meteoconName:mName};
+}
 function isDaytime(dateOrISO,wxData){
   if(wxData?.todayData?.is_day!=null) return wxData.todayData.is_day===1;
   const d=new Date(dateOrISO||Date.now());
