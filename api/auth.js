@@ -52,12 +52,20 @@ export default async function handler(req, res) {
         ]);
         if (inserted.length) {
           try {
+            // Beta privata: senza un dominio verificato Resend spedisce solo all'indirizzo del
+            // titolare dell'account Resend, quindi ai tester non arriverebbe nulla. Con RESET_RELAY_TO
+            // il codice arriva a quella casella e l'amministratore lo gira al tester.
+            // ATTENZIONE: chi legge quella casella può cambiare la password di qualunque account.
+            // Da togliere appena il dominio è verificato (vedi mobile/PUBBLICAZIONE.md §5).
+            const relay = process.env.RESET_RELAY_TO;
             const response = await fetch('https://api.resend.com/emails', {
               method: 'POST',
               headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-              body: JSON.stringify({ from: process.env.MAIL_FROM || 'Lawnly <noreply@lawnly.app>', to: [em],
-                subject: 'Lawnly: codice per recuperare la password',
-                text: `Il tuo codice per recuperare la password è ${code}. Scade tra 30 minuti. Se non hai richiesto il recupero, ignora questa email.` }),
+              body: JSON.stringify({ from: process.env.MAIL_FROM || 'Lawnly <onboarding@resend.dev>', to: [relay || em],
+                subject: relay ? `Lawnly: codice di recupero per ${em}` : 'Lawnly: codice per recuperare la password',
+                text: relay
+                  ? `Beta: richiesta di recupero password per l'account ${em}.\nCodice: ${code} (scade tra 30 minuti).\nGiralo al tester: lo inserisce nell'app e sceglie la nuova password.`
+                  : `Il tuo codice per recuperare la password è ${code}. Scade tra 30 minuti. Se non hai richiesto il recupero, ignora questa email.` }),
             });
             if (!response.ok) console.warn('[auth] invio recupero fallito:', response.status);
           } catch { console.warn('[auth] invio recupero fallito'); }
