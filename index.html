@@ -6,6 +6,10 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0e3220">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+<meta name="apple-mobile-web-app-title" content="Lawnly">
 <meta name="description" content="Lawnly — Love only your Lawn. Il tuo assistente AI per un prato perfetto.">
 <meta property="og:title" content="Lawnly">
 <meta property="og:description" content="Love only your Lawn">
@@ -5592,10 +5596,24 @@ try{window.__LAWNLY_CATALOG__=[
   console.log('[Lawnly] PRODUCT_CATALOG caricato:', PRODUCT_CATALOG.length, 'prodotti');
 </script>
 <script type="module">
-import{
-  LayoutDashboard,CloudSun,Calendar,Map as MapIcon,Grid3x3,Package,User,
-  Droplet,Layers,Sparkles,Sprout,Home
-}from'https://esm.sh/lucide-preact@0.460.0?deps=preact@10.19.6';
+/* Icone di navigazione disegnate qui invece che importate da esm.sh.
+   L'import remoto era la prima riga di QUESTO modulo, cioe' di tutta l'app: se la CDN
+   non rispondeva (rete lenta, DNS bloccato, app nativa offline) il modulo non veniva
+   valutato e restava una pagina bianca senza messaggi. Stesso tratto delle altre icone
+   inline del file: 24x24, currentColor, tratto arrotondato. */
+const _ic=(...d)=>({size=24,strokeWidth=1.8})=>html`<svg width=${size} height=${size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=${strokeWidth} stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d.map((p,i)=>html`<path key=${i} d=${p}/>`)}</svg>`;
+const LayoutDashboard=_ic('M3 3h7v8H3z','M14 3h7v5h-7z','M14 12h7v9h-7z','M3 15h7v6H3z');
+const CloudSun=_ic('M12 2v2','M4.9 4.9l1.4 1.4','M2 12h2','M19.1 4.9l-1.4 1.4','M15.9 8.5A4 4 0 1 0 9 11','M6.5 20h11a3 3 0 0 0 0-6 4.5 4.5 0 0 0-8.7-1.2A3.4 3.4 0 0 0 6.5 20Z');
+const Calendar=_ic('M8 2v4','M16 2v4','M3.5 8.5h17','M5 4.5h14a1.5 1.5 0 0 1 1.5 1.5v13A1.5 1.5 0 0 1 19 20.5H5A1.5 1.5 0 0 1 3.5 19V6A1.5 1.5 0 0 1 5 4.5Z');
+const MapIcon=_ic('M9 3.5 3.5 6v14.5L9 18l6 2.5 5.5-2.5V3.5L15 6Z','M9 3.5V18','M15 6v14.5');
+const Grid3x3=_ic('M4 4h16v16H4z','M9.3 4v16','M14.7 4v16','M4 9.3h16','M4 14.7h16');
+const Package=_ic('M12 2.8 20.5 7v10L12 21.2 3.5 17V7Z','M3.8 7.2 12 11.6l8.2-4.4','M12 11.6V21');
+const User=_ic('M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z','M4.5 20.5a7.5 7.5 0 0 1 15 0');
+const Droplet=_ic('M12 3.2c3.2 3.6 6 6.7 6 10a6 6 0 0 1-12 0c0-3.3 2.8-6.4 6-10Z');
+const Layers=_ic('M12 3 3 7.5l9 4.5 9-4.5Z','M3 12.5 12 17l9-4.5','M3 17 12 21.5 21 17');
+const Sparkles=_ic('M12 3.5 13.7 9l5.5 1.7-5.5 1.7L12 18l-1.7-5.6L4.8 10.7 10.3 9Z','M18.5 3v3','M20 4.5h-3');
+const Sprout=_ic('M12 21v-7','M12 14C12 9 9 6.5 4.5 6.5c0 4.5 2.8 7.5 7.5 7.5Z','M12 14c0-4 2.6-6.5 6.5-6.5 0 4-2.6 6.5-6.5 6.5Z');
+const Home=_ic('M4 10.5 12 3.5l8 7','M6 9.8V20h12V9.8','M10 20v-5.5h4V20');
 const NI=20,NS=1.5;
 function navLuc(Icon){return html`<span class="nav-lucide"><${Icon} size=${NI} strokeWidth=${NS}/></span>`;}
 function bnavLuc(Icon){return html`<span class="bnav-ico-lucide"><${Icon} size=${NI} strokeWidth=${NS}/></span>`;}
@@ -5744,6 +5762,13 @@ function _lwApplyMergedState(data){
   }catch(e){ console.warn('[sync] applyMerged',e); }
 }
 async function _lwPutState(userId, data, opts){
+  /* Su un telefono condiviso A esce con un salvataggio in sospeso e B entra: il tentativo
+     di A partiva col token di B, cioe' i dati di A finivano nell'account di B. La PUT parte
+     solo se la sessione corrente e' ancora quella di chi ha messo in coda i dati. */
+  const _ses = (typeof _lwSession==='function') ? _lwSession() : null;
+  if(userId && (!_ses || String(_ses.user?.id) !== String(userId))){
+    throw new Error('sessione cambiata: salvataggio annullato');
+  }
   const r = await fetch((window.LAWNLY_API_BASE||'')+'/api/state', {
     method:'PUT',
     headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+((typeof _lwToken==='function'&&_lwToken())||'') },
@@ -5765,7 +5790,7 @@ function collectLocalState(profile){
   const _tutorialFlags={};
   try{Object.keys(localStorage).filter(k=>k.startsWith('dss_help_seen_v2_')).forEach(k=>{_tutorialFlags[k]=S.get(k);});}catch(e){}
   const newProf=profile;
-  const allData={profile:newProf,dss_diagnosis_data:S.get('dss_diagnosis_data'),dss_calendar_events:S.get('dss_calendar_events',[]),dss_warehouse_v2:S.get('dss_warehouse_v2',[]),dss_soil_data:S.get('dss_soil_data',[]),dss_irrigation_history:S.get('dss_irrigation_history',[]),dss_zone_photos:S.get('dss_zone_photos',{}),dss_garden_elements:S.get('dss_garden_elements',[]),dss_garden_documents:S.get('dss_garden_documents',[]),dss_garden_meta:S.get('dss_garden_meta',{}),dss_garden_ai_insights:S.get('dss_garden_ai_insights',[]),dss_garden_pending_ops:S.get('dss_garden_pending_ops',[]),dss_custom_products:S.get('dss_custom_products',[]),dss_zone_notes:S.get('dss_zone_notes',{}),dss_warehouse_log:S.get('dss_warehouse_log',[]),dss_consultant_chat:S.get('dss_consultant_chat',[]),..._tutorialFlags};
+  const allData={profile:newProf,dss_diagnosis_data:S.get('dss_diagnosis_data'),dss_calendar_events:S.get('dss_calendar_events',[]),dss_warehouse_v2:S.get('dss_warehouse_v2',[]),dss_soil_data:S.get('dss_soil_data',[]),dss_irrigation_history:S.get('dss_irrigation_history',[]),dss_zone_photos:S.get('dss_zone_photos',{}),dss_garden_elements:S.get('dss_garden_elements',[]),dss_garden_documents:S.get('dss_garden_documents',[]),dss_garden_meta:S.get('dss_garden_meta',{}),dss_garden_ai_insights:S.get('dss_garden_ai_insights',[]),dss_garden_pending_ops:S.get('dss_garden_pending_ops',[]),dss_custom_products:S.get('dss_custom_products',[]),dss_zone_notes:S.get('dss_zone_notes',{}),dss_warehouse_log:S.get('dss_warehouse_log',[]),dss_consultant_chat:S.get('dss_consultant_chat',[]),dss_tombstones:S.get('dss_tombstones',[]),..._tutorialFlags};
   try{Object.keys(localStorage).filter(k=>k.startsWith('dss_soil_theta')).forEach(k=>{allData[k]=S.get(k);});}catch(e){}
   return allData;
 }
@@ -5796,6 +5821,7 @@ async function _lwFlushPending(){
   }catch(e){
     _lwSending=false; _lwRetries++;
     console.warn('[sync] PUT fallita ('+_lwRetries+'):',e.message);
+    if(/sessione cambiata/.test(e.message||'')){ _lwPending=null; _lwRetries=0; return; }
     if(_lwRetries<=3) setTimeout(_lwFlushPending, 3000*_lwRetries);
     else { _lwRetries=0; try{ if(typeof showGlobalToast==='function') showGlobalToast('Salvataggio cloud non riuscito — le modifiche restano sul telefono e riproviamo più tardi','warning',6000); }catch(_){}
            setTimeout(_lwFlushPending, 30000); }
@@ -5924,7 +5950,41 @@ function ModalPortal({children}){
   // Fallback se createPortal non disponibile (non dovrebbe accadere)
   return children;
 }
-const S={get:(k,d=null)=>{try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):d}catch{return d}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
+/* Lapidi delle cancellazioni (dss_tombstones).
+   Il server, quando due dispositivi scrivono a distanza ravvicinata, fonde gli array unendo
+   i record per id: cosi' una voce cancellata su un telefono torna a galla dall'altro, perche'
+   "assente" e "mai esistita" sono indistinguibili. Qui l'assenza viene registrata: S.set e'
+   l'unico punto da cui passano TUTTE le scritture, quindi basta confrontare gli id di prima
+   con quelli di dopo. Il server poi scarta gli id con una lapide piu' recente.
+   Tetto: 300 voci, 90 giorni. */
+const _TOMB_KEY='dss_tombstones', _TOMB_MAX=300, _TOMB_DAYS=90;
+function _idsOf(v){
+  if(!Array.isArray(v))return null;
+  const out=[];
+  for(const x of v){ if(!x||typeof x!=='object'||x.id==null)return null; out.push(String(x.id)); }
+  return out;
+}
+const S={
+  get:(k,d=null)=>{try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):d}catch{return d}},
+  set:(k,v)=>{
+    try{
+      if(k!==_TOMB_KEY){
+        const prev=_idsOf(S.get(k,null)), next=_idsOf(v);
+        if(prev&&next&&prev.length){
+          const now=new Set(next);
+          const gone=prev.filter(id=>!now.has(id));
+          if(gone.length){
+            const cut=Date.now()-_TOMB_DAYS*864e5;
+            const keep=(S.get(_TOMB_KEY,[])||[]).filter(t=>t&&t.ts>cut&&!(t.k===k&&gone.includes(String(t.id))));
+            const next2=[...keep,...gone.map(id=>({k,id:String(id),ts:Date.now()}))].slice(-_TOMB_MAX);
+            try{localStorage.setItem(_TOMB_KEY,JSON.stringify(next2));}catch{}
+          }
+        }
+      }
+    }catch{}
+    try{localStorage.setItem(k,JSON.stringify(v))}catch{}
+  }
+};
 
 /* PATCH 05d — Storico irrigazioni limitato al “giardino corrente” (CASO 2: filtro su gardenCreatedAt) */
 function filterIrrigationHistoryForGarden(entries,gardenData){
@@ -18827,6 +18887,9 @@ function App(){
     // l'ultima modifica di chi fa logout subito dopo aver toccato qualcosa
     try{ if(_lwPending&&_lwHasPendingLocal()){ clearTimeout(syncTimer); await _lwFlushPending(); } }catch(e){ console.warn('[logout] salvataggio finale non riuscito:',e.message); }
     try{const N=window.LawnlyNative;if(N){N.hideBanner();N.logOut();}}catch(e){}
+    // Dopo il flush finale la coda va svuotata: quello che resta appartiene a chi sta uscendo,
+    // e su un telefono condiviso finirebbe nell'account di chi entra dopo.
+    try{ clearTimeout(syncTimer); _lwPending=null; _lwMarkDirty(false); }catch(e){}
     if(supa)await supa.auth.signOut();S.set('dss_profile',DEF_PROF);setProf({...DEF_PROF});setAuthUser(null);setSession(null);setWx(null);};
 
   useEffect(()=>{

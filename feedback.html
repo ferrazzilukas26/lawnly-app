@@ -121,6 +121,13 @@ th{color:var(--muted);font-size:10px;text-transform:uppercase;border-top:none}
 <script>
 const $=id=>document.getElementById(id);
 const API='/api/feedback';
+/* La bacheca sta dietro una chiave condivisa: arriva nel link (?k=…) e resta memorizzata
+   nel browser, cosi' il link va dato una volta sola. Senza chiave l'API risponde 401. */
+const KEY=(()=>{const u=new URL(location.href);const k=u.searchParams.get('k');
+  if(k){try{localStorage.setItem('lawnly_board_key',k);}catch(e){}
+    u.searchParams.delete('k');history.replaceState(null,'',u.toString());return k;}
+  try{return localStorage.getItem('lawnly_board_key')||'';}catch(e){return '';}})();
+const H=(extra)=>Object.assign({'x-board-key':KEY},extra||{});
 let who='',type='',rating=0,fStatus='',items=[];
 const NEXT={aperto:'in_lavorazione',in_lavorazione:'risolto',risolto:'aperto'};
 const TAGC={bug:'t-bug',miglioramento:'t-migl',valutazione:'t-val'};
@@ -149,7 +156,7 @@ function render(){
         ${i.rating?`<span>${'★'.repeat(i.rating)}${'☆'.repeat(5-i.rating)}</span>`:''}
       </div>
       <div class="i-txt">${esc(i.text)}</div>
-      ${i.has_photo?`<a href="${API}?photo=${i.id}" target="_blank"><img class="i-photo" loading="lazy" src="${API}?photo=${i.id}" alt="foto"/></a>`:''}
+      ${i.has_photo?`<a href="${API}?photo=${i.id}&k=${encodeURIComponent(KEY)}" target="_blank"><img class="i-photo" loading="lazy" src="${API}?photo=${i.id}&k=${encodeURIComponent(KEY)}" alt="foto"/></a>`:''}
       <div class="i-meta">${fmtD(i.created_at)}
         <span class="tag s-${i.status}">${SLAB[i.status]||i.status}</span>
         <button onclick="setSt(${i.id},'${NEXT[i.status]||'aperto'}')">→ ${SLAB[NEXT[i.status]]||'Aperto'}</button>
@@ -160,13 +167,16 @@ function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 
 async function load(){
   try{
-    const r=await fetch(API);const j=await r.json();
+    const r=await fetch(API,{headers:H()});
+    if(r.status===401){$('list').textContent='Serve il link con la chiave della bacheca (quello che ti ha dato Lukas).';return;}
+    const j=await r.json();
     items=j.items||[];render();
     $('usage').innerHTML=(j.usage||[]).map(u=>`<tr><td>${esc(u.label||u.email||'—')}</td><td>${u.updated_at?fmtD(u.updated_at):'mai'}</td></tr>`).join('')||'<tr><td colspan=2>—</td></tr>';
   }catch(e){$('list').textContent='Errore di caricamento: '+e;}
 }
 async function setSt(id,status){
-  await fetch(API,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,status})});
+  const rp=await fetch(API,{method:'PATCH',headers:H({'Content-Type':'application/json'}),body:JSON.stringify({id,status})});
+  if(rp.status===403){alert('Il cambio di stato e\' riservato a chi gestisce la bacheca.');return;}
   load();
 }
 // foto: ridimensiona a 1280px lato lungo e comprime, cosi' sta in una colonna text
@@ -195,7 +205,7 @@ $('send').onclick=async()=>{
   if(photoData)b.photo=photoData;
   $('send').disabled=true;
   try{
-    const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});
+    const r=await fetch(API,{method:'POST',headers:H({'Content-Type':'application/json'}),body:JSON.stringify(b)});
     if(!(await r.json()).ok)throw new Error('salvataggio fallito');
     $('text').value='';rating=0;photoData=null;$('photo').value='';$('prev').style.display='none';[...$('stars').children].forEach(x=>x.classList.remove('on'));
     $('ok').style.display='block';setTimeout(()=>$('ok').style.display='none',2500);

@@ -32,7 +32,39 @@ function recencyOf(o) {
   return m;
 }
 
-function mergeArray(serverArr, clientArr) {
+// Lapidi: { k: chiave, id, ts }. Un record cancellato su un device e' semplicemente assente
+// nel suo array, quindi l'unione per id lo farebbe tornare dall'altro device. Con la lapide
+// l'assenza diventa esplicita: l'id sparisce, a meno che il record sia stato ri-modificato
+// DOPO la cancellazione (allora vince la modifica piu' recente).
+function tombMap(...states) {
+  const m = new Map();
+  for (const st of states) {
+    const list = st && Array.isArray(st.dss_tombstones) ? st.dss_tombstones : [];
+    for (const t of list) {
+      if (!t || t.id == null || !t.k) continue;
+      const key = t.k + '|' + String(t.id);
+      const ts = Number(t.ts) || 0;
+      if (ts > (m.get(key) || 0)) m.set(key, ts);
+    }
+  }
+  return m;
+}
+
+// Le lapidi si uniscono per coppia (chiave, id) tenendo la piu' recente: l'id da solo non
+// basta, lo stesso id puo' esistere in liste diverse.
+function mergeTombs(a, b) {
+  const m = new Map();
+  for (const t of [...(Array.isArray(a) ? a : []), ...(Array.isArray(b) ? b : [])]) {
+    if (!t || t.id == null || !t.k) continue;
+    const k = t.k + '|' + String(t.id);
+    const prev = m.get(k);
+    if (!prev || (Number(t.ts) || 0) > (Number(prev.ts) || 0)) m.set(k, t);
+  }
+  const cut = Date.now() - 90 * 864e5;
+  return [...m.values()].filter(t => (Number(t.ts) || 0) > cut).slice(-300);
+}
+
+function mergeArray(serverArr, clientArr, tombs, key) {
   const sv = Array.isArray(serverArr) ? serverArr : [];
   const cv = Array.isArray(clientArr) ? clientArr : [];
   const all = [...sv, ...cv];
@@ -55,17 +87,25 @@ function mergeArray(serverArr, clientArr) {
     else winner = recencyOf(x) >= recencyOf(ex) ? x : ex;
     byId.set(k, winner);
   }
-  return [...byId.values()];
+  const out = [...byId.values()];
+  if (!tombs || !tombs.size) return out;
+  return out.filter(x => {
+    const ts = tombs.get(key + '|' + String(x.id));
+    if (!ts) return true;
+    return recencyOf(x) > ts; // modificato dopo la cancellazione: il record resta
+  });
 }
 
 function mergeState(server, client) {
   const s = (server && typeof server === 'object') ? server : {};
   const c = (client && typeof client === 'object') ? client : {};
   const out = { ...s };
+  const tombs = tombMap(s, c);
   for (const k of Object.keys(c)) {
     const cv = c[k], svv = s[k];
+    if (k === 'dss_tombstones') { out[k] = mergeTombs(svv, cv); continue; }
     if (Array.isArray(cv) || Array.isArray(svv)) {
-      out[k] = mergeArray(svv, cv);
+      out[k] = mergeArray(svv, cv, tombs, k);
     } else if (cv && svv && typeof cv === 'object' && typeof svv === 'object') {
       out[k] = { ...svv, ...cv }; // mappe (foto, meta, help flags, profile): client vince per chiave
     } else {
@@ -150,3 +190,5 @@ export default async function handler(req, res) {
     res.status(e.code === '23503' ? 401 : 500).json({ error: { message: e.code === '23503' ? 'unauthorized' : e.message } });
   }
 }
+
+export { mergeState, mergeTombs }; // esportati per il test in scratchpad/merge.test.mjs

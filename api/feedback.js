@@ -26,20 +26,40 @@ async function ensure() {
 const TYPES = new Set(['bug', 'miglioramento', 'valutazione']);
 const STATUSES = new Set(['aperto', 'in_lavorazione', 'risolto']);
 
+// Accesso alla bacheca. Prima era tutto pubblico: chiunque leggeva testi e foto dei tester,
+// ne scriveva altri e chiudeva le segnalazioni. In beta privata bastano due chiavi condivise,
+// passate nell'header x-board-key (o ?k= per il link alle foto):
+//   BOARD_KEY       -> tester: legge l'elenco e scrive una segnalazione
+//   BOARD_ADMIN_KEY -> in piu': foto, attivita' dei tester, cambio di stato
+// Senza chiavi configurate l'endpoint resta chiuso, non aperto.
+function roleOf(req) {
+  const given = String(req.headers['x-board-key'] || (req.query && req.query.k) || '');
+  if (!given) return null;
+  const admin = process.env.BOARD_ADMIN_KEY || '';
+  const tester = process.env.BOARD_KEY || '';
+  if (admin && given === admin) return 'admin';
+  if (tester && given === tester) return 'tester';
+  return null;
+}
+
 export default async function handler(req, res) {
   if (cors(req, res)) return;
+  const role = roleOf(req);
+  if (!role) return res.status(401).json({ error: 'chiave della bacheca mancante o non valida' });
   try {
     await ensure();
     if (req.method === 'GET') {
       // foto servita a parte (?photo=id): la lista resta leggera
       const pid = parseInt((req.query && req.query.photo) || '', 10);
       if (pid) {
+        if (role !== 'admin') return res.status(403).json({ error: 'foto riservate' });
         const r = await sql`select photo from lawnly_feedback where id = ${pid}`;
         const dataUrl = r[0] && r[0].photo;
         if (!dataUrl) return res.status(404).end();
         const [meta, b64] = dataUrl.split(',');
         res.setHeader('Content-Type', (meta.match(/^data:([^;]+)/) || [, 'image/jpeg'])[1]);
-        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        // niente cache pubblica: l'immagine e' di un tester e sta dietro una chiave
+        res.setHeader('Cache-Control', 'private, no-store');
         return res.status(200).send(Buffer.from(b64, 'base64'));
       }
       const items = await sql`select id, author, type, section, rating, text, status, created_at, updated_at,
@@ -47,6 +67,7 @@ export default async function handler(req, res) {
       // analytics base: chi usa l'app e quando (ultima sync per utente)
       let usage = [];
       try {
+        if (role !== 'admin') throw new Error('solo admin');
         const rows = await sql`select u.email, s.updated_at from users u
           left join app_state s on s.user_id = u.id order by s.updated_at desc nulls last limit 50`;
         // endpoint pubblico: fuori le email, resta il segnale che serve (chi e' attivo e quando)
@@ -71,6 +92,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true, item: rows[0] });
     }
     if (req.method === 'PATCH') {
+      if (role !== 'admin') return res.status(403).json({ error: 'cambio di stato riservato' });
       const b = await readBody(req);
       const id = parseInt(b.id, 10);
       const status = String(b.status || '');
