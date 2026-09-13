@@ -18,7 +18,6 @@
 <script src="https://cdn.jsdelivr.net/npm/preact@10/compat/dist/compat.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="native.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/weather-icons@2.0.11/css/weather-icons.min.css">
 <style>
 :root{--bg:#F2F4F0;--card:#FFFFFF;--green:#6B9E6B;--green-l:rgba(107,158,107,0.10);--green-b:rgba(107,158,107,0.22);--green-dark:#4A7A4A;--muted:#9AAA96;--text:#1A2218;--r:1.4rem;--r-sm:1rem;--border:rgba(107,158,107,0.18);--shadow:0 4px 24px rgba(0,0,0,0.06);--glass:rgba(255,255,255,.50);--glass-strong:rgba(255,255,255,.66);--glass-line:rgba(255,255,255,.42);--blur:20px}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -13047,7 +13046,12 @@ const WaterEngine=(function(){
   function buildWaterWeatherFromWx(wxData){
     const t=wxData?.todayData||{};
     const f7=wxData?.forecast7||[];
-    const rainTomorrow=parseFloat(f7[1]?.precipitation_sum??f7[1]?.rain??0)||0;
+    // forecast7 parte da 2 giorni fa (past_days=2): l'indice 1 e' IERI, non domani.
+    // Stessa classe di bug del rischio fungino: si cerca per data locale, non per posizione.
+    const _oggiStr=new Date().toLocaleDateString('sv-SE');
+    const _iOggi=f7.findIndex(d=>String(d?.date||'').startsWith(_oggiStr));
+    const _domani=_iOggi>=0?f7[_iOggi+1]:null;
+    const rainTomorrow=parseFloat(_domani?.precipitation_sum??_domani?.rain??0)||0;
     const et0FromOpenMeteo=t.et0!=null?parseFloat(t.et0):null;
     return{
       temp_max:parseFloat(t.tmax),
@@ -16074,7 +16078,10 @@ function runControllerCatchup(){
     const timestamp=at.toISOString(), key=program.id+'|'+timestamp;
     if(seen.has(key))continue;
     const day=at.toLocaleDateString('sv-SE');
-    const weather=wx.forecast7.find(d=>d.date===day);
+    // forecast7 copre solo 2 giorni passati: piu' indietro la pioggia sta in wx.history,
+    // altrimenti un giorno piovoso di 4 giorni fa risulterebbe a 0 mm e verrebbe registrato.
+    const weather=wx.forecast7.find(d=>d.date===day)
+      ||(wx.history||[]).find(d=>String(d?.date||'').startsWith(day));
     const rain=Number(weather?.precipitation??weather?.rain??0);
     const forced=(ctrl.forceRuns||[]).some(r=>r.programId===program.id&&r.timestamp===timestamp);
     if(!forced&&rain>=Number(ctrl.rainSkipMm??5)){
@@ -16279,17 +16286,23 @@ async function appendZonePhotoFile(zoneId,file){
   const prof=S.get('dss_profile',{})||{};
   const zone=(prof.zones||[]).find(z=>z.id===zoneId)||{};
   const zoneCtx={name:zone.name,exposure:zone.exposure,area:zone.area,grassType:prof.grassMixture};
+  // La foto si salva PRIMA dell'analisi: se l'AI fallisce (o la quota e' finita) la foto resta,
+  // invece di sparire dopo aver comunque speso la chiamata. Il campo b64Full non e' mai esistito:
+  // questa riga lanciava un ReferenceError e nessuna foto di zona veniva salvata.
+  const entryId=Date.now();
+  const entry={id:entryId,b64,name:file.name,dt:new Date().toISOString(),aiAnalysis:null};
+  const photos=S.get('dss_zone_photos',{})||{};
+  const zList=photos[zoneId]||[];
+  S.set('dss_zone_photos',{...photos,[zoneId]:[entry,...zList].slice(0,30)});
   let analysis=null;
   try{analysis=await runLawnZonePhotoAI(b64,mediaType,zoneCtx);}catch(e){
     const errInfo=getAiErrorMessage(e);
-    showGlobalToast(`${errInfo.title}: ${errInfo.detail}`,errInfo.type==='budget'||errInfo.type==='rate_limit'?'warning':'error',8000);
+    showGlobalToast(`${errInfo.title}: ${errInfo.detail} — la foto e' salvata, l'analisi si puo' rifare`,errInfo.type==='budget'||errInfo.type==='rate_limit'?'warning':'error',8000);
     throw new Error('Analisi AI: '+e.message);
   }
-  const entry={id:Date.now(),b64:b64Full,name:file.name,dt:new Date().toISOString(),aiAnalysis:analysis};
-  const photos=S.get('dss_zone_photos',{})||{};
-  const zList=photos[zoneId]||[];
-  const nextPhotos={...photos,[zoneId]:[entry,...zList].slice(0,30)};
-  S.set('dss_zone_photos',nextPhotos);
+  entry.aiAnalysis=analysis;
+  {const cur=S.get('dss_zone_photos',{})||{};
+   S.set('dss_zone_photos',{...cur,[zoneId]:(cur[zoneId]||[]).map(p=>p&&p.id===entryId?{...p,aiAnalysis:analysis}:p)});}
   if(analysis?.score!=null){
     const diag=S.get('dss_diagnosis_data',null)||{};
     const zScores={...(diag.zoneScores||{}),[zoneId]:analysis.score};
@@ -17831,7 +17844,7 @@ Rispondi SOLO con JSON (no markdown): [{"week":N,"name":"Nome prodotto o operazi
     <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--card);border-radius:8px;margin-bottom:8px;font-size:11px;color:var(--muted)">
       <div style="display:flex;align-items:center;gap:6px">
         <span style="font-size:13px">🤖</span>
-        <span>Chiamate AI oggi: <strong style="color:var(--text)">${aiCallsToday.count}</strong> / 50</span>
+        <span>Chiamate AI oggi: <strong style="color:var(--text)">${aiCallsToday.count}</strong> / 40</span>
       </div>
       <div style="display:flex;align-items:center;gap:6px">
         <${HelpButton} section="dottor"/>
