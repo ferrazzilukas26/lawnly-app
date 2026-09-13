@@ -20,11 +20,12 @@ export default async function handler(req, res) {
       const [u] = await sql`select id, email, pass_hash from users where id = ${payload.uid}`;
       if (!u || typeof password !== 'string' || !verifyPassword(password, u.pass_hash)) return fail(401, 'Password non corretta.');
       await ensureAccountTables();
-      const [tables] = await sql`select to_regclass('lawnly_ai_usage') as ai, to_regclass('app_state') as state`;
+      const [tables] = await sql`select to_regclass('lawnly_ai_usage') as ai, to_regclass('app_state') as state, to_regclass('lawnly_zone_photos') as photos`;
       await sql.transaction([
         sql`select id from users where id = ${u.id} for update`,
         ...(tables.state ? [sql`delete from app_state where user_id = ${u.id}`] : []),
         ...(tables.ai ? [sql`delete from lawnly_ai_usage where user_id = ${String(u.id)}`] : []),
+        ...(tables.photos ? [sql`delete from lawnly_zone_photos where user_id = ${String(u.id)}`] : []),
         sql`delete from lawnly_password_resets where user_id = ${u.id}`,
         sql`delete from lawnly_affiliate_clicks where user_id = ${u.id}`,
         sql`delete from lawnly_auth_attempts where email = ${u.email}`,

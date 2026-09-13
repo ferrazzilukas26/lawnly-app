@@ -5726,8 +5726,7 @@ const supa = {
       return {
         async upsert(row){
           try{
-            const r = await fetch((window.LAWNLY_API_BASE||'')+'/api/state',{ method:'PUT', headers:auth(), body:JSON.stringify({ data: row && row.data }) });
-            if(!r.ok) return { error:{ message:'HTTP '+r.status }, data:null };
+            await _lwPutState(row?.user_id||_lwSession()?.user?.id,row?.data);
             return { error:null, data:null };
           }catch(e){ return { error:{ message:e.message }, data:null }; }
         },
@@ -5769,6 +5768,8 @@ async function _lwPutState(userId, data, opts){
   if(userId && (!_ses || String(_ses.user?.id) !== String(userId))){
     throw new Error('sessione cambiata: salvataggio annullato');
   }
+  data={...data,dss_zone_photos:await prepareZonePhotos(data?.dss_zone_photos||{})};
+  if(_ses?.access_token!==_lwToken())throw new Error('sessione cambiata: salvataggio annullato');
   const r = await fetch((window.LAWNLY_API_BASE||'')+'/api/state', {
     method:'PUT',
     headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+((typeof _lwToken==='function'&&_lwToken())||'') },
@@ -5985,6 +5986,110 @@ const S={
     try{localStorage.setItem(k,JSON.stringify(v))}catch{}
   }
 };
+
+/* Foto: byte solo nell'endpoint/cache; il formato inline resta leggibile finché migrato. */
+const _zonePhotoCache=new Map(), _zonePhotoLoads=new Map();
+function inlineZonePhoto(p){
+  if(!p)return'';
+  if(typeof p==='string')return p;
+  const b=p.b64||p.data||p.dataUrl||p.image||p.url||p.src;
+  return b?(String(b).startsWith('data:')||!p.b64?b:'data:'+(p.mediaType||'image/jpeg')+';base64,'+b):'';
+}
+function zonePhotoMetadata(p,remoteId=p.remoteId){
+  const {b64,data,dataUrl,image,url,src,...meta}=p;
+  return {...meta,remoteId};
+}
+function zonePhotoKey(p){return String(_lwSession()?.user?.id||'')+':'+p.remoteId;}
+async function zonePhotoRequest(method,id,body){
+  const token=_lwToken();
+  const r=await fetch((window.LAWNLY_API_BASE||'')+'/api/photo'+(id?'?id='+encodeURIComponent(id):''),{
+    method,headers:{Authorization:'Bearer '+(token||''),...(body?{'Content-Type':'application/json'}:{})},
+    ...(body?{body:JSON.stringify(body)}:{})
+  });
+  if(token!==_lwToken())throw new Error('Sessione cambiata: operazione foto annullata.');
+  if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.error?.message||'Foto: HTTP '+r.status);}
+  return r;
+}
+async function readZonePhoto(p){
+  const inline=inlineZonePhoto(p);if(inline)return inline;
+  if(!p?.remoteId)return'';
+  const key=zonePhotoKey(p);
+  if(_zonePhotoCache.has(key))return _zonePhotoCache.get(key);
+  if(!_zonePhotoLoads.has(key))_zonePhotoLoads.set(key,(async()=>{
+    const r=await zonePhotoRequest('GET',p.remoteId);
+    const blob=await r.blob();
+    const data=await new Promise((resolve,reject)=>{const f=new FileReader();f.onload=()=>resolve(f.result);f.onerror=()=>reject(f.error);f.readAsDataURL(blob);});
+    _zonePhotoCache.set(key,data);return data;
+  })().finally(()=>_zonePhotoLoads.delete(key)));
+  return _zonePhotoLoads.get(key);
+}
+async function uploadZonePhoto(zoneId,p){
+  if(p.remoteId)return zonePhotoMetadata(p);
+  const token=_lwToken(),keyUser=String(_lwSession()?.user?.id||'');
+  let b64=inlineZonePhoto(p);if(!b64)return p;
+  // Il vecchio onboarding etichettava anche PNG/WebP come JPEG.
+  const raw=b64.split(',')[1]||'';
+  const mime=raw.startsWith('iVBORw0KGgo')?'image/png':raw.startsWith('/9j/')?'image/jpeg':raw.startsWith('R0lGOD')?'image/gif':raw.startsWith('UklGR')?'image/webp':null;
+  if(mime)b64='data:'+mime+';base64,'+raw;
+  if(b64.length>2400000&&b64.startsWith('data:image/')){
+    const [head,raw]=b64.split(',');
+    const blob=new Blob([Uint8Array.from(atob(raw),c=>c.charCodeAt(0))],{type:head.slice(5).split(';')[0]});
+    b64=(await shrinkImageFile(blob)).dataUrl;
+  }
+  if(token!==_lwToken())throw new Error('sessione cambiata: upload foto annullato');
+  const r=await zonePhotoRequest('POST',null,{zoneId:String(zoneId),b64});
+  const {id}=await r.json();if(!id)throw new Error('Upload foto non confermato.');
+  if(token!==_lwToken())throw new Error('sessione cambiata: upload foto annullato');
+  const meta=zonePhotoMetadata(p,id);
+  _zonePhotoCache.set(keyUser+':'+id,b64);
+  return meta;
+}
+function persistZonePhotoMetadata(all){
+  // Non usare il catch silenzioso di S.set per le foto: una quota esaurita va mostrata.
+  localStorage.setItem('dss_zone_photos',JSON.stringify(all));
+  window.dispatchEvent(new CustomEvent('lawnly:photos'));
+  window.dispatchEvent(new CustomEvent('lawnly:sync'));
+}
+async function prepareZonePhotos(all){
+  const token=_lwToken(),result={};
+  for(const [zid,list] of Object.entries(all||{})){
+    result[zid]=[];
+    for(const p of list||[]){
+      if(token!==_lwToken())throw new Error('sessione cambiata: migrazione foto annullata');
+      const meta=await uploadZonePhoto(zid,p);
+      if(token!==_lwToken())throw new Error('sessione cambiata: migrazione foto annullata');
+      result[zid].push(meta);
+      if(inlineZonePhoto(p)&&meta.remoteId){
+        // Rileggi dopo l'upload: preserva analisi/modifiche e non resuscitare foto eliminate.
+        const current=S.get('dss_zone_photos',{})||{};
+        const matches=q=>q.id===p.id&&inlineZonePhoto(q)===inlineZonePhoto(p);
+        if((current[zid]||[]).some(matches)){
+          current[zid]=current[zid].map(q=>matches(q)?zonePhotoMetadata(q,meta.remoteId):q);
+          persistZonePhotoMetadata(current);
+        }
+      }
+    }
+  }
+  return result;
+}
+async function addZonePhotos(added){
+  const ready=await prepareZonePhotos(added);
+  const current=S.get('dss_zone_photos',{})||{};
+  for(const [zid,list] of Object.entries(ready)){
+    const ids=new Set(list.map(p=>p.id));
+    current[zid]=[...list,...(current[zid]||[]).filter(p=>!ids.has(p.id))];
+  }
+  persistZonePhotoMetadata(current);
+  return current;
+}
+function useZonePhotoRefresh(){
+  const [,refresh]=useState(0);
+  useEffect(()=>{const h=()=>refresh(n=>n+1);window.addEventListener('lawnly:photo-loaded',h);return()=>window.removeEventListener('lawnly:photo-loaded',h);},[]);
+}
+function ZonePhotoImg({photo,...props}){
+  useZonePhotoRefresh();
+  return html`<img ...${props} src=${_photoSrc(photo)}/>`;
+}
 
 /* PATCH 05d — Storico irrigazioni limitato al “giardino corrente” (CASO 2: filtro su gardenCreatedAt) */
 function filterIrrigationHistoryForGarden(entries,gardenData){
@@ -8023,6 +8128,22 @@ function computePostMeasurementBalance({
    ═════════════════════════════════════════════════════════════
    History: 10 gg passati (5 pre-roll per calibrare θ + 5 decisionali).
    Forecast: 5 gg futuri (peso 0.9). Decisione basata su θ vs RAW. */
+function normalizeIrrigations(raw,gardenData={}){
+  const area=Math.max(Number(gardenData.totalArea)||100,1);
+  const cut=Date.parse(gardenData.gardenCreatedAt);
+  return (Array.isArray(raw)?raw:[]).flatMap(r=>{
+    if(!r)return[];
+    const value=r.date||r.timestamp||r.ts||r.dt;
+    const time=new Date(value).getTime();
+    if(!value||!Number.isFinite(time))return[];
+    const date=typeof value==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(value)?value:new Date(time).toLocaleDateString('sv-SE');
+    if(Number.isFinite(cut)&&date<new Date(cut).toLocaleDateString('sv-SE'))return[];
+    const suppliedMm=r.mm!=null?Number(r.mm):null;
+    const liters=Number(r.totalLiters??r.liters??r.amount??(suppliedMm!=null?suppliedMm*area:(r.zones||[]).reduce((s,z)=>s+(Number(z.liters)||0),0)));
+    const mm=suppliedMm!=null?suppliedMm:liters/area;
+    return Number.isFinite(mm)&&mm>0&&Number.isFinite(liters)&&liters>=0?[{date,mm,liters}]:[];
+  });
+}
 function calcWaterBalance(params){
   let wxData=params?.wxData;
   if(!wxData&&typeof localStorage!=='undefined'){
@@ -8096,7 +8217,7 @@ function calcWaterBalance(params){
       _recent.push({date:_todayStr,precipitation_sum:_todayRain,et0:_todayEt0});
     }
   }
-  const _irrHist=_gd.irrigationHistory||[];
+  const _irrHist=normalizeIrrigations(_gd.irrigationHistory??S.get('dss_irrigation_history',[]),_gd);
   for(const _day of _recent){
     const _et0=+(_day.et0||_day.referenceEvapotranspiration||0);
     const _rain=+(_day.precipitation_sum??_day.precipitation??0)*_lp.rainCoeff;
@@ -9392,16 +9513,16 @@ function DiagnosisStep({form,zones,onComplete}){
   const handlePhoto=async(zoneId,file)=>{
     if(!file||(photos[zoneId]||[]).length>=2)return;
     setUploading(zoneId);
-    try{const b64=await fileToBase64(file);setPhotos(p=>({...p,[zoneId]:[...(p[zoneId]||[]),{id:Date.now(),b64,name:file.name}]}));}
+    try{const sh=await shrinkImageFile(file);setPhotos(p=>({...p,[zoneId]:[...(p[zoneId]||[]),{id:Date.now(),b64:sh.b64,mediaType:sh.mediaType,name:file.name}]}));}
     catch{}setUploading(null);
   };
   const removePhoto=(zoneId,pid)=>setPhotos(p=>({...p,[zoneId]:(p[zoneId]||[]).filter(ph=>ph.id!==pid)}));
   const canAnalyze=irr&&mnt;
 
-  const persistOnboardingPhotos=()=>{
+  const persistOnboardingPhotos=async()=>{
     if(!photos||Object.keys(photos).length===0)return;
     try{
-      const existing=S.get('dss_zone_photos',{})||{};
+      const existing={};
       const nowIso=new Date().toISOString();
       Object.entries(photos).forEach(([zoneId,photoArr])=>{
         if(!Array.isArray(photoArr)||photoArr.length===0)return;
@@ -9420,9 +9541,9 @@ function DiagnosisStep({form,zones,onComplete}){
         });
         existing[zoneId]=zoneArr;
       });
-      S.set('dss_zone_photos',existing);
+      await addZonePhotos(existing);
       console.log('[Diagnosis] persisted',Object.keys(photos).length,'zone(s) photos to dss_zone_photos');
-    }catch(e){console.warn('[Diagnosis] persistOnboardingPhotos failed:',e.message);}
+    }catch(e){throw e;}
   };
 
   const analyze=async()=>{
@@ -9431,11 +9552,11 @@ function DiagnosisStep({form,zones,onComplete}){
 
     // Triple Safety Net: timeout ASSOLUTO 12s che forza completamento
     let alreadyCompleted=false;
-    const completeOnce=(payload,source)=>{
+    const completeOnce=async(payload,source)=>{
       if(alreadyCompleted){console.log('[Diagnosis] completeOnce: already done, skip');return;}
       alreadyCompleted=true;
       console.log('[Diagnosis] === COMPLETE via',source,'===');
-      persistOnboardingPhotos();
+      try{await persistOnboardingPhotos();}catch(e){alreadyCompleted=false;setAnalyzing(false);setErr('Foto non salvate: '+e.message);return;}
       const fullPayload={
         ...payload,
         soilType: soilType === 'unknown' ? 'loam' : soilType,
@@ -9597,10 +9718,10 @@ function DiagnosisStep({form,zones,onComplete}){
     }
   };
 
-  const skipDiagnosis=()=>{
+  const skipDiagnosis=async()=>{
     console.log('[Diagnosis] User clicked SKIP');
     setAnalyzing(false);
-    persistOnboardingPhotos();
+    try{await persistOnboardingPhotos();}catch(e){setErr('Foto non salvate: '+e.message);return;}
     let ops=[];
     try{
       const gardenData={...form,zones:form.zones};
@@ -10231,6 +10352,7 @@ function Prodotti(){
 function Zone({prof,wx}){
   const zones=prof?.zones||[];
   const [photos,setPhotos]=useState(()=>S.get('dss_zone_photos',{}));
+  useEffect(()=>{const h=()=>setPhotos(S.get('dss_zone_photos',{}));window.addEventListener('lawnly:photos',h);return()=>window.removeEventListener('lawnly:photos',h);},[]);
   const [notes,setNotes]=useState(()=>S.get('dss_zone_notes',{}));
   const [uploadingZ,setUploadingZ]=useState(null);
   const [reanalyzingId,setReanalyzingId]=useState(null);
@@ -10247,7 +10369,7 @@ function Zone({prof,wx}){
   useEffect(()=>{
     const allPh=S.get('dss_zone_photos',{})||{};
     const needsEnrich=Object.values(allPh).some(list=>
-      (list||[]).some(p=>p&&p.b64&&!p.aiAnalysis)
+      (list||[]).some(p=>p&&(p.b64||p.remoteId)&&!p.aiAnalysis)
     );
     if(!needsEnrich)return;
     setEnriching(true);
@@ -10295,23 +10417,28 @@ function Zone({prof,wx}){
   const reanalyzePhoto=async(phId,zid)=>{
     const list=photos[zid]||[];
     const ph=list.find(p=>p.id===phId);
-    if(!ph||!ph.b64)return;
+    if(!ph)return;
     setReanalyzingId(phId);setAiErr('');
     try{
       const prof=S.get('dss_profile',{})||{};
       const zone=(prof.zones||[]).find(z=>z.id===zid)||{};
       const zoneCtx={name:zone.name,exposure:zone.exposure,area:zone.area,grassType:prof.grassMixture};
-      const analysis=await runLawnZonePhotoAI(ph.b64,ph.mediaType||'image/jpeg',zoneCtx);
-      const next={...photos,[zid]:list.map(p=>p.id===phId?{...p,aiAnalysis:analysis}:p)};
+      const analysis=await runLawnZonePhotoAI(await readZonePhoto(ph),ph.mediaType||'image/jpeg',zoneCtx);
+      const current=S.get('dss_zone_photos',{})||{};
+      const next={...current,[zid]:(current[zid]||[]).map(p=>p.id===phId?{...p,aiAnalysis:analysis}:p)};
       setPhotos(next);S.set('dss_zone_photos',next);
     }catch(e){setAiErr('Rianalisi non riuscita: '+(e?.message||e));}
     setReanalyzingId(null);
   };
 
-  const delPhoto=(id,zid)=>{
-    const list=photos[zid]||[];
-    const next={...photos,[zid]:list.filter(p=>p.id!==id)};
-    setPhotos(next);S.set('dss_zone_photos',next);
+  const delPhoto=async(id,zid)=>{
+    const photo=(photos[zid]||[]).find(p=>p.id===id);
+    const shared=Object.values(S.get('dss_zone_photos',{})||{}).some(list=>(list||[]).some(p=>p.remoteId===photo?.remoteId&&p.id!==id));
+    try{if(photo?.remoteId&&!shared)await zonePhotoRequest('DELETE',photo.remoteId);}catch(e){setAiErr(e.message);return;}
+    if(photo?.remoteId)_zonePhotoCache.delete(zonePhotoKey(photo));
+    const current=S.get('dss_zone_photos',{})||{};
+    const next={...current,[zid]:(current[zid]||[]).filter(p=>p.id!==id)};
+    try{persistZonePhotoMetadata(next);setPhotos(next);}catch(e){setAiErr(e.message);}
   };
 
   const buildCompare=zPhotos=>{
@@ -10383,7 +10510,7 @@ function Zone({prof,wx}){
                   </div>
                 </div>
                 ${latestPhoto?html`<div style="width:64px;height:64px;border-radius:.85rem;overflow:hidden;border:2px solid ${accent};flex-shrink:0">
-                  <img src=${latestPhoto.b64} alt="foto" style="width:100%;height:100%;object-fit:cover"/>
+                  <${ZonePhotoImg} photo=${latestPhoto} alt="foto" style="width:100%;height:100%;object-fit:cover"/>
                 </div>`:''}
               </div>
               ${latestPhoto?.aiAnalysis?.summary?html`<div style="margin-top:10px;padding:8px 10px;background:var(--green-l);border-radius:.65rem;font-size:11px;color:var(--text);line-height:1.5">
@@ -10403,7 +10530,7 @@ function Zone({prof,wx}){
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
               ${[{label:'Più recente',ph:comparePhotos.newest},{label:'Un anno fa',ph:comparePhotos.older}].map(({label,ph},ci)=>html`<div key=${ci}>
                 <div style="font-size:9px;font-weight:600;color:var(--muted);margin-bottom:4px;text-align:center">${label}</div>
-                <img src=${ph.b64} alt="" style="width:100%;height:120px;object-fit:cover;border-radius:.65rem;border:1px solid var(--border)"/>
+                <${ZonePhotoImg} photo=${ph} alt="" style="width:100%;height:120px;object-fit:cover;border-radius:.65rem;border:1px solid var(--border)"/>
                 <div style="font-size:9px;color:var(--muted);text-align:center;margin-top:3px">${new Date(ph.dt).toLocaleDateString('it',{day:'2-digit',month:'short',year:'2-digit'})}</div>
                 ${ph.aiAnalysis?.score!=null?html`<div style="text-align:center;margin-top:2px"><span style="font-size:10px;font-weight:700;color:${scoreColor(ph.aiAnalysis.score)}">Score: ${ph.aiAnalysis.score}</span></div>`:''}
               </div>`)}
@@ -10427,7 +10554,7 @@ function Zone({prof,wx}){
             ${zPhotos.length===0?html`<div style="text-align:center;padding:18px;color:var(--muted);font-size:12px">Nessuna foto — carica la prima immagine</div>`:html`<div>
               <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(${expandGallery?'130px':'100px'},1fr));gap:8px">
                 ${(expandGallery?zPhotos:zPhotos.slice(0,6)).map((ph,phi)=>html`<div key=${ph.id} style="position:relative;border-radius:.75rem;overflow:hidden;border:1.5px solid ${ph.aiAnalysis?.score!=null?scoreColor(ph.aiAnalysis.score):' var(--border)'}">
-                  <img src=${ph.b64} alt=${ph.name} style="width:100%;height:90px;object-fit:cover;display:block"/>
+                  <${ZonePhotoImg} photo=${ph} alt=${ph.name} style="width:100%;height:90px;object-fit:cover;display:block"/>
                   <div style="padding:4px 6px;background:#fff">
                     <div style="font-size:9px;color:var(--muted)">${new Date(ph.dt).toLocaleDateString('it',{day:'2-digit',month:'2-digit',year:'2-digit'})}</div>
                     ${ph.aiAnalysis?.score!=null?html`<div style="font-size:10px;font-weight:700;color:${scoreColor(ph.aiAnalysis.score)}">${ph.aiAnalysis.score}/100</div>`:''}
@@ -11018,8 +11145,15 @@ const NAVS=[
 /* ===== LAWNLY RE-SKIN — Sezione PRATO (1:1 plus.html) ===== */
 function _expoLabP(e){e=(e||'').toString().toLowerCase();if(e.includes('mezz')||e.includes('part'))return"mezz'ombra";if(e.includes('sun')||e.includes('sole'))return'pieno sole';if(e.includes('shade')||e.includes('ombra'))return'ombra';return e||'';}
 function soilStateText(m){if(!m)return'Nessuna misura recente.';const p=[];if(m.um!=null)p.push(m.um<25?'asciutto in superficie':(m.um>65?'ben idratato':'umidità adeguata'));if(m.ph!=null)p.push((m.ph>=6&&m.ph<=7)?'pH ottimale per le microterme':(m.ph<6?'pH acido, valuta correzione':'pH basico, valuta correzione'));if(m.ts!=null&&m.ts>=28)p.push('temperatura del suolo elevata');return p.length?(p.join(', ')+'.'):'Misura registrata.';}
-function _photoSrc(p){if(!p)return'';if(typeof p==='string')return p;const u=p.url||p.src||p.data||p.dataUrl||p.image;if(u)return u;const b=p.b64;if(b)return String(b).startsWith('data:')?b:('data:'+(p.mediaType||'image/jpeg')+';base64,'+b);return'';}
+function _photoSrc(p){
+  const inline=inlineZonePhoto(p);if(inline)return inline;
+  if(!p?.remoteId)return'';
+  const key=zonePhotoKey(p),cached=_zonePhotoCache.get(key);if(cached)return cached;
+  if(!_zonePhotoLoads.has(key))readZonePhoto(p).then(()=>window.dispatchEvent(new CustomEvent('lawnly:photo-loaded'))).catch(e=>console.warn('[photo]',e.message));
+  return'';
+}
 function Prato({prof,wx}){
+  useZonePhotoRefresh();
   const soilData=S.get('dss_soil_data',[])||[];
   const zonePhotos=S.get('dss_zone_photos',{})||{};
   const diag=S.get('dss_diagnosis_data',null);
@@ -11171,7 +11305,7 @@ function DottorVerdeChat({prof,wx,onClose}){
     if(!pending||busy)return; const zid=z.id||z.name; setBusy(true);
     setMsgs(m=>[...m,{role:'user',text:(z.name||('Zona '+zid))}]);
     const photo={id:Date.now(),dt:new Date().toISOString(),b64:pending.b64,mediaType:pending.mediaType,source:'dottorverde'};
-    try{const all=S.get('dss_zone_photos',{})||{};const list=all[zid]||[];all[zid]=[photo,...list].slice(0,30);S.set('dss_zone_photos',all);try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}}catch(e){}
+    try{await addZonePhotos({[zid]:[photo]});}catch(e){setMsgs(m=>[...m,{role:'bot',text:'Foto non salvata: '+e.message+'. Riprova scegliendo la zona.'}]);setBusy(false);return;}
     setMsgs(m=>[...m,{role:'bot',text:'Salvata in '+(z.name||('Zona '+zid))+'. Sto analizzando il manto…'}]);
     const p=pending; setPending(null);
     try{
@@ -11240,6 +11374,7 @@ function SlideI({mode,target,cls}){
   return html`<i class=${cls||''} style=${base+';transition:'+tr+' 1.15s cubic-bezier(.33,1,.5,1);'}></i>`;
 }
 function Oggi({wx,prof,setPg}){
+  useZonePhotoRefresh();
   const diag=S.get('dss_diagnosis_data',null);
   const salute=(diag&&diag.analisi&&typeof diag.analisi.salute_score==='number')?Math.round(diag.analisi.salute_score):null;
   const soilData=S.get('dss_soil_data',[])||[];
@@ -11267,7 +11402,7 @@ function Oggi({wx,prof,setPg}){
   const td=new Date().toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'});
   const dateLabel=td.charAt(0).toUpperCase()+td.slice(1);
 
-  const photos=[];try{Object.keys(photosObj).forEach(k=>{(photosObj[k]||[]).forEach(p=>{const u=_photoSrc(p);if(u)photos.push(u);});});}catch(e){}
+  const photos=Object.values(photosObj).flat().filter(Boolean).slice(0,3).map(_photoSrc).filter(Boolean);
   const slides=photos.length?photos.slice(0,3):[null]; // niente foto stock: gradiente finche' l'utente non carica le sue
   useEffect(()=>{const n=slides.length;if(n<2)return;const id=setInterval(()=>setSlide(s=>(s+1)%n),3500);return()=>clearInterval(id);},[slides.length]);
   useEffect(()=>{const el=heroRef.current;if(!el)return;el.style.strokeDashoffset=251;const v=(salute==null)?0:salute/100;requestAnimationFrame(()=>{requestAnimationFrame(()=>{el.style.strokeDashoffset=251*(1-v);});});},[salute]);
@@ -12350,8 +12485,7 @@ function FotoZonaSheet({prof,onClose,setPg}){
   const onPick=(e)=>{const f=e.target.files&&e.target.files[0];if(!f)return;setFile(f);const r=new FileReader();r.onload=()=>setPreview(r.result);r.readAsDataURL(f);};
   const save=async()=>{
     if(!file)return;setBusy(true);
-    try{ if(typeof appendZonePhotoFile==='function')await appendZonePhotoFile(zona,file);
-      else{const d=S.get('dss_zone_photos',{})||{};const arr=d[zona]||[];arr.unshift({date:new Date().toISOString().slice(0,10),data:preview});d[zona]=arr;S.set('dss_zone_photos',d);} }catch(e){}
+    try{await appendZonePhotoFile(zona,file);}catch(e){showGlobalToast(e.message,'error',6000);setBusy(false);return;}
     try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}
     setBusy(false);setSaved(true);setTimeout(()=>onClose&&onClose(),900);
   };
@@ -12581,7 +12715,7 @@ function OnboardingNew({onComplete}){
   const up=(k,v)=>setF(s=>({...s,[k]:v}));
   const [irrType,setIrrType]=useState(null);const [flowRate,setFlowRate]=useState('');
   const [obPhotos,setObPhotos]=useState({});
-  const toB64=(file)=>new Promise((res,rej)=>{try{if(typeof fileToBase64==='function')return fileToBase64(file).then(res).catch(rej);const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file);}catch(e){rej(e);}});
+  const toB64=async file=>(await shrinkImageFile(file)).dataUrl;
   const addPhoto=async(zid,file)=>{if(!file)return;if((obPhotos[zid]||[]).length>=2)return;try{const b64=await toB64(file);setObPhotos(p=>({...p,[zid]:[...(p[zid]||[]),{id:Date.now(),b64,name:file.name}]}));}catch(e){}};
   const rmPhoto=(zid,id)=>setObPhotos(p=>({...p,[zid]:(p[zid]||[]).filter(x=>x.id!==id)}));
   const photoCount=Object.values(obPhotos).reduce((s,a)=>s+(a?a.length:0),0);
@@ -12602,13 +12736,13 @@ function OnboardingNew({onComplete}){
   };
   const next=()=>{if(!canNext()){setErr(true);return;}setErr(false);setStep(s=>Math.min(N-1,s+1));};
   const back=()=>setStep(s=>Math.max(0,s-1));
-  const finish=(skip)=>{if(!canNext()){setErr(true);return;}
+  const finish=async(skip)=>{if(!canNext()){setErr(true);return;}
     const zones=f.zones.map(z=>({...z,area:parseFloat((z.area||'').toString().replace(',','.'))||0}));
     const profile={gardenName:f.gardenName.trim()||'Il mio prato',city:f.address.trim(),lat:f.lat,lon:f.lon,
       grassMixture:f.grassMixture,gddBase:f.grassMixture==='custom'?f.customGdd:(f.grassMixture==='macroterme'?10:5),
       exposure:zones[0]&&zones[0].exposure,zones,totalArea:Math.round(totalArea),audienceLevel:f.audience,
       soilType:f.soilType,maintenanceLevel:f.maintenance,lastIrrigation:f.lastIrrigation,lang:f.lang,hasIrrigation:f.irrigation==='auto',irrigationType:f.irrigation==='auto'?irrType:null,flowRateLpm:f.irrigation==='auto'?(parseFloat((flowRate||'').toString().replace(',','.'))||null):null,irrigationSetup:{hasIrrigation:f.irrigation==='auto',irrigationType:f.irrigation==='auto'?irrType:null,flowRateLpm:f.irrigation==='auto'?(parseFloat((flowRate||'').toString().replace(',','.'))||null):null}};
-    if(!skip){try{const ex=S.get('dss_zone_photos',{})||{};const now=new Date().toISOString();Object.entries(obPhotos).forEach(([zid,arr])=>{const za=ex[zid]||[];(arr||[]).forEach(p=>{if(!p.b64)return;za.push({id:p.id,b64:String(p.b64).startsWith('data:')?p.b64:('data:image/jpeg;base64,'+p.b64),name:p.name||'foto.jpg',dt:now,source:'onboarding'});});ex[zid]=za;});S.set('dss_zone_photos',ex);}catch(e){}}
+    if(!skip){try{const ex={};const now=new Date().toISOString();Object.entries(obPhotos).forEach(([zid,arr])=>{const za=ex[zid]||[];(arr||[]).forEach(p=>{if(!p.b64)return;za.push({id:p.id,b64:String(p.b64).startsWith('data:')?p.b64:('data:image/jpeg;base64,'+p.b64),name:p.name||'foto.jpg',dt:now,source:'onboarding'});});ex[zid]=za;});await addZonePhotos(ex);}catch(e){showGlobalToast('Foto non salvate: '+e.message,'error',6000);return;}}
     let ops=[];try{if(typeof generateFallbackPlan==='function')ops=generateFallbackPlan({...profile,zones:profile.zones},profile)||[];}catch(e){}
     try{S.set('dss_calendar_events',ops);}catch(e){}
     try{S.set('dss_diagnosis_data',{analisi:{salute_score:60,stato_generale:(skip||photoCount===0)?'Piano base — diagnosi foto da completare':'Piano generato — foto in analisi',problemi:[],operazione_top:'Conferma il calendario per iniziare'},planSource:skip?'user-skipped':'onboarding-photos',generatedAt:new Date().toISOString(),soilType:profile.soilType,lastIrrigation:profile.lastIrrigation,irrigationSetup:profile.irrigationSetup});}catch(e){}
@@ -13571,14 +13705,7 @@ function Dashboard({wx,ldg,err,prof,retry,setPg}){
   /* ── Irrigation decision (bilancio idrico FAO dinamico + WaterEngine litri/mm) ── */
   /* PATCH 06D-A.14 — Dashboard è vista 'read-only', non persiste θ per evitare drift */
   const irriReco=useMemo(()=>{
-    const rawIrr=JSON.parse(localStorage.getItem('dss_irrigation_history')||'[]')||[];
-    const irrHist=filterIrrigationHistoryForGarden(rawIrr,prof||{});
-    const irrigationHistory=irrHist.map(r=>{
-      const dayKey=(r.date||r.timestamp||r.ts||'').toString().slice(0,10);
-      const liters=+(r.totalLiters??r.liters??r.amount??0);
-      const mm=liters/Math.max(prof?.totalArea||100,1);
-      return {date:dayKey,mm,liters};
-    }).filter(r=>r.date&&r.mm>0);
+    const irrigationHistory=S.get('dss_irrigation_history',[])||[];
     return calcWaterBalance({
       wxData:wx,
       gardenData:{...(prof||{}),irrigationHistory},
@@ -16101,7 +16228,9 @@ function appendIrrigationHistoryEntry({zonesDetail,et,note,timestamp,auto,progra
   const totL=zonesDetail.reduce((s,z)=>s+(z.liters||0),0);
   const entry={id:auto?('controller:'+programId+':'+timestamp):Date.now(),timestamp:timestamp||new Date().toISOString(),zones:zonesDetail,totalLiters:totL,et,note:note||'',...(auto?{auto:true,programId,date:new Date(timestamp).toLocaleDateString('sv-SE')}:{})};
   const hist=S.get('dss_irrigation_history',[])||[];
-  const n=[entry,...hist].slice(0,100);
+  const cutoff=new Date();cutoff.setMonth(cutoff.getMonth()-18,1);cutoff.setHours(0,0,0,0);
+  // Almeno 18 mesi interi: nessun limite di voci, stagione corrente sempre conservata.
+  const n=[entry,...hist].filter(h=>{const t=Date.parse(h.timestamp||h.date||h.ts||h.dt);return !Number.isFinite(t)||t>=cutoff.getTime();});
   S.set('dss_irrigation_history',n);
   emitIrrigationChanged();
   try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch{}
@@ -16189,6 +16318,7 @@ function appendSoilMeasurementEntry(entry){
   return next;
 }
 async function runLawnZonePhotoAI(b64,mediaType,zoneCtx){
+  if(String(b64).startsWith('data:')){mediaType=b64.slice(5).split(';')[0];b64=b64.split(',')[1];}
   // zoneCtx: { name, exposure, area, grassType } — opzionale ma migliora molto l'accuratezza
   const lang=S.get('dss_lang','it')||'it';
   const langName=lang==='it'?'italiano':lang==='en'?'inglese':'italiano';
@@ -16255,18 +16385,18 @@ async function enrichOnboardingPhotosWithAI(){
       const zList = all[zoneId] || [];
       for (let i = 0; i < zList.length; i++) {
         const p = zList[i];
-        if (!p || !p.b64) continue;
+        if (!p || (!p.b64&&!p.remoteId)) continue;
         if (p.source !== 'onboarding-step7') continue;
         if (p.aiAnalysis) {
           analyses[zoneId] = [...(analyses[zoneId]||[]), p.aiAnalysis];
           continue;
         }
-        const b64Pure = String(p.b64).startsWith('data:') ? p.b64.split(',')[1] : p.b64;
+        const photoData=await readZonePhoto(p);
         const profData=S.get('dss_profile',{})||{};
         const zoneData=(profData.zones||[]).find(z=>z.id===zoneId)||{};
         const zCtx={name:zoneData.name,exposure:zoneData.exposure,area:zoneData.area,grassType:profData.grassMixture};
         try{
-          const a = await runLawnZonePhotoAI(b64Pure, 'image/jpeg', zCtx);
+          const a = await runLawnZonePhotoAI(photoData, p.mediaType||'image/jpeg', zCtx);
           zList[i] = {...p, aiAnalysis: a};
           analyses[zoneId] = [...(analyses[zoneId]||[]), a];
           touched = true;
@@ -16277,7 +16407,11 @@ async function enrichOnboardingPhotosWithAI(){
       }
       all[zoneId] = zList;
     }
-    if (touched) S.set('dss_zone_photos', all);
+    if(touched){
+      const current=S.get('dss_zone_photos',{})||{};
+      for(const [zid,list] of Object.entries(current))current[zid]=list.map(p=>{const a=(all[zid]||[]).find(q=>q.id===p.id)?.aiAnalysis;return a?{...p,aiAnalysis:a}:p;});
+      persistZonePhotoMetadata(current);
+    }
     return analyses;
   }catch(e){ console.warn('[Lawnly v8.0] enrichOnboardingPhotosWithAI failed:', e.message); return {}; }
 }
@@ -16350,10 +16484,10 @@ async function appendZonePhotoFile(zoneId,file){
   // invece di sparire dopo aver comunque speso la chiamata. Il campo b64Full non e' mai esistito:
   // questa riga lanciava un ReferenceError e nessuna foto di zona veniva salvata.
   const entryId=Date.now();
-  const entry={id:entryId,b64,name:file.name,dt:new Date().toISOString(),aiAnalysis:null};
+  const entry=await uploadZonePhoto(zoneId,{id:entryId,b64,mediaType,name:file.name,dt:new Date().toISOString(),aiAnalysis:null});
   const photos=S.get('dss_zone_photos',{})||{};
   const zList=photos[zoneId]||[];
-  S.set('dss_zone_photos',{...photos,[zoneId]:[entry,...zList].slice(0,30)});
+  persistZonePhotoMetadata({...photos,[zoneId]:[entry,...zList]});
   let analysis=null;
   try{analysis=await runLawnZonePhotoAI(b64,mediaType,zoneCtx);}catch(e){
     const errInfo=getAiErrorMessage(e);
@@ -16442,14 +16576,7 @@ function Irrigazione({wx,prof,wxLoading,onRefreshWx,lastFetchAt}){
   const doy=Math.ceil((new Date()-new Date(new Date().getFullYear(),0,1))/86400000);
   const soilLast=(S.get('dss_soil_data',[])||[])[0];
   const balance=useMemo(()=>{
-    const rawIrr=JSON.parse(localStorage.getItem('dss_irrigation_history')||'[]')||[];
-    const irrHist=filterIrrigationHistoryForGarden(rawIrr,prof||{});
-    const irrigationHistory=irrHist.map(r=>{
-      const dayKey=(r.date||r.timestamp||r.ts||'').toString().slice(0,10);
-      const liters=+(r.totalLiters??r.liters??r.amount??0);
-      const mm=liters/Math.max(prof?.totalArea||100,1);
-      return {date:dayKey,mm,liters};
-    }).filter(r=>r.date&&r.mm>0);
+    const irrigationHistory=S.get('dss_irrigation_history',[])||[];
     return calcWaterBalance({
       wxData:wx,
       gardenData:{...(prof||{}),irrigationHistory},
@@ -17406,16 +17533,11 @@ function Consulente({wx,prof,wxLoading}){
     const w7=w8.length?`GDD: +${w8[w8.length-1]?.gdd||0}, Pioggia: ${w8[w8.length-1]?.rain||0}mm, ET0: ${w8[w8.length-1]?.eto||0}mm`:'n.d.';
     // Dati aggiuntivi per contesto completo
     const irriHist=(S.get('dss_irrigation_history',[])||[]).slice(0,10);
-    const lastIrri=irriHist[0]||null;
-    const irriSum7=irriHist.filter(r=>{try{return(Date.now()-new Date(r.date||r.dt||r.timestamp).getTime())<7*864e5;}catch{return false;}}).reduce((s,r)=>s+(parseFloat(r.liters||r.mm||0)||0),0);
+    const lastIrri=normalizeIrrigations(irriHist,prof||{}).sort((a,b)=>b.date.localeCompare(a.date))[0]||null;
+    const irriSum7=normalizeIrrigations(S.get('dss_irrigation_history',[]),prof||{}).filter(r=>{const age=Date.now()-new Date(r.date+'T00:00:00').getTime();return age>=0&&age<7*864e5;}).reduce((s,r)=>s+r.liters,0);
     // Verdetto irrigazione dal bilancio idrico completo (include pioggia reale + umidità suolo)
     // Questo è IL verdetto autoritativo — differisce da computeDailyNeed che è solo fabbisogno teorico ET0
-    const irriHistMapped=(S.get('dss_irrigation_history',[])||[]).map(r=>{
-      const dayKey=(r.date||r.timestamp||r.ts||'').toString().slice(0,10);
-      const liters=+(r.totalLiters??r.liters??r.amount??0);
-      const mm=liters/Math.max(prof?.totalArea||100,1);
-      return{date:dayKey,mm,liters};
-    }).filter(r=>r.date&&r.mm>0);
+    const irriHistMapped=S.get('dss_irrigation_history',[])||[];
     const soilArrForBalance=S.get('dss_soil_data',[])||[];
     let irrigVerdictBlock='';
     try{
@@ -17661,7 +17783,7 @@ Non consigliare prodotti fuori da questa lista salvo richiesta esplicita dell'ut
     return map[t]||t;
   };
   // Helper: costruisce messaggi con foto reali allegate (Claude Vision)
-  const buildMsgsWithPhotos=useCallback((textMsg,prevMsgs)=>{
+  const buildMsgsWithPhotos=useCallback(async(textMsg,prevMsgs)=>{
     const allPh=S.get('dss_zone_photos',{})||{};
     const imgBlocks=[];
     const zoneKeys=Object.keys(allPh);
@@ -17672,7 +17794,7 @@ Non consigliare prodotti fuori da questa lista salvo richiesta esplicita dell'ut
       const sorted=[...phList].sort((a,b)=>new Date(b.dt||b.uploadedAt||0)-new Date(a.dt||a.uploadedAt||0));
       const newest=sorted[0];
       // Supporta sia il campo 'b64' (formato attuale) sia 'data' (legacy)
-      const rawB64=newest.b64||newest.data;
+      const rawB64=await readZonePhoto(newest);
       if(!rawB64)continue;
       // Estrai base64 puro (rimuovi eventuale prefisso data:...)
       const pureB64=String(rawB64).startsWith('data:')
@@ -17716,7 +17838,7 @@ Non consigliare prodotti fuori da questa lista salvo richiesta esplicita dell'ut
       const wantsPhoto=/foto|immagin|visual|vedi|guarda|analizza.*zona|zona.*analiz|come.*appare|come.*sta/i.test(msg);
       let chatMsgs;
       if(wantsPhoto){
-        const withPhotos=buildMsgsWithPhotos(msg,newMsgs);
+        const withPhotos=await buildMsgsWithPhotos(msg,newMsgs);
         chatMsgs=withPhotos||newMsgs.filter(m=>m.role==='user'||m.role==='assistant').slice(-HISTORY_MAX).map(m=>({role:m.role,content:m.content}));
         if(withPhotos)setMsgs(m=>[...m.slice(0,-1),{role:'user',content:msg+' 📸'}]); // emoji conferma foto allegate
       }else{
@@ -18494,7 +18616,7 @@ function App(){
       S.set('dss_profile',normalized);
       S.set('dss_owner_uid',userId);
       Object.entries(result.data).forEach(([k,v])=>{if(k!=='profile')S.set(k,v);});
-      if(wasLegacy&&userId)setTimeout(()=>profSet(normalized),0);
+      if(userId&&(wasLegacy||Object.values(result.data.dss_zone_photos||{}).some(list=>(list||[]).some(inlineZonePhoto))))setTimeout(()=>profSet(normalized),0);
       if(normalized.lat&&normalized.onboardingCompleted)setTimeout(()=>fetchWx(normalized),200);
       console.log('[loadUserData] loaded from cloud');
       return;
