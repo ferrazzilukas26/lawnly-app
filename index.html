@@ -252,14 +252,6 @@ main{max-width:960px;margin:0 auto;padding:calc(24px + env(safe-area-inset-top,0
 .cal-filters .cal-filter-btn.active{background:rgba(122,173,120,.9);color:#fff;border-color:transparent}
 input[type=range]{width:100%;accent-color:var(--green);cursor:pointer;margin:6px 0;height:4px;border-radius:2px}
 /* ── Weather Icons sizing (Step 10.7) ── */
-.wx-icon{display:inline-flex;align-items:center;justify-content:center;line-height:1}
-.wx-icon i{font-style:normal}
-.wx-icon-sm i{font-size:18px}
-.wx-icon-md i{font-size:28px}
-.wx-icon-lg i{font-size:42px}
-.wx-icon-xl i{font-size:64px}
-.wx-icon-primary i{color:var(--green,#2d7a3e)}
-.wx-icon-muted i{color:var(--muted,#8a8d85)}
 /* ── Step 12.11: nav Lucide, modal sheet, griglie / meteo mobile ── */
 .nav-lucide,.bnav-ico-lucide{display:inline-flex;align-items:center;justify-content:center;color:inherit;flex-shrink:0}
 .nav-lucide svg,.bnav-ico-lucide svg{stroke:currentColor;opacity:.92}
@@ -6761,105 +6753,9 @@ async function loadWxCached(lat,lon,year,gddBase,tz,grassType,forceFresh){
 
 const wxEmoji=c=>{if(c==null)return'❓';if(c===0)return'☀️';if(c<=3)return'⛅';if(c<=48)return'🌫️';if(c<=57)return'🌦️';if(c<=67)return'🌧️';if(c<=77)return'🌨️';return'⛈️'};
 
-/* Nomi stile meteocons (Bas Milius) per API/log — rendering: METEOCON_NAME_TO_WI + Weather Icons CSS.
-   Cartella public/meteocons/ assente: nessun file .svg in repo; mappati su classi wi-* correnti. */
-const WMO_ICON_MAP={
-  0:  {day:'clear-day',            night:'clear-night'},
-  1:  {day:'partly-cloudy-day',    night:'partly-cloudy-night'},
-  2:  {day:'partly-cloudy-day',    night:'partly-cloudy-night'},
-  3:  {day:'cloudy',               night:'cloudy'},
-  45: {day:'fog',                  night:'fog'},
-  48: {day:'fog',                  night:'fog'},
-  51: {day:'drizzle',              night:'drizzle'},
-  53: {day:'drizzle',              night:'drizzle'},
-  55: {day:'drizzle',              night:'drizzle'},
-  56: {day:'sleet',                night:'sleet'},
-  57: {day:'sleet',                night:'sleet'},
-  61: {day:'rain',                 night:'rain'},
-  63: {day:'rain',                 night:'rain'},
-  65: {day:'rain',                 night:'rain'},
-  66: {day:'sleet',                night:'sleet'},
-  67: {day:'sleet',                night:'sleet'},
-  71: {day:'snow',                 night:'snow'},
-  73: {day:'snow',                 night:'snow'},
-  75: {day:'snow',                 night:'snow'},
-  77: {day:'hail',                 night:'hail'},
-  80: {day:'rain',                 night:'rain'},
-  81: {day:'rain',                 night:'rain'},
-  82: {day:'extreme-rain',         night:'extreme-rain'},
-  85: {day:'snow',                 night:'snow'},
-  86: {day:'snow',                 night:'snow'},
-  95: {day:'thunderstorms',        night:'thunderstorms'},
-  96: {day:'thunderstorms-rain',   night:'thunderstorms-rain'},
-  99: {day:'thunderstorms-rain',   night:'thunderstorms-rain'}
-};
-const WMO_TEXT_META={
-  0:  {condition:'sereno',             intensity:'none',    label:'Sereno'},
-  1:  {condition:'prev_sereno',        intensity:'leggera', label:'Prev. sereno'},
-  2:  {condition:'parz_nuvoloso',      intensity:'media',   label:'Parz. nuvoloso'},
-  3:  {condition:'coperto',            intensity:'piena',   label:'Coperto'},
-  45: {condition:'nebbia',             intensity:'media',   label:'Nebbia'},
-  48: {condition:'nebbia_brina',       intensity:'forte',   label:'Nebbia con brina'},
-  51: {condition:'pioviggine',         intensity:'leggera', label:'Pioviggine leggera'},
-  53: {condition:'pioviggine',         intensity:'media',   label:'Pioviggine moderata'},
-  55: {condition:'pioviggine',         intensity:'forte',   label:'Pioviggine intensa'},
-  56: {condition:'gelicidio',          intensity:'leggera', label:'Gelicidio leggero'},
-  57: {condition:'gelicidio',          intensity:'forte',   label:'Gelicidio intenso'},
-  61: {condition:'pioggia',            intensity:'leggera', label:'Pioggia leggera'},
-  63: {condition:'pioggia',            intensity:'media',   label:'Pioggia moderata'},
-  65: {condition:'pioggia',            intensity:'forte',   label:'Pioggia intensa'},
-  66: {condition:'pioggia_gelata',     intensity:'leggera', label:'Pioggia gelata leggera'},
-  67: {condition:'pioggia_gelata',     intensity:'forte',   label:'Pioggia gelata intensa'},
-  71: {condition:'neve',               intensity:'leggera', label:'Nevicata leggera'},
-  73: {condition:'neve',               intensity:'media',   label:'Nevicata moderata'},
-  75: {condition:'neve',               intensity:'forte',   label:'Nevicata intensa'},
-  77: {condition:'neve_granulare',     intensity:'leggera', label:'Neve granulare'},
-  80: {condition:'rovesci',            intensity:'leggera', label:'Rovesci leggeri'},
-  81: {condition:'rovesci',            intensity:'media',   label:'Rovesci moderati'},
-  82: {condition:'rovesci_violenti', intensity:'forte',   label:'Rovesci violenti'},
-  85: {condition:'rovesci_neve',       intensity:'leggera', label:'Rovesci di neve'},
-  86: {condition:'rovesci_neve',       intensity:'forte',   label:'Rovesci di neve forti'},
-  95: {condition:'temporale',         intensity:'media',   label:'Temporale'},
-  96: {condition:'temporale_grandine',intensity:'media',  label:'Temporale con grandine'},
-  99: {condition:'temporale_grandine', intensity:'forte',   label:'Temporale con grandine forte'}
-};
-const WMO_UNKNOWN={day:'na',night:'na',condition:'unknown',intensity:'none',label:'Non disponibile'};
-function getMeteoIcon(wmoCode,isDay=true){
-  const mapping=WMO_ICON_MAP[wmoCode]??WMO_ICON_MAP[1];
-  return isDay?mapping.day:mapping.night;
-}
-function meteoconNameToWiClass(name,isDay=true){
-  if(name==null||name==='na')return'wi-na';
-  const t={
-    'clear-day':'wi-day-sunny','clear-night':'wi-night-clear',
-    'partly-cloudy-day':'wi-day-sunny-overcast','partly-cloudy-night':'wi-night-partly-cloudy',
-    'cloudy':'wi-cloudy',
-    'fog':isDay?'wi-day-fog':'wi-night-fog',
-    'drizzle':isDay?'wi-day-sprinkle':'wi-night-alt-sprinkle',
-    'sleet':isDay?'wi-day-sleet':'wi-night-alt-sleet',
-    'rain':isDay?'wi-day-rain':'wi-night-alt-rain',
-    'snow':isDay?'wi-day-snow':'wi-night-alt-snow',
-    'hail':isDay?'wi-day-snow':'wi-night-alt-snow',
-    'extreme-rain':isDay?'wi-day-storm-showers':'wi-night-alt-storm-showers',
-    'thunderstorms':isDay?'wi-day-thunderstorm':'wi-night-alt-thunderstorm',
-    'thunderstorms-rain':isDay?'wi-day-storm-showers':'wi-night-alt-storm-showers'
-  };
-  return t[name]||'wi-na';
-}
-function wxMeta(code,isDay=true){
-  if(code==null){
-    return{...WMO_UNKNOWN,iconClass:'wi-na',meteoconName:WMO_UNKNOWN.day};
-  }
-  const t=WMO_TEXT_META[code]||WMO_TEXT_META[1];
-  const mName=getMeteoIcon(code,isDay);
-  return{...t,iconClass:meteoconNameToWiClass(mName,isDay),meteoconName:mName};
-}
-function wxIcon(code,isDay=true,size='md',color=''){
-  const meta=wxMeta(code,isDay);
-  const sizeCls=`wx-icon-${size}`;
-  const colorCls=color?`wx-icon-${color}`:'';
-  return html`<span class="wx-icon ${sizeCls} ${colorCls}" title=${meta.label} aria-label=${meta.label}><i class="wi ${meta.iconClass}"></i></span>`;
-}
+/* Le icone meteo di Weather Icons sono state tolte: il foglio di stile rispondeva 404 da
+   tempo e nessuno chiamava piu' wxIcon/wxMeta/getMeteoIcon (verificato: zero riferimenti).
+   Le previsioni usano gli SVG inline di _wxIcon. */
 function isDaytime(dateOrISO,wxData){
   if(wxData?.todayData?.is_day!=null) return wxData.todayData.is_day===1;
   const d=new Date(dateOrISO||Date.now());
@@ -8857,7 +8753,7 @@ function validateOperation(newEv,allEvs,catalog,wx,grassType){
   const isHighN=npk=>npk&&npk.n>=15&&npk.n>(npk.k||0)*1.4;
   const isHighK=npk=>npk&&npk.k>=10&&npk.k>(npk.n||0)*1.2;
   const nearby=dw=>(allEvs||[]).filter(e=>
-    e.id!==newEv.id&&week>0&&Math.abs((e.week||0)-week)<=dw
+    e.id!==newEv.id&&week>0&&Math.abs(new Date(e.date||e.dt)-new Date(newEv.date||newEv.dt))<=dw*7*86400000
   );
   // B.1 — N/K entro 14gg (2 settimane)
   if(newEv.category==='concimazione'&&newEv.finalProductId){
@@ -8884,7 +8780,7 @@ function validateOperation(newEv,allEvs,catalog,wx,grassType){
   }
   // B.3 — Max 2 meccaniche per mese
   if(newEv.category==='meccanica'&&month>0){
-    const same=(allEvs||[]).filter(e=>e.id!==newEv.id&&e.category==='meccanica'&&(e.month||0)===month);
+    const same=(allEvs||[]).filter(e=>e.id!==newEv.id&&e.category==='meccanica'&&e.year===newEv.year&&(e.month||0)===month);
     if(same.length>=2)warnings.push('Hai già '+same.length+' operazioni meccaniche questo mese. Il prato rischia stress da lavorazioni eccessive.');
   }
   // B.5 — Stesso prodotto entro 7gg (1 settimana)
@@ -8923,25 +8819,129 @@ function validateOperation(newEv,allEvs,catalog,wx,grassType){
   return{errors,warnings,valid:errors.length===0};
 }
 
-/* === PORT da base Elia (repo prato-smart, commit 7ago2026) — PATCH 06D-B.2 + B.4 ===
-   Guard unico chiamato dai 3 punti utente che creano operazioni:
-   addPlanProp (Dottor Verde), RegistraLavorazioneSheet.pushEv, modal "+" save op.
-   NB: qui wx viene appiattito da todayData (nel donor B.4 leggeva wx.tmax alla radice
-   ma loadWxCached mette i campi in todayData -> trigger stagionali mai scattati). */
-function validateAndConfirmOp(newEv){
+// Ingresso applicativo comune a calendario, dashboard e chat.
+function prepareCalendarOperation(op){
+  const {_raw,opCat,...fields}=op;
+  let n=normalizeCalendarOp({...fields,name:op.name||op.title||op.phase||'Operazione'});
+  n.id=n.id||'op_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+  n.year=Number(n.year)||new Date().getFullYear();
+  if(!n.date&&!n.dt&&n.week>0){
+    const d=new Date(n.year,0,4,12);d.setDate(d.getDate()-((d.getDay()+6)%7)+(Number(n.week)-1)*7);
+    n=normalizeCalendarOp({...n,date:d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')});
+  }
+  const catalog=window.__LAWNLY_CATALOG__||[];
+  const wh=whProducts();
+  const stock=wh.find(p=>p.id===(n.finalProductId||n.suggestedProductId));
+  const needle=String(n.product||n.name).toLowerCase().trim();
+  const product=catalog.find(p=>p.id===(stock?.productId||n.finalProductId||n.suggestedProductId))||catalog.find(p=>[p.name,((p.brand||'')+' '+p.name).trim()].some(v=>String(v).toLowerCase()===needle));
+  if(product)n.finalProductId=product.id;
+  n.category=n.category||(/scarif|arieg|carot|verticut|taglio|tosatur|meccanic/i.test(n.name+' '+n.type)?'meccanica':({concime:'concimazione',fertilizzante:'concimazione',biostimolante:'biostimolazione'}[product?.type])||({meccanico:'meccanica',mechanic:'meccanica',trattamento:'concimazione'}[n.type])||'concimazione');
+  if(opStatus(n)===OP_STATUS.ESEGUITA)n.status='completato';
+  return n;
+}
+function validateAndConfirmOp(newEv,onReject=message=>alert(message)){
   try{
-    if((newEv&&newEv.status)==='completato')return true; // registrare il passato non si blocca
-    const n=normalizeCalendarOp({...newEv});
-    const evs=readCalendarEvents();
-    const wxr=(typeof window!=='undefined'&&window.__LAWNLY_WX__)||null;
-    const td=(wxr&&wxr.todayData)||{};
-    const wx=wxr?{tmax:(td.tmax!=null?td.tmax:null),tmin:(td.tmin!=null?td.tmin:null),humidity:(td.humidity!=null?td.humidity:null)}:null;
+    const wxr=window.__LAWNLY_WX__||null,td=wxr?.todayData||{};
+    const wx=wxr?{tmax:td.tmax??null,tmin:td.tmin??null,humidity:td.humidity??null}:null;
     const prof=S.get('dss_profile',{})||{};
-    const v=validateOperation(n,evs,(typeof window!=='undefined'&&window.__LAWNLY_CATALOG__)||[],wx,prof.grassMixture||'microterme');
-    if(v.errors.length>0){alert('\u26a0\ufe0f Operazione non consentita:\n\n'+v.errors.join('\n\n'));return false;}
-    if(v.warnings.length>0)return confirm('\u26a0\ufe0f Attenzione agronomica:\n\n'+v.warnings.join('\n\n')+'\n\nProcedere comunque?');
+    const evs=readCalendarEvents().filter(e=>!isOpSkipped(e)).map(prepareCalendarOperation);
+    const v=validateOperation(newEv,evs,window.__LAWNLY_CATALOG__||[],wx,prof.grassMixture||'microterme');
+    if(!newEv.week||!Number.isFinite(Date.parse(newEv.date||newEv.dt)))v.errors.push('Data o settimana dell’operazione non valida.');
+    if(v.errors.length){onReject(v.errors.join('\n'));return false;}
+    if(v.warnings.length&&!confirm('⚠ Attenzione agronomica:\n\n'+v.warnings.join('\n\n')+'\n\nProcedere comunque?')){onReject('Operazione non confermata: '+v.warnings.join(' '));return false;}
     return true;
-  }catch(e){return true;}
+  }catch(e){onReject('Validazione non riuscita: '+e.message);return false;}
+}
+function operationQuantity(op){
+  const doses=(op.doses||[]).filter(d=>Number(String(d.amount).replace(',','.'))>0);
+  if(doses.length)return doses.reduce((sum,d)=>addQuantity(sum,{qty:d.amount,unit:d.unit||op.unit}),{qty:0,unit:doses[0].unit||op.unit});
+  if(Number(String(op.quantityTotal).replace(',','.'))>0)return addQuantity({qty:0,unit:op.unit},{qty:op.quantityTotal,unit:op.unit});
+  return null;
+}
+function restoreOperationStock(products,consumed){
+  return products.map(p=>({...p,packages:p.packages.map(pk=>{
+    const entries=(consumed||[]).filter(c=>c.productId===p.id&&c.pkg_id===pk.id);
+    if(!entries.length)return pk;
+    const unit=whPackageUnit(p,pk);
+    return{...pk,unit,remaining_qty:entries.reduce((q,c)=>addQuantity(q,{qty:c.used,unit:c.unit}),{qty:pk.remaining_qty||0,unit}).qty};
+  })}));
+}
+function applyCalendarOperation(operation,{source='manual',remove=false,undo=false,onReject=message=>alert(message)}={}){
+  const evs=S.get('dss_calendar_events',[])||[];
+  const previous=evs.find(e=>e&&e.id===operation.id)||null;
+  let n=undo?previous?.chatUndo?.before:operation;
+  if(undo&&!previous?.chatUndo)return{ok:false,reason:'Operazione non più annullabile.'};
+  remove=remove||(undo&&!n);
+  if(!remove){
+    const input=undo?{...n}:{...previous,...n};
+    if(!undo&&previous&&input.week!==previous.week&&input.date===previous.date){delete input.date;delete input.dt;delete input.month;}
+    if(!undo&&operation.status&&_LEGACY_STATUS_MAP[operation.status]!==OP_STATUS.ESEGUITA){input.done=false;input.completed=false;input.confirmed=false;}
+    n=prepareCalendarOperation(input);
+    let reason='';
+    if(!undo&&!validateAndConfirmOp(n,message=>{reason=message;onReject(message);}))return{ok:false,reason};
+  }
+  let products=whProducts(),stockChanged=false;
+  const wasDone=previous&&opStatus(previous)===OP_STATUS.ESEGUITA;
+  const done=!remove&&opStatus(n)===OP_STATUS.ESEGUITA;
+  if(wasDone&&(!done||remove)&&previous.consumed?.length){products=restoreOperationStock(products,previous.consumed);stockChanged=true;}
+  if(!remove&&done&&!wasDone){
+    n={...n,consumed:[],shortfall:0,stockWarning:null};
+    try{
+      const quantity=operationQuantity(n);
+      if(quantity){
+        const pid=n.finalProductId||n.suggestedProductId;
+        const needle=String(n.product||n.name).toLowerCase().trim();
+        const matches=products.filter(p=>pid?(p.id===pid||p.productId===pid):[p.name,((p.brand||'')+' '+p.name).trim()].some(v=>String(v).toLowerCase()===needle));
+        let remaining=Number(String(quantity.qty).replace(',','.'));n.stockUnit=quantity.unit;
+        // Vecchie righe duplicate dello stesso prodotto: FIFO anche fra acquisti separati.
+        const compatible=matches.filter(p=>{try{addQuantity({qty:0,unit:quantity.unit},{qty:whTotal(p),unit:p.unit});return true;}catch(e){return false;}}).sort((a,b)=>String(a.packages[0]?.added_date||'').localeCompare(String(b.packages[0]?.added_date||'')));
+        for(const p of compatible){
+          if(remaining<=0)break;
+          const result=wfFifoUse(products,p.id,remaining,quantity.unit);
+          products=result.products;remaining=Math.max(0,remaining-result.used);
+          n.consumed.push(...result.consumed);stockChanged=stockChanged||result.used>0;
+        }
+        n.shortfall=remaining;
+        if(remaining>0)n.stockWarning='Magazzino: mancano '+remaining+' '+quantity.unit+(matches.length&&!compatible.length?' (giacenza in unità incompatibili, anche confezioni).':'.');
+      }else if(n.product||n.finalProductId)n.stockWarning='Magazzino non scaricato: manca una quantità con unità esplicita.';
+    }catch(e){onReject(e.message);return{ok:false,reason:e.message};}
+  }
+  if(!remove){
+    if(!done&&!undo){n={...n,confirmed:false,done:false,completed:false,consumed:[],shortfall:0,stockWarning:null};}
+    if(source==='chat')n={...n,from_chat:true,chatUndo:previous?.chatUndo||{before:previous?{...previous,chatUndo:undefined}:null}};
+    if(undo){n={...n,chatUndo:undefined};}
+    if(source!=='chat'&&!undo)delete n.chatUndo;
+    n.updatedAt=new Date().toISOString();
+  }
+  if(stockChanged)S.set('dss_warehouse_v2',products);
+  if(wasDone&&(!done||remove))S.set('dss_warehouse_log',(S.get('dss_warehouse_log',[])||[]).filter(l=>l.operationId!==previous.id));
+  const next=remove?evs.filter(e=>e.id!==operation.id):previous?evs.map(e=>e.id===previous.id?n:e):[...evs,n];
+  S.set('dss_calendar_events',next);
+  if(!remove&&!wasDone&&n.consumed?.length)for(const c of n.consumed)whLogUse(c.productId,c.productName,c.unit,c.used,n.name,n.id);
+  try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}
+  return{ok:true,operation:n,events:next};
+}
+// Anche rigenerazioni e modifiche a liste passano dall'ingresso applicativo.
+function saveCalendarEvents(next){
+  const before=S.get('dss_calendar_events',[])||[];
+  let ok=true;
+  for(const op of next.filter(Boolean)){
+    const old=before.find(e=>e.id===op.id);
+    if(old&&JSON.stringify(old)===JSON.stringify(op))continue;
+    if(!applyCalendarOperation(op).ok)ok=false;
+  }
+  if(ok)for(const old of before)if(!next.some(e=>e&&e.id===old.id))applyCalendarOperation(old,{remove:true});
+  return ok;
+}
+function applyChatCalendarOperation(op){
+  const n=prepareCalendarOperation(op);
+  const bn=name=>String(name||'').toLowerCase().replace(/[^a-z0-9\s]/gi,' ').trim().split(/\s+/).slice(0,2).join(' ');
+  const similar=e=>{const a=bn(n.name),b=bn(e.name);return e.year===n.year&&Math.abs(e.week-n.week)<=2&&a&&b&&(a===b||a.includes(b)||b.includes(a));};
+  const evs=readCalendarEvents().map(prepareCalendarOperation);
+  const match=evs.find(e=>e.id===op.id)||evs.find(e=>isOpOpen(e)&&similar(e))||evs.find(similar);
+  // I campi della proposta integrano quelli del piano (dosi, prodotto e zone inclusi).
+  const candidate=match?{...match,...op,id:match.id}:n;
+  return applyCalendarOperation(candidate,{source:'chat',onReject:()=>{}});
 }
 
 function generateFallbackPlan(gardenData,profile){
@@ -8994,7 +8994,7 @@ function generateFallbackPlan(gardenData,profile){
       finalProductId:null,
       finalFormatSku:null,
       doseGm2:t.dose||0,
-      quantityTotal:t.dose?(t.dose*zoneAreaSum)/1000:null,
+      quantityTotal:t.dose?fromBase(toBase(t.dose*zoneAreaSum,'g'),'kg'):null,
       unit:'kg',
       status:'planned',
       source:'rule_based_fallback',
@@ -9147,7 +9147,7 @@ FORMATO OUTPUT OBBLIGATORIO (SOLO JSON, NESSUN ALTRO TESTO):
         return sum+(parseFloat(z?.area)||0);
       },0);
       const doseGm2=parseFloat(op.dose_gm2)||0;
-      const quantityTotal=doseGm2>0?(doseGm2*zoneAreaSum)/1000:null;
+      const quantityTotal=doseGm2>0?fromBase(toBase(doseGm2*zoneAreaSum,'g'),'kg'):null;
       const inferredMonth=op.month||(op.date?(new Date(op.date).getMonth()+1):1);
       return{
         id:'ai_'+Date.now()+'_'+i,
@@ -9669,7 +9669,7 @@ function DiagnosisStep({form,zones,onComplete}){
 
       // === STEP C: build payload e completa ===
       clearTimeout(absoluteTimeout);
-      try{S.set('dss_calendar_events',ops);}catch(e){}
+      try{saveCalendarEvents(ops);}catch(e){}
       const payload={
         irrigazione:irr,manutenzione:mnt,selezioni:multi,
         analisi:usedFallback?{
@@ -9706,7 +9706,7 @@ function DiagnosisStep({form,zones,onComplete}){
             generateAnnualPlan(
               {gardenData,profile,weather:wxData,diagnosisInputs:{irr,mnt,multi}},
               {maxTokens:4000,useHaiku:false,timeoutMs:45000,backgroundRefine:true}
-            ).then(newOps=>{if(newOps&&newOps.length)S.set('dss_calendar_events',newOps);})
+            ).then(newOps=>{if(newOps&&newOps.length)saveCalendarEvents(newOps);})
             .catch(e=>console.warn('[bg-refine]',e.message));
           }catch(e){}
         },2000);
@@ -9728,7 +9728,7 @@ function DiagnosisStep({form,zones,onComplete}){
       const profile=S.get('dss_profile',{})||{audienceLevel:form.audienceLevel};
       ops=generateFallbackPlan(gardenData,profile)||[];
     }catch(e){console.warn('[Diagnosis] skip: fallback plan failed:',e.message);}
-    try{S.set('dss_calendar_events',ops);}catch(e){}
+    try{saveCalendarEvents(ops);}catch(e){}
     const payload={
       irrigazione:irr,manutenzione:mnt,selezioni:multi,
       analisi:{
@@ -11326,8 +11326,7 @@ function DottorVerdeChat({prof,wx,onClose}){
       const cat=p.category||'concimazione';
       const legacy=(typeof CATEGORY_TO_LEGACY_TYPE!=='undefined'&&CATEGORY_TO_LEGACY_TYPE[cat])||'trattamento';
       const ev={id:'op_'+Date.now().toString(36)+'_'+i,date:p.date||new Date().toISOString().slice(0,10),category:cat,type:legacy,name:p.name,title:p.name,phase:p.name,zones:(zones||[]).map(z=>z.id||z.name),product:p.product||null,doseGm2:p.doseGm2||0,doses:[],notes:'Suggerita dal Dottor Verde',status:'programmato',year:new Date().getFullYear(),ai_generated:true,_source:'dottorverde'};
-      if(!validateAndConfirmOp(ev))return;
-      try{const d=S.get('dss_calendar_events',[])||[];S.set('dss_calendar_events',[ev,...d]);}catch(e){}
+      if(!applyCalendarOperation(ev).ok)return;
       try{if(typeof queueOperationFeedback==='function')queueOperationFeedback({type:'added',operation:ev,oldOperation:null,gardenData:prof,profile:prof,gdd:wx});}catch(e){}
       added.push(p);
     });
@@ -11502,7 +11501,7 @@ function Oggi({wx,prof,setPg}){
   const opTot=(()=>{if(!nextOp||!nextOp.dose||!(prof&&prof.totalArea))return null;const m=(''+nextOp.dose).match(/([\d.,]+)\s*ml\s*\/\s*100/);if(m){const per=parseFloat(m[1].replace(',','.'));return '~'+Math.round(per*(prof.totalArea/100))+' ml';}return null;})();
   const opDose=nextOp&&(nextOp.dose||(nextOp.doseGm2>0?(nextOp.doseGm2+' g/m²'):null));
   const opArea=(()=>{if(!nextOp)return (prof&&prof.totalArea)||null;const zs=(prof&&prof.zones)||[];const ids=Array.isArray(nextOp.zones)?nextOp.zones:null;if(ids&&ids.length&&zs.length){const tot=zs.filter(z=>ids.includes(z.id||z.name)).reduce((s,z)=>s+(parseFloat(z.area||z.m2)||0),0);if(tot>0)return tot;}return (prof&&prof.totalArea)||null;})();
-  const opTotal=(()=>{if(!nextOp)return null;if(nextOp.doseGm2>0&&opArea){const kg=(nextOp.doseGm2*opArea)/1000;return kg>=1?('~'+kg.toFixed(2)+' kg'):('~'+Math.round(kg*1000)+' g');}return opTot;})();
+  const opTotal=(()=>{if(!nextOp)return null;if(nextOp.doseGm2>0&&opArea){const kg=fromBase(toBase(nextOp.doseGm2*opArea,'g'),'kg');return kg>=1?('~'+kg.toFixed(2)+' kg'):('~'+Math.round(toBase(kg,'kg').qty)+' g');}return opTot;})();
   const val=(l,r)=>html`<div class="dt-val"><span class="dt-val-l">${l}</span><span class="dt-val-r">${r}</span></div>`;
   // Prossimo intervento: nome prodotto in evidenza + descrizione
   // PATCH v9 — gli eventi AI hanno brand/product null ma finalProductId/suggestedProductId:
@@ -11887,11 +11886,11 @@ function Piano({prof,wx,setPg}){
       try{ if(typeof generateFallbackPlan==='function') ops=generateFallbackPlan(gardenData,profile)||[]; }catch(e){}
       ops=(ops||[]).map(o=>o&&!_isDoneOp(o)?{...o,status:'da_valutare',ai_generated:true}:o); // B.3: proposte AI da valutare
       const merged=mergePlan(doneOps,ops);
-      if(merged.length){ try{S.set('dss_calendar_events',merged);}catch(e){} try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){} }
+      if(merged.length){ try{saveCalendarEvents(merged);}catch(e){} try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){} }
       try{
         if(typeof generateAnnualPlan==='function'){
           generateAnnualPlan({gardenData,profile,weather:wx,diagnosisInputs:{}},{maxTokens:4000,useHaiku:false,timeoutMs:45000,backgroundRefine:true})
-            .then(newOps=>{ if(newOps&&newOps.length){ const m2=mergePlan(doneOps,newOps.map(o=>o&&!_isDoneOp(o)?{...o,status:'da_valutare',ai_generated:true}:o)); try{S.set('dss_calendar_events',m2);}catch(e){} try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){} setTick(t=>t+1);} })
+            .then(newOps=>{ if(newOps&&newOps.length){ const m2=mergePlan(doneOps,newOps.map(o=>o&&!_isDoneOp(o)?{...o,status:'da_valutare',ai_generated:true}:o)); try{saveCalendarEvents(m2);}catch(e){} try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){} setTick(t=>t+1);} })
             .catch(()=>{});
         }
       }catch(e){}
@@ -11905,23 +11904,14 @@ function Piano({prof,wx,setPg}){
     try{
       const all=S.get('dss_calendar_events',[])||[];
       const i=all.findIndex(e=>e&&e.id===id);
-      if(i>=0){all[i]={...all[i],...patch};S.set('dss_calendar_events',all);
+      if(i>=0){all[i]={...all[i],...patch};if(!saveCalendarEvents(all))return;
         try{if(typeof queueOperationFeedback==='function')queueOperationFeedback({type:fbType,operation:all[i],oldOperation:null,gardenData:prof,profile:prof,gdd:wx});}catch(e){}
         try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}
       }
     }catch(e){}
     setDetail(null);setTick(t=>t+1);
   };
-  const markDone=(ev)=>{
-    try{
-      const pid=ev.finalProductId||ev.suggestedProductId||null;const pname=ev.product||null;
-      if(pname||pid){const wh=S.get('dss_warehouse_v2',[])||[];
-        const it=wh.find(w=>(pid&&w.id===pid)||(pname&&(((w.brand?w.brand+' ':'')+(w.name||'')).toLowerCase().includes((pname||'').toLowerCase().split(' ').slice(0,2).join(' ')))));
-        if(it&&Array.isArray(it.packages)){let need=0;(ev.doses||[]).forEach(d=>{need+=parseFloat(d.amount)||0;});
-          if(need>0){let rem=need;for(const pk of it.packages){if(rem<=0)break;const have=pk.remaining_qty||0;const take=Math.min(have,rem);pk.remaining_qty=have-take;rem-=take;}S.set('dss_warehouse_v2',wh);}}}
-    }catch(e){}
-    _upd(ev.id,{status:'completato',completed_date:new Date().toISOString().slice(0,10)},'completed');
-  };
+  const markDone=ev=>_upd(ev.id,{status:'completato',completed_date:new Date().toISOString().slice(0,10)},'completed');
   // Operazione "chiave" in finestra stagionale (saltarla compromette il prato)
   const _isMandatory=(ev)=>{const m=ev.month||(ev.date?new Date(ev.date).getMonth()+1:null);const inSeason=m!=null&&m>=3&&m<=11;const txt=((ev.category||'')+' '+(ev.type||'')+' '+(ev.family||'')+' '+(ev.name||'')).toLowerCase();return inSeason&&/concim|potassic|azotat|spinta|radicaz|antifung|fungic/.test(txt);};
   const skipOp=(ev)=>{
@@ -11941,7 +11931,7 @@ function Piano({prof,wx,setPg}){
         if(e.id===ev.id||isCascade){const nd=new Date(ed);nd.setDate(nd.getDate()+DELTA);return {...e,date:nd.toISOString().slice(0,10),status:e.id===ev.id?'posticipato':e.status};}
         return e;
       });
-      S.set('dss_calendar_events',next);
+      saveCalendarEvents(next);
       try{if(typeof queueOperationFeedback==='function')queueOperationFeedback({type:'modified',operation:ev,oldOperation:null,gardenData:prof,profile:prof,gdd:wx});}catch(e){}
       try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}
     }catch(e){}
@@ -12112,7 +12102,7 @@ function ProductDetailSheet({prod,onClose,qtyInWarehouse}){
   </div></${ModalPortal}>`;
 }
 function Magazzino2({prof,setPg}){
-  const wh=S.get('dss_warehouse_v2',[])||[];
+  const wh=whProducts();
   const [detail,setDetail]=useState(null);
   const items=wh.filter(Boolean).map(p=>{
     const qty=(typeof whTotal==='function')?whTotal(p):Number(p.qty||0);
@@ -12120,20 +12110,20 @@ function Magazzino2({prof,setPg}){
     const cat=_catClass(p.category||p.unit||p.format||p.name);
     const pct=reorder?14:(qty<=3?55:80);
     const meta=[p.category,p.format||(p.unit?('conf. '+p.unit):'')].filter(Boolean).join(' · ');
-    const qd=Number.isInteger(qty)?qty:(''+qty).replace('.',',');
+    const qd=!Number.isFinite(qty)?'Da verificare':Number.isInteger(qty)?qty:(''+qty).replace('.',',');
     const prodCat=_findCatalogProduct([p.brand,p.name].filter(Boolean).join(' '));
     const desc=(prodCat&&prodCat.notes)||p.notes||p.description||(prodCat&&(prodCat.npkLabel||prodCat.family))||'';
-    return {name:[p.brand,p.name].filter(Boolean).join(' '),meta,qty:qd,unit:p.unit||'',reorder,cat,pct,material:_isMaterial(p.category||p.name),prodCat,desc,rawQty:qd};
+    return {name:[p.brand,p.name].filter(Boolean).join(' '),meta,qty:qd,unit:Number.isFinite(qty)?p.unit||'':'unità non confrontabili',reorder,cat,pct,material:_isMaterial(p.category||p.name),prodCat,desc,rawQty:qd};
   });
   const tot=items.length, low=items.filter(i=>i.reorder).length, ok=tot-low;
   const prods=items.filter(i=>!i.material), mats=items.filter(i=>i.material);
   const open=()=>setPg&&setPg('magazzino');
   const [shProd,setShProd]=useState(false);
-  const row=(p,i)=>html`<div class="prod" key=${i} onClick=${()=>p.prodCat?setDetail({prod:p.prodCat,qty:p.rawQty}):open()}>
+  const row=(p,i)=>html`<div class="prod" key=${i} onClick=${()=>p.prodCat?setDetail({prod:p.prodCat,qty:p.rawQty,unit:p.unit}):open()}>
     <span class=${'prod-ic '+p.cat}>${_mSvg(p.cat)}</span>
     <div class="prod-m"><div class="prod-n">${p.name||'Prodotto'}</div>${p.desc?html`<div class="prod-meta">${p.desc.length>72?p.desc.slice(0,70)+'…':p.desc}</div>`:(p.meta?html`<div class="prod-meta">${p.meta}</div>`:'')}
       <div class="prod-bar"><i style=${'width:'+p.pct+'%;background:'+(p.reorder?'var(--red)':'var(--green)')}></i></div></div>
-    <div class="prod-r"><div class="prod-q">${p.qty}<small> ${p.unit}</small></div><span class=${'pbadge '+(p.reorder?'r':'g')}>${p.reorder?'Riordina':'OK'}</span></div>
+    <div class="prod-r"><div class="prod-q">${p.qty}<small> ${p.unit==='conf'?'confezioni (contenuto non noto)':p.unit}</small></div><span class=${'pbadge '+(p.reorder?'r':'g')}>${p.reorder?'Riordina':'OK'}</span></div>
   </div>`;
 
   return html`<div class="rdz olx">
@@ -12149,7 +12139,7 @@ function Magazzino2({prof,setPg}){
     ${prods.length?html`<div class="card fade"><div class="c-eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8l9 5 9-5Z"/><path d="m3 8 0 8 9 5 9-5 0-8"/></svg> Prodotti in magazzino</div>${prods.map(row)}</div>`:''}
     ${shProd?html`<${AggiungiProdottoSheet} onClose=${()=>setShProd(false)}/>`:''}
     ${mats.length?html`<div class="card fade"><div class="c-eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-4 9 4-9 4-9-4Z"/><path d="m3 14 9 4 9-4"/></svg> Materiali per lavorazioni meccaniche</div>${mats.map(row)}</div>`:''}
-    ${detail?html`<${ProductDetailSheet} prod=${detail.prod} qtyInWarehouse=${detail.qty} onClose=${()=>setDetail(null)}/>`:''}
+    ${detail?html`<${ProductDetailSheet} prod=${detail.prod} qtyInWarehouse=${detail.qty} warehouseUnit=${detail.unit} onClose=${()=>setDetail(null)}/>`:''}
   </div>`;
 }
 /* ===== fine Sezione MAGAZZINO ===== */
@@ -12226,6 +12216,8 @@ function ProAccountCard(){
   const [pro,setPro]=useState(()=>!!(N&&N.isPro()));
   const [offers,setOffers]=useState([]);const [privReq,setPrivReq]=useState(false);
   const [busy,setBusy]=useState('');const [msg,setMsg]=useState('');
+  // Il consenso all'analisi AI delle foto si revoca da qui (Apple lo richiede modificabile).
+  const [aiPhoto,setAiPhoto]=useState(()=>getAiPhotoConsent()===true);
   useEffect(()=>{if(!nat)return;const off=N.onProChange(v=>setPro(!!v));N.getOffers().then(setOffers).catch(()=>{});N.privacyOptionsRequired().then(v=>setPrivReq(!!v)).catch(()=>{});return()=>{try{off&&off();}catch(e){}};},[]);
   const PER={P1W:'settimana',P1M:'mese',P3M:'3 mesi',P6M:'6 mesi',P1Y:'anno'};
   const perks=(typeof window!=='undefined'&&window.LAWNLY_PRO_PERKS)||['Nessuna pubblicità'];
@@ -12236,6 +12228,16 @@ function ProAccountCard(){
   const btn='justify-content:center;width:100%;margin-top:8px;';
   return html`<div class="card fade">
     <div class="c-eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7Z"/></svg> ${nat?'Lawnly Pro e privacy':'Privacy e termini'}</div>
+    <div class="pf-row" style="align-items:flex-start;gap:10px">
+      <div style="min-width:0;flex:1">
+        <div class="k" style="font-weight:700;color:var(--ink)">Analisi AI delle foto</div>
+        <div class="k" style="margin-top:2px">Quando e' attiva, le foto del prato vengono inviate al fornitore di AI per il consiglio agronomico. Da spenta, le foto restano salvate senza essere analizzate.</div>
+      </div>
+      <button type="button" class=${'fswitch'+(aiPhoto?' on':'')} role="switch" aria-checked=${!!aiPhoto}
+        aria-label="Analisi AI delle foto" onClick=${()=>setAiPhoto(setAiPhotoConsent(!aiPhoto))}>
+        <span class="fswitch-t">${aiPhoto?'Attiva':'Spenta'}</span><span class="sw" aria-hidden="true"><i></i></span>
+      </button>
+    </div>
     ${nat&&pro?html`<div style="font-size:14px;font-weight:800;color:var(--green-deep);margin:4px 0 4px;">Lawnly Pro attivo ✓</div><button class="pf-edit" style=${btn} onClick=${manage}>Gestisci abbonamento</button>`:''}
     ${nat&&!pro&&offers.length?html`<div style="font-size:13px;color:var(--t2);margin:4px 0 4px;line-height:1.6;">${perks.map(p=>html`<div key=${p}>✓ ${p}</div>`)}</div>
       ${offers.map(o=>html`<button key=${o.id} class="sh-save" style="margin-top:8px;" disabled=${!!busy} onClick=${()=>buy(o)}>${busy===o.id?'Attendere…':(o.title+' · '+o.price+(o.period?(' / '+(PER[o.period]||o.period)):''))}</button>`)}
@@ -12485,7 +12487,7 @@ function FotoZonaSheet({prof,onClose,setPg}){
   const onPick=(e)=>{const f=e.target.files&&e.target.files[0];if(!f)return;setFile(f);const r=new FileReader();r.onload=()=>setPreview(r.result);r.readAsDataURL(f);};
   const save=async()=>{
     if(!file)return;setBusy(true);
-    try{await appendZonePhotoFile(zona,file);}catch(e){showGlobalToast(e.message,'error',6000);setBusy(false);return;}
+    try{await appendZonePhotoFile(zona,file,{analyze:ai});}catch(e){showGlobalToast(e.message,'error',6000);setBusy(false);return;}
     try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}
     setBusy(false);setSaved(true);setTimeout(()=>onClose&&onClose(),900);
   };
@@ -12569,7 +12571,8 @@ function RegistraLavorazioneSheet({prof,onClose,only,setPg}){
     const zlist=zones;const zoneIds=zsel;
     const selZones=zlist.filter(z=>zoneIds.includes(z.id||z.name));
     const yr=new Date().getFullYear();
-    const pushEv=(ev)=>{if(!validateAndConfirmOp(ev))return;try{const d=S.get('dss_calendar_events',[])||[];S.set('dss_calendar_events',[ev,...d]);}catch(e){}
+    let rejected=false;
+    const pushEv=(ev)=>{if(!applyCalendarOperation(ev).ok){rejected=true;return;}
       try{if(typeof queueOperationFeedback==='function')queueOperationFeedback({type:'added',operation:ev,oldOperation:null,gardenData:prof2,profile:prof2,gdd:(typeof window!=='undefined'&&window.__LAWNLY_WX__)||null});}catch(e){}};
     // IRRIGAZIONE -> storico (ricalibra bilancio idrico)
     if(tipi.irr){
@@ -12584,13 +12587,14 @@ function RegistraLavorazioneSheet({prof,onClose,only,setPg}){
     // PRODOTTO (+ eventuale miscela) -> evento/i canonici
     if(tipi.prod){
       const mk=(pname,q,u)=>{const doseG=(u==='g/m²')?(parseFloat((q||'').toString().replace(',','.'))||0):0;
-        const doses=(doseG>0&&selZones.length)?selZones.map(z=>({zone:z.name||z.id,amount:((doseG*(parseFloat(z.area||z.m2)||0))/1000).toFixed(2),unit:'kg'})):[];
+        const doses=(doseG>0&&selZones.length)?selZones.map(z=>({zone:z.name||z.id,amount:fromBase(toBase(doseG*(parseFloat(z.area||z.m2)||0),'g'),'kg').toFixed(2),unit:'kg'})):[];
         return {id:'op_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,5),date:data,category:'concimazione',type:'trattamento',name:pname||'Prodotto',title:pname||'Prodotto',phase:pname||'Prodotto',zones:zoneIds,finalProductId:matchPid(pname),doseGm2:doseG,quantityTotal:(u!=='g/m²'?(parseFloat((q||'').toString().replace(',','.'))||null):null),unit:u,product:pname||null,doses,notes:note,status:done?'completato':'programmato',year:yr,ai_generated:false,_source:'user_added'};};
       const nm=(p)=>p==='Altro (non in magazzino)'?(note||'Prodotto non in magazzino'):p;
       if(prod1)pushEv(mk(nm(prod1),qty1,unit1));
       if(showMix&&prod2)pushEv(mk(nm(prod2),qty2,unit2));
     }
     try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}
+    if(rejected)return;
     setSaved(true);setTimeout(()=>onClose&&onClose(),900);
   };
 
@@ -12654,12 +12658,13 @@ function AggiungiProdottoSheet({onClose}){
   const add=()=>{
     if(!sel)return;
     const f=(sel.formats||[])[selFmt]||(sel.formats||[])[0]||{size:1,unit:'conf'};
-    const sizeEach=parseFloat((''+(f.size||1)).replace(',','.'))||1;
+    const parsed=whFormat(f);
+    const sizeEach=parsed.size;
     const nPack=Math.max(1,Math.round(parseFloat((qty||'1').replace(',','.'))||1));
-    const u=f.unit||'conf';
+    const u=parsed.unit;
     const packages=Array.from({length:nPack},(_,k)=>({id:Date.now()+k,size:sizeEach,unit:u,qty:sizeEach,remaining_qty:sizeEach,added_date:new Date().toISOString()}));
     const entry={id:'wh_'+Date.now(),productId:sel.pid||null,name:sel.name,brand:sel.brand,category:sel.type,unit:u,format:f.label||(sizeEach+' '+u),formatSku:f.sku||null,sizeEach,packages,qty:sizeEach*nPack};
-    try{const d=S.get('dss_warehouse_v2',[])||[];S.set('dss_warehouse_v2',[entry,...d]);}catch(e){}
+    try{S.set('dss_warehouse_v2',whAddPackages(whProducts(),entry));}catch(e){alert(e.message);return;}
     try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}
     setSaved(true);setTimeout(()=>onClose&&onClose(),900);
   };
@@ -12676,7 +12681,7 @@ function AggiungiProdottoSheet({onClose}){
           ${sel.desc?html`<div class="dt-note" style="margin-top:2px;">${sel.desc}</div>`:''}
           <div class="field"><label class="flab">Confezione (formato acquistabile)</label><div class="fchips">${(sel.formats||[]).map((ff,i)=>html`<span key=${i} class=${'fchip'+(selFmt===i?' on':'')} onClick=${()=>setSelFmt(i)}>${ff.label||(ff.size+' '+ff.unit)}</span>`)}</div></div>
           <div class="field"><label class="flab">Numero di confezioni</label><input class="finput" type="text" inputmode="numeric" value=${qty} onInput=${e=>setQty(e.target.value)}/></div>
-          ${(()=>{const f=(sel.formats||[])[selFmt]||{};const sz=parseFloat((''+(f.size||1)).replace(',','.'))||1;const q=parseFloat((qty||'1').replace(',','.'))||1;const u=f.unit||'conf';return html`<div style="font-size:11.5px;color:var(--green-deep);background:var(--green-soft);border-radius:9px;padding:8px 10px;">Totale a magazzino: <b>${(sz*q).toLocaleString('it-IT')} ${u}</b> (${q} × ${sz} ${u})</div>`;})()}
+          ${(()=>{const f=(sel.formats||[])[selFmt]||{};const parsed=whFormat(f);const sz=parsed.size;const q=parseFloat((qty||'1').replace(',','.'))||1;const u=parsed.unit;return html`<div style="font-size:11.5px;color:var(--green-deep);background:var(--green-soft);border-radius:9px;padding:8px 10px;">Totale a magazzino: <b>${(sz*q).toLocaleString('it-IT')} ${u}</b> (${q} × ${sz} ${u})${u==='conf'?' · Giacenza in confezioni: contenuto non noto.':''}</div>`;})()}
           <button class="sh-save" onClick=${add}>Aggiungi al magazzino</button>
           <button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>lawnlyBuyPadana({name:sel.name,id:sel.pid})}>Acquista su Padana Sementi ↗</button>
           <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:6px;">Link di affiliazione: riceviamo una commissione, senza costi per te.</div>
@@ -12744,7 +12749,7 @@ function OnboardingNew({onComplete}){
       soilType:f.soilType,maintenanceLevel:f.maintenance,lastIrrigation:f.lastIrrigation,lang:f.lang,hasIrrigation:f.irrigation==='auto',irrigationType:f.irrigation==='auto'?irrType:null,flowRateLpm:f.irrigation==='auto'?(parseFloat((flowRate||'').toString().replace(',','.'))||null):null,irrigationSetup:{hasIrrigation:f.irrigation==='auto',irrigationType:f.irrigation==='auto'?irrType:null,flowRateLpm:f.irrigation==='auto'?(parseFloat((flowRate||'').toString().replace(',','.'))||null):null}};
     if(!skip){try{const ex={};const now=new Date().toISOString();Object.entries(obPhotos).forEach(([zid,arr])=>{const za=ex[zid]||[];(arr||[]).forEach(p=>{if(!p.b64)return;za.push({id:p.id,b64:String(p.b64).startsWith('data:')?p.b64:('data:image/jpeg;base64,'+p.b64),name:p.name||'foto.jpg',dt:now,source:'onboarding'});});ex[zid]=za;});await addZonePhotos(ex);}catch(e){showGlobalToast('Foto non salvate: '+e.message,'error',6000);return;}}
     let ops=[];try{if(typeof generateFallbackPlan==='function')ops=generateFallbackPlan({...profile,zones:profile.zones},profile)||[];}catch(e){}
-    try{S.set('dss_calendar_events',ops);}catch(e){}
+    try{saveCalendarEvents(ops);}catch(e){}
     try{S.set('dss_diagnosis_data',{analisi:{salute_score:60,stato_generale:(skip||photoCount===0)?'Piano base — diagnosi foto da completare':'Piano generato — foto in analisi',problemi:[],operazione_top:'Conferma il calendario per iniziare'},planSource:skip?'user-skipped':'onboarding-photos',generatedAt:new Date().toISOString(),soilType:profile.soilType,lastIrrigation:profile.lastIrrigation,irrigationSetup:profile.irrigationSetup});}catch(e){}
     onComplete&&onComplete(profile);
   };
@@ -12901,13 +12906,9 @@ function RegisterOpModal({onClose}){
       const productName=sel?((sel.brand?sel.brand+' ':'')+sel.name):(op.product||null);
       const legacyType=(typeof CATEGORY_TO_LEGACY_TYPE!=='undefined'&&CATEGORY_TO_LEGACY_TYPE[op.category])||'trattamento';
       const selZones=(zones||[]).filter(z=>(op.zones||[]).includes(z.id||z.name));
-      const legacyDoses=(op.doseGm2>0&&selZones.length)?selZones.map(z=>({zone:z.name||z.id,amount:((op.doseGm2*(parseFloat(z.area)||0))/1000).toFixed(2),unit:'kg'})):[];
+      const legacyDoses=(op.doseGm2>0&&selZones.length)?selZones.map(z=>({zone:z.name||z.id,amount:fromBase(toBase(op.doseGm2*(parseFloat(z.area)||0),'g'),'kg').toFixed(2),unit:'kg'})):[];
       const newEv={id:op.id||('op_'+Date.now().toString(36)),date:op.date,month:op.month,week:op.week,category:op.category,type:legacyType,name:op.name,title:op.name,phase:op.name,zones:op.zones,suggestedProductId:op.suggestedProductId||null,finalProductId:op.finalProductId||null,finalFormatSku:op.finalFormatSku||null,doseGm2:op.doseGm2||0,quantityTotal:op.quantityTotal,unit:op.unit||'kg',notes:op.notes||'',product:productName,doses:legacyDoses,year:new Date().getFullYear(),status:'programmato',ai_generated:false,_source:'user_added'};
-      if(!validateAndConfirmOp(newEv))return;
-      const evs=S.get('dss_calendar_events',[])||[];
-      const idx=evs.findIndex(e=>e&&e.id===newEv.id);
-      if(idx>=0){evs[idx]={...evs[idx],...newEv};}else{evs.push(newEv);}
-      S.set('dss_calendar_events',evs);
+      if(!applyCalendarOperation(newEv).ok)return;
       try{if(typeof queueOperationFeedback==='function')queueOperationFeedback({type:'added',operation:newEv,oldOperation:null,gardenData:prof,profile:prof,gdd:(typeof window!=='undefined'&&window.__LAWNLY_WX__)||null});}catch(e){}
       try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}
     }catch(e){console.warn('[+] save op',e&&e.message);}
@@ -13698,7 +13699,7 @@ function Dashboard({wx,ldg,err,prof,retry,setPg}){
 
   const markDone=()=>{
     if(!curOp?.id)return;
-    S.set('dss_calendar_events',calEvs.map(e=>e.id===curOp.id?{...e,status:'done',confirmed:true,doneAt:new Date().toISOString()}:e));
+    if(!applyCalendarOperation({...curOp,status:'completato',confirmed:true,doneAt:new Date().toISOString()}).ok)return;
     setOpDone(true);
   };
 
@@ -13758,7 +13759,7 @@ function Dashboard({wx,ldg,err,prof,retry,setPg}){
       _source:'user'
     };
     const all=S.get('dss_calendar_events',[])||[];
-    S.set('dss_calendar_events',[...all,mowingOp]);
+    saveCalendarEvents([...all,mowingOp]);
     try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch{}
     setMowingTick(t=>t+1);
     showGlobalToast('✓ Taglio registrato — '+mowingReco.heightCm+' cm','success',3500);
@@ -14691,7 +14692,7 @@ function CalDetailModal({op,zones,wh,onDone,onSkip,onPostpone,onEdit,onDelete,on
   const calCat=op.opCat||opCategory(op._raw||op);
   const calCatStyle=categoryStyle[calCat]||categoryStyle.other;
   const SC={programmato:'#94A3B8',completato:'#22C55E',saltato:'#EF4444',posticipato:'#F59E0B'};
-  const totalDose=op.doses?.reduce((s,d)=>s+parseFloat(d.amount||0),0)||0;
+  const totalDose=(()=>{try{return operationQuantity(op._raw||op)?.qty||0;}catch(e){return 'Unità incompatibili';}})();
   const modalVDom = html`<div style="position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center" onClick=${e=>{if(e.target===e.currentTarget)onClose();}}>
     <div class="cal-theme" style="background:#fff;border-radius:1.4rem 1.4rem 0 0;width:100%;max-width:540px;padding:18px 18px 32px;max-height:88vh;overflow-y:auto;box-shadow:0 -8px 48px rgba(0,0,0,.18)">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
@@ -14729,7 +14730,7 @@ function CalDetailModal({op,zones,wh,onDone,onSkip,onPostpone,onEdit,onDelete,on
       ${op.status==='completato'&&(op.consumed?.length||op.shortfall>0)?html`<div style="padding:10px 12px;background:#F8FAFC;border-radius:.65rem;margin-bottom:12px;border:1px solid var(--border)">
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px">📦 Consumo magazzino</div>
         ${op.consumed?.length?op.consumed.map((c,i)=>html`<div key=${i} style="display:flex;justify-content:space-between;font-size:11px;padding:3px 0;color:var(--text)"><span style="color:var(--muted)">Pacco ${(c.pkg_id||'').slice(-6)||'—'}</span><strong>${c.used} ${c.unit||''}</strong></div>`):html`<div style="font-size:11px;color:var(--muted)">Nessuna scorta scalata</div>`}
-        ${op.shortfall>0?html`<div style="font-size:11px;color:#92400E;font-weight:700;margin-top:4px">⚠ Mancanza: ${op.shortfall} ${op.consumed?.[0]?.unit||op.doses?.[0]?.unit||''}</div>`:''}
+        ${op.shortfall>0?html`<div style="font-size:11px;color:#92400E;font-weight:700;margin-top:4px">⚠ Mancanza: ${op.shortfall} ${op.stockUnit||op._raw?.stockUnit||op.doses?.[0]?.unit||''}</div>`:''}
       </div>`:''}
       ${avail===false&&op.product&&op.status!=='completato'?html`<div style="padding:8px 12px;background:#FEF9C3;border-radius:.65rem;font-size:11px;color:#92400E;margin-bottom:12px">⚠️ <strong>${op.product}</strong> non disponibile in magazzino. Puoi comunque registrare l'operazione come parziale o aggiungere scorta prima.</div>`:''}
       ${confirmDose&&op.doses?.length&&op.product?html`<div style="padding:10px 12px;background:var(--green-l);border-radius:.75rem;margin-bottom:10px">
@@ -14739,12 +14740,12 @@ function CalDetailModal({op,zones,wh,onDone,onSkip,onPostpone,onEdit,onDelete,on
           <input class="inp" type="date" value=${doneDate} max=${new Date().toISOString().slice(0,10)} onInput=${e=>setDoneDate(e.target.value)}/>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <button class="btn btn-s" style="padding:8px" onClick=${()=>onDone(op,false,doneDate)}>Non scalare</button>
-          <button class="btn btn-p" style="padding:8px" onClick=${()=>onDone(op,true,doneDate)}>✓ Scala dal magazzino</button>
+          <button class="btn btn-s" style="padding:8px" onClick=${()=>setConfirmDose(false)}>Indietro</button>
+          <button class="btn btn-p" style="padding:8px" onClick=${()=>onDone(op,doneDate)}>✓ Scala dal magazzino</button>
         </div>
       </div>`:''}
       ${op.status!=='completato'?html`<div style="display:grid;gap:8px">
-        ${!confirmDose?html`<button class="btn btn-p" style="padding:11px;font-size:13px" onClick=${()=>op.doses?.length&&op.product?setConfirmDose(true):onDone(op,false,new Date().toISOString())}>✓ Segna come fatto</button>`:''}
+        ${!confirmDose?html`<button class="btn btn-p" style="padding:11px;font-size:13px" onClick=${()=>op.doses?.length&&op.product?setConfirmDose(true):onDone(op,new Date().toISOString())}>✓ Segna come fatto</button>`:''}
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
           <button class="btn btn-s" style="padding:9px;font-size:12px" onClick=${()=>onPostpone(op.id)}>⏭ Posticipa +1w</button>
           <button class="btn btn-s" style="padding:9px;font-size:12px;color:#EF4444;border-color:rgba(239,68,68,.3)" onClick=${()=>onSkip(op.id)}>✕ Salta</button>
@@ -14830,7 +14831,7 @@ function NewOperationModal({isOpen,initialOp,zones,warehouse,catalog,onSave,onCl
     const z=(zones||[]).find(x=>(x.id||x.name)===id);
     return s+(parseFloat(z?.area)||0);
   },0);
-  const quantityTotal=formData.doseGm2>0?(formData.doseGm2*zoneAreaSum)/1000:0;
+  const quantityTotal=formData.doseGm2>0?fromBase(toBase(formData.doseGm2*zoneAreaSum,'g'),'kg'):0;
 
   const submit=()=>{
     if(!formData.name.trim())return;
@@ -15575,6 +15576,7 @@ function Calendario({wx,prof,setPg}){
     year:ev.year||curYear,
     status:ev.status||(ev.confirmed?'completato':'programmato'),
     doses:ev.doses||[],
+    consumed:ev.consumed||[],shortfall:ev.shortfall||0,stockUnit:ev.stockUnit,
     notes:ev.notes||ev.n||'',
     gdd_trigger:ev.gdd_trigger||null,
     completed_date:ev.completed_date||ev.doneAt||null,
@@ -15590,9 +15592,9 @@ function Calendario({wx,prof,setPg}){
 
   /* ── Persist ── */
   const saveEvs=next=>{
-    setRawEvs(next);
-    S.set('dss_calendar_events',next);
-    try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch{}
+    const ok=saveCalendarEvents(next);
+    setRawEvs(readCalendarEvents());
+    return ok;
   };
   const updateEv=(id,upd)=>saveEvs(rawEvs.map(e=>e.id===id?{...e,...upd}:e));
   const deleteEv=id=>{
@@ -15623,55 +15625,14 @@ function Calendario({wx,prof,setPg}){
     if(typeof setPg==='function')setPg('magazzino');
   };
 
-  /* ── Warehouse deduction con consumed[] + shortfall (TASK 4) ── */
-  const deductWhDetailed=(productName,total,productId=null)=>{
-    if(!total)return{consumed:[],shortfall:total||0,productId:null,unit:null};
-    const prods=whProducts();
-    // Prefer exact ID match, fall back to fuzzy name match
-    let match=productId?prods.find(p=>p.id===productId):null;
-    if(!match&&productName){const n=(productName||'').toLowerCase().split(' ')[0];match=prods.find(p=>(p.name||'').toLowerCase().includes(n));}
-    if(!match)return{consumed:[],shortfall:total,productId:null,unit:null};
-    const res=wfFifoUse(prods,match.id,total);
-    S.set('dss_warehouse_v2',res.products);
-    whLogUse(match.id,match.name,match.unit,res.used,productName);
-    return{
-      consumed:(res.consumed||[]).map(c=>({pkg_id:c.pkg_id,used:c.used,productId:match.id,productName:match.name,unit:match.unit})),
-      shortfall:Math.max(0,parseFloat((total-res.used).toFixed(3))),
-      productId:match.id,
-      unit:match.unit,
-      used:res.used,
-    };
-  };
-
-  /* ── Op actions (TASK 4: consumed[] metadata + shortfall banner) ── */
-  const markDone=(ev,deduct,doneDate)=>{
-    const raw=ev._raw||ev;
-    // Quantity: doses array OR quantityTotal fallback (events generated by rule engine)
-    const total=(ev.doses||[]).reduce((s,d)=>s+parseFloat(d.amount||0),0)
-      ||parseFloat(raw.quantityTotal??ev.quantityTotal??0)||0;
-    const dDate=(doneDate&&!isNaN(new Date(doneDate))?new Date(doneDate):new Date()).toISOString();
-    let metadata={completed_date:dDate,status:'completato',confirmed:true,consumed:[],shortfall:0};
-    // Product: name string OR resolve from warehouse by ID
-    const pid=raw.finalProductId||raw.suggestedProductId||null;
-    const productName=ev.product||raw.product||(pid?(()=>{const p=whProducts().find(x=>x.id===pid);return p?.name||null;})():null)||null;
-    if(deduct&&(productName||pid)&&total){
-      const res=deductWhDetailed(productName,total,pid);
-      metadata.consumed=res.consumed;
-      metadata.shortfall=res.shortfall;
-      const unit=res.unit||ev.doses?.[0]?.unit||'';
-      if(res.shortfall>0){
-        setDoneToast({msg:`⚠ Scorta insufficiente: mancano ${res.shortfall.toFixed(res.shortfall<10?1:0)} ${unit}. Operazione registrata parzialmente.`,warn:true});
-      }else{
-        setDoneToast({msg:'✓ Operazione registrata. Magazzino aggiornato.',warn:false});
-      }
-    }else{
-      setDoneToast({msg:'✓ Operazione registrata.',warn:false});
-    }
-    updateEv(ev.id,metadata);
-    setDetailOpId(null);
-    setTimeout(()=>setDoneToast(null),5000);
+  const markDone=(ev,doneDate)=>{
+    const result=applyCalendarOperation({...ev._raw,...ev,status:'completato',completed_date:doneDate||new Date().toISOString()});
+    if(!result.ok)return;
+    setRawEvs(result.events);
+    setDoneToast({msg:result.operation.stockWarning||'✓ Operazione registrata. Magazzino aggiornato.',warn:!!result.operation.stockWarning});
+    setDetailOpId(null);setTimeout(()=>setDoneToast(null),5000);
     scheduleAutoRegen('Completata: '+ev.name);
-    queueOperationFeedback({type:'completed',operation:{...ev,...metadata},oldOperation:ev,gardenData:prof,profile:prof,gdd:wx});
+    queueOperationFeedback({type:'completed',operation:result.operation,oldOperation:ev,gardenData:prof,profile:prof,gdd:wx});
   };
   const skipEv=id=>{
     const ev=rawEvs.find(e=>e.id===id);
@@ -15737,7 +15698,7 @@ function Calendario({wx,prof,setPg}){
     const productName=selectedProduct?`${selectedProduct.brand?selectedProduct.brand+' ':''}${selectedProduct.name}`:null;
     const selZones=(zones||[]).filter(z=>op.zones.includes(z.id||z.name));
     const legacyDoses=op.doseGm2>0&&selZones.length
-      ?selZones.map(z=>({zone:z.name||z.id,amount:((op.doseGm2*(parseFloat(z.area)||0))/1000).toFixed(2),unit:'kg'}))
+      ?selZones.map(z=>({zone:z.name||z.id,amount:fromBase(toBase(op.doseGm2*(parseFloat(z.area)||0),'g'),'kg').toFixed(2),unit:'kg'}))
       :[];
     const newEv={
       id:op.id,
@@ -15767,9 +15728,9 @@ function Calendario({wx,prof,setPg}){
     const prevEv=rawEvs.find(e=>e.id===op.id)||null;
     const isEdit=op.source==='user_edited'||!!prevEv;
     if(isEdit){
-      saveEvs(rawEvs.map(e=>e.id===op.id?{...e,...newEv}:e));
+      if(!saveEvs(rawEvs.map(e=>e.id===op.id?{...e,...newEv}:e)))return;
     }else{
-      saveEvs([...rawEvs,newEv]);
+      if(!saveEvs([...rawEvs,newEv]))return;
     }
     setNewOpModalOpen(false);
     setEditingOp(null);
@@ -16302,7 +16263,7 @@ function soilEntrySideEffects(entry){
     const already=evs.some(e=>(e.name||'').toLowerCase().includes('correzione ph')&&(e.week||0)>=cw&&(e.week||0)<=cw+4);
     if(!already){
       const next=[...evs,{id:'soil_ph_'+Date.now(),name:'Correzione pH',type:'trattamento',week:cw+1,year:new Date().getFullYear(),status:'programmato',doses:[{zone:entry.zona,amount:'200',unit:'g/m²'}],notes:`pH ${entry.ph} in Zona ${entry.zona} — applicare calce o calcite 200-300 g/m²`,ai_generated:false}];
-      S.set('dss_calendar_events',next);
+      saveCalendarEvents(next);
     }
   }
   if(entry.ec!=null&&entry.ec>1200){
@@ -16317,7 +16278,34 @@ function appendSoilMeasurementEntry(entry){
   try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch{}
   return next;
 }
+/* Consenso all'analisi AI delle foto.
+   Il selettore «Analizza con l'AI» cambiava solo l'aspetto: la foto partiva comunque.
+   La guardia sta qui, nell'unico punto da cui passano tutte e quattro le strade che
+   mandano una foto al fornitore (caricamento, rianalisi, chat, analisi in blocco):
+   una richiesta in piu' altrove non puo' scavalcarla. La scelta si cambia dal Profilo. */
+const AI_PHOTO_CONSENT_VERSION='2026-09-13';
+function getAiPhotoConsent(){
+  const c=(S.get('dss_profile',{})||{}).aiPhotoConsent;
+  return (c&&c.version===AI_PHOTO_CONSENT_VERSION)?!!c.granted:null;
+}
+function setAiPhotoConsent(granted){
+  const fresh=S.get('dss_profile',{})||{};
+  S.set('dss_profile',{...fresh,aiPhotoConsent:{granted:!!granted,at:new Date().toISOString(),version:AI_PHOTO_CONSENT_VERSION}});
+  try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}
+  return !!granted;
+}
+function ensureAiPhotoConsent(){
+  const known=getAiPhotoConsent();
+  if(known!==null)return known;
+  const granted=window.confirm(
+    'Per analizzare la foto del prato, Lawnly la invia al fornitore di intelligenza artificiale (Anthropic), '+
+    'insieme ai dati della zona. Serve solo per il consiglio agronomico e non viene usata per altro.\n\n'+
+    'OK: consenti l\'analisi delle foto.\nAnnulla: le foto restano salvate senza essere analizzate.\n\n'+
+    'Puoi cambiare idea quando vuoi dal Profilo.');
+  return setAiPhotoConsent(granted);
+}
 async function runLawnZonePhotoAI(b64,mediaType,zoneCtx){
+  if(!ensureAiPhotoConsent())throw new Error('Analisi delle foto non consentita. Puoi attivarla dal Profilo.');
   if(String(b64).startsWith('data:')){mediaType=b64.slice(5).split(';')[0];b64=b64.split(',')[1];}
   // zoneCtx: { name, exposure, area, grassType } — opzionale ma migliora molto l'accuratezza
   const lang=S.get('dss_lang','it')||'it';
@@ -16472,7 +16460,7 @@ Rispondi SOLO con JSON valido (nessun testo fuori):
   }catch(e){ console.warn('[Lawnly v8.0] generateIntegratedDiagnosis failed:', e.message); }
   return null;
 }
-async function appendZonePhotoFile(zoneId,file){
+async function appendZonePhotoFile(zoneId,file,opts){
   const _shrunk=await shrinkImageFile(file);
   const b64=_shrunk.b64;
   const mediaType=_shrunk.mediaType;
@@ -16489,6 +16477,7 @@ async function appendZonePhotoFile(zoneId,file){
   const zList=photos[zoneId]||[];
   persistZonePhotoMetadata({...photos,[zoneId]:[entry,...zList]});
   let analysis=null;
+  if(opts&&opts.analyze===false)return {savedOnly:true};
   try{analysis=await runLawnZonePhotoAI(b64,mediaType,zoneCtx);}catch(e){
     const errInfo=getAiErrorMessage(e);
     showGlobalToast(`${errInfo.title}: ${errInfo.detail} — la foto e' salvata, l'analisi si puo' rifare`,errInfo.type==='budget'||errInfo.type==='rate_limit'?'warning':'error',8000);
@@ -16946,45 +16935,84 @@ function Irrigazione({wx,prof,wxLoading,onRefreshWx,lastFetchAt}){
 /* ═══════════════════════════════════════════════════════
    WAREHOUSE — Helpers FIFO globali
 ═══════════════════════════════════════════════════════ */
+// Quantità conservate nell'unità di ingresso; aritmetica solo in g / ml / conf.
+function toBase(qty,unit){
+  const u=String(unit||'').trim().toLowerCase();
+  const units={g:['g',1],kg:['g',1000],ml:['ml',1],l:['ml',1000],conf:['conf',1]};
+  const spec=units[u],n=Number(String(qty).replace(',','.'));
+  if(!spec||!Number.isFinite(n)||n<0)throw new Error('Quantità o unità non interpretabile: '+qty+' '+(unit||''));
+  return{qty:n*spec[1],unit:spec[0]};
+}
+function fromBase(base,unit){
+  const one=toBase(1,unit);
+  if(base.unit!==one.unit)throw new Error('Unità incompatibili: '+base.unit+' e '+unit);
+  return base.qty/one.qty;
+}
+function addQuantity(a,b){
+  const left=toBase(a.qty,a.unit),right=toBase(b.qty,b.unit);
+  if(left.unit!==right.unit)throw new Error('Unità incompatibili: '+a.unit+' e '+b.unit);
+  return{qty:fromBase({qty:left.qty+right.qty,unit:left.unit},a.unit),unit:a.unit};
+}
+function whFormat(format={}){
+  try{if(Number(String(format.size).replace(',','.'))>0){toBase(format.size,format.unit);return{...format,size:Number(String(format.size).replace(',','.'))};}}catch(e){}
+  // Accetta una sola misura, senza moltiplicatori o numeri ambigui.
+  const label=String(format.label||'');
+  const m=label.match(/^(?:[^\d]*?\s)?(\d+(?:[.,]\d+)?)\s*(kg|g|ml|l)\s*$/i);
+  if(m&&Number(m[1].replace(',','.'))>0)return{...format,size:Number(m[1].replace(',','.')),unit:m[2].toLowerCase()==='l'?'L':m[2].toLowerCase()};
+  return{...format,size:1,unit:'conf'};
+}
+function whPackageUnit(p,pk){
+  // Un vecchio "conf" non dimostra quanto contenuto resti: non reinterpretarlo.
+  if(pk.unit)return pk.unit;
+  if(p.unit==='conf')return 'conf';
+  const parsed=whFormat({label:pk.format});
+  return parsed.unit!=='conf'?parsed.unit:(p.unit||p.u||'conf');
+}
 function whProducts(){
-  const raw=S.get('dss_warehouse_v2',[])||[];
-  if(!raw.length)return[];
-  if(raw[0]?.packages!==undefined)return raw;
-  // Migrate from legacy flat format
-  return raw.map(p=>({
-    id:p.id||'p_'+Math.random().toString(36).slice(2),
-    brand:'Bottos',
-    name:p.n||p.name||'Prodotto',
-    type:'fertilizzante',
-    unit:p.u==='ml'||p.u==='L'?p.u:'g',
-    packages:(p.qty||p.ini)?[{id:p.id+'_pkg0',added_date:'2025-01-01',original_qty:p.ini||p.qty||0,remaining_qty:p.qty||0,format:''}]:[],
-  }));
+  return(S.get('dss_warehouse_v2',[])||[]).filter(Boolean).map(p=>{
+    if(Array.isArray(p.packages))return p;
+    const unit=p.unit||p.u||'conf';
+    return{...p,name:p.n||p.name||'Prodotto',unit,packages:[{id:p.id+'_pkg0',unit,added_date:'2025-01-01',original_qty:p.ini??p.qty??0,remaining_qty:p.qty??0,format:''}]};
+  });
 }
-function whTotal(p){
+function whTotal(p,field='remaining_qty'){
   if(!p)return 0;
-  if(Array.isArray(p.packages))return p.packages.reduce((s,pk)=>s+(pk.remaining_qty||0),0);
-  return Number(p.qty||0);
+  const unit=p.unit||p.u||'conf';
+  try{return(p.packages||[{[field]:p.qty||0,unit}]).reduce((sum,pk)=>addQuantity(sum,{qty:pk[field]??(field==='original_qty'?(pk.qty??pk.size??pk.remaining_qty):0)??0,unit:whPackageUnit(p,pk)}),{qty:0,unit}).qty;}catch(e){return NaN;} // dati legacy incompatibili: richiedono verifica, mai somma grezza
 }
-function wfFifoUse(products,productId,amount){
-  let rem=Number(amount)||0;
+function whAddPackages(products,entry){
+  const existing=products.find(p=>(p.productId||p.id)===(entry.productId||entry.id));
+  // La stessa guardia protegge aggiunta, totale, dosi e FIFO.
+  toBase(whTotal(entry),entry.unit);
+  if(!existing)return[...products,entry];
+  addQuantity({qty:whTotal(existing),unit:existing.unit},{qty:whTotal(entry),unit:entry.unit});
+  return products.map(p=>p!==existing?p:{...p,packages:[...p.packages,...entry.packages]});
+}
+function wfFifoUse(products,productId,amount,unit){
+  const product=products.find(p=>p.id===productId);
+  unit=unit||product?.unit||'conf';
+  const request=toBase(amount,unit);
+  let rem=request.qty;
   const consumed=[];
   const updated=products.map(p=>{
     if(p.id!==productId)return p;
     const sorted=[...p.packages].sort((a,b)=>(a.added_date||'').localeCompare(b.added_date||''));
+    // Controlla TUTTE le confezioni prima di consumarne una.
+    sorted.forEach(pk=>addQuantity({qty:0,unit},{qty:pk.remaining_qty||0,unit:whPackageUnit(p,pk)}));
     const newPkgs=sorted.map(pk=>{
-      if(rem<=0||pk.remaining_qty<=0)return pk;
-      const take=Math.min(pk.remaining_qty,rem);
-      rem-=take;
-      consumed.push({pkg_id:pk.id,used:take});
-      return{...pk,remaining_qty:parseFloat((pk.remaining_qty-take).toFixed(2))};
+      const pu=whPackageUnit(p,pk),have=toBase(pk.remaining_qty||0,pu);
+      if(rem<=0||have.qty<=0)return pk;
+      const take=Math.min(have.qty,rem);rem-=take;
+      consumed.push({pkg_id:pk.id,used:fromBase({qty:take,unit:request.unit},pu),unit:pu,productId:p.id,productName:p.name});
+      return{...pk,unit:pu,remaining_qty:fromBase({qty:have.qty-take,unit:request.unit},pu)};
     });
     return{...p,packages:newPkgs};
   });
-  return{products:updated,consumed,used:Number(amount)-rem};
+  return{products:updated,consumed,used:fromBase({qty:request.qty-rem,unit:request.unit},unit)};
 }
-function whLogUse(productId,productName,unit,amount,opRef){
+function whLogUse(productId,productName,unit,amount,opRef,operationId){
   const log=S.get('dss_warehouse_log',[])||[];
-  S.set('dss_warehouse_log',[{id:Date.now(),dt:new Date().toISOString(),productId,productName,amount:Number(amount),unit,op:opRef||''},...log].slice(0,300));
+  S.set('dss_warehouse_log',[{id:Date.now(),dt:new Date().toISOString(),productId,productName,amount:Number(amount),unit,op:opRef||'',operationId},...log].slice(0,300));
 }
 
 /* ── Adapter: shape nuovo catalogo → shape legacy WH_PRESETS ── */
@@ -17112,7 +17140,7 @@ function Magazzino(){
   /* ── Status ── */
   const prodStatus=p=>{
     const tot=whTotal(p);
-    const orig=p.packages?.reduce((s,pk)=>s+(pk.original_qty||0),0)||1;
+    const orig=whTotal(p,'original_qty')||1;
     const pct=tot/orig*100;
     if(tot===0) return{s:'out',label:'Esaurito',     c:'#dc2626',bg:'#fee2e2'};
     if(pct<20)  return{s:'low',label:'Quasi esaurito',c:'#d97706',bg:'#fef9c3'};
@@ -17124,7 +17152,7 @@ function Magazzino(){
     const pl=log.filter(l=>l.productId===p.id);
     if(pl.length<2)return null;
     const oldest=new Date(pl[pl.length-1].dt);
-    const totalUsed=pl.reduce((s,l)=>s+(l.amount||0),0);
+    let totalUsed;try{totalUsed=pl.reduce((s,l)=>addQuantity(s,{qty:l.amount||0,unit:l.unit||p.unit}),{qty:0,unit:p.unit}).qty;}catch(e){return null;}
     const wks=Math.max(1,(new Date()-oldest)/(7*24*60*60*1000));
     const avg=totalUsed/wks;
     if(avg<=0)return null;
@@ -17143,7 +17171,7 @@ function Magazzino(){
   const doUse=()=>{
     if(!usePanel?.amount||!usePanel.id)return;
     const amt=parseFloat(usePanel.amount);if(!amt||amt<=0)return;
-    const res=wfFifoUse(prods,usePanel.id,amt);
+    let res;try{res=wfFifoUse(prods,usePanel.id,amt);}catch(e){showWizardToast(e.message);return;}
     const p=prods.find(x=>x.id===usePanel.id);
     save(res.products);
     if(p)whLogUse(p.id,p.name,p.unit,res.used,'Uso manuale');
@@ -17153,7 +17181,7 @@ function Magazzino(){
   /* ── Add package ── */
   const doAddPkg=()=>{
     if(!pkgPanel?.qty||!pkgPanel.id)return;
-    const updated=prods.map(p=>p.id!==pkgPanel.id?p:{...p,packages:[...p.packages,{id:'pkg_'+Date.now(),added_date:new Date().toISOString().slice(0,10),original_qty:parseFloat(pkgPanel.qty)||0,remaining_qty:parseFloat(pkgPanel.qty)||0,format:pkgPanel.format}]});
+    const updated=prods.map(p=>p.id!==pkgPanel.id?p:{...p,packages:[...p.packages,{id:'pkg_'+Date.now(),added_date:new Date().toISOString().slice(0,10),original_qty:parseFloat(pkgPanel.qty)||0,remaining_qty:parseFloat(pkgPanel.qty)||0,unit:p.unit,format:pkgPanel.format}]});
     save(updated);setPkgPanel(null);
   };
 
@@ -17164,12 +17192,13 @@ function Magazzino(){
       ?(window.__LAWNLY_CATALOG__||[]).find(p=>p.id===addWizard.productId)
       :null;
     const format=(addWizard.formatSku&&selectedProduct?.formats)
-      ?selectedProduct.formats.find(f=>f.sku===addWizard.formatSku)
+      ?selectedProduct.formats.find((f,i)=>(f.sku||String(i))===addWizard.formatSku)
       :{size:parseFloat(addWizard.customSize)||0,unit:addWizard.customUnit||'g',label:''};
-    if(!format||!format.size||format.size<=0)return;
+    if(!format)return;
+    const parsed=whFormat(format);
     const qty=Math.max(1,parseInt(addWizard.qty,10)||1);
-    const size=format.size;
-    const unit=format.unit;
+    const size=parsed.size;
+    const unit=parsed.unit;
 
     const targetId=selectedProduct?.id||('custom-'+Date.now());
     const existing=prods.find(p=>p.id===targetId);
@@ -17181,13 +17210,14 @@ function Magazzino(){
       added_date:today,
       original_qty:size,
       remaining_qty:size,
+      unit,
       format:format.label||(size+' '+unit),
       formatSku:addWizard.formatSku||null
     }));
 
     let updated;
     if(existing){
-      updated=prods.map(p=>p.id===existing.id?{...p,packages:[...(p.packages||[]),...newPackages]}:p);
+      try{updated=whAddPackages(prods,{id:targetId,unit,packages:newPackages});}catch(e){showWizardToast(e.message);return;}
     }else{
       const legacyType=selectedProduct
         ?(TYPE_MAP_NEW_TO_LEGACY[selectedProduct.type]||'altro')
@@ -17348,7 +17378,7 @@ function Magazzino(){
               <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px">Formato acquistato</label>
               <select class="inp" value=${addWizard.formatSku||''} onChange=${e=>setAddWizard(w=>({...w,formatSku:e.target.value}))}>
                 <option value="">— Scegli il formato che hai comprato —</option>
-                ${availableFormats.map(f=>html`<option key=${f.sku} value=${f.sku}>${f.label||(f.size+' '+f.unit)}${f.verified===false?' (non verificato)':''}</option>`)}
+                ${availableFormats.map((f,i)=>html`<option key=${f.sku||i} value=${f.sku||String(i)}>${f.label||(f.size+' '+f.unit)}${f.verified===false?' (non verificato)':''}</option>`)}
               </select>
             </div>`:html`<${Fragment}>
               <div style="background:#fef9c3;border:1px solid #fde68a;border-radius:.5rem;padding:8px 10px;font-size:11px;color:#854d0e">⚠ Questo prodotto non ha formati nel catalogo. Inseriscili manualmente:</div>
@@ -17381,7 +17411,7 @@ function Magazzino(){
     </div>`:sorted.map(p=>{
       const st=prodStatus(p);
       const tot=whTotal(p);
-      const orig=p.packages?.reduce((s,pk)=>s+(pk.original_qty||0),0)||1;
+      const orig=whTotal(p,'original_qty')||1;
       const pct=Math.min(100,Math.round(tot/orig*100));
       const wks=weeksForecast(p);
       const isUseOpen=usePanel?.id===p.id;
@@ -17401,7 +17431,7 @@ function Magazzino(){
               <span style="font-size:9px;padding:2px 6px;border-radius:99px;background:${TCOLS[p.type]||'#f3f4f6'};color:#374151">${p.type}</span>
             </div>
             <div style="display:flex;align-items:center;gap:8px;margin-top:3px;flex-wrap:wrap">
-              <span style="font-size:12px;font-weight:600">${tot.toFixed(tot<10?1:0)} ${p.unit}</span>
+              <span style="font-size:12px;font-weight:600">${Number.isFinite(tot)?tot.toFixed(tot<10?1:0):'Da verificare: unità non confrontabili'} ${p.unit==='conf'?'confezioni (contenuto non noto)':p.unit}</span>
               <span style="font-size:10px;padding:2px 8px;border-radius:99px;background:${st.bg};color:${st.c};font-weight:600">${st.label}</span>
               ${wks!=null?html`<span style="font-size:10px;color:var(--muted)">~${wks} sett.</span>`:''}
             </div>
@@ -17426,8 +17456,8 @@ function Magazzino(){
                 ${pk.format||'Conf.'+(i+1)}
               </div>
               <div style="flex:1;font-size:11px">
-                <span style="font-weight:600">${pk.remaining_qty.toFixed(pk.remaining_qty<10?1:0)}</span>
-                <span style="color:var(--muted)">/${pk.original_qty} ${p.unit}</span>
+                <span style="font-weight:600">${Number(pk.remaining_qty||0).toFixed(pk.remaining_qty<10?1:0)}</span>
+                <span style="color:var(--muted)">/${pk.original_qty??pk.qty??pk.size??'—'} ${whPackageUnit(p,pk)}</span>
               </div>
               <div style="font-size:9px;color:var(--muted)">${pk.added_date}</div>
               ${pk.remaining_qty===0?html`<span style="font-size:9px;color:#6b7280;padding:1px 6px;border-radius:99px;background:#e5e7eb">esaurita</span>`:''}
@@ -17707,43 +17737,25 @@ Non consigliare prodotti fuori da questa lista salvo richiesta esplicita dell'ut
     return{week:wm?parseInt(wm[1]||wm[2]):cw+1,opName:nm?nm[1].trim().substring(0,40):'Operazione suggerita dal Dottor Verde',note:text.substring(0,100)};
   };
 
+  const calendarNotes=ops=>ops.map(op=>{
+    const result=applyChatCalendarOperation(op);
+    return{role:'system_note',content:result.ok?'Registrata: '+result.operation.name+(result.operation.stockWarning?' · '+result.operation.stockWarning:''):'Rifiutata: '+(op.name||'Operazione')+' — '+result.reason,calendarOpId:result.ok?result.operation.id:null};
+  });
+  const appendCalendarNotes=ops=>{
+    const notes=calendarNotes(ops);
+    setMsgs(m=>{const next=[...m,...notes];persistChat(next);return next;});
+  };
+  const undoCalendar=id=>{
+    const result=applyCalendarOperation({id},{undo:true});
+    if(result.ok)setMsgs(m=>{const next=[...m.map(n=>n.calendarOpId===id?{...n,calendarOpId:null}:n),{role:'system_note',content:'Operazione annullata; ripristinato l’eventuale scarico dal magazzino.'}];persistChat(next);return next;});
+  };
   const addToCalendar=proposal=>{
-    const evs=S.get('dss_calendar_events',[])||[];
-    S.set('dss_calendar_events',[...evs,{id:'chat_'+Date.now(),name:proposal.opName,type:'trattamento',week:proposal.week,year:new Date().getFullYear(),status:'programmato',doses:[],notes:proposal.note,ai_generated:true}]);
+    appendCalendarNotes([{name:proposal.opName,type:'trattamento',week:proposal.week,year:new Date().getFullYear(),status:'programmato',notes:proposal.note,ai_generated:true}]);
     setCalProposal(null);
-    setMsgs(m=>[...m,{role:'system_note',content:'Aggiunto al calendario: '+proposal.opName+' (S.'+proposal.week+')'}]);
   };
-
-  // Estrae operazioni storiche dal testo formattato "- Descrizione (S.XX): Nome"
-  const extractOpsFromText=text=>{
-    // Cattura sia "✓ Febbraio S.8: Nome" che "- Descrizione (S.8): Nome"
-    const re=/[✓✗•\-\*]\s+[^\n]*?S\.(\d+)[).\s]*:?\s*([^\n\r]{2,60})/g;
-    const ops=[];let m;
-    while((m=re.exec(text))!==null){
-      const week=parseInt(m[1]);
-      const name=m[2].trim().replace(/\*\*/g,'').replace(/^\s*[\-:]\s*/,'').substring(0,60);
-      if(week>0&&week<=52&&name.length>=2)ops.push({week,name,year:new Date().getFullYear(),type:'trattamento',status:'completato'});
-    }
-    return ops;
-  };
-
   const confirmBulkCalendar=()=>{
     if(!bulkCalProposal?.ops?.length)return;
-    const evs=S.get('dss_calendar_events',[])||[];
-    const _bn=n=>(n||'').toLowerCase().replace(/[^a-z0-9\s]/gi,' ').trim().split(/\s+/).slice(0,2).join(' ');
-    const _sim=(a,b,maxW=2)=>{if(Math.abs((a.week||0)-(b.week||0))>maxW)return false;const ba=_bn(a.name),bb=_bn(b.name);return ba&&bb&&(ba===bb||ba.includes(bb)||bb.includes(ba));};
-    const updEvs=[...evs];const addedNew=[];
-    bulkCalProposal.ops.forEach(o=>{
-      const mi=updEvs.findIndex(e=>(e.status==='programmato'||!e.status)&&_sim(o,e,2));
-      if(mi>=0){updEvs[mi]={...updEvs[mi],status:'completato',confirmed:true,doneAt:new Date().toISOString(),from_chat:true};}
-      else if(!updEvs.some(e=>_sim(o,e,1))){addedNew.push({id:'chat_hist_'+Date.now()+'_'+Math.random().toString(36).slice(2),...o,doses:[],notes:'Registrato da chat storico',ai_generated:true,from_chat:true,status:'completato'});}
-    });
-    S.set('dss_calendar_events',[...updEvs,...addedNew]);
-    const tot=bulkCalProposal.ops.length-addedNew.length;
-    showGlobalToast('✓ '+(tot>0?tot+' aggiornate':'')+(addedNew.length>0?(tot>0?' · ':'')+addedNew.length+' aggiunte':''),'success',4000);
-    window.dispatchEvent(new CustomEvent('lawnly:sync'));
-    setBulkCalProposal(null);
-    setMsgs(m=>[...m,{role:'system_note',content:'✅ '+bulkCalProposal.ops.length+' operazioni registrate nel calendario (storico 2026)'}]);
+    appendCalendarNotes(bulkCalProposal.ops);setBulkCalProposal(null);
   };
 
   /* ── Send ── */
@@ -17852,73 +17864,15 @@ Non consigliare prodotti fuori da questa lista salvo richiesta esplicita dell'ut
       let _calUpdateJson=null;
       {const _m='CALENDAR_UPDATE:';const _ci=rep.indexOf(_m);if(_ci>=0){const _bs=rep.indexOf('[',_ci+_m.length);if(_bs>=0){let _d=0,_be=-1;for(let _i=_bs;_i<rep.length;_i++){if(rep[_i]==='[')_d++;else if(rep[_i]===']'){_d--;if(_d===0){_be=_i;break;}}}if(_be>=0)_calUpdateJson=rep.slice(_bs,_be+1);}}}
       const calUpdateMatch=_calUpdateJson?[null,_calUpdateJson]:null;
+      let calendarFeedback=[];
       if(calUpdateMatch){
+        displayRep=rep.replace('CALENDAR_UPDATE:'+calUpdateMatch[1],'').trim();
         try{
-          const _allOps=JSON.parse(calUpdateMatch[1]);
-          const _cw=curWeek();
-          // ponytail: l'anno lo mettiamo noi, il modello sbaglia (ha emesso 2025 per operazioni di quest'anno)
-          // e le voci finivano in un anno che il calendario non mostra. Storico pluriennale non supportato:
-          // se servira', passare l'anno nel blocco e fidarsi solo se e' <= corrente.
-          const _yr=new Date().getFullYear();
-          // Passato e futuro nello stesso blocco: le passate si marcano completate,
-          // le future entrano nel piano come 'programmato' (feedback Elia: "dico si' e non succede nulla")
-          const ops=_allOps;
-          const evs=S.get('dss_calendar_events',[])||[];
-          // Matching fuzzy: prime 2 parole significative + finestra ±N settimane
-          const _bn=n=>(n||'').toLowerCase().replace(/[^a-z0-9\s]/gi,' ').trim().split(/\s+/).slice(0,2).join(' ');
-          const _similar=(a,b,maxW=2)=>{
-            if(Math.abs((a.week||0)-(b.week||0))>maxW)return false;
-            const ba=_bn(a.name),bb=_bn(b.name);
-            return ba&&bb&&(ba===bb||ba.includes(bb)||bb.includes(ba));
-          };
-          // Per ogni op storica: cerca match nel piano esistente e marcalo completato
-          // Se non trovato, crea nuova voce solo se non già presente
-          const updatedEvs=[...evs];
-          const addedNew=[];
-          let nMarked=0;
-          ops.forEach(op=>{
-            if(!op||!op.name||!op.week)return;
-            // Da fare (settimana corrente in avanti, o status non completato) → va nel piano
-            if(op.week>=_cw||(op.status||'completato')!=='completato'){
-              if(!updatedEvs.some(e=>_similar(op,e,1)))addedNew.push({
-                id:'chat_plan_'+Date.now()+'_'+Math.random().toString(36).slice(2),
-                name:op.name,type:op.type||'trattamento',
-                week:op.week,year:_yr,
-                status:'programmato',doses:[],
-                product:op.product||null,
-                notes:op.notes||'',ai_generated:true,from_chat:true
-              });
-              return;
-            }
-            const matchIdx=updatedEvs.findIndex(e=>
-              (e.status==='programmato'||!e.status)&&_similar(op,e,2)
-            );
-            if(matchIdx>=0){
-              nMarked++;
-              updatedEvs[matchIdx]={...updatedEvs[matchIdx],status:'completato',confirmed:true,doneAt:new Date().toISOString(),from_chat:true};
-            }else if(!updatedEvs.some(e=>_similar(op,e,1))){
-              addedNew.push({
-                id:'chat_hist_'+Date.now()+'_'+Math.random().toString(36).slice(2),
-                name:op.name,type:op.type||'trattamento',
-                week:op.week,year:_yr,
-                status:'completato',doses:[],
-                notes:op.notes||'',ai_generated:true,from_chat:true
-              });
-            }
-          });
-          const finalEvs=[...updatedEvs,...addedNew];
-          S.set('dss_calendar_events',finalEvs);
-          if(nMarked>0||addedNew.length>0){
-            const msg1=nMarked>0?nMarked+' operazioni aggiornate':'';
-            const msg2=addedNew.length>0?addedNew.length+' nuove aggiunte':'';
-            showGlobalToast('✓ '+[msg1,msg2].filter(Boolean).join(' · '),'success',4000);
-            window.dispatchEvent(new CustomEvent('lawnly:sync'));
-          }
-        }catch(e){console.warn('[CALENDAR_UPDATE parse]',e);}
-        // Rimuovi il blocco JSON dal testo mostrato all'utente
-        displayRep=rep.replace(/\s*CALENDAR_UPDATE:\[[\s\S]*?\]/,'').trim();
+          const ops=JSON.parse(calUpdateMatch[1]);
+          calendarFeedback=calendarNotes(ops.map(o=>({...o,year:o.year||new Date().getFullYear(),status:o.status||'programmato'})));
+        }catch(e){calendarFeedback=[{role:'system_note',content:'Calendario non aggiornato: proposta non interpretabile ('+e.message+').'}];}
       }
-      const upd=[...newMsgs,{role:'assistant',content:displayRep}];
+      const upd=[...newMsgs,{role:'assistant',content:displayRep},...calendarFeedback];
       if(mounted.current){
         setMsgs(upd);
         const isStorico=/storico|registr|ho fatto|ho dato|ho applicato|ho eseguito|lavorazioni fatte|operazioni fatte|aggiornare.*calendario|calendario.*aggiornare|cos.ho fatto|quello che ho fatto/i.test(msg||'');
@@ -17945,19 +17899,7 @@ Rispondi SOLO con JSON: [{"week":N,"name":"Nome operazione","type":"trattamento"
               if(!m3)return;
               const ops3=JSON.parse(m3[0]).filter(o=>o&&o.name&&o.week>=cw&&o.week<=cw+12);
               if(!ops3.length||!mounted.current)return;
-              const _evs3=S.get('dss_calendar_events',[])||[];
-              const _bn3=n=>(n||'').toLowerCase().replace(/[^a-z0-9\s]/gi,' ').trim().split(/\s+/).slice(0,2).join(' ');
-              const _sim3=(a,b)=>{if(Math.abs((a.week||0)-(b.week||0))>1)return false;const ba=_bn3(a.name),bb=_bn3(b.name);return ba&&bb&&(ba===bb||ba.includes(bb)||bb.includes(ba));};
-              const _add3=ops3.filter(o=>!_evs3.some(e=>_sim3(o,e))).map(o=>({
-                id:'chat_plan_'+Date.now()+'_'+Math.random().toString(36).slice(2),
-                name:o.name,type:o.type||'trattamento',week:o.week,year:yr,
-                status:'programmato',doses:[],notes:o.notes||'',ai_generated:true,from_chat:true
-              }));
-              if(!_add3.length)return;
-              S.set('dss_calendar_events',[..._evs3,..._add3]);
-              showGlobalToast('\u2713 '+_add3.length+' operazioni aggiunte al piano','success',4000);
-              window.dispatchEvent(new CustomEvent('lawnly:sync'));
-              setMsgs(m=>[...m,{role:'system_note',content:'\u2705 '+_add3.length+' operazioni aggiunte al calendario'}]);
+              appendCalendarNotes(ops3.map(o=>({...o,year:yr,status:'programmato'})));
             }catch(e3){console.warn('[extract piano fallback]',e3);}
           }).catch(()=>{});
         }else if(isStorico){
@@ -17981,21 +17923,7 @@ Rispondi SOLO con JSON (no markdown): [{"week":N,"name":"Nome prodotto o operazi
               if(!m2)return;
               const ops2=JSON.parse(m2[0]).filter(o=>o&&o.name&&o.week>0&&o.week<=52);
               if(ops2.length>=1&&mounted.current){
-                // Auto-registra senza conferma (stesso path del blocco CALENDAR_UPDATE)
-                const _evs2=S.get('dss_calendar_events',[])||[];
-                const _bn2=n=>(n||'').toLowerCase().replace(/[^a-z0-9\s]/gi,' ').trim().split(/\s+/).slice(0,2).join(' ');
-                const _sim2=(a,b)=>{if(Math.abs((a.week||0)-(b.week||0))>2)return false;const ba=_bn2(a.name),bb=_bn2(b.name);return ba&&bb&&(ba===bb||ba.includes(bb)||bb.includes(ba));};
-                const _upd2=[..._evs2];const _add2=[];
-                ops2.forEach(o=>{
-                  const _mi=_upd2.findIndex(e=>(e.status==='programmato'||!e.status)&&_sim2(o,e));
-                  if(_mi>=0){_upd2[_mi]={..._upd2[_mi],status:'completato',confirmed:true,doneAt:new Date().toISOString(),from_chat:true};}
-                  else if(!_upd2.some(e=>_sim2(o,e))){_add2.push({id:'chat_hist_'+Date.now()+'_'+Math.random().toString(36).slice(2),...o,doses:[],notes:o.notes||'',ai_generated:true,from_chat:true,status:'completato'});}
-                });
-                S.set('dss_calendar_events',[..._upd2,..._add2]);
-                const _tot2=ops2.length-_add2.length;
-                showGlobalToast('✓ '+(_tot2>0?_tot2+' aggiornate':'')+(_add2.length>0?(_tot2>0?' · ':'')+_add2.length+' aggiunte nel calendario':''),'success',4000);
-                window.dispatchEvent(new CustomEvent('lawnly:sync'));
-                setMsgs(m=>[...m,{role:'system_note',content:'✅ '+ops2.length+' operazioni registrate nel calendario (storico '+new Date().getFullYear()+')'}]);
+                appendCalendarNotes(ops2.map(o=>({...o,year:yr,status:'completato'})));
               }
             }catch(e2){console.warn('[extract ops fallback]',e2);}
           }).catch(()=>{});
@@ -18060,7 +17988,7 @@ Rispondi SOLO con JSON (no markdown): [{"week":N,"name":"Nome prodotto o operazi
         return html`<div key=${i} class=${m.role==='user'?'msg-row-u':'msg-row-a'}>
           ${m.role==='assistant'?html`<div class="ai-av">🌿</div>`:''}
           ${m.role==='system_note'
-            ?html`<div style="width:100%;text-align:center;padding:2px 0"><span style="font-size:9px;color:var(--green);background:var(--green-l);padding:3px 10px;border-radius:99px">📅 ${m.content}</span></div>`
+            ?html`<div style="width:100%;text-align:center;padding:2px 0"><span style="font-size:9px;color:var(--green);background:var(--green-l);padding:3px 10px;border-radius:99px">📅 ${m.content}</span>${m.calendarOpId?html`<button class="btn btn-s" onClick=${()=>undoCalendar(m.calendarOpId)}>Annulla</button>`:''}</div>`
             :html`<div class=${m.role==='user'?'msg-u':'msg-a'}>${m.role==='assistant'?cleanReply(m.content):m.content}</div>`}
         </div>`;
       })}
@@ -18158,7 +18086,7 @@ function Profilo({prof,setProf,onSave,onLogout,onResetGarden,onDeleteAccount,wx,
           problemi:diagPrev.analisi?.problemi
         }
       });
-      S.set('dss_calendar_events',[...doneOps,...newOps]);
+      saveCalendarEvents([...doneOps,...newOps]);
       setRegenToast('✓ Piano rigenerato ('+newOps.length+' operazioni, fonte: '+(newOps[0]?._source||'?')+')');
       setTimeout(()=>setRegenToast(''),4500);
     }catch(e){
