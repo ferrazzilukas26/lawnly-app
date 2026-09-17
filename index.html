@@ -30,27 +30,6 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:radial-gr
 html,body{margin:0;padding:0;}
 html{background:#f1eee6;}
 html[data-theme="dark"], html[data-theme="dark"] body{background:#0E120C !important;}
-/* ponytail: dark del Calendario via selettori sugli style inline ([style*="#fff"]…): regge
-   finche' quei letterali restano scritti cosi'. Se la pagina viene ritoccata, passare ai token
-   dentro il componente (function Calendario) invece di allungare questa lista. */
-html[data-theme="dark"] .cal-theme{--text:#F2EFE9;--muted:#B5AFA3;--card:#282520;--card2:#343028;--line:rgba(255,255,255,.16);--border:var(--line);--green:#9CCB84;--green-l:rgba(127,176,105,.16);color:var(--text)}
-html[data-theme="dark"] .cal-theme[style],html[data-theme="dark"] .cal-theme :is([style*="background:rgba(255,255,255," i],[style*="background: rgba(255, 255, 255," i],[style*="background:#fff;" i],[style$="background:#fff" i],[style*="background: rgb(255, 255, 255)"],[style*="#f9fafb" i],[style*="rgb(249, 250, 251)"],[style*="#f3f4f6" i],[style*="rgb(243, 244, 246)"],[style*="#F8FAFC" i],[style*="rgb(248, 250, 252)"]){background:var(--card) !important}
-html[data-theme="dark"] .cal-theme [style*="border:0.5px solid rgba(0,0,0"],html[data-theme="dark"] .cal-theme [style*="border: 0.5px solid rgba(0, 0, 0"]{border-top-color:var(--line) !important;border-right-color:var(--line) !important;border-bottom-color:var(--line) !important}
-html[data-theme="dark"] .cal-theme .month-block > div:first-child{background:var(--card2) !important}
-html[data-theme="dark"] .cal-theme .month-highlighted > div:first-child{background:#315331 !important}
-html[data-theme="dark"] .cal-theme :is(.pill-filter,.cal-filter-btn,.btn-s){background:var(--card2) !important;color:var(--text) !important;border-color:var(--line) !important}
-html[data-theme="dark"] .cal-theme :is(.pill-filter.active,.cal-filter-btn.active){background:#315331 !important;color:#F2EFE9 !important}
-html[data-theme="dark"] .cal-theme :is([style*="#DBEAFE" i],[style*="rgb(219, 234, 254)"],[style*="#E0F2FE" i],[style*="rgb(224, 242, 254)"],[style*="#eff6ff" i],[style*="rgb(239, 246, 255)"],[style*="#f0f9ff" i],[style*="rgb(240, 249, 255)"]){background:#203448 !important;color:#A9D2FA !important;border-color:#466889 !important}
-html[data-theme="dark"] .cal-theme :is([style*="#FEF9C3" i],[style*="rgb(254, 249, 195)"],[style*="#fef3c7" i],[style*="rgb(254, 243, 199)"],[style*="#fffbeb" i],[style*="rgb(255, 251, 235)"],[style*="#fcd34d" i],[style*="rgb(252, 211, 77)"]){background:#3C331C !important;color:#E8C547 !important;border-color:#78672E !important}
-html[data-theme="dark"] .cal-theme :is([style*="#DCFCE7" i],[style*="rgb(220, 252, 231)"],[style*="#ccfbf1" i],[style*="rgb(204, 251, 241)"]){background:#223D30 !important;color:#A7DFC0 !important}
-html[data-theme="dark"] .cal-theme :is([style*="#FEE2E2" i],[style*="rgb(254, 226, 226)"],[style*="#FCEBEB" i],[style*="rgb(252, 235, 235)"]){background:#432927 !important;color:#FFB4AB !important}
-html[data-theme="dark"] .cal-theme :is([style*="#EEEDFE" i],[style*="rgb(238, 237, 254)"]){background:#322D49 !important;color:#C9BFFF !important}
-html[data-theme="dark"] .cal-theme :is([style*="#374151" i],[style*="rgb(55, 65, 81)"],[style*="#475569" i],[style*="rgb(71, 85, 105)"],[style*="#6b7280" i],[style*="rgb(107, 114, 128)"],[style*="#9ca3af" i],[style*="rgb(156, 163, 175)"]){color:var(--muted) !important}
-html[data-theme="dark"] .cal-theme :is([style*="#15803D" i],[style*="rgb(21, 128, 61)"],[style*="#16a34a" i],[style*="rgb(22, 163, 74)"]){color:#9CCB84 !important}
-html[data-theme="dark"] .cal-theme :is([style*="#dc2626" i],[style*="rgb(220, 38, 38)"]){color:#FFB4AB !important}
-html[data-theme="dark"] .cal-theme :is([style*="#92400E" i],[style*="rgb(146, 64, 14)"]){color:#E8C547 !important}
-html[data-theme="dark"] .cal-theme :is([style*="opacity:0.55"],[style*="opacity: 0.55"]) [style]{color:#FFFFFF !important}
-html[data-theme="dark"] .cal-theme [style*="color:rgba(255,255,255,.7)"],html[data-theme="dark"] .cal-theme [style*="color: rgba(255, 255, 255, 0.7)"]{color:#F2EFE9 !important}
 button,input,select,textarea{font-family:inherit;font-size:14px}
 .card{background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.72));border:1px solid var(--glass-line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px;backdrop-filter:blur(calc(var(--blur) - 4px));-webkit-backdrop-filter:blur(calc(var(--blur) - 4px))}
 .glass{background:var(--glass);border:1px solid var(--glass-line);border-radius:var(--r);box-shadow:var(--shadow);backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));padding:20px}
