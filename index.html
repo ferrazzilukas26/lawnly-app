@@ -104,27 +104,6 @@ textarea.inp{resize:vertical;min-height:70px}
 .chip.active{background:var(--green);color:#fff;border-color:transparent}.chip:active{transform:scale(.97)}
 .pbar{height:6px;background:rgba(122,173,120,.12);border-radius:999px;overflow:hidden}
 .pbar-fill{height:100%;border-radius:999px;transition:width .6s ease}
-/* PATCH header-glass — header con frosted glass + gradient fade sotto (no overlap visibile) */
-header{position:sticky;top:0;z-index:100;background:rgba(247,245,239,0.88);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);overflow:visible}
-header::after{content:'';position:absolute;top:100%;left:0;right:0;height:32px;background:linear-gradient(to bottom,rgba(247,245,239,0.72) 0%,transparent 100%);pointer-events:none;z-index:99}
-.hdr-top{max-width:960px;margin:0 auto;padding:14px 16px 8px;display:flex;align-items:center;justify-content:space-between}
-.hdr-logo{display:flex;align-items:center;gap:10px;color:var(--text);font-weight:600;font-size:15px}
-.hdr-live{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
-.dot-live{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pdot 2s ease-in-out infinite;flex-shrink:0;box-shadow:0 0 0 5px rgba(122,173,120,.12)}
-.nav-scroll{display:none;justify-content:center;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.nav-scroll::-webkit-scrollbar{display:none}
-.nav-inner{margin:0 auto;display:flex;gap:6px;padding:4px 12px 10px;width:max-content;min-width:100%;max-width:1200px;justify-content:center}
-.nav-btn{display:flex;align-items:center;gap:5px;padding:10px 16px;border-radius:999px;font-size:12px;font-weight:500;border:1px solid rgba(255,255,255,.38);cursor:pointer;background:rgba(255,255,255,.54);color:var(--muted);transition:all .2s ease;white-space:nowrap;box-shadow:0 10px 24px rgba(72,60,40,.06);backdrop-filter:blur(calc(var(--blur) - 4px));-webkit-backdrop-filter:blur(calc(var(--blur) - 4px))}
-.nav-btn.active{background:rgba(122,173,120,.9);color:#fff}
-.nav-btn:not(.active):hover{color:var(--text)}
-.bnav{display:none;position:fixed;bottom:12px;left:12px;right:12px;z-index:120;background:rgba(255,255,255,.56);backdrop-filter:blur(calc(var(--blur) + 8px));-webkit-backdrop-filter:blur(calc(var(--blur) + 8px));box-shadow:0 14px 40px rgba(72,60,40,.12);border:1px solid rgba(255,255,255,.42);border-radius:30px;padding:9px 8px calc(9px + env(safe-area-inset-bottom));justify-content:flex-start;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.bnav::-webkit-scrollbar{display:none}
-.bnav::after{content:'';position:absolute;right:0;top:0;bottom:0;width:30px;background:linear-gradient(to right, transparent, rgba(255,255,255,.7));pointer-events:none;border-radius:0 30px 30px 0}
-.bnav-btn{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;font-weight:500;padding:8px 8px 12px;border-radius:18px;cursor:pointer;border:none;background:none;color:#a8aea6;transition:all .2s ease;position:relative;min-width:58px}
-.bnav-btn{scroll-snap-align:start;flex:0 0 auto;min-width:66px}
-.bnav-btn.active{color:var(--green)}
-.bnav-btn.active::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:var(--green)}
-.bnav-btn:active{transform:scale(.95)}
 .ob-overlay{position:fixed;inset:0;z-index:200;background:rgba(237,247,240,.97);backdrop-filter:blur(12px);display:flex;align-items:flex-start;justify-content:center;padding:12px;overflow-y:auto}
 .ob-card{width:100%;max-width:480px;background:#fff;border-radius:1.5rem;box-shadow:0 20px 60px rgba(26,58,42,.14);overflow:hidden;margin:auto}
 .ob-steps{display:flex;justify-content:space-between;padding:14px 20px 0}
@@ -193,18 +172,13 @@ main{max-width:960px;margin:0 auto;padding:calc(24px + env(safe-area-inset-top,0
 .spinner{width:17px;height:17px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;display:inline-block}
 .spinner-g{border-color:rgba(45,106,79,.2);border-top-color:var(--green)}
 ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(82,183,136,.28);border-radius:99px}
-@media(max-width:767px){header .nav-scroll{display:none!important}.bnav{display:flex!important}.grid-5{grid-template-columns:repeat(2,1fr)}}
-@media(min-width:768px){
-  header .nav-scroll{display:none} /* navigazione desktop = sidebar rdz; la riga di pill legacy esponeva pagine vecchie */
-  .bnav{display:none!important}
-}
+@media(max-width:767px){.grid-5{grid-template-columns:repeat(2,1fr)}}
 /* Mobile improvements */
 @media(max-width:767px){
   .inp{font-size:16px}
   select.inp{font-size:16px}
   textarea.inp{font-size:16px}
   .btn{min-height:44px}
-  .bnav-btn{min-height:52px;min-width:44px}
   main{padding:24px 10px 0}
   .ob-card{border-radius:1.25rem}
   .grid-2{grid-template-columns:1fr}
@@ -215,7 +189,6 @@ main{max-width:960px;margin:0 auto;padding:calc(24px + env(safe-area-inset-top,0
   .metric-pill-label{font-size:8px}
   .sec-label{font-size:9px}
   .glass,.card,.dark-card{padding:16px}
-  .bnav{left:8px;right:8px;bottom:8px}
 }
 @supports(-webkit-touch-callout:none){
   .page{padding-bottom:136px}
@@ -235,7 +208,6 @@ main{max-width:960px;margin:0 auto;padding:calc(24px + env(safe-area-inset-top,0
 .soft-panel{background:rgba(255,255,255,.54);border:1px solid rgba(255,255,255,.4);border-radius:24px;padding:18px;box-shadow:0 12px 32px rgba(72,60,40,.08);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
 .page .glass,.page .card,.page .stock-item,.page .zone-card,.page .fc-card,.page .soft-panel{transition:all .2s ease}
 .page .glass:hover,.page .card:hover{transform:translateY(-1px)}
-.logo-mark{width:28px;height:28px;border-radius:10px;object-fit:cover;box-shadow:0 6px 18px rgba(72,60,40,.14)}
 .logo-mark-lg{width:62px;height:62px;border-radius:18px;object-fit:cover;box-shadow:0 10px 30px rgba(72,60,40,.16)}
 .segmented{display:flex;gap:6px;background:rgba(255,255,255,.34);border:1px solid rgba(255,255,255,.42);border-radius:999px;padding:6px}
 .seg-btn{flex:1;padding:9px 10px;border-radius:999px;font-size:12px;font-weight:600;border:none;cursor:pointer;transition:all .2s ease;background:transparent;color:var(--muted)}
@@ -253,8 +225,6 @@ main{max-width:960px;margin:0 auto;padding:calc(24px + env(safe-area-inset-top,0
 input[type=range]{width:100%;accent-color:var(--green);cursor:pointer;margin:6px 0;height:4px;border-radius:2px}
 /* ── Weather Icons sizing (Step 10.7) ── */
 /* ── Step 12.11: nav Lucide, modal sheet, griglie / meteo mobile ── */
-.nav-lucide,.bnav-ico-lucide{display:inline-flex;align-items:center;justify-content:center;color:inherit;flex-shrink:0}
-.nav-lucide svg,.bnav-ico-lucide svg{stroke:currentColor;opacity:.92}
 /* Desktop: mantiene layout indicatori; mobile vedi media query */
 .indicators-grid{display:flex;flex-direction:column;gap:8px}
 .meteo-7day{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
@@ -1904,6 +1874,57 @@ html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
 .rdz .sheet{background:#FAF9F4 !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;border-top:1px solid var(--line) !important;box-shadow:0 -22px 50px rgba(0,0,0,.18) !important;color:var(--ink) !important;}
 .rdz .sheet .sh-body, .rdz .sheet .sh-title{color:var(--ink);}
 
+
+/* Centralina — classi originali del mock approvato. */
+.sh-tabs{display:flex;gap:6px;background:#eef2ea;border-radius:13px;padding:4px;margin:0 0 16px}
+.sh-tab{flex:1;border:none;background:transparent;border-radius:10px;padding:9px 8px;font-size:13.5px;font-weight:700;color:#6b7b6e;cursor:pointer;font-family:inherit}
+.sh-tab.on{background:#fff;color:#2f6f4e;box-shadow:0 1px 4px rgba(0,0,0,.10)}
+.sh-pane{display:none}.sh-pane.on{display:block}
+.ios-tog{position:relative;width:46px;height:28px;border-radius:99px;background:#cdd6c8;transition:.25s;flex:0 0 auto;cursor:pointer;display:inline-block}
+.ios-tog.on{background:#5b8a4f}
+.ios-tog i{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.25s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.ios-tog.on i{left:21px}
+.virr-cen{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:11px;padding-top:10px;border-top:1px solid rgba(0,0,0,.06)}
+.virr-cen-l{font-size:12px;color:#5b8a4f;font-weight:600;line-height:1.3}.virr-cen-l b{color:#3f6e36}
+.cen-zone{border:1px solid #e2e8dd;border-radius:14px;padding:13px 14px;margin:10px 0}
+.cen-zh{font-weight:800;font-size:14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cen-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px;border-top:1px solid #f0f3ee}
+.cen-row b{color:#2b3a2f;font-weight:600}.cen-inp{font-weight:800;color:#2f6f4e}
+.cen-days{display:flex;gap:5px;margin-top:6px}
+.cen-day{width:30px;height:30px;border-radius:8px;border:1px solid #e2e8dd;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#9aa89c}
+.cen-day.on{background:#5b8a4f;color:#fff;border-color:#5b8a4f}
+.alt-badge{font-size:10px;font-weight:800;color:#2f6f4e;background:#dff0e4;border-radius:6px;padding:2px 7px}
+.virr-right{display:flex;flex-direction:column;align-items:center;gap:5px;flex:0 0 auto;margin-left:4px}
+.virr-right-l{font-size:9px;font-weight:700;color:#5b8a4f}
+.cen-master{display:flex;justify-content:space-between;align-items:center;background:#eef4ea;border:1px solid #d8e6d2;border-radius:14px;padding:13px 15px;margin-bottom:14px}
+.cen-master-t{font-weight:800;font-size:15px}.cen-master-s{font-size:12px;color:#6b7b6e;margin-top:1px}
+.cen-grid{display:flex;gap:8px;margin:4px 0 10px}
+.cen-field{flex:1;border:1px solid #e2e8dd;border-radius:11px;padding:8px 10px;background:#fafbf9}
+.cen-field label{display:block;font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;color:#8a9a8c;font-weight:700;margin-bottom:3px}
+.cen-field .cen-val{font-size:15px;font-weight:800;color:#2f6f4e}
+.cen-lab{display:block;font-size:11px;font-weight:700;color:#6b7b6e;margin:8px 0 5px;text-transform:uppercase;letter-spacing:.3px}
+.cen-summary{background:#f1f8f3;border:1px solid #cfe6d6;border-radius:12px;padding:11px 14px;font-size:13px;color:#16513f;margin:12px 0}
+.cen-save{background:#3f6e36 !important;color:#fff !important}
+.virr-right-s{font-size:9px;font-weight:700;color:#5b8a4f;text-align:center;line-height:1.15}
+/* Adattamento dei controlli nativi e dell’editor. */
+.rdz button.ios-tog{border:0;padding:0;box-sizing:border-box}
+.rdz .virr-right-s.off{color:var(--t3)}
+.rdz .cen-freq{display:flex;gap:5px;flex-wrap:wrap}
+.rdz .cen-freq .cen-day{width:auto;padding:0 11px}
+.rdz button.cen-day{background:transparent;font-family:inherit;cursor:pointer}
+.rdz button.cen-day.on{background:#5b8a4f}
+.rdz button.cen-day:disabled{opacity:.5;cursor:default}
+.rdz .cen-zh>span:first-child{min-width:0;overflow-wrap:anywhere}
+.rdz .cen-field{min-width:0}
+.rdz .cen-field .cen-val{overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.rdz .cen-inp{width:100%;min-width:0;border:0;background:transparent;font:inherit;color:#2f6f4e}
+.rdz .cen-editor{margin-top:16px}
+.rdz .cen-editor>.cen-field{margin-bottom:10px}
+.rdz .cen-editor fieldset{margin-inline:0}
+.rdz .cen-actions{display:flex;gap:12px;flex-wrap:wrap}
+.rdz .cen-zone .cen-zh .dt-note{margin:2px 0 0;font-weight:400}
+.rdz .centralina .dt-goto:disabled{opacity:.5;cursor:default}
+.rdz .ios-tog:focus-visible,.rdz .cen-day:focus-visible,.rdz .sh-tab:focus-visible,.rdz .cen-inp:focus-visible{outline:2px solid #5b8a4f;outline-offset:3px}
 </style>
 </head>
 <body>
@@ -5558,7 +5579,6 @@ try{window.__LAWNLY_CATALOG__=[
     sourceUrl: "https://icl-sf.com/it/"
   }
 ];window.dispatchEvent(new CustomEvent("lawnly-catalog-ready",{detail:{count:(window.__LAWNLY_CATALOG__||[]).length}}));}catch(e){console.warn("inline catalog",e);}</script>
-<script src="waterEngine.js"></script>
 <script type="module">
   import {
     PRODUCT_CATALOG,
@@ -5606,22 +5626,8 @@ const Layers=_ic('M12 3 3 7.5l9 4.5 9-4.5Z','M3 12.5 12 17l9-4.5','M3 17 12 21.5
 const Sparkles=_ic('M12 3.5 13.7 9l5.5 1.7-5.5 1.7L12 18l-1.7-5.6L4.8 10.7 10.3 9Z','M18.5 3v3','M20 4.5h-3');
 const Sprout=_ic('M12 21v-7','M12 14C12 9 9 6.5 4.5 6.5c0 4.5 2.8 7.5 7.5 7.5Z','M12 14c0-4 2.6-6.5 6.5-6.5 0 4-2.6 6.5-6.5 6.5Z');
 const Home=_ic('M4 10.5 12 3.5l8 7','M6 9.8V20h12V9.8','M10 20v-5.5h4V20');
-const NI=20,NS=1.5;
-function navLuc(Icon){return html`<span class="nav-lucide"><${Icon} size=${NI} strokeWidth=${NS}/></span>`;}
-function bnavLuc(Icon){return html`<span class="bnav-ico-lucide"><${Icon} size=${NI} strokeWidth=${NS}/></span>`;}
 
-/* ═══════════════════════════════════════════════════════
-   CONFIGURAZIONE SERVIZIO
-   Inserisci qui la tua chiave Anthropic API.
-   Gli utenti finali non vedono né configurano nulla.
-═══════════════════════════════════════════════════════ */
-
-/* ══════════════════════════════════════════════════
-   SUPABASE CONFIG — inserisci URL e chiave anonima
-   (vedi guida setup per creare il progetto gratuito)
-══════════════════════════════════════════════════ */
-const SUPABASE_URL = 'https://nioorknwpvjxldnxzjzh.supabase.co';   // es. https://xxxxx.supabase.co
-const SUPABASE_KEY = 'sb_publishable__FCiFm3E01ZwViDgSWTCXw_dmYyIuc6';
+/* Proxy AI del backend; le credenziali del fornitore restano sul server. */
 const AI_PROXY_URL = (window.LAWNLY_API_BASE||'')+'/api/ai';  // Vercel Function -> Anthropic (Haiku) + wx-proxy
 
 /* ── wxProxy: proxy server-side per Open-Meteo/NASA (risolve CORS su Vercel) ─
@@ -8642,7 +8648,7 @@ async function aiCall(prompt,sys,maxTokens=4000,useHaiku=false,timeoutMs=60000){
     const r=await fetch(AI_PROXY_URL,{
       method:'POST',
       signal:ctrl.signal,
-      headers:{'Content-Type':'application/json','Authorization':`Bearer ${session.access_token}`,'apikey':SUPABASE_KEY},
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${session.access_token}`},
       body:JSON.stringify({model:useHaiku?'claude-haiku-4-5-20251001':'claude-sonnet-4-20250514',max_tokens:maxTokens,system:sys,messages:[{role:'user',content:prompt}]})
     });
     const d=await r.json();
@@ -8672,7 +8678,7 @@ async function aiChat(messages,sys,useHaiku=true,timeoutMs=60000){
     const r=await fetch(AI_PROXY_URL,{
       method:'POST',
       signal:ctrl.signal,
-      headers:{'Content-Type':'application/json','Authorization':`Bearer ${session.access_token}`,'apikey':SUPABASE_KEY},
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${session.access_token}`},
       body:JSON.stringify({model:useHaiku?'claude-haiku-4-5-20251001':'claude-sonnet-4-20250514',max_tokens:700,system:sys,messages})
     });
     const d=await r.json();
@@ -11217,25 +11223,8 @@ Contesto:
 /* ═══════════════════════════════════════════════════════
    PAGINE PRINCIPALI
 ═══════════════════════════════════════════════════════ */
-const NAVS=[
-  {id:'oggi',Icon:Home,l:'Oggi'},
-  {id:'dashboard',Icon:LayoutDashboard,l:'Dashboard'},
-  {id:'consulente',Icon:Sparkles,l:'AI Agronomo'},
-  {id:'calendario',Icon:Calendar,l:'Calendario'},
-  {id:'meteo',Icon:CloudSun,l:'Meteo'},
-  {id:'irrigazione',Icon:Droplet,l:'Irrigazione'},
-  {id:'prato',Icon:Sprout,l:'Prato'},
-  {id:'meteo2',Icon:CloudSun,l:'Meteo+'},
-  {id:'piano',Icon:Calendar,l:'Piano'},
-  {id:'mag',Icon:Package,l:'Magazzino+'},
-  {id:'profilo2',Icon:User,l:'Profilo+'},
-  {id:'suolo',Icon:Layers,l:'Suolo'},
-  {id:'zone',Icon:MapIcon,l:'Zone'},
-  {id:'giardino',Icon:Grid3x3,l:'Giardino'},
-  {id:'magazzino',Icon:Package,l:'Magazzino+Prodotti'},
-  {id:'profilo',Icon:User,l:'Profilo'}
-];
 /* ===== LAWNLY RE-SKIN — Sezione PRATO (1:1 plus.html) ===== */
+function upcomingForecastDays(wx){const a=(wx&&(wx.forecast7||wx.forecast||(Array.isArray(wx.daily)?wx.daily:null)))||[];if(!Array.isArray(a)||!a.length)return [];const td=new Date().toLocaleDateString('sv-SE');const fut=a.filter(d=>((d.date||d.dt||'')>=td));return (fut.length?fut:a).slice(0,8);}
 function _expoLabP(e){e=(e||'').toString().toLowerCase();if(e.includes('mezz')||e.includes('part'))return"mezz'ombra";if(e.includes('sun')||e.includes('sole'))return'pieno sole';if(e.includes('shade')||e.includes('ombra'))return'ombra';return e||'';}
 function soilStateText(m){if(!m)return'Nessuna misura recente.';const p=[];if(m.um!=null)p.push(m.um<25?'asciutto in superficie':(m.um>65?'ben idratato':'umidità adeguata'));if(m.ph!=null)p.push((m.ph>=6&&m.ph<=7)?'pH ottimale per le microterme':(m.ph<6?'pH acido, valuta correzione':'pH basico, valuta correzione'));if(m.ts!=null&&m.ts>=28)p.push('temperatura del suolo elevata');return p.length?(p.join(', ')+'.'):'Misura registrata.';}
 function _photoSrc(p){
@@ -11477,7 +11466,10 @@ function Oggi({wx,prof,setPg}){
   const [slide,setSlide]=useState(0);
   const heroSwipe=(dir)=>{const n=slides.length;if(n<2)return;setSlide(s=>((s+dir)%n+n)%n);};
   const [sheet,setSheet]=useState(null);
-  const openS=(id)=>()=>setSheet(id); const closeS=()=>setSheet(null);
+  const [irrigTab,setIrrigTab]=useState('um');
+  const controller=prof?.controller||{}, controllerNext=nextControllerRun(controller);
+  const controllerZones=new Set((controller.programs||[]).flatMap(p=>p.zones||[])).size;
+  const openS=(id)=>()=>{if(id==='sh-irrig')setIrrigTab('um');setSheet(id);}; const closeS=()=>setSheet(null);
   const [histTick,setHistTick]=useState(0);
   const irrHistAll=(()=>{try{return (S.get('dss_irrigation_history',[])||[]).filter(Boolean);}catch(e){return [];}})();
   const _now7=Date.now()-7*864e5;
@@ -11528,7 +11520,7 @@ function Oggi({wx,prof,setPg}){
   const issues=[];zones.forEach(z=>{const m=soilData.filter(d=>d.zona===z.id&&d.dt).sort((a,b)=>(b.dt||'').localeCompare(a.dt||''))[0];if(m){if(m.um!=null&&m.um<25)issues.push(1);if(m.ph!=null&&(m.ph<6||m.ph>7.2))issues.push(1);}});
   const nIssues=issues.length;
 
-  const fc=(()=>{const a=(wx&&(wx.forecast7||wx.forecast||(Array.isArray(wx.daily)?wx.daily:null)))||[];if(!Array.isArray(a)||!a.length)return [];const td=new Date().toLocaleDateString('sv-SE');const fut=a.filter(d=>((d.date||d.dt||'')>=td));return (fut.length?fut:a).slice(0,8);})();
+  const fc=upcomingForecastDays(wx);
   const fcDays=(n)=>fc.slice(0,n).map((d,i)=>{const dt=new Date(d.date||d.dt||Date.now());const lbl=i===0?'Oggi':dt.toLocaleDateString('it-IT',{weekday:'short'}).replace('.','').replace(/^./,c=>c.toUpperCase());return{lbl,dd:dt.getDate()+'/'+(dt.getMonth()+1),t:Math.round(d.tmax),mm:(d.precipitation??d.rain??0),kind:_wxIcon(d.weathercode??d.weather_code,d.precipitation??d.rain)};});
 
   const nextOp=(()=>{const evs=S.get('dss_calendar_events',[])||[];const cutoff=new Date(Date.now()-14*86400000).toISOString().slice(0,10);const fut=evs.filter(e=>e&&(e.date||e.dt)&&(e.date||e.dt).slice(0,10)>=cutoff&&!e.done&&!e.completed&&e.status!=='completato').sort((a,b)=>((a.date||a.dt)).localeCompare(b.date||b.dt));return fut[0]||null;})();
@@ -11639,6 +11631,8 @@ function Oggi({wx,prof,setPg}){
 
   const sheetDefs={
     'sh-irrig':{title:'Irrigazione',body:html`<div>
+      <div class="sh-tabs" role="tablist" aria-label="Irrigazione">${[['um','Umidità suolo'],['cen','Centralina']].map(([id,label])=>html`<button type="button" id=${'irrig-tab-'+id} class=${'sh-tab'+(irrigTab===id?' on':'')} role="tab" aria-selected=${irrigTab===id} aria-controls=${'irrig-pane-'+id} tabIndex=${irrigTab===id?0:-1} onClick=${()=>setIrrigTab(id)} onKeyDown=${e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const tab=e.key==='Home'?'um':e.key==='End'?'cen':id==='um'?'cen':'um';setIrrigTab(tab);document.getElementById('irrig-tab-'+tab)?.focus();}}}>${label}</button>`)}</div>
+      <div id="irrig-pane-um" class=${'sh-pane'+(irrigTab==='um'?' on':'')} role="tabpanel" aria-labelledby="irrig-tab-um">
       <div class="dt-eye">Pioggia prevista · prossimi 5 giorni</div>
       <div class="dt-fc">${fcDays(5).map((d,i)=>html`<div key=${i} class=${'dt-fcd'+(d.mm>=1?' on':'')}><span class="dt-fd">${d.lbl}</span><span class="dt-fdd">${d.dd}</span><span class="dt-fmm">${(+d.mm).toFixed(1)}</span><span class="dt-fdd">mm</span></div>`)}</div>
       <div class="dt-eye" style="margin-top:18px;">Umidità suolo radicale (5–15cm)<${InfoDot} titolo="Umidità del suolo · VWC" testo="Indica quanto è umido il terreno vicino alle radici, su una scala da 0 a 100 adattata al tipo di suolo. Ti aiuta a valutare se serve acqua. La stima usa meteo, irrigazioni registrate e misure del suolo disponibili; il valore mostrato non è una percentuale diretta del volume di acqua nel terreno."/></div>
@@ -11649,7 +11643,8 @@ function Oggi({wx,prof,setPg}){
       ${sp?html`<div class="dt-note">${usableMm!=null?html`<b>${usableMm}mm utilizzabili</b> · capacità ${capMm}mm · suolo ${soilType}.<br/>`:''}Acqua ricevuta: <b>${rain7}mm</b> ultimi 7gg · <b>${rain30}mm</b> ultimi 30gg.</div>`:''}
       <div class="dt-eye" style="margin-top:18px;">Ultime irrigazioni · 7 giorni</div>
       ${irrHist7.length?html`<div>${irrHist7.slice(0,2).map((h,i)=>{const f=_irrFmt(h);return html`<div class="dt-val" key=${i}><span class="dt-val-l">${f.dd} · ${f.zn}</span><span class="dt-val-r">${f.mins!=null?(f.mins+' min'):''}${f.lit!=null?(' · '+f.lit+' L'):''}</span></div>`;})}<button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${openS('sh-irrhist')}>Vedi tutte le irrigazioni (${irrHist7.length}) ${goChev}</button></div>`:html`<div class="dt-note">Nessuna irrigazione registrata negli ultimi 7 giorni. Registrala col tasto + o dal bottone Irrigazione.</div>`}
-      <button class="dt-goto" onClick=${()=>{setSheet('sh-irrlog');}}>Registra irrigazione ${goChev}</button></div>`},
+      <button class="dt-goto" onClick=${()=>{setSheet('sh-irrlog');}}>Registra irrigazione ${goChev}</button></div>
+      <div id="irrig-pane-cen" class=${'sh-pane'+(irrigTab==='cen'?' on':'')} role="tabpanel" aria-labelledby="irrig-tab-cen"><${Centralina} wx=${wx}/></div></div>`},
     'sh-irrhist':{title:'Ultime irrigazioni',body:html`<div>
       <div class="dt-note" style="margin-top:0;">Irrigazioni registrate negli ultimi 7 giorni. Incidono sul bilancio idrico e sull'umidità stimata del suolo.</div>
       ${irrHist7.length?irrHist7.map((h,i)=>{const f=_irrFmt(h);return html`<div class="dt-val" key=${h.id||i} style="align-items:center;">
@@ -11756,10 +11751,9 @@ function Oggi({wx,prof,setPg}){
         ${isYes&&irrZonesRaw.length?html`<div class="virr">${irrZonesRaw.map(z=>html`<div class="virr-z" key=${z.zoneId||z.name}><span class="virr-min">${z.minutesAtFlowRate>0?(z.minutesAtFlowRate+' min'):(z.liters+' L')}</span><span class="virr-zn">${z.name}</span></div>`)}</div>`:''}
         <div class="vmoist"><span class="vmoist-v">${moist==null?'—':moist}%</span><span class="vmoist-bar"><${SlideI} mode="width" target=${moist||0}/></span></div>
         <div class="verdict-d">${vReason}</div></div>
+      <div class="virr-right"><span class="virr-right-l">Centralina</span><button type="button" class=${'ios-tog'+(controller.on?' on':'')} role="switch" aria-checked=${!!controller.on} aria-label="Centralina virtuale" onClick=${e=>{e.stopPropagation();toggleController();}}><i aria-hidden="true"></i></button><span class=${'virr-right-s'+(controller.on?'':' off')}>${controller.on?html`Attiva · ${controllerNext?.program.time||'—'}<br/>${controllerZones} ${controllerZones===1?'zona':'zone'}`:'Spenta'}</span></div>
       <span class="vchev">${goChev}</span>
     </div>
-
-    <${Centralina} wx=${wx} setPg=${setPg}/>
 
     <div class="card next-card fade" onClick=${openS('sh-prossimo')}>
       <div class="next"><div class="next-ic">${isMech?html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M4 16h16M4 16v5M8 16v5M12 16v5M16 16v5M20 16v5"/></svg>`:html`<svg class="ic-spray" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21.5h5.2a2 2 0 0 0 2-2v-6.6a2.6 2.6 0 0 0-2.6-2.6H9a2 2 0 0 0-2 2v7.2a2 2 0 0 0 2 2Z"/><path d="M9.6 10.3V7.4h4v2.9"/><path d="M13.6 7.4h3.3a1.6 1.6 0 0 1 1.6 1.6"/><path d="M7.4 14.6h8.6"/><g fill="currentColor" stroke="none"><circle cx="20.6" cy="6.2" r=".85"/><circle cx="22" cy="7.7" r=".75"/><circle cx="20.9" cy="9.2" r=".7"/></g></svg>`}</div>
@@ -11823,7 +11817,7 @@ function _wxSvg(kind){
 }
 function Meteo2({wx,prof}){
   const city=(prof&&(prof.city||prof.location||prof.gardenCity))||'Meteo';
-  const fc=(()=>{const a=(wx&&(wx.forecast7||wx.forecast||(Array.isArray(wx.daily)?wx.daily:null)))||[];if(!Array.isArray(a)||!a.length)return [];const td=new Date().toLocaleDateString('sv-SE');const fut=a.filter(d=>((d.date||d.dt||'')>=td));return (fut.length?fut:a).slice(0,8);})();
+  const fc=upcomingForecastDays(wx);
   const todayTemp=(()=>{let t=wx?.todayData?.tmax ?? wx?.current?.tmax ?? (fc[0]&&fc[0].tmax);t=Math.round(t);return isNaN(t)?null:t;})();
   let condLabel=wx?.todayData?.condition||wx?.weatherLabel||null;
   try{if(!condLabel){const code=wx?.todayData?.weathercode??wx?.current?.weathercode;if(code!=null&&typeof wmoCodeToIcon==='function')condLabel=wmoCodeToIcon(code).label;}}catch(e){}
@@ -12341,34 +12335,23 @@ function ProAccountCard(){
     <div style="font-size:12.5px;margin-top:12px;text-align:center;">${link('privacy.html','Informativa privacy')} · ${link('termini.html','Termini di servizio')}</div>
   </div>`;
 }
-/* Stessa card in Oggi e Profilo; l'editor segue righe e campi del profilo. */
-function Centralina({wx,setPg,editor=false}){
-  const [,refresh]=useState(0), [draft,setDraft]=useState(null), [error,setError]=useState('');
+/* Pannello Centralina e stesso editor completo nel Profilo. */
+function ControllerSchedule({program,onChange}){
+  const repeat=program.repeat??'days', days=program.days||[];
+  const weekdays=['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'];
+  return html`<span class="cen-lab">Ripeti</span><div class="cen-freq" role="group" aria-label="Ripeti">${[['days','Giorni scelti'],['every2','Ogni 2 gg'],['every3','Ogni 3 gg']].map(([value,label])=>html`<button type="button" class=${'cen-day'+(repeat===value?' on':'')} aria-pressed=${repeat===value} onClick=${()=>onChange({repeat:value,anchor:program.anchor??new Date().toLocaleDateString('sv-SE')})}>${label}</button>`)}</div>
+    <span class="cen-lab">Giorni</span><div class="cen-days" role="group" aria-label="Giorni della settimana">${[1,2,3,4,5,6,0].map((d,i)=>html`<button type="button" class=${'cen-day'+(repeat==='days'&&days.includes(d)?' on':'')} aria-label=${weekdays[d]} aria-pressed=${repeat==='days'&&days.includes(d)} disabled=${repeat!=='days'} onClick=${()=>onChange({days:days.includes(d)?days.filter(day=>day!==d):[...days,d]})}>${['L','M','M','G','V','S','D'][i]}</button>`)}</div>`;
+}
+function Centralina({wx,editor=false}){
+  const [,refresh]=useState(0), [draft,setDraft]=useState(null), [error,setError]=useState(''), [pending,setPending]=useState({});
   useEffect(()=>{const update=()=>refresh(n=>n+1);window.addEventListener('lawnly:sync',update);return()=>window.removeEventListener('lawnly:sync',update);},[]);
   const prof=S.get('dss_profile',{})||{};
   const ctrl=prof.controller||{on:false,rainSkipMm:5,programs:[]};
-  const programs=ctrl.programs||[], zones=prof.zones||[], now=new Date();
-  const weekdays=['Dom','Lun','Mar','Mer','Gio','Ven','Sab'];
+  const programs=(ctrl.programs||[]).map(p=>({...p,...pending[p.id]})), zones=prof.zones||[], now=new Date();
   const zoneNames=ids=>ids.map(id=>zones.find(z=>z.id===id)?.name||('Zona '+id)).join(', ');
-  const patch=change=>{
-    const fresh=S.get('dss_profile',{})||{};
-    S.set('dss_profile',{...fresh,controller:{on:false,rainSkipMm:5,lastRun:new Date().toISOString(),programs:[],...fresh.controller,...change}});
-    window.dispatchEvent(new CustomEvent('lawnly:sync'));refresh(n=>n+1);
-  };
-  const toggle=()=>{
-    runControllerCatchup();
-    const fresh=S.get('dss_profile',{})||{};
-    patch({on:!fresh.controller?.on,lastRun:new Date().toISOString()});
-  };
-  let next=null;
-  if(ctrl.on)for(const program of programs){
-    if(!program.zones?.length||!program.days?.length||!/^([01]\d|2[0-3]):[0-5]\d$/.test(program.time))continue;
-    const [hour,minute]=program.time.split(':').map(Number);
-    for(let offset=0;offset<=7;offset++){
-      const at=new Date(now);at.setDate(at.getDate()+offset);at.setHours(hour,minute,0,0);
-      if(at>now&&program.days.includes(at.getDay())){if(!next||at<next.at)next={program,at};break;}
-    }
-  }
+  const patch=patchController, toggle=toggleController;
+  const next=nextControllerRun(ctrl,now);
+  const summary=controllerSummary(programs,prof.flowRateLpm??IRRIG_FLOW_LMIN,now);
   const today=now.toLocaleDateString('sv-SE'), tomorrow=new Date(now);tomorrow.setDate(tomorrow.getDate()+1);
   const nextDate=next?.at.toLocaleDateString('sv-SE');
   const nextLabel=nextDate===today?'oggi':nextDate===tomorrow.toLocaleDateString('sv-SE')?'domani':next?.at.toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'short'});
@@ -12381,16 +12364,18 @@ function Centralina({wx,setPg,editor=false}){
   const skipNext=next&&nextRain>=threshold&&!forced;
   const rainAlert=next&&(rain24!=null&&rain24>=threshold||next.at-now<=864e5&&nextRain>=threshold);
   const skipped=(ctrl.runs||[]).filter(r=>r.status==='skipped'&&now-new Date(r.timestamp)<864e5).length;
-  const edit=program=>{setError('');setDraft(program?{...program,zones:[...program.zones],days:[...program.days]}:{id:'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),name:'',zones:zones[0]?[zones[0].id]:[],days:[1,3,5],time:'06:30',minutes:20});};
+  const edit=program=>{setError('');if(!program&&programs.length>=8)return;setDraft(program?{...program,repeat:program.repeat??'days',anchor:program.anchor??today,zones:[...program.zones],days:[...(program.days||[])]}:{id:'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),name:'',repeat:'days',anchor:today,zones:zones[0]?[zones[0].id]:[],days:[1,3,5],time:'06:30',minutes:20});};
   const save=e=>{
     e.preventDefault();
     const validZones=(S.get('dss_profile',{})?.zones||[]).map(z=>z.id);
-    if(!draft.name.trim()||!draft.zones.length||draft.zones.some(id=>!validZones.includes(id))||!draft.days.length||!/^([01]\d|2[0-3]):[0-5]\d$/.test(draft.time)||!Number.isFinite(Number(draft.minutes))||Number(draft.minutes)<=0){setError('Inserisci nome, almeno una zona esistente, un giorno, ora e minuti maggiori di zero.');return;}
-    runControllerCatchup();
+    if(!draft.name.trim()||!draft.zones.length||draft.zones.some(id=>!validZones.includes(id))||(draft.repeat==='days'&&!draft.days.length)||!/^([01]\d|2[0-3]):[0-5]\d$/.test(draft.time)||!Number.isFinite(Number(draft.minutes))||Number(draft.minutes)<=0){setError('Inserisci nome, almeno una zona esistente, un giorno, ora e minuti maggiori di zero.');return;}
+    // Se il recupero e' in attesa del meteo il cursore NON si muove: altrimenti le
+    // irrigazioni degli ultimi 7 giorni non ancora registrate andrebbero perse per sempre.
+    const cursore=runControllerCatchup().pending?{}:{lastRun:new Date().toISOString()};
     const current=S.get('dss_profile',{})?.controller?.programs||[];
     if(!current.some(p=>p.id===draft.id)&&current.length>=8){setError('Puoi salvare al massimo 8 programmi.');return;}
-    const saved={...draft,name:draft.name.trim(),minutes:Number(draft.minutes)};
-    patch({programs:current.some(p=>p.id===saved.id)?current.map(p=>p.id===saved.id?saved:p):[...current,saved],lastRun:new Date().toISOString()});setDraft(null);
+    const saved={...draft,name:draft.name.trim(),minutes:Number(draft.minutes),repeat:draft.repeat??'days',anchor:draft.anchor??today};
+    patch({programs:current.some(p=>p.id===saved.id)?current.map(p=>p.id===saved.id?saved:p):[...current,saved],...cursore});setPending(p=>{const next={...p};delete next[saved.id];return next;});setDraft(null);
   };
   const remove=id=>{
     runControllerCatchup();
@@ -12398,15 +12383,28 @@ function Centralina({wx,setPg,editor=false}){
     patch({programs:(current.programs||[]).filter(p=>p.id!==id),forceRuns:(current.forceRuns||[]).filter(r=>r.programId!==id)});
     if(draft?.id===id)setDraft(null);
   };
-  return html`<section class="card centralina" aria-label="Centralina">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
-      <h2 style="font-size:18px;margin:0">Centralina</h2>
-      <button type="button" class=${'fswitch'+(ctrl.on?' on':'')} role="switch" aria-checked=${!!ctrl.on} aria-label="Registrazione automatica centralina" onClick=${toggle}><span class="fswitch-t">${ctrl.on?'Accesa':'Spenta'}</span><span class="sw" aria-hidden="true"><i></i></span></button>
-    </div>
+  const saveController=()=>{
+    if(programs.some(p=>(p.repeat??'days')==='days'&&!p.days?.length)){setError('Scegli almeno un giorno per ogni programma.');return;}
+    const cursore=runControllerCatchup().pending?{}:{lastRun:new Date().toISOString()};
+    const current=S.get('dss_profile',{})?.controller?.programs||[];
+    patch({programs:current.map(p=>pending[p.id]?{...p,...pending[p.id],repeat:pending[p.id].repeat??p.repeat??'days',anchor:pending[p.id].anchor??p.anchor??today}:p),...cursore});
+    setPending({});setError('');showGlobalToast('Centralina salvata','success');
+  };
+  const fieldPrefix=editor?'ctrl-profile':'ctrl-sheet';
+  return html`<section class=${editor?'card centralina':'centralina'} aria-label="Centralina">
+    <div class="cen-master"><div><div class="cen-master-t">Centralina virtuale</div><div class="cen-master-s">Irrigazione automatica programmata</div></div><button type="button" class=${'ios-tog'+(ctrl.on?' on':'')} role="switch" aria-checked=${!!ctrl.on} aria-label="Centralina virtuale" onClick=${toggle}><i aria-hidden="true"></i></button></div>
+    ${programs.map(program=>html`<div class="cen-zone" key=${program.id}>
+      <div class="cen-zh"><span>${program.name}<span class="dt-note"> · ${zoneNames(program.zones)}</span></span>${controllerOccurrences(program,now,controllerWeekEnd(now)).length?html`<span class="alt-badge">attiva</span>`:''}</div>
+      <div class="cen-grid"><div class="cen-field"><label>Partenza</label><div class="cen-val">${program.time}</div></div><div class="cen-field"><label>Durata</label><div class="cen-val">${program.minutes} min</div></div><div class="cen-field"><label>Acqua / zona</label><div class="cen-val">~${Math.round(program.minutes*(prof.flowRateLpm??IRRIG_FLOW_LMIN))} L</div></div></div>
+      <${ControllerSchedule} program=${program} onChange=${change=>{setError('');setPending(p=>({...p,[program.id]:{...p[program.id],...change}}));}}/>
+      ${editor?html`<div class="cen-actions"><button type="button" class="pf-edit" aria-label=${'Modifica '+program.name} onClick=${()=>edit(program)}>Modifica</button><button type="button" class="pf-edit" aria-label=${'Elimina '+program.name} onClick=${()=>remove(program.id)}>Elimina</button></div>`:''}
+    </div>`)}
+    <div class="cen-summary">Totale stimato: <b>~${Math.round(summary.litersPerCycle)} L/ciclo</b> · ${summary.cyclesPerWeek} cicli a settimana · <b>~${Math.round(summary.litersPerWeek)} L/settimana</b></div>
+    <p class="dt-note">Un ciclo corrisponde a un programma. Litri medi per ciclo e stima sui prossimi 7 giorni, prima degli eventuali salti per pioggia.</p>
     ${!editor?html`<p class="dt-note">Registra da sola le irrigazioni dei tuoi programmi. Non comanda l'acqua: quella resta sulla centralina di casa.</p>`:''}
     ${editor?html`<p class="dt-note">Copia qui gli stessi programmi della tua centralina di casa. Lawnly registra le irrigazioni all'apertura e al rientro nell'app, recuperando fino a 7 giorni. Per accendere o sospendere l'acqua, agisci sulla centralina fisica.</p>`:''}
     ${!ctrl.on||!programs.length?html`<p class="dt-note">${!programs.length?'Aggiungi i programmi della tua centralina per registrare le irrigazioni in automatico.':'Registrazione automatica spenta. Controlla i programmi e accendila quando sei pronto.'}</p>`:next?html`
-      <p style="margin:14px 0 0;overflow-wrap:anywhere">${zoneNames(next.program.zones)} · ${nextLabel} ${next.program.time} · ${next.program.minutes} min</p>
+      <p class="dt-note">${zoneNames(next.program.zones)} · ${nextLabel} ${next.program.time} · ${next.program.minutes} min</p>
       ${rainAlert||skipNext?html`<div class="dt-note">
         ${rain24!=null&&rain24>=threshold?('Pioggia nelle prossime 24 ore: ~'+rain24.toFixed(1)+' mm. '):('Pioggia prevista '+nextLabel+': ~'+nextRain.toFixed(1)+' mm. ')}
         ${skipNext?('Sospendo la registrazione di '+nextLabel+' ('+next.program.name+'). Spegni anche la centralina di casa.'):forced?'La prossima irrigazione verrà registrata anche se piove.':'La prossima irrigazione resta programmata: la sospensione dipende dalla pioggia del suo giorno.'}
@@ -12415,22 +12413,16 @@ function Centralina({wx,setPg,editor=false}){
       ${!wx?.forecast7?.length?html`<p class="dt-note">In attesa del meteo per recuperare le irrigazioni.</p>`:''}
     `:html`<p class="dt-note">Controlla zone, giorni e orari dei programmi.</p>`}
     <div role="status">${skipped?html`<p class="dt-note">${skipped} ${skipped===1?'irrigazione saltata':'irrigazioni saltate'} per pioggia nelle ultime 24 ore</p>`:''}</div>
-    ${editor?html`
-      <label class="flab" for="ctrl-rain">Sospendi da (mm di pioggia nel giorno)</label>
-      <input id="ctrl-rain" class="finput" type="number" min="0" step="0.5" value=${threshold} onChange=${e=>{const mm=Number(e.target.value);if(e.target.value!==''&&Number.isFinite(mm)&&mm>=0){runControllerCatchup();patch({rainSkipMm:mm});}else e.target.value=threshold;}}/>
-      ${programs.map(program=>html`<div class="pf-row" key=${program.id} style="flex-wrap:wrap">
-        <div style="min-width:0;flex:1;overflow-wrap:anywhere"><b>${program.name}</b><div class="dt-note" style="margin-top:4px">${zoneNames(program.zones)} · ${program.days.map(d=>weekdays[d]).join(', ')} · ${program.time} · ${program.minutes} min</div></div>
-        <button type="button" class="pf-edit" aria-label=${'Modifica '+program.name} onClick=${()=>edit(program)}>Modifica</button><button type="button" class="pf-edit" aria-label=${'Elimina '+program.name} onClick=${()=>remove(program.id)}>Elimina</button>
-      </div>`)}
-      ${draft?html`<form onSubmit=${save} style="margin-top:16px">
-        <div class="field"><label class="flab" for="ctrl-name">Nome programma</label><input id="ctrl-name" class="finput" required maxlength="60" value=${draft.name} onInput=${e=>setDraft({...draft,name:e.target.value})}/></div>
-        <fieldset class="field"><legend class="flab">Zone</legend><div class="fchips">${zones.map(z=>html`<button type="button" key=${z.id} class=${'fchip'+(draft.zones.includes(z.id)?' on':'')} aria-pressed=${draft.zones.includes(z.id)} onClick=${()=>setDraft({...draft,zones:draft.zones.includes(z.id)?draft.zones.filter(id=>id!==z.id):[...draft.zones,z.id]})}>${z.name||('Zona '+z.id)}</button>`)}</div>${!zones.length?html`<p class="dt-note">Aggiungi prima una zona in Giardino e superficie.</p>`:''}</fieldset>
-        <fieldset class="field"><legend class="flab">Giorni della settimana</legend><div class="fchips">${[1,2,3,4,5,6,0].map(d=>html`<button type="button" key=${d} class=${'fchip'+(draft.days.includes(d)?' on':'')} aria-pressed=${draft.days.includes(d)} onClick=${()=>setDraft({...draft,days:draft.days.includes(d)?draft.days.filter(day=>day!==d):[...draft.days,d]})}>${weekdays[d]}</button>`)}</div></fieldset>
-        <div class="frow"><div class="field"><label class="flab" for="ctrl-time">Ora locale</label><input id="ctrl-time" class="finput" type="time" required value=${draft.time} onInput=${e=>setDraft({...draft,time:e.target.value})}/></div><div class="field"><label class="flab" for="ctrl-minutes">Minuti per zona</label><input id="ctrl-minutes" class="finput" type="number" min="1" step="1" required value=${draft.minutes} onInput=${e=>setDraft({...draft,minutes:e.target.value})}/></div></div>
-        ${error?html`<p role="alert" class="dt-note">${error}</p>`:''}
-        <button class="sh-save" type="submit">Salva programma</button><button type="button" class="pf-edit" onClick=${()=>setDraft(null)}>Annulla</button>
-      </form>`:html`<button type="button" class="pf-edit" disabled=${programs.length>=8} onClick=${()=>edit(null)}>Aggiungi programma (${programs.length}/8)</button>`}
-    `:html`<button type="button" class="pf-edit" onClick=${()=>setPg('profilo2')}>Configura centralina</button>`}
+    ${editor?html`<div class="cen-field"><label for=${fieldPrefix+'-rain'}>Sospendi da (mm di pioggia nel giorno)</label><input id=${fieldPrefix+'-rain'} class="cen-inp" type="number" min="0" step="0.5" value=${threshold} onChange=${e=>{const mm=Number(e.target.value);if(e.target.value!==''&&Number.isFinite(mm)&&mm>=0){runControllerCatchup();patch({rainSkipMm:mm});}else e.target.value=threshold;}}/></div>`:''}
+    ${draft?html`<form class="cen-editor" onSubmit=${save}>
+      <div class="cen-field"><label for=${fieldPrefix+'-name'}>Nome programma</label><input id=${fieldPrefix+'-name'} class="cen-inp" required maxlength="60" value=${draft.name} onInput=${e=>setDraft({...draft,name:e.target.value})}/></div>
+      <fieldset class="cen-zone"><legend class="cen-lab">Zone</legend><div class="cen-freq">${zones.map(z=>html`<button type="button" key=${z.id} class=${'cen-day'+(draft.zones.includes(z.id)?' on':'')} aria-pressed=${draft.zones.includes(z.id)} onClick=${()=>setDraft({...draft,zones:draft.zones.includes(z.id)?draft.zones.filter(id=>id!==z.id):[...draft.zones,z.id]})}>${z.name||('Zona '+z.id)}</button>`)}</div>${!zones.length?html`<p class="dt-note">Aggiungi prima una zona in Giardino e superficie.</p>`:''}</fieldset>
+      <${ControllerSchedule} program=${draft} onChange=${change=>setDraft({...draft,...change})}/>
+      <div class="cen-grid"><div class="cen-field"><label for=${fieldPrefix+'-time'}>Ora locale</label><input id=${fieldPrefix+'-time'} class="cen-inp" type="time" required value=${draft.time} onInput=${e=>setDraft({...draft,time:e.target.value})}/></div><div class="cen-field"><label for=${fieldPrefix+'-minutes'}>Minuti per zona</label><input id=${fieldPrefix+'-minutes'} class="cen-inp" type="number" min="1" step="1" required value=${draft.minutes} onInput=${e=>setDraft({...draft,minutes:e.target.value})}/></div></div>
+      <button class="dt-goto cen-save" type="submit">Salva programma</button><button type="button" class="pf-edit" onClick=${()=>setDraft(null)}>Annulla</button>
+    </form>`:html`<button type="button" class="dt-goto" disabled=${programs.length>=8} onClick=${()=>edit(null)}>Aggiungi programma</button>`}
+    ${error?html`<p role="alert" class="dt-note">${error}</p>`:''}
+    <button type="button" class="dt-goto cen-save" disabled=${!!draft} onClick=${saveController}>Salva centralina</button>
   </section>`;
 }
 
@@ -12947,26 +12939,7 @@ function OnboardingNew({onComplete}){
 }
 /* ===== fine Onboarding ===== */
 
-const BNAVS=[
-  {id:'oggi',        Icon:Home, l:'Oggi'},
-  {id:'dashboard',   Icon:LayoutDashboard, l:'Home'},
-  {id:'consulente',  Icon:Sparkles, l:'AI'},
-  {id:'calendario',  Icon:Calendar, l:'Calendario'},
-  {id:'meteo',       Icon:CloudSun, l:'Meteo'},
-  {id:'irrigazione', Icon:Droplet, l:'Irrig.'},
-  {id:'prato',       Icon:Sprout, l:'Prato'},
-  {id:'meteo2',      Icon:CloudSun, l:'Meteo+'},
-  {id:'piano',       Icon:Calendar, l:'Piano'},
-  {id:'mag',         Icon:Package, l:'Mag.+'},
-  {id:'profilo2',    Icon:User, l:'Prof.+'},
-  {id:'suolo',       Icon:Layers, l:'Suolo'},
-  {id:'zone',        Icon:MapIcon, l:'Zone'},
-  {id:'giardino',    Icon:Grid3x3, l:'Giardino'},
-  {id:'magazzino',   Icon:Package, l:'Magazzino'},
-  {id:'profilo',     Icon:User, l:'Profilo'}
-];
 
-function Header({pg,setPg,name}){return html`<header><div class="hdr-top" style="justify-content:center"><div style="display:flex;align-items:center;gap:10px"><img src="lawnly-logo.png" alt="Lawnly" class="logo-mark"/><div style="text-align:left"><div style="font-size:15px;font-weight:500;color:var(--text);line-height:1">${name||'Lawnly'}</div><div style="font-size:10px;color:rgba(26,26,26,.38);margin-top:2px">Love only your Lawn</div></div></div></div><div class="nav-scroll"><div class="nav-inner">${NAVS.map(n=>html`<button key=${n.id} class=${`nav-btn${pg===n.id?' active':''}`} onClick=${()=>setPg(n.id)}>${navLuc(n.Icon)}<span>${n.l}</span></button>`)}</div></div></header>`;}
 /* ===== LAWNLY RE-SKIN — Barra di navigazione stile plus (lente + tasto +) ===== */
 function _navSv(p){return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;}
 function RegMenuSheet({onClose,onPick}){
@@ -16274,6 +16247,57 @@ function Calendario({wx,prof,setPg}){
 
 /* ── Quick actions / module persist (Irrigazione + Suolo + Zone) — Step 12.10 ── */
 const IRRIG_FLOW_LMIN=8;
+
+function patchController(change){
+  const fresh=S.get('dss_profile',{})||{};
+  S.set('dss_profile',{...fresh,controller:{on:false,rainSkipMm:5,lastRun:new Date().toISOString(),programs:[],...fresh.controller,...change}});
+  window.dispatchEvent(new CustomEvent('lawnly:sync'));
+}
+function toggleController(){
+  runControllerCatchup();
+  const fresh=S.get('dss_profile',{})||{};
+  patchController({on:!fresh.controller?.on,lastRun:new Date().toISOString()});
+}
+// Differenza tra date civili locali: non dividere millisecondi locali nei giorni DST.
+function diffGiorniLocali(anchor,day){
+  const [y,m,d]=anchor.split('-').map(Number);
+  return (Date.UTC(day.getFullYear(),day.getMonth(),day.getDate())-Date.UTC(y,m-1,d))/864e5;
+}
+function controllerProgramOnDay(program,day){
+  const repeat=program.repeat??'days';
+  if(repeat==='days')return !!program.days?.includes(day.getDay());
+  const n=repeat==='every2'?2:repeat==='every3'?3:0;
+  const diff=diffGiorniLocali(program.anchor??new Date().toLocaleDateString('sv-SE'),day);
+  return !!n&&diff>=0&&diff%n===0;
+}
+function controllerOccurrences(program,from,to){
+  if((program.repeat??'days')==='days'&&!Array.isArray(program.days))return [];
+  if(!program.zones?.length||!/^([01]\d|2[0-3]):[0-5]\d$/.test(program.time)||!(Number(program.minutes)>0))return [];
+  const [hour,minute]=program.time.split(':').map(Number), occurrences=[];
+  const day=new Date(from);day.setHours(0,0,0,0);
+  for(;day<=to;day.setDate(day.getDate()+1)){
+    if(!controllerProgramOnDay(program,day))continue;
+    const at=new Date(day);at.setHours(hour,minute,0,0);
+    if(at>from&&at<=to)occurrences.push({program,at});
+  }
+  return occurrences;
+}
+function controllerWeekEnd(now){const end=new Date(now);end.setDate(end.getDate()+7);return end;}
+function nextControllerRun(ctrl,now=new Date()){
+  if(!ctrl.on)return null;
+  return (ctrl.programs||[]).slice(0,8).flatMap(p=>controllerOccurrences(p,now,controllerWeekEnd(now))).sort((a,b)=>a.at-b.at)[0]||null;
+}
+function controllerSummary(programs,flow=IRRIG_FLOW_LMIN,now=new Date()){
+  let cyclesPerWeek=0,litersPerWeek=0;
+  for(const program of programs.slice(0,8)){
+    const cycles=controllerOccurrences(program,now,controllerWeekEnd(now)).length;
+    cyclesPerWeek+=cycles;
+    litersPerWeek+=cycles*Number(program.minutes)*flow*new Set(program.zones||[]).size;
+  }
+  // Un ciclo è l'esecuzione di un programma; con durate diverse mostriamo la media.
+  return {litersPerCycle:cyclesPerWeek?litersPerWeek/cyclesPerWeek:0,cyclesPerWeek,litersPerWeek};
+}
+
 const IRRIGATION_EVENT='lawnly:irrigation-changed';
 function emitIrrigationChanged(){
   try{window.dispatchEvent(new CustomEvent(IRRIGATION_EVENT));}catch{}
@@ -16306,15 +16330,8 @@ function runControllerCatchup(){
   const seen=new Set([...runs,...hist.filter(h=>h?.auto)].map(r=>r.programId+'|'+r.timestamp));
   const occurrences=[];
   for(const program of ctrl.programs.slice(0,8)){
-    if(!program.id||!Array.isArray(program.days)||!program.zones?.length||!/^([01]\d|2[0-3]):[0-5]\d$/.test(program.time)||!(Number(program.minutes)>0))continue;
-    const [hour,minute]=program.time.split(':').map(Number);
-    for(const day=new Date(start);day.getTime()<=now.getTime();day.setDate(day.getDate()+1)){
-      // Il contatore avanza a mezzanotte locale, anche nei giorni di cambio DST.
-      day.setHours(0,0,0,0);
-      if(!program.days.includes(day.getDay()))continue;
-      const at=new Date(day);at.setHours(hour,minute,0,0);
-      if(at.getTime()>start&&at.getTime()<=now.getTime())occurrences.push({program,at});
-    }
+    if(!program.id)continue;
+    occurrences.push(...controllerOccurrences(program,new Date(start),now));
   }
   occurrences.sort((a,b)=>a.at-b.at);
   for(const {program,at} of occurrences){
@@ -19108,17 +19125,11 @@ function App(){
   };
 
   return html`<div>
-    <${Header} pg=${pg} setPg=${setPg} name=${prof?.gardenName}/>
-    <main>
+    <main class=${['oggi','prato','meteo2','piano','mag','profilo2'].includes(pg)?'main-rdz':''}>
       <div key=${pg} class="anim">${PAGES[pg]||''}</div>
+      <footer class="partner-credit"><span>prodotti</span><img src="padana-logo.png" alt="Padana Sementi" style="height:14px;width:auto"/></footer>
     </main>
     <${BNav} pg=${pg} setPg=${setPg}/>
-    <footer style="text-align:center;padding:14px;font-size:10px;color:rgba(45,106,79,.35);padding-bottom:calc(14px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:center;gap:7px">
-      <img src="lawnly-logo.png" alt="Lawnly" style="width:16px;height:16px;border-radius:5px;object-fit:cover;opacity:.8"/>
-      <span>Lawnly · Love only your Lawn${authUser?.email?' · '+authUser.email.split('@')[0]:''}${prof?.lat?' · '+prof.lat?.toFixed?.(3)+'°N':''}</span>
-      <span style="opacity:.5">·</span>
-      <span style="display:inline-flex;align-items:center;gap:5px">prodotti <img src="padana-logo.png" alt="Padana Sementi" style="height:14px;width:auto;opacity:.85"/></span>
-    </footer>
   </div>`;
 }
 
@@ -19214,6 +19225,9 @@ render(html`<${ErrorBoundary}><${App}/><//>`,document.getElementById('app'));
 }
 
 main{padding-bottom:96px;}
+main.main-rdz{padding-top:0;}
+.partner-credit{display:flex;align-items:center;justify-content:center;gap:5px;padding:14px;font-size:10px;color:var(--muted);}
+@media(min-width:768px){main.main-rdz > .anim > .rdz{padding-top:calc(var(--sat) + 26px);}}
 
 /* P1: l'arte corretta è renderizzata in JS — mostrala sempre */
 .rdz .dropico .yesart,.rdz .dropico .noart{display:block !important;}
@@ -19228,14 +19242,9 @@ html[data-theme="dark"] .rdz-navwrap .nav{background:rgba(28,34,24,.92) !importa
 html[data-theme="dark"] .rdz .finput,html[data-theme="dark"] .rdz .fselect{background:rgba(46,54,40,.6) !important;color:var(--ink) !important;border-color:rgba(255,255,255,.12) !important;}
 html[data-theme="dark"] .rdz .fchip{background:rgba(46,54,40,.6) !important;color:var(--t2) !important;}
 html[data-theme="dark"] .rdz .fchip.on{background:var(--green) !important;color:#fff !important;}
-/* fix #16 — sfondo pagina realmente scuro + header scuro + card meno "nere" */
+/* fix #16 — sfondo pagina realmente scuro + card meno "nere" */
 html[data-theme="dark"] .rdz{background:#0E120C;}
 html[data-theme="dark"] .rdz .card,html[data-theme="dark"] .rdz .tile,html[data-theme="dark"] .rdz .sheet{background:rgba(40,48,35,.94) !important;border-color:rgba(255,255,255,.12) !important;box-shadow:0 8px 24px rgba(0,0,0,.32) !important;}
-html[data-theme="dark"] header{background:rgba(16,20,12,.9) !important;border-bottom:1px solid rgba(255,255,255,.08);}
-html[data-theme="dark"] header::after{background:linear-gradient(to bottom,rgba(16,20,12,.72) 0%,transparent 100%);}
-html[data-theme="dark"] header .hdr-top div{color:#EAF0E2 !important;}
-html[data-theme="dark"] header .hdr-top div div:last-child{color:rgba(234,240,226,.55) !important;}
-html[data-theme="dark"] header .hdr-top div[style*="color:var(--text)"],html[data-theme="dark"] header .logo + div,html[data-theme="dark"] header .hdr-top{color:#EAF0E2 !important;}
 html[data-theme="dark"] .rdz .loc-pill{background:rgba(40,48,35,.94);border-color:rgba(255,255,255,.12);}
 html[data-theme="dark"] .rdz .virr-min,html[data-theme="dark"] .rdz .next-prod{color:#9FD27E;}
 html[data-theme="dark"] .rdz .mpill{filter:brightness(1.25);}
@@ -19248,6 +19257,18 @@ html[data-theme="dark"] .rdz-ambient{background:
   radial-gradient(110% 70% at 95% 5%, rgba(103,178,74,.08) 0%, rgba(103,178,74,0) 52%),
   linear-gradient(158deg,#151A11 0%,#0E120C 100%) !important;}
 html[data-theme="dark"] .rdz-ambient::after{background:none;}
+/* Centralina: superfici e testo sul tema scuro. */
+html[data-theme="dark"] .rdz .centralina,html[data-theme="dark"] .rdz .sh-tabs{--text:var(--ink);--muted:var(--t2);color:var(--text)}
+html[data-theme="dark"] .rdz .sh-tabs,html[data-theme="dark"] .rdz .cen-master,html[data-theme="dark"] .rdz .cen-field,html[data-theme="dark"] .rdz .cen-summary{background:var(--card2);border-color:var(--line)}
+html[data-theme="dark"] .rdz .cen-zone,html[data-theme="dark"] .rdz .cen-row,html[data-theme="dark"] .rdz .cen-day,html[data-theme="dark"] .rdz .virr-cen{border-color:var(--line)}
+html[data-theme="dark"] .rdz .sh-tab,html[data-theme="dark"] .rdz .cen-master-s,html[data-theme="dark"] .rdz .cen-lab,html[data-theme="dark"] .rdz .cen-field label,html[data-theme="dark"] .rdz .cen-day{color:var(--muted)}
+html[data-theme="dark"] .rdz .sh-tab.on,html[data-theme="dark"] .rdz .alt-badge{background:var(--card);color:#9CCB84}
+html[data-theme="dark"] .rdz .cen-field .cen-val,html[data-theme="dark"] .rdz .cen-inp,html[data-theme="dark"] .rdz .cen-summary,html[data-theme="dark"] .rdz .virr-right-l,html[data-theme="dark"] .rdz .virr-right-s,html[data-theme="dark"] .rdz .virr-cen-l,html[data-theme="dark"] .rdz .virr-cen-l b{color:#9CCB84}
+html[data-theme="dark"] .rdz .cen-row b{color:var(--text)}
+html[data-theme="dark"] .rdz .virr-right-s.off{color:var(--muted)}
+html[data-theme="dark"] .rdz .ios-tog{background:var(--line)}
+html[data-theme="dark"] .rdz .ios-tog.on,html[data-theme="dark"] .rdz .cen-day.on{background:#9CCB84;border-color:#9CCB84;color:var(--bg)}
+html[data-theme="dark"] .rdz .ios-tog:focus-visible,html[data-theme="dark"] .rdz .cen-day:focus-visible,html[data-theme="dark"] .rdz .sh-tab:focus-visible,html[data-theme="dark"] .rdz .cen-inp:focus-visible{outline-color:#9CCB84}
 </style>
 <script>/* LAWNLY_PADANA_CATALOG — concimi Padana Sementi (estratti da CATALOGO_TURF_2026, dati verificati) */
 (function(){
@@ -19326,6 +19347,8 @@ html[data-theme="dark"] .rdz-ambient::after{background:none;}
     S('collanti',"Collanti",'biostimolante','liquido',"Biostimolante / coating Padana Sementi (scheda completa nel catalogo 2026).")
   ]);
   function merge(){try{var c=window.__LAWNLY_CATALOG__||[];var have={};c.forEach(function(p){if(p&&p.id)have[p.id]=1;});PADANA.forEach(function(p){if(!have[p.id])c.push(p);});window.__LAWNLY_CATALOG__=c;}catch(e){}}
+  // Il catalogo inline ha già emesso l'evento: merge immediato necessario anche da file://.
+  // Il modulo differito può sostituirlo: il listener riapplica Padana quando è pronto.
   merge();
   try{window.addEventListener('lawnly-catalog-ready',merge);}catch(e){}
 })();

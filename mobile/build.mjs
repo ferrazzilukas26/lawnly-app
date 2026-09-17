@@ -6,7 +6,7 @@ import path from 'node:path';
 const ROOT = path.resolve(import.meta.dirname, '..');
 const WWW = path.join(import.meta.dirname, 'www');
 const API_BASE = process.env.LAWNLY_API_BASE || 'https://lawnly-app.vercel.app';
-const FILES = ['index.html', 'productCatalog.js', 'waterEngine.js', 'native.js', 'lawnly-logo.png', 'padana-logo.png', 'privacy.html', 'termini.html'];
+const FILES = ['index.html', 'productCatalog.js', 'native.js', 'lawnly-logo.png', 'padana-logo.png', 'privacy.html', 'termini.html'];
 const VENDOR = [
   'https://cdn.jsdelivr.net/npm/preact@10/dist/preact.umd.js',
   'https://cdn.jsdelivr.net/npm/preact@10/hooks/dist/hooks.umd.js',
