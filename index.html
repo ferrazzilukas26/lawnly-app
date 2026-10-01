@@ -1897,6 +1897,8 @@ html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
 .rdz .virr-right-s.off{color:var(--t3)}
 .rdz .cen-freq{display:flex;gap:5px;flex-wrap:wrap}
 .rdz .cen-freq .cen-day{width:auto;padding:0 11px}
+.rdz .cen-rep{flex-direction:column;flex-wrap:nowrap}
+.rdz .cen-rep .cen-day{width:100%;padding:0 11px}
 .rdz button.cen-day{background:transparent;font-family:inherit;cursor:pointer}
 .rdz button.cen-day.on{background:#5b8a4f}
 .rdz button.cen-day:disabled{opacity:.5;cursor:default}
@@ -13334,7 +13336,7 @@ function ProAccountCard(){
 function ControllerSchedule({program,onChange}){
   const repeat=program.repeat??'days', days=program.days||[];
   const weekdays=['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'];
-  return html`<span class="cen-lab">Ripeti</span><div class="cen-freq" role="group" aria-label="Ripeti">${[['days','Giorni scelti'],['every2','Ogni 2 gg'],['every3','Ogni 3 gg']].map(([value,label])=>html`<button type="button" class=${'cen-day'+(repeat===value?' on':'')} aria-pressed=${repeat===value} onClick=${()=>onChange({repeat:value,anchor:program.anchor??new Date().toLocaleDateString('sv-SE')})}>${label}</button>`)}</div>
+  return html`<span class="cen-lab">Ripeti</span><div class="cen-freq cen-rep" role="group" aria-label="Ripeti">${[['days','Giorni scelti'],['every2','Ogni 2 gg'],['every3','Ogni 3 gg']].map(([value,label])=>html`<button type="button" class=${'cen-day'+(repeat===value?' on':'')} aria-pressed=${repeat===value} onClick=${()=>onChange({repeat:value,anchor:program.anchor??new Date().toLocaleDateString('sv-SE')})}>${label}</button>`)}</div>
     <span class="cen-lab">Giorni</span><div class="cen-days" role="group" aria-label="Giorni della settimana">${[1,2,3,4,5,6,0].map((d,i)=>html`<button type="button" class=${'cen-day'+(repeat==='days'&&days.includes(d)?' on':'')} aria-label=${weekdays[d]} aria-pressed=${repeat==='days'&&days.includes(d)} disabled=${repeat!=='days'} onClick=${()=>onChange({days:days.includes(d)?days.filter(day=>day!==d):[...days,d]})}>${['L','M','M','G','V','S','D'][i]}</button>`)}</div>`;
 }
 function Centralina({wx,editor=false}){
