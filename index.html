@@ -510,6 +510,10 @@ input[type=range]{width:100%;accent-color:var(--green);cursor:pointer;margin:6px
 .rdz .pd-name{font-size:20px;font-weight:800;letter-spacing:-.4px;color:var(--ink);line-height:1.1;}
 .rdz .pd-sub{font-size:12.5px;color:var(--t3);margin-top:3px;text-transform:capitalize;}
 .rdz .pd-brand-padana{display:inline-block;margin-top:5px;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#1f5e2e;background:linear-gradient(135deg,#cfe9bf,#a9d98c);padding:3px 10px;border-radius:6px;}
+.rdz .pd-product-image{display:block;width:44px;height:44px;flex-shrink:0;object-fit:contain;border-radius:8px;background:var(--card);}
+.rdz .pd-head>.pd-product-image{width:96px;height:96px;}
+.rdz .np-sg:has(.pd-product-image){display:flow-root;}
+.rdz .np-sg>.pd-product-image{float:left;margin:0 10px 4px 0;}
 .rdz .pd-logo-padana{display:block;height:20px;width:auto;margin-top:6px;}
 html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
 .rdz .pd-have{font-size:13px;color:var(--green-deep);background:var(--green-soft);border-radius:10px;padding:9px 12px;margin:10px 0 4px;}
@@ -3844,7 +3848,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-greenmaster-pro-lite-cold-start-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-greenmaster-pro-lite-cold-start-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -3872,7 +3876,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-greenmaster-pro-lite-invigorator-plus-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-greenmaster-pro-lite-invigorator-plus-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -3900,7 +3904,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-greenmaster-pro-lite-nk-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-greenmaster-pro-lite-nk-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -3928,7 +3932,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "fogliare",
     granulometry: null,
-    formats: [{ sku: "icl-greenmaster-liquid-calmag-booster-10l", size: 10, unit: "L", label: "10 L", verified: false }],
+    formats: [{ sku: "icl-greenmaster-liquid-calmag-booster-10l", size: 10, unit: "L", label: "10 L", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -3956,7 +3960,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "fogliare",
     granulometry: null,
-    formats: [{ sku: "icl-greenmaster-liquid-effect-iron-10l", size: 10, unit: "L", label: "10 L", verified: false }],
+    formats: [{ sku: "icl-greenmaster-liquid-effect-iron-10l", size: 10, unit: "L", label: "10 L", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -3984,7 +3988,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "fogliare",
     granulometry: null,
-    formats: [{ sku: "icl-greenmaster-liquid-high-n-10l", size: 10, unit: "L", label: "10 L", verified: false }],
+    formats: [{ sku: "icl-greenmaster-liquid-high-n-10l", size: 10, unit: "L", label: "10 L", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4012,7 +4016,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "fogliare",
     granulometry: null,
-    formats: [{ sku: "icl-greenmaster-liquid-nk-10l", size: 10, unit: "L", label: "10 L", verified: false }],
+    formats: [{ sku: "icl-greenmaster-liquid-nk-10l", size: 10, unit: "L", label: "10 L", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4040,7 +4044,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "fogliare",
     granulometry: null,
-    formats: [{ sku: "icl-greenmaster-liquid-step-10l", size: 10, unit: "L", label: "10 L", verified: false }],
+    formats: [{ sku: "icl-greenmaster-liquid-step-10l", size: 10, unit: "L", label: "10 L", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4068,7 +4072,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-step-hi-mag-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-step-hi-mag-20kg", size: 20, unit: "kg", label: "Sacco 20 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4096,7 +4100,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-gronamic-mini-high-k-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-gronamic-mini-high-k-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4124,7 +4128,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-gronamic-mini-high-n-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-gronamic-mini-high-n-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4152,7 +4156,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-gronamic-sport-high-k-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-gronamic-sport-high-k-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4180,7 +4184,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-gronamic-sport-high-n-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-gronamic-sport-high-n-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4208,7 +4212,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-landscaper-pro-full-season-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-landscaper-pro-full-season-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true }],
     audienceLevel: "prosumer",
     actives: null,
     targetPests: null,
@@ -4236,7 +4240,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-landscaper-pro-maintenance-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-landscaper-pro-maintenance-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true }, { sku: "icl-landscaper-pro-maintenance-25kg", size: 25, unit: "kg", label: "Sacco 25 kg", verified: true }],
     audienceLevel: "prosumer",
     actives: null,
     targetPests: null,
@@ -4264,7 +4268,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-landscaper-pro-new-grass-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-landscaper-pro-new-grass-5kg", size: 5, unit: "kg", label: "Sacco 5 kg", verified: true }, { sku: "icl-landscaper-pro-new-grass-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true }],
     audienceLevel: "prosumer",
     actives: null,
     targetPests: null,
@@ -4292,7 +4296,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-landscaper-pro-shade-special-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-landscaper-pro-shade-special-5kg", size: 5, unit: "kg", label: "Sacco 5 kg", verified: true }, { sku: "icl-landscaper-pro-shade-special-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true }],
     audienceLevel: "prosumer",
     actives: null,
     targetPests: null,
@@ -4320,7 +4324,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-landscaper-pro-stress-control-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-landscaper-pro-stress-control-5kg", size: 5, unit: "kg", label: "Sacco 5 kg", verified: true }, { sku: "icl-landscaper-pro-stress-control-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true }],
     audienceLevel: "prosumer",
     actives: null,
     targetPests: null,
@@ -4348,7 +4352,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-landscaper-pro-flora-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-landscaper-pro-flora-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true }],
     audienceLevel: "prosumer",
     actives: null,
     targetPests: null,
@@ -4376,7 +4380,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-landscaperpro-readystar-n-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-landscaperpro-readystar-n-5kg", size: 5, unit: "kg", label: "Sacco 5 kg", verified: true }, { sku: "icl-landscaperpro-readystar-n-25kg", size: 25, unit: "kg", label: "Sacco 25 kg", verified: true }],
     audienceLevel: "prosumer",
     actives: null,
     targetPests: null,
@@ -4404,7 +4408,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-landscaperpro-readystar-k-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-landscaperpro-readystar-k-5kg", size: 5, unit: "kg", label: "Sacco 5 kg", verified: true }, { sku: "icl-landscaperpro-readystar-k-25kg", size: 25, unit: "kg", label: "Sacco 25 kg", verified: true }],
     audienceLevel: "prosumer",
     actives: null,
     targetPests: null,
@@ -4432,7 +4436,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-landscaperpro-universtar-balance-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-landscaperpro-universtar-balance-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "prosumer",
     actives: null,
     targetPests: null,
@@ -4460,7 +4464,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-landscaperpro-universtar-classic-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-landscaperpro-universtar-classic-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "prosumer",
     actives: null,
     targetPests: null,
@@ -4600,7 +4604,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-sierrablen-plus-active-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-sierrablen-plus-active-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4656,7 +4660,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-sierrablen-plus-n-start-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-sierrablen-plus-n-start-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4684,7 +4688,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-sierrablen-plus-renovator-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-sierrablen-plus-renovator-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4712,7 +4716,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-sierrablen-plus-spring-starter-3m-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-sierrablen-plus-spring-starter-3m-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4740,7 +4744,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-sierrablen-plus-spring-starter-4-5m-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-sierrablen-plus-spring-starter-4-5m-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4768,7 +4772,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-sierrablen-plus-stress-control-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-sierrablen-plus-stress-control-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4796,7 +4800,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-sierrablen-plus-turf-starter-con-tecnologia-pearl-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-sierrablen-plus-turf-starter-con-tecnologia-pearl-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4824,7 +4828,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-sierrablen-plus-renovator-con-tecnologia-pearl-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-sierrablen-plus-renovator-con-tecnologia-pearl-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4880,7 +4884,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-sierraform-gt-anti-stress-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
+    formats: [{ sku: "icl-sierraform-gt-anti-stress-20kg", size: 20, unit: "kg", label: "Sacco 20 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4908,7 +4912,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-sierraform-gt-k-step-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-sierraform-gt-k-step-20kg", size: 20, unit: "kg", label: "Sacco 20 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4936,7 +4940,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-sierraform-gt-momentum-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
+    formats: [{ sku: "icl-sierraform-gt-momentum-20kg", size: 20, unit: "kg", label: "Sacco 20 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4964,7 +4968,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-sierraform-gt-preseeder-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
+    formats: [{ sku: "icl-sierraform-gt-preseeder-20kg", size: 20, unit: "kg", label: "Sacco 20 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4992,7 +4996,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-sportsmaster-crf-mini-spring-starter-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-sportsmaster-crf-mini-spring-starter-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5020,7 +5024,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-sportsmaster-crf-mini-start-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-sportsmaster-crf-mini-start-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5048,7 +5052,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-sportsmaster-wsf-high-k-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-sportsmaster-wsf-high-k-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5076,7 +5080,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-sportsmaster-wsf-high-n-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-sportsmaster-wsf-high-n-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5104,7 +5108,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-sportsmaster-crf-mini-high-k-25kg", size: 25, unit: "kg", label: "25 kg", verified: false }],
+    formats: [{ sku: "icl-sportsmaster-crf-mini-high-k-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5132,7 +5136,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-vitalnova-aminoboost-1l", size: 1, unit: "L", label: "1 L", verified: false }],
+    formats: [{ sku: "icl-vitalnova-aminoboost-10l", size: 10, unit: "L", label: "Tanica 10 L", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5160,7 +5164,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-vitalnova-blade-1l", size: 1, unit: "L", label: "1 L", verified: false }],
+    formats: [{ sku: "icl-vitalnova-blade-10l", size: 10, unit: "L", label: "Tanica 10 L", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5188,7 +5192,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-vitalnova-smx-1l", size: 1, unit: "L", label: "1 L", verified: false }],
+    formats: [{ sku: "icl-vitalnova-smx-10l", size: 10, unit: "L", label: "Tanica 10 L", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5216,7 +5220,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-vitalnova-silk-1l", size: 1, unit: "L", label: "1 L", verified: false }],
+    formats: [{ sku: "icl-vitalnova-silk-10l", size: 10, unit: "L", label: "Tanica 10 L", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5244,7 +5248,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-vitalnova-stressbuster-1l", size: 1, unit: "L", label: "1 L", verified: false }],
+    formats: [{ sku: "icl-vitalnova-stressbuster-10l", size: 10, unit: "L", label: "Tanica 10 L", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5272,7 +5276,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-h2pro-aquasmart-5kg", size: 5, unit: "kg", label: "5 kg", verified: false }],
+    formats: [{ sku: "icl-h2pro-aquasmart-5l", size: 5, unit: "L", label: "Tanica 5 L", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5300,7 +5304,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-h2pro-conserve-granules-5kg", size: 5, unit: "kg", label: "5 kg", verified: false }],
+    formats: [{ sku: "icl-h2pro-conserve-granules-10kg", size: 10, unit: "kg", label: "Sacco 10 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5328,7 +5332,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-h2pro-flowsmart-5kg", size: 5, unit: "kg", label: "5 kg", verified: false }],
+    formats: [{ sku: "icl-h2pro-flowsmart-10l", size: 10, unit: "L", label: "Tanica 10 L", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5356,7 +5360,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-h2pro-trismart-5kg", size: 5, unit: "kg", label: "5 kg", verified: false }],
+    formats: [{ sku: "icl-h2pro-trismart-5l", size: 5, unit: "L", label: "Tanica 5 L", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5412,7 +5416,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-phixer-1kg", size: 1, unit: "kg", label: "1 kg", verified: false }],
+    formats: [{ sku: "icl-phixer-5l", size: 5, unit: "L", label: "Tanica 5 L", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5440,7 +5444,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-colourpro-1kg", size: 1, unit: "kg", label: "1 kg", verified: false }],
+    formats: [{ sku: "icl-colourpro-1l", size: 1, unit: "L", label: "Tanica 1 L", verified: true }, { sku: "icl-colourpro-5l", size: 5, unit: "L", label: "Tanica 5 L", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5468,7 +5472,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-ready-germiplus-1kg", size: 1, unit: "kg", label: "1 kg", verified: false }],
+    formats: [{ sku: "icl-ready-germiplus-7kg", size: 7, unit: "kg", label: "Sacco 7 kg", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5496,7 +5500,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-warm-up-100-1kg", size: 1, unit: "kg", label: "1 kg", verified: false }],
+    formats: [{ sku: "icl-warm-up-100-1l", size: 1, unit: "L", label: "Tanica 1 L", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5524,7 +5528,7 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-hicure-1l", size: 1, unit: "L", label: "1 L", verified: false }],
+    formats: [{ sku: "icl-hicure-10l", size: 10, unit: "L", label: "Tanica 10 L", verified: true }],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5560,6 +5564,1784 @@ try{window.__LAWNLY_CATALOG__=[
     targetPests: null,
     notes: "Greenmaster Pro-Lite Autumn - mini granulare pro per green con ferro, concimazione autunnale.",
     sourceUrl: "https://icl-sf.com/it/"
+  },
+
+  // PADANA SEMENTI — 38 voci; provenienza e limiti in scratchpad/padana-report.txt
+  {
+    "id": "padana-rooting-plus-organico",
+    "brand": "Padana Sementi",
+    "name": "Rooting Plus",
+    "line": "Ferti Green",
+    "type": "concime",
+    "subtype": null,
+    "family": "organico_fondo",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 40,
+      "max": 60,
+      "unit": "g/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-rooting-plus-organico-20kg",
+        "size": 20,
+        "unit": "kg",
+        "label": "Sacco da 20 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": "pro",
+    "notes": "Concime vegetale per la fertilità e la microflora del terreno. Impieghi professionali.",
+    "url": "https://www.padanasementi.com/product/rooting-plus/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2025/09/ROOTING-PLUS.pdf",
+    "image": "products/padana/padana-rooting-plus-organico.jpg",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/ferti-rooting-plus-800x1189.jpg",
+    "sourceUrl": "https://www.padanasementi.com/product/rooting-plus/"
+  },
+
+  {
+    "id": "padana-rooting-plus",
+    "brand": "Padana Sementi",
+    "name": "Rooting Plus NK 10-5",
+    "line": "Ferti Green",
+    "type": "concime",
+    "subtype": null,
+    "family": null,
+    "npk": null,
+    "npkLabel": "NK 10-5",
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": null,
+    "url": "https://www.padanasementi.com/prodotto/rooting-plus-nk-10-5/",
+    "sheetUrl": null,
+    "image": null,
+    "sourceUrl": "https://www.padanasementi.com/prodotto/rooting-plus-nk-10-5/"
+  },
+
+  {
+    "id": "padana-ferti-go",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/ferti-go-4-KG-scaled.jpg",
+    "brand": "Padana Sementi",
+    "name": "Ferti Go NPK 18-7-9",
+    "line": "Ferti Green",
+    "type": "concime",
+    "subtype": null,
+    "family": "spinta_vegetativa",
+    "npk": {
+      "n": 18,
+      "p": 7,
+      "k": 9
+    },
+    "npkLabel": "18-7-9",
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 25,
+      "max": 35,
+      "unit": "g/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-go-4kg",
+        "size": 4,
+        "unit": "kg",
+        "label": "Sacco da 4 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Dose per tappeti erbosi. Sviluppo radicale e nutrizione del suolo.",
+    "url": "https://www.padanasementi.com/product/ferti-go-npk-18-7-9/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/FERTI_GO_18-7-9_.pdf",
+    "image": "products/padana/padana-ferti-go.jpg",
+    "sourceUrl": "https://www.padanasementi.com/product/ferti-go-npk-18-7-9/"
+  },
+
+  {
+    "id": "padana-ferti-go-23-6-6",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/ferti-GO.png",
+    "brand": "Padana Sementi",
+    "name": "Ferti Go NPK 23-6-6 + 5 SO3 + 3 C",
+    "line": "Ferti Green",
+    "type": "concime",
+    "subtype": null,
+    "family": "spinta_vegetativa",
+    "npk": {
+      "n": 23,
+      "p": 6,
+      "k": 6
+    },
+    "npkLabel": "23-6-6",
+    "secondary": {
+      "SO3": 5
+    },
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 30,
+      "max": 35,
+      "unit": "g/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-go-23-6-6-25kg",
+        "size": 25,
+        "unit": "kg",
+        "label": "Sacco da 25 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Ripresa primaverile e autunnale. Rilascio dichiarato fino a 90 giorni. Carbonio: 3%.",
+    "url": "https://www.padanasementi.com/product/ferti-go-npk-23-6-6/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2025/09/FERTI_GO_NPK-23-6-6.pdf",
+    "image": "products/padana/padana-ferti-go-23-6-6.png",
+    "sourceUrl": "https://www.padanasementi.com/product/ferti-go-npk-23-6-6/"
+  },
+
+  {
+    "id": "padana-ferti-force-plus",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/ferti-control-force-plus-scaled.jpg",
+    "brand": "Padana Sementi",
+    "name": "Ferti Force Plus NPK 8-6-14 + 2 MgO+Me",
+    "line": "Ferti Green",
+    "type": "concime",
+    "subtype": null,
+    "family": "antistress",
+    "npk": {
+      "n": 8,
+      "p": 6,
+      "k": 14
+    },
+    "npkLabel": "8-6-14",
+    "secondary": {
+      "MgO": 2
+    },
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 30,
+      "max": 35,
+      "unit": "g/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-force-plus-25kg",
+        "size": 25,
+        "unit": "kg",
+        "label": "Sacco da 25 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Dose ornamentale; uso sportivo: 35–40 g/m². Impiego pre-estivo e pre-invernale.",
+    "url": "https://www.padanasementi.com/product/ferti-force-plus-npk-8-6-14-2mgome/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-ferti-force-plus.jpg",
+    "sourceUrl": "https://www.padanasementi.com/product/ferti-force-plus-npk-8-6-14-2mgome/"
+  },
+
+  {
+    "id": "padana-ferti-sowing",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/ferti-sowing.png",
+    "brand": "Padana Sementi",
+    "name": "Ferti Sowing NPK 10-17-10",
+    "line": "Ferti Green",
+    "type": "concime",
+    "subtype": null,
+    "family": "starter",
+    "npk": {
+      "n": 10,
+      "p": 17,
+      "k": 10
+    },
+    "npkLabel": "10-17-10",
+    "secondary": {
+      "MgO": 4,
+      "SO3": 16,
+      "Fe": 2
+    },
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 35,
+      "max": 40,
+      "unit": "g/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-sowing-4kg",
+        "size": 4,
+        "unit": "kg",
+        "label": "Sacco da 4 kg",
+        "verified": true
+      },
+      {
+        "sku": "padana-ferti-sowing-25kg",
+        "size": 25,
+        "unit": "kg",
+        "label": "Sacco da 25 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Semina e trasemina. Azoto organico 3%, ammoniacale 4,5%, nitrico 2,5%; carbonio organico 7,5%.",
+    "url": "https://www.padanasementi.com/product/ferti-sowing-npk-10-17-10/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/FERTI_SOWING_.pdf",
+    "image": "products/padana/padana-ferti-sowing.png",
+    "sourceUrl": "https://www.padanasementi.com/product/ferti-sowing-npk-10-17-10/"
+  },
+
+  {
+    "id": "padana-control-advance",
+    "brand": "Padana Sementi",
+    "name": "Control Advance NPK 21-5-9 + 3 MgO",
+    "line": "Ferti Control",
+    "type": "concime",
+    "subtype": "granulare",
+    "family": "spinta_vegetativa",
+    "npk": {
+      "n": 21,
+      "p": 5,
+      "k": 9
+    },
+    "npkLabel": "21-5-9",
+    "secondary": {
+      "MgO": 3,
+      "SO3": 30
+    },
+    "slowRelease": {
+      "enabled": true,
+      "tech": "MCT",
+      "pctN": 43
+    },
+    "organic": null,
+    "dose": {
+      "min": 15,
+      "max": 25,
+      "unit": "g/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": "90%: 2–3,5 mm",
+    "formats": [
+      {
+        "sku": "padana-control-advance-25kg",
+        "size": 25,
+        "unit": "kg",
+        "label": "Sacco da 25 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Dose ornamentale; sportivo: 35–45 g/m²; intenso utilizzo: 40–50 g/m². Primavera e autunno. Durata fino a 120 giorni.",
+    "url": null,
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/CONTROL-ADVANCE-5.pdf",
+    "image": null,
+    "sourceUrl": "https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-control/"
+  },
+
+  {
+    "id": "padana-control-field",
+    "brand": "Padana Sementi",
+    "name": "Control Field NPK 24-5-8 +2,5 MgO",
+    "line": "Ferti Control",
+    "type": "concime",
+    "subtype": "granulare",
+    "family": null,
+    "npk": {
+      "n": 24,
+      "p": 5,
+      "k": 8
+    },
+    "npkLabel": "24-5-8",
+    "secondary": {
+      "MgO": 2.5
+    },
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": null,
+    "url": null,
+    "sheetUrl": null,
+    "image": null,
+    "sourceUrl": "https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-control/"
+  },
+
+  {
+    "id": "padana-control-kappa",
+    "brand": "Padana Sementi",
+    "name": "Control Kappa NPK 12-0-25 + 2,5 MgO",
+    "line": "Ferti Control",
+    "type": "concime",
+    "subtype": "granulare",
+    "family": null,
+    "npk": {
+      "n": 12,
+      "p": 0,
+      "k": 25
+    },
+    "npkLabel": "12-0-25",
+    "secondary": {
+      "MgO": 2.5
+    },
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": null,
+    "url": null,
+    "sheetUrl": null,
+    "image": null,
+    "sourceUrl": "https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-control/"
+  },
+
+  {
+    "id": "padana-control-strong",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/ferti-control-Strong_1-scaled.jpg",
+    "brand": "Padana Sementi",
+    "name": "Control Strong NPK 18-0-18 + 3 MgO",
+    "line": "Ferti Control",
+    "type": "concime",
+    "subtype": "granulare",
+    "family": "mantenimento",
+    "npk": {
+      "n": 18,
+      "p": 0,
+      "k": 18
+    },
+    "npkLabel": "18-0-18",
+    "secondary": {
+      "MgO": 3
+    },
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 20,
+      "max": 25,
+      "unit": "g/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-control-strong-25kg",
+        "size": 25,
+        "unit": "kg",
+        "label": "Sacco da 25 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Dose ornamentale; aree sportive: 30–40 g/m². Uso durante tutto l’anno o alla ripresa primaverile. Ricopertura dichiarata: 39%.",
+    "url": "https://www.padanasementi.com/product/control-strong-npk-18-0-18-3-mgo/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/CONTROL-STRONG-NPK-18-0-18-1.pdf",
+    "image": "products/padana/padana-control-strong.jpg",
+    "sourceUrl": "https://www.padanasementi.com/product/control-strong-npk-18-0-18-3-mgo/"
+  },
+
+  {
+    "id": "padana-ferti-grow",
+    "brand": "Padana Sementi",
+    "name": "Ferti Grow NPK 12-6-14 + 2 MgO + M.e.",
+    "line": "Ferti Slow",
+    "type": "concime",
+    "subtype": "granulare",
+    "family": "antistress",
+    "npk": {
+      "n": 12,
+      "p": 6,
+      "k": 14
+    },
+    "npkLabel": "12-6-14",
+    "secondary": {
+      "CaO": 2,
+      "MgO": 2,
+      "SO3": 30,
+      "B": 0.02,
+      "Fe": 1,
+      "Zn": 0.01
+    },
+    "slowRelease": {
+      "enabled": true,
+      "tech": null,
+      "pctN": 42
+    },
+    "organic": null,
+    "dose": {
+      "min": 20,
+      "max": 25,
+      "unit": "g/m2"
+    },
+    "dilution": null,
+    "durationDays": [
+      60,
+      90
+    ],
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-grow-4kg",
+        "size": 4,
+        "unit": "kg",
+        "label": "Sacco da 4 kg",
+        "verified": true
+      },
+      {
+        "sku": "padana-ferti-grow-25kg",
+        "size": 25,
+        "unit": "kg",
+        "label": "Sacco da 25 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Dose ornamentale; sportivo: 25–30 g/m². Impiego annuale sui prati a bassa manutenzione. Azoto da urea formaldeide: 5%.",
+    "url": "https://www.padanasementi.com/prodotto/ferti-grow-npk-12-6-14-2-2-mgo-me/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/FERTI-GROW_NPK-12-6-14.pdf",
+    "image": "products/padana/padana-ferti-grow.png",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/ferti_grow-removebg-preview.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-grow-npk-12-6-14-2-2-mgo-me/"
+  },
+
+  {
+    "id": "padana-pse-slow-n",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/pse_slow_n_33-removebg-preview.png",
+    "brand": "Padana Sementi",
+    "name": "PSE Slow N NPK 33-0-0",
+    "line": "Ferti Slow",
+    "type": "concime",
+    "subtype": null,
+    "family": null,
+    "npk": {
+      "n": 33,
+      "p": 0,
+      "k": 0
+    },
+    "npkLabel": "33-0-0",
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": null,
+    "url": "https://www.padanasementi.com/prodotto/pse-slow-n-33/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-pse-slow-n.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/pse-slow-n-33/"
+  },
+
+  {
+    "id": "padana-accafert",
+    "brand": "Padana Sementi",
+    "name": "Accafert",
+    "line": "Ferti Liquid",
+    "type": "concime",
+    "subtype": "liquido",
+    "family": "resistenza_stress",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-accafert-25l",
+        "size": 25,
+        "unit": "L",
+        "label": "Tanica da 25 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Concime NK da borlanda fluida; contenuto percentuale non verificato.",
+    "url": "https://www.padanasementi.com/prodotto/accafert/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/accafert-4.pdf",
+    "image": "products/padana/padana-accafert.png",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/ACCAFERT-25L-1-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/accafert/"
+  },
+
+  {
+    "id": "padana-alga-ecklomax",
+    "brand": "Padana Sementi",
+    "name": "Alga Ecklomax",
+    "line": "Ferti Liquid",
+    "type": "speciale",
+    "subtype": null,
+    "family": null,
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": null,
+    "url": null,
+    "sheetUrl": null,
+    "image": null,
+    "sourceUrl": "https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-liquid/"
+  },
+
+  {
+    "id": "padana-alga-suprema",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/108.png",
+    "brand": "Padana Sementi",
+    "name": "Alga Suprema",
+    "line": "Ferti Liquid",
+    "type": "biostimolante",
+    "subtype": "liquido",
+    "family": "antistress_alghe",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 2.5,
+      "max": 3.5,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-alga-suprema-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Fogliare: acqua 500–600 L/ha. Radicale: 6–10 kg/ha in 1000 L/ha. Estratti di lievito e alghe brune.",
+    "url": "https://www.padanasementi.com/product/alga-suprema/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-alga-suprema.png",
+    "sourceUrl": "https://www.padanasementi.com/product/alga-suprema/"
+  },
+
+  {
+    "id": "padana-amiprot",
+    "brand": "Padana Sementi",
+    "name": "Amiprot",
+    "line": "Ferti Liquid",
+    "type": "biostimolante",
+    "subtype": "liquido",
+    "family": "aminoacidico",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 5,
+      "max": 6,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-amiprot-250ml",
+        "size": 250,
+        "unit": "ml",
+        "label": "Bottiglia da 250 ml",
+        "verified": true
+      },
+      {
+        "sku": "padana-amiprot-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      },
+      {
+        "sku": "padana-amiprot-6kg",
+        "size": 6,
+        "unit": "kg",
+        "label": "Tanica da 6 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "In stress: fogliare in 800–1000 L/ha d’acqua; radicale 7–15 kg/ha in 1000 L/ha. Amminoacidi levogiri.",
+    "url": "https://www.padanasementi.com/prodotto/amiprot/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/AMIPROT-2.pdf",
+    "image": "products/padana/padana-amiprot.png",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/13-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/amiprot/"
+  },
+
+  {
+    "id": "padana-ascoferti",
+    "brand": "Padana Sementi",
+    "name": "Ascoferti",
+    "line": "Ferti Liquid",
+    "type": "biostimolante",
+    "subtype": "liquido",
+    "family": "antistress_alghe",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 2,
+      "max": 4,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ascoferti-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      },
+      {
+        "sku": "padana-ascoferti-6kg",
+        "size": 6,
+        "unit": "kg",
+        "label": "Tanica da 6 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Ascophyllum nodosum. Fogliare: acqua 600–800 L/ha. Radicale: 5–6 kg/ha in 1000 L/ha. Pre-stress, intervallo 10–15 giorni.",
+    "url": "https://www.padanasementi.com/prodotto/ascoferti/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/ASCOFERTI-.pdf",
+    "image": "products/padana/padana-ascoferti.png",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/11-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/ascoferti/"
+  },
+
+  {
+    "id": "padana-ferti-k",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/116.png",
+    "brand": "Padana Sementi",
+    "name": "Ferti K",
+    "line": "Ferti Liquid",
+    "type": "concime",
+    "subtype": "liquido",
+    "family": "antistress",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 20,
+      "max": 30,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-k-5kg",
+        "size": 5,
+        "unit": "kg",
+        "label": "Tanica da 5 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Fogliare: acqua 500–600 L/ha. Radicale: 60–90 kg/ha in 1000 L/ha.",
+    "url": "https://www.padanasementi.com/prodotto/ferti-k/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-ferti-k.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-k/"
+  },
+
+  {
+    "id": "padana-ferti-leaf",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/4.png",
+    "brand": "Padana Sementi",
+    "name": "Ferti Leaf",
+    "line": "Ferti Liquid",
+    "type": "concime",
+    "subtype": "liquido",
+    "family": null,
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 20,
+      "max": 40,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-leaf-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Azoto ureico e microelementi. Acqua di irrorazione: 600–800 L/ha.",
+    "url": "https://www.padanasementi.com/product/fertileaf/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/FERTI-LEAF-1.pdf",
+    "image": "products/padana/padana-ferti-leaf.png",
+    "sourceUrl": "https://www.padanasementi.com/product/fertileaf/"
+  },
+
+  {
+    "id": "padana-ferti-n",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/115.png",
+    "brand": "Padana Sementi",
+    "name": "Ferti N",
+    "line": "Ferti Liquid",
+    "type": "concime",
+    "subtype": "liquido",
+    "family": "spinta_vegetativa",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 20,
+      "max": 30,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-n-5kg",
+        "size": 5,
+        "unit": "kg",
+        "label": "Tanica da 5 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Azoto ureico, ammoniacale e nitrico, con zolfo. Fogliare: acqua 500–600 L/ha. Radicale: 60–80 kg/ha in 1000 L/ha.",
+    "url": "https://www.padanasementi.com/product/ferti-n/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/FERTI-N_.pdf",
+    "image": "products/padana/padana-ferti-n.png",
+    "sourceUrl": "https://www.padanasementi.com/product/ferti-n/"
+  },
+
+  {
+    "id": "padana-sprint-l",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/112.png",
+    "brand": "Padana Sementi",
+    "name": "Sprint L",
+    "line": "Ferti Liquid",
+    "type": "concime",
+    "subtype": "liquido",
+    "family": "acidi_umici",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 3,
+      "max": 5,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-sprint-l-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      },
+      {
+        "sku": "padana-sprint-l-5kg",
+        "size": 5,
+        "unit": "kg",
+        "label": "Tanica da 5 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Leonardite e acidi umici. Fogliare: acqua 500–600 L/ha. Radicale: 10–20 kg/ha in 1000 L/ha.",
+    "url": "https://www.padanasementi.com/prodotto/sprint-l/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-sprint-l.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/sprint-l/"
+  },
+
+  {
+    "id": "padana-sun-shield",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/109.png",
+    "brand": "Padana Sementi",
+    "name": "Sun Shield",
+    "line": "Ferti Liquid",
+    "type": "concime",
+    "subtype": "liquido",
+    "family": "antistress",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 6,
+      "max": 8,
+      "unit": "kg/ha"
+    },
+    "dilution": {
+      "water": 800,
+      "waterUnit": "L",
+      "per": 1,
+      "perUnit": "ha"
+    },
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-sun-shield-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Amminoacidi vegetali e pigmenti protettivi. Acqua di irrorazione: 800 L/ha.",
+    "url": "https://www.padanasementi.com/product/sun-shield/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/SUN-SHIELD-.pdf",
+    "image": "products/padana/padana-sun-shield.png",
+    "sourceUrl": "https://www.padanasementi.com/product/sun-shield/"
+  },
+
+  {
+    "id": "padana-fast-defence",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/111.png",
+    "brand": "Padana Sementi",
+    "name": "Fast Defence",
+    "line": "Ferti Defence",
+    "type": "concime",
+    "subtype": "liquido",
+    "family": "micronutrienti",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 3.5,
+      "max": 4.5,
+      "unit": "kg/ha"
+    },
+    "dilution": {
+      "water": 500,
+      "waterUnit": "L",
+      "per": 1,
+      "perUnit": "ha"
+    },
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-fast-defence-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Fogliare: acqua 500 L/ha. Radicale: 10–12 kg/ha in 1000 L/ha.",
+    "url": "https://www.padanasementi.com/prodotto/fast-defence/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-fast-defence.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/fast-defence/"
+  },
+
+  {
+    "id": "padana-ferti-defence",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/2-2.png",
+    "brand": "Padana Sementi",
+    "name": "Ferti Defence",
+    "line": "Ferti Defence",
+    "type": "speciale",
+    "subtype": "liquido",
+    "family": "resistenza_stress",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 10,
+      "max": 15,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-defence-6kg",
+        "size": 6,
+        "unit": "kg",
+        "label": "Tanica da 6 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Ossidi di potassio e silicio, percentuali non indicate. Fogliare: acqua 600–800 L/ha. Radicale: 18–22 kg/ha in 1000 L/ha.",
+    "url": "https://www.padanasementi.com/prodotto/ferti-defence/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-ferti-defence.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-defence/"
+  },
+
+  {
+    "id": "padana-ferti-endurance",
+    "brand": "Padana Sementi",
+    "name": "FERTI ENDURANCE",
+    "line": "Ferti Defence",
+    "type": "speciale",
+    "subtype": null,
+    "family": null,
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": null,
+    "url": "https://www.padanasementi.com/prodotto/ferti-endurance/",
+    "sheetUrl": null,
+    "image": null,
+    "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-endurance/"
+  },
+
+  {
+    "id": "padana-ferti-energy-wet",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/6.png",
+    "brand": "Padana Sementi",
+    "name": "Ferti Energy Wet",
+    "line": "Ferti Defence",
+    "type": "surfattante",
+    "subtype": null,
+    "family": "wetting_agent",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 10,
+      "max": 15,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "radicale_diluito",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-energy-wet-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      },
+      {
+        "sku": "padana-ferti-energy-wet-5kg",
+        "size": 5,
+        "unit": "kg",
+        "label": "Tanica da 5 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Umettante per macchie idrofobiche. Nelle prime fasi di sviluppo: ripetizione ogni 20–30 giorni.",
+    "url": "https://www.padanasementi.com/product/energy-wet/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-ferti-energy-wet.png",
+    "sourceUrl": "https://www.padanasementi.com/product/energy-wet/"
+  },
+
+  {
+    "id": "padana-super-life",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/114.png",
+    "brand": "Padana Sementi",
+    "name": "Super Life",
+    "line": "Ferti Defence",
+    "type": "speciale",
+    "subtype": null,
+    "family": null,
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": null,
+    "url": "https://www.padanasementi.com/prodotto/super-life/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-super-life.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/super-life/"
+  },
+
+  {
+    "id": "padana-humet-pro",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2026/02/HumetPro.png",
+    "brand": "Padana Sementi",
+    "name": "Humet Pro",
+    "line": "Ferti Defence",
+    "type": "surfattante",
+    "subtype": "liquido",
+    "family": "wetting_agent",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-humet-pro-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Fogliare: 10–15 L/ha ogni 30 giorni o al bisogno. Radicale: 0,2–0,3% del volume d’acqua.",
+    "url": "https://www.padanasementi.com/prodotto/humet-pro/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-humet-pro.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/humet-pro/"
+  },
+
+  {
+    "id": "padana-agiferti",
+    "brand": "Padana Sementi",
+    "name": "Agiferti",
+    "line": "Ferti Flora",
+    "type": "bioattivato",
+    "subtype": null,
+    "family": "micorrizico",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 0.2,
+      "max": 0.3,
+      "unit": "ml/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "radicale_diluito",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-agiferti-250ml",
+        "size": 250,
+        "unit": "ml",
+        "label": "Bottiglia da 250 ml",
+        "verified": true
+      },
+      {
+        "sku": "padana-agiferti-1l",
+        "size": 1,
+        "unit": "L",
+        "label": "Bottiglia da 1 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Micorrize e Bacillus subtilis. Aggiungere Amiprot: 3,5–5 kg/ha.",
+    "url": "https://www.padanasementi.com/prodotto/agiferti/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/AGIFERTI_.pdf",
+    "image": "products/padana/padana-agiferti.png",
+    "synergy": [
+      "padana-amiprot"
+    ],
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/14-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/agiferti/"
+  },
+
+  {
+    "id": "padana-bacteria",
+    "brand": "Padana Sementi",
+    "name": "Bacteria",
+    "line": "Ferti Flora",
+    "type": "bioattivato",
+    "subtype": "liquido",
+    "family": "microbiologia_suolo",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 3,
+      "max": 3,
+      "unit": "kg/ha"
+    },
+    "dilution": {
+      "water": 500,
+      "waterUnit": "L",
+      "per": 1,
+      "perUnit": "ha"
+    },
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "radicale_diluito",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-bacteria-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Micorrize e batteri della rizosfera; applicazione radicale.",
+    "url": "https://www.padanasementi.com/prodotto/bacteria/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/BACTERIA-.pdf",
+    "image": "products/padana/padana-bacteria.png",
+    "actives": [
+      {
+        "name": "Micorrize",
+        "amount": 1,
+        "unit": "%"
+      },
+      {
+        "name": "Batteri della rizosfera",
+        "amount": 100000000,
+        "unit": "UFC/g"
+      }
+    ],
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/110-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/bacteria/"
+  },
+
+  {
+    "id": "padana-botriferti",
+    "brand": "Padana Sementi",
+    "name": "Botriferti",
+    "line": "Ferti Flora",
+    "type": "bioattivato",
+    "subtype": null,
+    "family": "microbiologia_suolo",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 0.2,
+      "max": 0.3,
+      "unit": "ml/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "radicale_diluito",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-botriferti-250ml",
+        "size": 250,
+        "unit": "ml",
+        "label": "Bottiglia da 250 ml",
+        "verified": true
+      },
+      {
+        "sku": "padana-botriferti-1l",
+        "size": 1,
+        "unit": "L",
+        "label": "Bottiglia da 1 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Bacillus sp. Aggiungere Amiprot: 3,5–5 kg/ha.",
+    "url": "https://www.padanasementi.com/prodotto/botriferti/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/BOTRIFERTI_.pdf",
+    "image": "products/padana/padana-botriferti.png",
+    "synergy": [
+      "padana-amiprot"
+    ],
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/10-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/botriferti/"
+  },
+
+  {
+    "id": "padana-ferti-3a",
+    "brand": "Padana Sementi",
+    "name": "Ferti 3A",
+    "line": "Ferti Flora",
+    "type": "correttore",
+    "subtype": "liquido",
+    "family": "correzione_ph",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-3a-1l",
+        "size": 1,
+        "unit": "L",
+        "label": "Bottiglia da 1 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Acidificante, adesivante e antischiuma. 0,9–1,3 ml per litro d’acqua; dose per superficie non dichiarata.",
+    "url": "https://www.padanasementi.com/prodotto/ferti-3a/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/FERTI-3-A.pdf",
+    "image": "products/padana/padana-ferti-3a.png",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/9-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-3a/"
+  },
+
+  {
+    "id": "padana-ferti-bometa",
+    "brand": "Padana Sementi",
+    "name": "Ferti Bometa",
+    "line": "Ferti Flora",
+    "type": "bioattivato",
+    "subtype": null,
+    "family": "bioinsetticida_microbico",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 0.2,
+      "max": 0.3,
+      "unit": "ml/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "radicale_diluito",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-bometa-250ml",
+        "size": 250,
+        "unit": "ml",
+        "label": "Bottiglia da 250 ml",
+        "verified": true
+      },
+      {
+        "sku": "padana-ferti-bometa-1l",
+        "size": 1,
+        "unit": "L",
+        "label": "Bottiglia da 1 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Metarhizium e Beauveria bassiana. Aggiungere Amiprot: 3,5–5 kg/ha.",
+    "url": "https://www.padanasementi.com/prodotto/ferti-bometa/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/FERTI_BOMETA.pdf",
+    "image": "products/padana/padana-ferti-bometa.png",
+    "synergy": [
+      "padana-amiprot"
+    ],
+    "targetPests": [
+      "larve",
+      "afidi",
+      "elateridi",
+      "tripidi",
+      "aleurodidi",
+      "acari",
+      "cocciniglie",
+      "mosche dei frutti"
+    ],
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/8-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-bometa/"
+  },
+
+  {
+    "id": "padana-ferti-iron",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/5.png",
+    "brand": "Padana Sementi",
+    "name": "Ferti Iron",
+    "line": "Ferti Flora",
+    "type": "bioattivato",
+    "subtype": null,
+    "family": "ferro_colore",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 0.6,
+      "max": 0.8,
+      "unit": "ml/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-iron-1l",
+        "size": 1,
+        "unit": "L",
+        "label": "Bottiglia da 1 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Ferro su matrice organica con Streptomyces e Trichoderma. Fogliare: acqua 600–800 L/ha. Radicale: 1,2–1,8 ml/m² in 1000 L/ha.",
+    "url": "https://www.padanasementi.com/product/ferti-iron/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-ferti-iron.png",
+    "sourceUrl": "https://www.padanasementi.com/product/ferti-iron/"
+  },
+
+  {
+    "id": "padana-fertizon",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/3.png",
+    "brand": "Padana Sementi",
+    "name": "FERTIZON",
+    "line": "Ferti Flora",
+    "type": "bioattivato",
+    "subtype": "liquido",
+    "family": "micorrizico",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 5,
+      "max": 10,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-fertizon-1l",
+        "size": 1,
+        "unit": "L",
+        "label": "Bottiglia da 1 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Azoto organico 1%, carbonio organico 10%. Inoculo micorrizico con Trichoderma e batteri della rizosfera. Ripetere secondo necessità.",
+    "url": "https://www.padanasementi.com/prodotto/fertizon/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/ferti-zon.pdf",
+    "image": null,
+    "actives": [
+      {
+        "name": "Glomus spp.",
+        "amount": 1e-05,
+        "unit": "%"
+      },
+      {
+        "name": "Batteri della rizosfera",
+        "amount": 1000,
+        "unit": "UFC/g"
+      },
+      {
+        "name": "Trichoderma",
+        "amount": 100000000,
+        "unit": "UFC/g"
+      }
+    ],
+    "sourceUrl": "https://www.padanasementi.com/prodotto/fertizon/"
+  },
+
+  {
+    "id": "padana-nemaferti",
+    "brand": "Padana Sementi",
+    "name": "Nemaferti",
+    "line": "Ferti Flora",
+    "type": "bioattivato",
+    "subtype": "liquido",
+    "family": "microbiologia_suolo",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 2,
+      "max": 3,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-nemaferti-1l",
+        "size": 1,
+        "unit": "L",
+        "label": "Bottiglia da 1 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Attivatore: 3,5–5 kg/ha (Accafert, Amiprot o Alga Ecklomax). Attivare circa 3 ore prima, preferibilmente il giorno precedente; irrigare 2–3 minuti dopo.",
+    "url": "https://www.padanasementi.com/prodotto/nemaferti/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/nemaferti.pdf",
+    "image": "products/padana/padana-nemaferti.png",
+    "targetPests": [
+      "nematodi galligeni"
+    ],
+    "actives": [
+      {
+        "name": "Glomus spp.",
+        "amount": 0.0001,
+        "unit": "%"
+      },
+      {
+        "name": "Batteri della rizosfera",
+        "amount": 1000,
+        "unit": "UFC/g"
+      }
+    ],
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/2-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/nemaferti/"
+  },
+
+  {
+    "id": "padana-tricoferti",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/tricoferti-1-l.png",
+    "brand": "Padana Sementi",
+    "name": "Tricoferti",
+    "line": "Ferti Flora",
+    "type": "speciale",
+    "subtype": null,
+    "family": null,
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": null,
+    "url": "https://www.padanasementi.com/prodotto/tricoferti/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-tricoferti.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/tricoferti/"
+  },
+
+  {
+    "id": "padana-forgreen",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2022/12/forgreen.jpg",
+    "brand": "Padana Sementi",
+    "name": "FORGREEN",
+    "line": "Specialità",
+    "type": "colorante",
+    "subtype": null,
+    "family": "colorante_estetico",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-forgreen-1l",
+        "size": 1,
+        "unit": "L",
+        "label": "Bottiglia da 1 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Pigmento verde per tappeti erbosi. Persistenza fino a 3 mesi, variabile con taglio e clima; nessuna conversione stimata in giorni.",
+    "url": "https://www.padanasementi.com/prodotto/forgreen/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-forgreen.jpg",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/forgreen/"
   }
 ];window.dispatchEvent(new CustomEvent("lawnly-catalog-ready",{detail:{count:(window.__LAWNLY_CATALOG__||[]).length}}));}catch(e){console.warn("inline catalog",e);}</script>
 <script type="module">
@@ -5583,7 +7365,7 @@ try{window.__LAWNLY_CATALOG__=[
   window.__LAWNLY_PICKABLE__ = () => {
     const c = window.__LAWNLY_CATALOG__ || [];
     const p = c.filter(x => x.brand === 'Padana Sementi');
-    return p.length ? p : c; // catalogo Padana non ancora unito: meglio tutto che una lista vuota
+    return p;
   };
 
   // Evento per segnalare catalogo caricato
@@ -10881,7 +12663,7 @@ function Oggi({wx,prof,setPg}){
         ${!isMech&&opTotal?val('Totale prodotto',opTotal):''}
       </div>
       ${npProd?(npInWh!=null?html`<div class="np-have">✓ Hai <b>${npProd}</b> a magazzino${npInWh?(' · '+npInWh+(npCat&&npCat.unit?(' '+npCat.unit):'')):''}.${npCat&&npCat.notes?html`<div class="dt-note" style="margin-top:6px;">${npCat.notes}</div>`:''}</div>`
-        :html`<div class="np-suggest"><div class="dt-eye">Non a magazzino · prodotti consigliati · link affiliati</div>${npSuggest.length?npSuggest.map((s,i)=>html`<div class="np-sg" key=${i}><button class="np-buy" onClick=${(e)=>{e.stopPropagation();lawnlyBuyPadana(s);}}>Acquista ↗</button><b>${[s.brand,s.name].filter(Boolean).join(' ')}</b>${s.npkLabel?html`<span> · ${s.npkLabel}</span>`:''}${s.notes?html`<div class="dt-note" style="margin-top:2px;">${s.notes.length>80?s.notes.slice(0,78)+'…':s.notes}</div>`:''}</div>`):html`<div class="dt-note">Aggiungi prodotti dal catalogo in Magazzino per ricevere consigli mirati.</div>`}<button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>{closeS();setPg&&setPg('mag');}}>Vai al Magazzino ${goChev}</button></div>`):''}
+        :html`<div class="np-suggest"><div class="dt-eye">Non a magazzino · prodotti consigliati · link affiliati</div>${npSuggest.length?npSuggest.map((s,i)=>html`<div class="np-sg" key=${i}>${s.image?html`<img class="pd-product-image" src=${s.image} alt=${[s.brand,s.name].filter(Boolean).join(' ')} loading="lazy" decoding="async"/>`:''}<button class="np-buy" onClick=${(e)=>{e.stopPropagation();lawnlyBuyPadana(s);}}>Acquista ↗</button><b>${[s.brand,s.name].filter(Boolean).join(' ')}</b>${s.npkLabel?html`<span> · ${s.npkLabel}</span>`:''}${s.notes?html`<div class="dt-note" style="margin-top:2px;">${s.notes.length>80?s.notes.slice(0,78)+'…':s.notes}</div>`:''}</div>`):html`<div class="dt-note">Aggiungi prodotti dal catalogo in Magazzino per ricevere consigli mirati.</div>`}<button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>{closeS();setPg&&setPg('mag');}}>Vai al Magazzino ${goChev}</button></div>`):''}
       <button class="dt-goto" onClick=${()=>{closeS();setPg&&setPg('piano');}}>Vai al Calendario ${goChev}</button></div>`:html`<div class="dt-note">Nessun intervento in programma.</div>`}
   };
   const sd=(sheet&&sheet!=='sh-ai')?sheetDefs[sheet]:null;
@@ -11332,20 +13114,21 @@ function ProductDetailSheet({prod,onClose,qtyInWarehouse,onManage}){
     <div class="sheet on"><div class="sh-handle"></div>
       <div class="sh-head"><div class="sh-title">Scheda prodotto</div><div class="sh-x" onClick=${onClose}>${closeX}</div></div>
       <div class="sh-body">
-        <div class="pd-head"><span class=${'prod-ic '+cat} style="width:62px;height:62px;border-radius:16px;">${_mSvg(cat)}</span>
+        <div class="pd-head">${prod.image?html`<img class="pd-product-image" src=${prod.image} alt=${[prod.brand,prod.name].filter(Boolean).join(' ')} loading="lazy" decoding="async"/>`:html`<span class=${'prod-ic '+cat} style="width:62px;height:62px;border-radius:16px;">${_mSvg(cat)}</span>`}
           <div style="flex:1;min-width:0;">${badge?html`<span class="pd-badge">${badge.toUpperCase()}</span>`:''}
             <div class="pd-name">${prod.brand==='Padana Sementi'?prod.name:([prod.brand,prod.name].filter(Boolean).join(' ')||prod.name)}</div>
-            ${prod.brand==='Padana Sementi'?html`<img class="pd-logo-padana" src="padana-logo.png" alt="Padana Sementi"/>`:''}
+            ${prod.brand==='Padana Sementi'?html`<img class="pd-logo-padana" src="padana-logo.png" alt="Padana Sementi" loading="lazy"/>`:''}
             ${prod.family?html`<div class="pd-sub">${(''+prod.family).replace(/_/g,' ')}</div>`:''}
           </div></div>
         ${qtyInWarehouse!=null?html`<div class="pd-have"><b>In magazzino:</b> ${qtyInWarehouse} ${prod.unit||''}</div>`:''}
         ${prod.notes?html`<div class="pd-desc">${prod.notes}</div>`:''}
         ${pdsec('🧪','COMPOSIZIONE',compo)}
+        ${pdsec('📋','LINEA',prod.line)}
         ${pdsec('📐','DOSAGGIO',dose)}
         ${pdsec('📦','CONFEZIONE',conf)}
         ${pdsec('🗓️','PERIODO',periodo)}
         ${onManage?html`<button type="button" class="dt-goto" onClick=${onManage}>Gestisci la scorta</button>`:''}
-        ${prod.sourceUrl?html`<a class="sh-save" style="display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;margin-top:6px;" href=${prod.sourceUrl} target="_blank" rel="noopener">📄 Scheda tecnica / fornitore</a>`:''}
+        ${(prod.sheetUrl||prod.sourceUrl)?html`<a class="sh-save" style="display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;margin-top:6px;" href=${prod.sheetUrl||prod.sourceUrl} target="_blank" rel="noopener">📄 ${prod.sheetUrl?'Scheda tecnica':'Pagina del fornitore'}</a>`:''}
       </div>
     </div>
   </div></${ModalPortal}>`;
@@ -11409,7 +13192,7 @@ function Magazzino2({prof,setPg}){
     const pct=reorder?14:(qty<=3?55:80);
     const meta=[p.category,p.format||(p.unit?('conf. '+p.unit):'')].filter(Boolean).join(' · ');
     const qd=!Number.isFinite(qty)?'Da verificare':Number.isInteger(qty)?qty:(''+qty).replace('.',',');
-    const prodCat=_findCatalogProduct([p.brand,p.name].filter(Boolean).join(' '));
+    const prodCat=((window.__LAWNLY_CATALOG__||[]).find(c=>c.id===p.productId))||_findCatalogProduct([p.brand,p.name].filter(Boolean).join(' '));
     const desc=(prodCat&&prodCat.notes)||p.notes||p.description||(prodCat&&(prodCat.npkLabel||prodCat.family))||'';
     return {name:[p.brand,p.name].filter(Boolean).join(' '),meta,qty:qd,unit:Number.isFinite(qty)?p.unit||'':'unità non confrontabili',reorder,cat,pct,material:_isMaterial(p.category||p.name),prodCat,desc,rawQty:qd,raw:p};
   });
@@ -11418,7 +13201,7 @@ function Magazzino2({prof,setPg}){
   const [scorta,setScorta]=useState(null);
   const [shProd,setShProd]=useState(false);
   const row=(p,i)=>html`<div class="prod" key=${i} onClick=${()=>p.prodCat?setDetail({prod:p.prodCat,qty:p.rawQty,unit:p.unit,raw:p.raw}):setScorta(p.raw)}>
-    <span class=${'prod-ic '+p.cat}>${_mSvg(p.cat)}</span>
+    ${p.prodCat&&p.prodCat.image?html`<img class="pd-product-image" src=${p.prodCat.image} alt=${[p.prodCat.brand,p.prodCat.name].filter(Boolean).join(' ')} loading="lazy" decoding="async"/>`:html`<span class=${'prod-ic '+p.cat}>${_mSvg(p.cat)}</span>`}
     <div class="prod-m"><div class="prod-n">${p.name||'Prodotto'}</div>${p.desc?html`<div class="prod-meta">${p.desc.length>72?p.desc.slice(0,70)+'…':p.desc}</div>`:(p.meta?html`<div class="prod-meta">${p.meta}</div>`:'')}
       <div class="prod-bar"><i style=${'width:'+p.pct+'%;background:'+(p.reorder?'var(--red)':'var(--green)')}></i></div></div>
     <div class="prod-r"><div class="prod-q">${p.qty}<small> ${p.unit==='conf'?'confezioni (contenuto non noto)':p.unit}</small></div><span class=${'pbadge '+(p.reorder?'r':'g')}>${p.reorder?'Riordina':'OK'}</span></div>
@@ -11943,7 +13726,7 @@ function AggiungiProdottoSheet({onClose}){
     return()=>{try{window.removeEventListener('lawnly-catalog-ready',h);}catch(e){}clearTimeout(t1);clearTimeout(t2);clearTimeout(t3);};
   },[]);
   const items=cat.map(p=>{const name=p.name||p.label||'Prodotto';const brand=p.brand||p.marca||(name.split(' ')[0]);const type=p.type||p.subtype||p.category||'';const formats=(p.formats&&p.formats.length)?p.formats:[{label:(p.size?(p.size+' '+(p.unit||'')):'Confezione'),size:p.size||1,unit:p.unit||'conf'}];const fmt=(formats[0]&&(formats[0].label||(formats[0].size+' '+formats[0].unit)))||'';const desc=p.notes||p.description||[p.npkLabel||p.npk,p.slowRelease&&'a cessione lenta',p.organic&&'organico'].filter(Boolean).join(' · ')||'';
-    return {name,brand,type,formats,fmt,desc,cat:_catFromType(type+' '+name),pid:p.id};})
+    return {name,brand,type,formats,fmt,desc,image:p.image,url:p.url,cat:_catFromType(type+' '+name),pid:p.id};})
     .filter(i=>i.brand==='Padana Sementi'); // scelta soci 1/9: per ora in catalogo solo Padana
   const brands=['Tutte',...[...new Set(items.map(i=>i.brand))].slice(0,6)];
   const [brand,setBrand]=useState('Tutte');
@@ -11974,19 +13757,19 @@ function AggiungiProdottoSheet({onClose}){
       <div class="sh-body">
         ${saved?html`<div style="text-align:center;padding:30px 0;"><div style="font-size:40px;color:var(--green);">✓</div><div style="font-size:15px;font-weight:800;margin-top:8px;">Aggiunto al magazzino</div></div>`
         :sel?html`<div>
-          <div class="prod" style="cursor:default;"><span class=${'prod-ic '+sel.cat}>${_mSvg2(sel.cat)}</span><div class="prod-m"><div class="prod-n">${sel.name}</div><div class="prod-meta">${[sel.brand,sel.type,sel.fmt].filter(Boolean).join(' · ')}</div></div></div>
+          <div class="prod" style="cursor:default;">${sel.image?html`<img class="pd-product-image" src=${sel.image} alt=${[sel.brand,sel.name].filter(Boolean).join(' ')} loading="lazy" decoding="async"/>`:html`<span class=${'prod-ic '+sel.cat}>${_mSvg2(sel.cat)}</span>`}<div class="prod-m"><div class="prod-n">${sel.name}</div><div class="prod-meta">${[sel.brand,sel.type,sel.fmt].filter(Boolean).join(' · ')}</div></div></div>
           ${sel.desc?html`<div class="dt-note" style="margin-top:2px;">${sel.desc}</div>`:''}
           <div class="field"><label class="flab">Confezione (formato acquistabile)</label><div class="fchips">${(sel.formats||[]).map((ff,i)=>html`<span key=${i} class=${'fchip'+(selFmt===i?' on':'')} onClick=${()=>setSelFmt(i)}>${ff.label||(ff.size+' '+ff.unit)}</span>`)}</div></div>
           <div class="field"><label class="flab">Numero di confezioni</label><input class="finput" type="text" inputmode="numeric" value=${qty} onInput=${e=>setQty(e.target.value)}/></div>
           ${(()=>{const f=(sel.formats||[])[selFmt]||{};const parsed=whFormat(f);const sz=parsed.size;const q=parseFloat((qty||'1').replace(',','.'))||1;const u=parsed.unit;return html`<div style="font-size:11.5px;color:var(--green-deep);background:var(--green-soft);border-radius:9px;padding:8px 10px;">Totale a magazzino: <b>${(sz*q).toLocaleString('it-IT')} ${u}</b> (${q} × ${sz} ${u})${u==='conf'?' · Giacenza in confezioni: contenuto non noto.':''}</div>`;})()}
           <button class="sh-save" onClick=${add}>Aggiungi al magazzino</button>
-          <button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>lawnlyBuyPadana({name:sel.name,id:sel.pid})}>Acquista su Padana Sementi ↗</button>
+          <button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>lawnlyBuyPadana({name:sel.name,id:sel.pid,url:sel.url})}>Acquista su Padana Sementi ↗</button>
           <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:6px;">Link di affiliazione: riceviamo una commissione, senza costi per te.</div>
         </div>`:html`<div>
           <p class="cat-intro">Scegli la marca, poi il prodotto dal catalogo Lawnly per aggiungerlo al magazzino.</p>
           <div class="cat-filter">${brands.map(b=>html`<span key=${b} class=${'fchip'+(brand===b?' on':'')} onClick=${()=>setBrand(b)}>${b}</span>`)}</div>
           <div class="cat-list">
-            ${list.length?list.map((p,i)=>html`<div class="catrow" key=${i} onClick=${()=>{setSel(p);setQty('1');setSelFmt(0);}}><span class=${'prod-ic '+p.cat}>${_mSvg2(p.cat)}</span><div class="catrow-m"><div class="catrow-n">${p.name}</div><div class="catrow-meta">${[p.brand,p.type,p.fmt].filter(Boolean).join(' · ')}</div></div>${arr}</div>`)
+            ${list.length?list.map((p,i)=>html`<div class="catrow" key=${i} onClick=${()=>{setSel(p);setQty('1');setSelFmt(0);}}>${p.image?html`<img class="pd-product-image" src=${p.image} alt=${[p.brand,p.name].filter(Boolean).join(' ')} loading="lazy" decoding="async"/>`:html`<span class=${'prod-ic '+p.cat}>${_mSvg2(p.cat)}</span>`}<div class="catrow-m"><div class="catrow-n">${p.name}</div><div class="catrow-meta">${[p.brand,p.type,p.fmt].filter(Boolean).join(' · ')}</div></div>${arr}</div>`)
               :html`<div class="zp-empty">Catalogo non disponibile.</div>`}
           </div>
         </div>`}
@@ -14836,89 +16619,7 @@ html[data-theme="dark"] .rdz .ios-tog{background:var(--line)}
 html[data-theme="dark"] .rdz .ios-tog.on,html[data-theme="dark"] .rdz .cen-day.on{background:#9CCB84;border-color:#9CCB84;color:var(--bg)}
 html[data-theme="dark"] .rdz .ios-tog:focus-visible,html[data-theme="dark"] .rdz .cen-day:focus-visible,html[data-theme="dark"] .rdz .sh-tab:focus-visible,html[data-theme="dark"] .rdz .cen-inp:focus-visible{outline-color:#9CCB84}
 </style>
-<script>/* LAWNLY_PADANA_CATALOG — concimi Padana Sementi (estratti da CATALOGO_TURF_2026, dati verificati) */
-(function(){
-  var SRC='https://www.padanasementi.com/';
-  var P=function(id,name,type,subtype,family,npk,dmin,dmax,du,fmts,seas,notes){
-    return {id:'padana-'+id,brand:'Padana Sementi',name:name,type:type,subtype:subtype||null,family:family||null,
-      npkLabel:npk?('NPK '+npk):null,npk:npk||null,organic:/organic|organo/.test(type+''+subtype),
-      dose:(dmin!=null)?{min:dmin,max:dmax,unit:du||'g/m²'}:null,
-      formats:(fmts||[]).map(function(f){return {label:f};}),
-      seasonMicro:seas||[3,4,5,6,7,8,9,10,11],seasonMacro:seas||[4,5,6,7,8,9,10],
-      audienceLevel:'prosumer',notes:notes||null,sourceUrl:SRC};
-  };
-  // prodotto a scheda sintetica (sementi/biostimolanti/linee) — dati completi nel catalogo Padana
-  var S=function(id,name,type,subtype,note){
-    return {id:'padana-'+id,brand:'Padana Sementi',name:name,type:type,subtype:subtype||null,family:null,
-      npkLabel:null,npk:null,organic:/sementi|bio|organ/.test(type+''+subtype),dose:null,formats:[],
-      seasonMicro:[3,4,5,8,9,10],seasonMacro:[4,5,6,9,10],audienceLevel:'prosumer',notes:note,verified:false,sourceUrl:SRC};
-  };
-  var PADANA=[
-    P('rooting-plus','Rooting Plus','concime','organo-minerale','radicazione','10-0-5',40,50,'g/m²',['Astuccio 1 kg','Sacco 10 kg','Sacco 4 kg'],null,'Organo-minerale con acidi umici/fulvici e zuccheri. Rende l\'azoto disponibile e riduce il dilavamento; migliora la fertilità del suolo e lo sviluppo radicale. Anti-stress.'),
-    P('ferti-force-plus','Ferti Force Plus','concime','organo-minerale','mantenimento','8-6-14+2MgO',40,60,'g/m²',['Sacco 20 kg'],null,'Concime organico vegetale ad azione ammendante: rigenera il suolo e ne attiva la microflora, contrasta la stanchezza del terreno. Ricco di azoto e carbonio biodegradabili.'),
-    P('ferti-go','Ferti Go','concime','granulare','spinta_vegetativa','18-7-9',35,40,'g/m²',['Sacco 4 kg','Sacco 25 kg'],null,'Concime granulare equilibrato per la nutrizione di mantenimento del tappeto erboso.'),
-    P('ferti-sowing','Ferti Sowing','concime','granulare','radicazione','10-17-10',35,40,'g/m²',['Sacco 4 kg','Sacco 25 kg'],[2,3,4,8,9,10],'Concime starter ad alto fosforo per semine e trasemine: favorisce radicazione e attecchimento.'),
-    P('control-advance','Control Advance','concime','granulare','spinta_vegetativa','21-5-9+3MgO+30SO3',25,35,'g/m²',['Sacco 25 kg'],null,'Concime a cessione controllata per nutrizione prolungata e crescita uniforme.'),
-    P('control-field','Control Field','concime','granulare','mantenimento','24-5-8+2,5MgO',25,35,'g/m²',['Sacco 25 kg'],null,'Concime professionale per aree sportive e grandi superfici, azoto elevato.'),
-    P('control-strong','Control Strong','concime','granulare','resistenza_stress','18-0-18+3MgO',25,35,'g/m²',['Sacco 25 kg'],[6,7,8,9,10,11],'Formula azoto-potassio senza fosforo: resistenza a stress termico e usura, irrobustimento.'),
-    P('pse-slow-n','PSE Slow N','concime','granulare','spinta_vegetativa','33-0-0',20,25,'g/m²',['Sacco 25 kg'],null,'Azoto a lenta cessione per crescita costante e prolungata senza picchi.'),
-    P('ferti-grow','Ferti Grow','concime','granulare','mantenimento','12-6-14+2MgO',25,35,'g/m²',['Sacco 25 kg'],null,'Concime bilanciato di mantenimento con magnesio e microelementi.'),
-    P('ferti-leaf','Ferti Leaf','concime','liquido','biostimolante','10-5-7',null,null,'kg/ha',['Bottiglia 1 kg'],null,'Concime liquido fogliare a pronto effetto, con microelementi.'),
-    P('ferti-k','Ferti K','concime','liquido','resistenza_stress','0-0-24+40SO3',null,null,'kg/ha',['Tanica 5 kg'],[6,7,8,9,10],'Potassio liquido per resistenza a caldo, siccità e malattie.'),
-    P('ferti-n','Ferti N','concime','liquido','spinta_vegetativa','24-0-0+15SO3',null,null,'kg/ha',['Bottiglia 1 kg','Tanica 6 kg'],null,'Azoto liquido a rapido assorbimento fogliare per spinta di colore.')
-  ].concat([
-    S('radici-piu-forti',"Radici PIÙ Forti",'biostimolante','liquido',"Biostimolante / coating Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('aquacoat-rto-plus',"Aquacoat Rto+",'biostimolante','liquido',"Biostimolante / coating Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('aquacoat-rto',"Aquacoat RTO",'biostimolante','liquido',"Biostimolante / coating Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('activecoat',"Activecoat",'biostimolante','liquido',"Biostimolante / coating Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('sportplay',"Sportplay",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('extreme-blue',"Extreme Blue",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('rigenervit-prof-new',"Rigenervit Prof NEW",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('blue-lex-revolution',"Blue LEX Revolution",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('self-repair',"Self Repair",'biostimolante','liquido',"Biostimolante / coating Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('cynodon-dactylon-paul-1',"Cynodon Dactylon Paul 1",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('naturstrong',"Naturstrong",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('naturfast',"Naturfast",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('top-class-4-sod',"TOP Class 4 SOD",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('top-class',"TOP Class",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('natural-garden',"Natural Garden",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('top-green',"TOP Green",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('turf-green',"Turf Green",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('forte-new-plus',"Forte NEW Plus",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    P('special-sod','Special SOD','sementi','miscuglio',null,null,35,45,'g/m²',['Sacco 10 kg'],[3,4,5,9,10],'Miscuglio da seme Padana Sementi di alta qualità. Dose di semina 35-45 g/mq.'),
-    S('sportfield-regeneration',"Sportfield Regeneration",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('winter-sportfield-regeneration',"Winter Sportfield Regeneration",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('unirustic-plus',"Unirustic Plus",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('sporting',"Sporting",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('brillante',"Brillante",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('rigenervit',"Rigenervit",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('prestige',"Prestige",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('micromacro',"Micromacro",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('sport',"Sport",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('sun-seed',"SUN Seed",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('festumix',"Festumix",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('rusticus-lawn',"Rusticus Lawn",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('ombra',"Ombra",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('ripristini-ambientali',"Ripristini Ambientali",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('miscugli-operation-pollinator',"Miscugli Operation Pollinator",'sementi','miscuglio',"Miscuglio da seme Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('ferti-fum-turf',"Ferti-fum Turf",'concime','linea',"Linea concimi Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('sana-terra',"Sana Terra",'concime','linea',"Linea concimi Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('ferti-green',"Ferti Green",'concime','linea',"Linea concimi Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('ferti-control',"Ferti Control",'concime','linea',"Linea concimi Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('ferti-slow',"Ferti Slow",'concime','linea',"Linea concimi Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('ferti-liquid',"Ferti Liquid",'concime','linea',"Linea concimi Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('ferti-defence',"Ferti Defence",'concime','linea',"Linea concimi Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('ferti-flora',"Ferti Flora",'concime','linea',"Linea concimi Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('mulch',"Mulch",'biostimolante','liquido',"Biostimolante / coating Padana Sementi (scheda completa nel catalogo 2026)."),
-    S('collanti',"Collanti",'biostimolante','liquido',"Biostimolante / coating Padana Sementi (scheda completa nel catalogo 2026).")
-  ]);
-  function merge(){try{var c=window.__LAWNLY_CATALOG__||[];var have={};c.forEach(function(p){if(p&&p.id)have[p.id]=1;});PADANA.forEach(function(p){if(!have[p.id])c.push(p);});window.__LAWNLY_CATALOG__=c;}catch(e){}}
-  // Il catalogo inline ha già emesso l'evento: merge immediato necessario anche da file://.
-  // Il modulo differito può sostituirlo: il listener riapplica Padana quando è pronto.
-  merge();
-  try{window.addEventListener('lawnly-catalog-ready',merge);}catch(e){}
-})();
-</script>
+
 
 <style id="lawnly-olx">
 /* ═══ ORGELUX LIQUID GLASS — re-skin sezioni Suolo/Zone/Giardino/Magazzino/Profilo (dossier Luca 13giu) ═══

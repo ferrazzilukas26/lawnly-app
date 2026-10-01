@@ -2,12 +2,12 @@
  * LAWNLY — PRODUCT CATALOG
  * =========================
  * Catalogo prodotti professionali per il mercato italiano.
- * Brand supportati (Step 1): Bottos, Barenbrug, ICL.
+ * Brand supportati: Bottos, Barenbrug, ICL, Padana Sementi.
  *
  * Schema di ogni prodotto:
  * {
  *   id:            slug kebab-case univoco (stabile — usato come chiave DB)
- *   brand:         "Bottos" | "Barenbrug" | "ICL"
+ *   brand:         "Bottos" | "Barenbrug" | "ICL" | "Padana Sementi"
  *   name:          nome commerciale ESATTO (inglese per ICL, italiano per Bottos/Barenbrug)
  *   type:          "concime" | "biostimolante" | "bioattivato" | "surfattante"
  *                  | "correttore" | "speciale" | "tracciante" | "colorante"
@@ -38,7 +38,17 @@
  *   targetPests:   array — solo per bioattivati (es. ["nottue", "tipule"])
  *   actives:       array di { name, amount, unit } — solo per bioattivati
  *   notes:         stringa sintetica per UI
+ *   line:          linea commerciale ufficiale (Padana)
+ *   url:           pagina prodotto ufficiale o null se non verificata
+ *   sheetUrl:      PDF tecnico collegato dalla pagina, oppure null
+ *   image:         percorso immagine LOCALE esistente, oppure null
+ *   imageUrl:      URL originale verificato (provenienza; mai usato come src)
  *   sourceUrl:     URL scheda tecnica ufficiale (se disponibile)
+ *   Dati Padana non verificabili: null (mai valori predefiniti).
+ *   secondary conserva la forma dichiarata (es. MgO, SO3, CaO; non Mg/S/Ca).
+ *   dose è riferita al contesto esplicitato in notes/application.
+ *   Intervalli d’acqua e periodi generici restano in notes: niente mesi stimati.
+ *   Tecnologie fuori enum: tech null; denominazione ufficiale nelle notes.
  * }
  */
 
@@ -3687,6 +3697,1784 @@ export const PRODUCT_CATALOG = [
     targetPests: null,
     notes: "Greenmaster Pro-Lite Autumn - mini granulare pro per green con ferro, concimazione autunnale.",
     sourceUrl: "https://icl-sf.com/it/"
+  },
+
+  // PADANA SEMENTI — 38 voci; provenienza e limiti in scratchpad/padana-report.txt
+  {
+    "id": "padana-rooting-plus-organico",
+    "brand": "Padana Sementi",
+    "name": "Rooting Plus",
+    "line": "Ferti Green",
+    "type": "concime",
+    "subtype": null,
+    "family": "organico_fondo",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 40,
+      "max": 60,
+      "unit": "g/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-rooting-plus-organico-20kg",
+        "size": 20,
+        "unit": "kg",
+        "label": "Sacco da 20 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": "pro",
+    "notes": "Concime vegetale per la fertilità e la microflora del terreno. Impieghi professionali.",
+    "url": "https://www.padanasementi.com/product/rooting-plus/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2025/09/ROOTING-PLUS.pdf",
+    "image": "products/padana/padana-rooting-plus-organico.jpg",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/ferti-rooting-plus-800x1189.jpg",
+    "sourceUrl": "https://www.padanasementi.com/product/rooting-plus/"
+  },
+
+  {
+    "id": "padana-rooting-plus",
+    "brand": "Padana Sementi",
+    "name": "Rooting Plus NK 10-5",
+    "line": "Ferti Green",
+    "type": "concime",
+    "subtype": null,
+    "family": null,
+    "npk": null,
+    "npkLabel": "NK 10-5",
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": null,
+    "url": "https://www.padanasementi.com/prodotto/rooting-plus-nk-10-5/",
+    "sheetUrl": null,
+    "image": null,
+    "sourceUrl": "https://www.padanasementi.com/prodotto/rooting-plus-nk-10-5/"
+  },
+
+  {
+    "id": "padana-ferti-go",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/ferti-go-4-KG-scaled.jpg",
+    "brand": "Padana Sementi",
+    "name": "Ferti Go NPK 18-7-9",
+    "line": "Ferti Green",
+    "type": "concime",
+    "subtype": null,
+    "family": "spinta_vegetativa",
+    "npk": {
+      "n": 18,
+      "p": 7,
+      "k": 9
+    },
+    "npkLabel": "18-7-9",
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 25,
+      "max": 35,
+      "unit": "g/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-go-4kg",
+        "size": 4,
+        "unit": "kg",
+        "label": "Sacco da 4 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Dose per tappeti erbosi. Sviluppo radicale e nutrizione del suolo.",
+    "url": "https://www.padanasementi.com/product/ferti-go-npk-18-7-9/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/FERTI_GO_18-7-9_.pdf",
+    "image": "products/padana/padana-ferti-go.jpg",
+    "sourceUrl": "https://www.padanasementi.com/product/ferti-go-npk-18-7-9/"
+  },
+
+  {
+    "id": "padana-ferti-go-23-6-6",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/ferti-GO.png",
+    "brand": "Padana Sementi",
+    "name": "Ferti Go NPK 23-6-6 + 5 SO3 + 3 C",
+    "line": "Ferti Green",
+    "type": "concime",
+    "subtype": null,
+    "family": "spinta_vegetativa",
+    "npk": {
+      "n": 23,
+      "p": 6,
+      "k": 6
+    },
+    "npkLabel": "23-6-6",
+    "secondary": {
+      "SO3": 5
+    },
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 30,
+      "max": 35,
+      "unit": "g/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-go-23-6-6-25kg",
+        "size": 25,
+        "unit": "kg",
+        "label": "Sacco da 25 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Ripresa primaverile e autunnale. Rilascio dichiarato fino a 90 giorni. Carbonio: 3%.",
+    "url": "https://www.padanasementi.com/product/ferti-go-npk-23-6-6/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2025/09/FERTI_GO_NPK-23-6-6.pdf",
+    "image": "products/padana/padana-ferti-go-23-6-6.png",
+    "sourceUrl": "https://www.padanasementi.com/product/ferti-go-npk-23-6-6/"
+  },
+
+  {
+    "id": "padana-ferti-force-plus",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/ferti-control-force-plus-scaled.jpg",
+    "brand": "Padana Sementi",
+    "name": "Ferti Force Plus NPK 8-6-14 + 2 MgO+Me",
+    "line": "Ferti Green",
+    "type": "concime",
+    "subtype": null,
+    "family": "antistress",
+    "npk": {
+      "n": 8,
+      "p": 6,
+      "k": 14
+    },
+    "npkLabel": "8-6-14",
+    "secondary": {
+      "MgO": 2
+    },
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 30,
+      "max": 35,
+      "unit": "g/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-force-plus-25kg",
+        "size": 25,
+        "unit": "kg",
+        "label": "Sacco da 25 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Dose ornamentale; uso sportivo: 35–40 g/m². Impiego pre-estivo e pre-invernale.",
+    "url": "https://www.padanasementi.com/product/ferti-force-plus-npk-8-6-14-2mgome/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-ferti-force-plus.jpg",
+    "sourceUrl": "https://www.padanasementi.com/product/ferti-force-plus-npk-8-6-14-2mgome/"
+  },
+
+  {
+    "id": "padana-ferti-sowing",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/ferti-sowing.png",
+    "brand": "Padana Sementi",
+    "name": "Ferti Sowing NPK 10-17-10",
+    "line": "Ferti Green",
+    "type": "concime",
+    "subtype": null,
+    "family": "starter",
+    "npk": {
+      "n": 10,
+      "p": 17,
+      "k": 10
+    },
+    "npkLabel": "10-17-10",
+    "secondary": {
+      "MgO": 4,
+      "SO3": 16,
+      "Fe": 2
+    },
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 35,
+      "max": 40,
+      "unit": "g/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-sowing-4kg",
+        "size": 4,
+        "unit": "kg",
+        "label": "Sacco da 4 kg",
+        "verified": true
+      },
+      {
+        "sku": "padana-ferti-sowing-25kg",
+        "size": 25,
+        "unit": "kg",
+        "label": "Sacco da 25 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Semina e trasemina. Azoto organico 3%, ammoniacale 4,5%, nitrico 2,5%; carbonio organico 7,5%.",
+    "url": "https://www.padanasementi.com/product/ferti-sowing-npk-10-17-10/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/FERTI_SOWING_.pdf",
+    "image": "products/padana/padana-ferti-sowing.png",
+    "sourceUrl": "https://www.padanasementi.com/product/ferti-sowing-npk-10-17-10/"
+  },
+
+  {
+    "id": "padana-control-advance",
+    "brand": "Padana Sementi",
+    "name": "Control Advance NPK 21-5-9 + 3 MgO",
+    "line": "Ferti Control",
+    "type": "concime",
+    "subtype": "granulare",
+    "family": "spinta_vegetativa",
+    "npk": {
+      "n": 21,
+      "p": 5,
+      "k": 9
+    },
+    "npkLabel": "21-5-9",
+    "secondary": {
+      "MgO": 3,
+      "SO3": 30
+    },
+    "slowRelease": {
+      "enabled": true,
+      "tech": "MCT",
+      "pctN": 43
+    },
+    "organic": null,
+    "dose": {
+      "min": 15,
+      "max": 25,
+      "unit": "g/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": "90%: 2–3,5 mm",
+    "formats": [
+      {
+        "sku": "padana-control-advance-25kg",
+        "size": 25,
+        "unit": "kg",
+        "label": "Sacco da 25 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Dose ornamentale; sportivo: 35–45 g/m²; intenso utilizzo: 40–50 g/m². Primavera e autunno. Durata fino a 120 giorni.",
+    "url": null,
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/CONTROL-ADVANCE-5.pdf",
+    "image": null,
+    "sourceUrl": "https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-control/"
+  },
+
+  {
+    "id": "padana-control-field",
+    "brand": "Padana Sementi",
+    "name": "Control Field NPK 24-5-8 +2,5 MgO",
+    "line": "Ferti Control",
+    "type": "concime",
+    "subtype": "granulare",
+    "family": null,
+    "npk": {
+      "n": 24,
+      "p": 5,
+      "k": 8
+    },
+    "npkLabel": "24-5-8",
+    "secondary": {
+      "MgO": 2.5
+    },
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": null,
+    "url": null,
+    "sheetUrl": null,
+    "image": null,
+    "sourceUrl": "https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-control/"
+  },
+
+  {
+    "id": "padana-control-kappa",
+    "brand": "Padana Sementi",
+    "name": "Control Kappa NPK 12-0-25 + 2,5 MgO",
+    "line": "Ferti Control",
+    "type": "concime",
+    "subtype": "granulare",
+    "family": null,
+    "npk": {
+      "n": 12,
+      "p": 0,
+      "k": 25
+    },
+    "npkLabel": "12-0-25",
+    "secondary": {
+      "MgO": 2.5
+    },
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": null,
+    "url": null,
+    "sheetUrl": null,
+    "image": null,
+    "sourceUrl": "https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-control/"
+  },
+
+  {
+    "id": "padana-control-strong",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/ferti-control-Strong_1-scaled.jpg",
+    "brand": "Padana Sementi",
+    "name": "Control Strong NPK 18-0-18 + 3 MgO",
+    "line": "Ferti Control",
+    "type": "concime",
+    "subtype": "granulare",
+    "family": "mantenimento",
+    "npk": {
+      "n": 18,
+      "p": 0,
+      "k": 18
+    },
+    "npkLabel": "18-0-18",
+    "secondary": {
+      "MgO": 3
+    },
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 20,
+      "max": 25,
+      "unit": "g/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-control-strong-25kg",
+        "size": 25,
+        "unit": "kg",
+        "label": "Sacco da 25 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Dose ornamentale; aree sportive: 30–40 g/m². Uso durante tutto l’anno o alla ripresa primaverile. Ricopertura dichiarata: 39%.",
+    "url": "https://www.padanasementi.com/product/control-strong-npk-18-0-18-3-mgo/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/CONTROL-STRONG-NPK-18-0-18-1.pdf",
+    "image": "products/padana/padana-control-strong.jpg",
+    "sourceUrl": "https://www.padanasementi.com/product/control-strong-npk-18-0-18-3-mgo/"
+  },
+
+  {
+    "id": "padana-ferti-grow",
+    "brand": "Padana Sementi",
+    "name": "Ferti Grow NPK 12-6-14 + 2 MgO + M.e.",
+    "line": "Ferti Slow",
+    "type": "concime",
+    "subtype": "granulare",
+    "family": "antistress",
+    "npk": {
+      "n": 12,
+      "p": 6,
+      "k": 14
+    },
+    "npkLabel": "12-6-14",
+    "secondary": {
+      "CaO": 2,
+      "MgO": 2,
+      "SO3": 30,
+      "B": 0.02,
+      "Fe": 1,
+      "Zn": 0.01
+    },
+    "slowRelease": {
+      "enabled": true,
+      "tech": null,
+      "pctN": 42
+    },
+    "organic": null,
+    "dose": {
+      "min": 20,
+      "max": 25,
+      "unit": "g/m2"
+    },
+    "dilution": null,
+    "durationDays": [
+      60,
+      90
+    ],
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-grow-4kg",
+        "size": 4,
+        "unit": "kg",
+        "label": "Sacco da 4 kg",
+        "verified": true
+      },
+      {
+        "sku": "padana-ferti-grow-25kg",
+        "size": 25,
+        "unit": "kg",
+        "label": "Sacco da 25 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Dose ornamentale; sportivo: 25–30 g/m². Impiego annuale sui prati a bassa manutenzione. Azoto da urea formaldeide: 5%.",
+    "url": "https://www.padanasementi.com/prodotto/ferti-grow-npk-12-6-14-2-2-mgo-me/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/FERTI-GROW_NPK-12-6-14.pdf",
+    "image": "products/padana/padana-ferti-grow.png",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/ferti_grow-removebg-preview.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-grow-npk-12-6-14-2-2-mgo-me/"
+  },
+
+  {
+    "id": "padana-pse-slow-n",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/pse_slow_n_33-removebg-preview.png",
+    "brand": "Padana Sementi",
+    "name": "PSE Slow N NPK 33-0-0",
+    "line": "Ferti Slow",
+    "type": "concime",
+    "subtype": null,
+    "family": null,
+    "npk": {
+      "n": 33,
+      "p": 0,
+      "k": 0
+    },
+    "npkLabel": "33-0-0",
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": null,
+    "url": "https://www.padanasementi.com/prodotto/pse-slow-n-33/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-pse-slow-n.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/pse-slow-n-33/"
+  },
+
+  {
+    "id": "padana-accafert",
+    "brand": "Padana Sementi",
+    "name": "Accafert",
+    "line": "Ferti Liquid",
+    "type": "concime",
+    "subtype": "liquido",
+    "family": "resistenza_stress",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-accafert-25l",
+        "size": 25,
+        "unit": "L",
+        "label": "Tanica da 25 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Concime NK da borlanda fluida; contenuto percentuale non verificato.",
+    "url": "https://www.padanasementi.com/prodotto/accafert/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/accafert-4.pdf",
+    "image": "products/padana/padana-accafert.png",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/ACCAFERT-25L-1-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/accafert/"
+  },
+
+  {
+    "id": "padana-alga-ecklomax",
+    "brand": "Padana Sementi",
+    "name": "Alga Ecklomax",
+    "line": "Ferti Liquid",
+    "type": "speciale",
+    "subtype": null,
+    "family": null,
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": null,
+    "url": null,
+    "sheetUrl": null,
+    "image": null,
+    "sourceUrl": "https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-liquid/"
+  },
+
+  {
+    "id": "padana-alga-suprema",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/108.png",
+    "brand": "Padana Sementi",
+    "name": "Alga Suprema",
+    "line": "Ferti Liquid",
+    "type": "biostimolante",
+    "subtype": "liquido",
+    "family": "antistress_alghe",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 2.5,
+      "max": 3.5,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-alga-suprema-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Fogliare: acqua 500–600 L/ha. Radicale: 6–10 kg/ha in 1000 L/ha. Estratti di lievito e alghe brune.",
+    "url": "https://www.padanasementi.com/product/alga-suprema/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-alga-suprema.png",
+    "sourceUrl": "https://www.padanasementi.com/product/alga-suprema/"
+  },
+
+  {
+    "id": "padana-amiprot",
+    "brand": "Padana Sementi",
+    "name": "Amiprot",
+    "line": "Ferti Liquid",
+    "type": "biostimolante",
+    "subtype": "liquido",
+    "family": "aminoacidico",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 5,
+      "max": 6,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-amiprot-250ml",
+        "size": 250,
+        "unit": "ml",
+        "label": "Bottiglia da 250 ml",
+        "verified": true
+      },
+      {
+        "sku": "padana-amiprot-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      },
+      {
+        "sku": "padana-amiprot-6kg",
+        "size": 6,
+        "unit": "kg",
+        "label": "Tanica da 6 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "In stress: fogliare in 800–1000 L/ha d’acqua; radicale 7–15 kg/ha in 1000 L/ha. Amminoacidi levogiri.",
+    "url": "https://www.padanasementi.com/prodotto/amiprot/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/AMIPROT-2.pdf",
+    "image": "products/padana/padana-amiprot.png",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/13-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/amiprot/"
+  },
+
+  {
+    "id": "padana-ascoferti",
+    "brand": "Padana Sementi",
+    "name": "Ascoferti",
+    "line": "Ferti Liquid",
+    "type": "biostimolante",
+    "subtype": "liquido",
+    "family": "antistress_alghe",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 2,
+      "max": 4,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ascoferti-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      },
+      {
+        "sku": "padana-ascoferti-6kg",
+        "size": 6,
+        "unit": "kg",
+        "label": "Tanica da 6 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Ascophyllum nodosum. Fogliare: acqua 600–800 L/ha. Radicale: 5–6 kg/ha in 1000 L/ha. Pre-stress, intervallo 10–15 giorni.",
+    "url": "https://www.padanasementi.com/prodotto/ascoferti/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/ASCOFERTI-.pdf",
+    "image": "products/padana/padana-ascoferti.png",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/11-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/ascoferti/"
+  },
+
+  {
+    "id": "padana-ferti-k",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/116.png",
+    "brand": "Padana Sementi",
+    "name": "Ferti K",
+    "line": "Ferti Liquid",
+    "type": "concime",
+    "subtype": "liquido",
+    "family": "antistress",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 20,
+      "max": 30,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-k-5kg",
+        "size": 5,
+        "unit": "kg",
+        "label": "Tanica da 5 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Fogliare: acqua 500–600 L/ha. Radicale: 60–90 kg/ha in 1000 L/ha.",
+    "url": "https://www.padanasementi.com/prodotto/ferti-k/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-ferti-k.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-k/"
+  },
+
+  {
+    "id": "padana-ferti-leaf",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/4.png",
+    "brand": "Padana Sementi",
+    "name": "Ferti Leaf",
+    "line": "Ferti Liquid",
+    "type": "concime",
+    "subtype": "liquido",
+    "family": null,
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 20,
+      "max": 40,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-leaf-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Azoto ureico e microelementi. Acqua di irrorazione: 600–800 L/ha.",
+    "url": "https://www.padanasementi.com/product/fertileaf/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/FERTI-LEAF-1.pdf",
+    "image": "products/padana/padana-ferti-leaf.png",
+    "sourceUrl": "https://www.padanasementi.com/product/fertileaf/"
+  },
+
+  {
+    "id": "padana-ferti-n",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/115.png",
+    "brand": "Padana Sementi",
+    "name": "Ferti N",
+    "line": "Ferti Liquid",
+    "type": "concime",
+    "subtype": "liquido",
+    "family": "spinta_vegetativa",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 20,
+      "max": 30,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-n-5kg",
+        "size": 5,
+        "unit": "kg",
+        "label": "Tanica da 5 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Azoto ureico, ammoniacale e nitrico, con zolfo. Fogliare: acqua 500–600 L/ha. Radicale: 60–80 kg/ha in 1000 L/ha.",
+    "url": "https://www.padanasementi.com/product/ferti-n/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/FERTI-N_.pdf",
+    "image": "products/padana/padana-ferti-n.png",
+    "sourceUrl": "https://www.padanasementi.com/product/ferti-n/"
+  },
+
+  {
+    "id": "padana-sprint-l",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/112.png",
+    "brand": "Padana Sementi",
+    "name": "Sprint L",
+    "line": "Ferti Liquid",
+    "type": "concime",
+    "subtype": "liquido",
+    "family": "acidi_umici",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 3,
+      "max": 5,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-sprint-l-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      },
+      {
+        "sku": "padana-sprint-l-5kg",
+        "size": 5,
+        "unit": "kg",
+        "label": "Tanica da 5 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Leonardite e acidi umici. Fogliare: acqua 500–600 L/ha. Radicale: 10–20 kg/ha in 1000 L/ha.",
+    "url": "https://www.padanasementi.com/prodotto/sprint-l/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-sprint-l.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/sprint-l/"
+  },
+
+  {
+    "id": "padana-sun-shield",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/109.png",
+    "brand": "Padana Sementi",
+    "name": "Sun Shield",
+    "line": "Ferti Liquid",
+    "type": "concime",
+    "subtype": "liquido",
+    "family": "antistress",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 6,
+      "max": 8,
+      "unit": "kg/ha"
+    },
+    "dilution": {
+      "water": 800,
+      "waterUnit": "L",
+      "per": 1,
+      "perUnit": "ha"
+    },
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-sun-shield-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Amminoacidi vegetali e pigmenti protettivi. Acqua di irrorazione: 800 L/ha.",
+    "url": "https://www.padanasementi.com/product/sun-shield/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/SUN-SHIELD-.pdf",
+    "image": "products/padana/padana-sun-shield.png",
+    "sourceUrl": "https://www.padanasementi.com/product/sun-shield/"
+  },
+
+  {
+    "id": "padana-fast-defence",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/111.png",
+    "brand": "Padana Sementi",
+    "name": "Fast Defence",
+    "line": "Ferti Defence",
+    "type": "concime",
+    "subtype": "liquido",
+    "family": "micronutrienti",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 3.5,
+      "max": 4.5,
+      "unit": "kg/ha"
+    },
+    "dilution": {
+      "water": 500,
+      "waterUnit": "L",
+      "per": 1,
+      "perUnit": "ha"
+    },
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-fast-defence-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Fogliare: acqua 500 L/ha. Radicale: 10–12 kg/ha in 1000 L/ha.",
+    "url": "https://www.padanasementi.com/prodotto/fast-defence/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-fast-defence.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/fast-defence/"
+  },
+
+  {
+    "id": "padana-ferti-defence",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/2-2.png",
+    "brand": "Padana Sementi",
+    "name": "Ferti Defence",
+    "line": "Ferti Defence",
+    "type": "speciale",
+    "subtype": "liquido",
+    "family": "resistenza_stress",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 10,
+      "max": 15,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-defence-6kg",
+        "size": 6,
+        "unit": "kg",
+        "label": "Tanica da 6 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Ossidi di potassio e silicio, percentuali non indicate. Fogliare: acqua 600–800 L/ha. Radicale: 18–22 kg/ha in 1000 L/ha.",
+    "url": "https://www.padanasementi.com/prodotto/ferti-defence/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-ferti-defence.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-defence/"
+  },
+
+  {
+    "id": "padana-ferti-endurance",
+    "brand": "Padana Sementi",
+    "name": "FERTI ENDURANCE",
+    "line": "Ferti Defence",
+    "type": "speciale",
+    "subtype": null,
+    "family": null,
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": null,
+    "url": "https://www.padanasementi.com/prodotto/ferti-endurance/",
+    "sheetUrl": null,
+    "image": null,
+    "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-endurance/"
+  },
+
+  {
+    "id": "padana-ferti-energy-wet",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/6.png",
+    "brand": "Padana Sementi",
+    "name": "Ferti Energy Wet",
+    "line": "Ferti Defence",
+    "type": "surfattante",
+    "subtype": null,
+    "family": "wetting_agent",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 10,
+      "max": 15,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "radicale_diluito",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-energy-wet-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      },
+      {
+        "sku": "padana-ferti-energy-wet-5kg",
+        "size": 5,
+        "unit": "kg",
+        "label": "Tanica da 5 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Umettante per macchie idrofobiche. Nelle prime fasi di sviluppo: ripetizione ogni 20–30 giorni.",
+    "url": "https://www.padanasementi.com/product/energy-wet/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-ferti-energy-wet.png",
+    "sourceUrl": "https://www.padanasementi.com/product/energy-wet/"
+  },
+
+  {
+    "id": "padana-super-life",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/114.png",
+    "brand": "Padana Sementi",
+    "name": "Super Life",
+    "line": "Ferti Defence",
+    "type": "speciale",
+    "subtype": null,
+    "family": null,
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": null,
+    "url": "https://www.padanasementi.com/prodotto/super-life/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-super-life.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/super-life/"
+  },
+
+  {
+    "id": "padana-humet-pro",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2026/02/HumetPro.png",
+    "brand": "Padana Sementi",
+    "name": "Humet Pro",
+    "line": "Ferti Defence",
+    "type": "surfattante",
+    "subtype": "liquido",
+    "family": "wetting_agent",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-humet-pro-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Fogliare: 10–15 L/ha ogni 30 giorni o al bisogno. Radicale: 0,2–0,3% del volume d’acqua.",
+    "url": "https://www.padanasementi.com/prodotto/humet-pro/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-humet-pro.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/humet-pro/"
+  },
+
+  {
+    "id": "padana-agiferti",
+    "brand": "Padana Sementi",
+    "name": "Agiferti",
+    "line": "Ferti Flora",
+    "type": "bioattivato",
+    "subtype": null,
+    "family": "micorrizico",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 0.2,
+      "max": 0.3,
+      "unit": "ml/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "radicale_diluito",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-agiferti-250ml",
+        "size": 250,
+        "unit": "ml",
+        "label": "Bottiglia da 250 ml",
+        "verified": true
+      },
+      {
+        "sku": "padana-agiferti-1l",
+        "size": 1,
+        "unit": "L",
+        "label": "Bottiglia da 1 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Micorrize e Bacillus subtilis. Aggiungere Amiprot: 3,5–5 kg/ha.",
+    "url": "https://www.padanasementi.com/prodotto/agiferti/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/AGIFERTI_.pdf",
+    "image": "products/padana/padana-agiferti.png",
+    "synergy": [
+      "padana-amiprot"
+    ],
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/14-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/agiferti/"
+  },
+
+  {
+    "id": "padana-bacteria",
+    "brand": "Padana Sementi",
+    "name": "Bacteria",
+    "line": "Ferti Flora",
+    "type": "bioattivato",
+    "subtype": "liquido",
+    "family": "microbiologia_suolo",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 3,
+      "max": 3,
+      "unit": "kg/ha"
+    },
+    "dilution": {
+      "water": 500,
+      "waterUnit": "L",
+      "per": 1,
+      "perUnit": "ha"
+    },
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "radicale_diluito",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-bacteria-1kg",
+        "size": 1,
+        "unit": "kg",
+        "label": "Bottiglia da 1 kg",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Micorrize e batteri della rizosfera; applicazione radicale.",
+    "url": "https://www.padanasementi.com/prodotto/bacteria/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/BACTERIA-.pdf",
+    "image": "products/padana/padana-bacteria.png",
+    "actives": [
+      {
+        "name": "Micorrize",
+        "amount": 1,
+        "unit": "%"
+      },
+      {
+        "name": "Batteri della rizosfera",
+        "amount": 100000000,
+        "unit": "UFC/g"
+      }
+    ],
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2025/10/110-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/bacteria/"
+  },
+
+  {
+    "id": "padana-botriferti",
+    "brand": "Padana Sementi",
+    "name": "Botriferti",
+    "line": "Ferti Flora",
+    "type": "bioattivato",
+    "subtype": null,
+    "family": "microbiologia_suolo",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 0.2,
+      "max": 0.3,
+      "unit": "ml/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "radicale_diluito",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-botriferti-250ml",
+        "size": 250,
+        "unit": "ml",
+        "label": "Bottiglia da 250 ml",
+        "verified": true
+      },
+      {
+        "sku": "padana-botriferti-1l",
+        "size": 1,
+        "unit": "L",
+        "label": "Bottiglia da 1 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Bacillus sp. Aggiungere Amiprot: 3,5–5 kg/ha.",
+    "url": "https://www.padanasementi.com/prodotto/botriferti/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/BOTRIFERTI_.pdf",
+    "image": "products/padana/padana-botriferti.png",
+    "synergy": [
+      "padana-amiprot"
+    ],
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/10-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/botriferti/"
+  },
+
+  {
+    "id": "padana-ferti-3a",
+    "brand": "Padana Sementi",
+    "name": "Ferti 3A",
+    "line": "Ferti Flora",
+    "type": "correttore",
+    "subtype": "liquido",
+    "family": "correzione_ph",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-3a-1l",
+        "size": 1,
+        "unit": "L",
+        "label": "Bottiglia da 1 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Acidificante, adesivante e antischiuma. 0,9–1,3 ml per litro d’acqua; dose per superficie non dichiarata.",
+    "url": "https://www.padanasementi.com/prodotto/ferti-3a/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/FERTI-3-A.pdf",
+    "image": "products/padana/padana-ferti-3a.png",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/9-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-3a/"
+  },
+
+  {
+    "id": "padana-ferti-bometa",
+    "brand": "Padana Sementi",
+    "name": "Ferti Bometa",
+    "line": "Ferti Flora",
+    "type": "bioattivato",
+    "subtype": null,
+    "family": "bioinsetticida_microbico",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 0.2,
+      "max": 0.3,
+      "unit": "ml/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "radicale_diluito",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-bometa-250ml",
+        "size": 250,
+        "unit": "ml",
+        "label": "Bottiglia da 250 ml",
+        "verified": true
+      },
+      {
+        "sku": "padana-ferti-bometa-1l",
+        "size": 1,
+        "unit": "L",
+        "label": "Bottiglia da 1 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Metarhizium e Beauveria bassiana. Aggiungere Amiprot: 3,5–5 kg/ha.",
+    "url": "https://www.padanasementi.com/prodotto/ferti-bometa/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/FERTI_BOMETA.pdf",
+    "image": "products/padana/padana-ferti-bometa.png",
+    "synergy": [
+      "padana-amiprot"
+    ],
+    "targetPests": [
+      "larve",
+      "afidi",
+      "elateridi",
+      "tripidi",
+      "aleurodidi",
+      "acari",
+      "cocciniglie",
+      "mosche dei frutti"
+    ],
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/8-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-bometa/"
+  },
+
+  {
+    "id": "padana-ferti-iron",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/5.png",
+    "brand": "Padana Sementi",
+    "name": "Ferti Iron",
+    "line": "Ferti Flora",
+    "type": "bioattivato",
+    "subtype": null,
+    "family": "ferro_colore",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 0.6,
+      "max": 0.8,
+      "unit": "ml/m2"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": "fogliare",
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-ferti-iron-1l",
+        "size": 1,
+        "unit": "L",
+        "label": "Bottiglia da 1 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Ferro su matrice organica con Streptomyces e Trichoderma. Fogliare: acqua 600–800 L/ha. Radicale: 1,2–1,8 ml/m² in 1000 L/ha.",
+    "url": "https://www.padanasementi.com/product/ferti-iron/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-ferti-iron.png",
+    "sourceUrl": "https://www.padanasementi.com/product/ferti-iron/"
+  },
+
+  {
+    "id": "padana-fertizon",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/3.png",
+    "brand": "Padana Sementi",
+    "name": "FERTIZON",
+    "line": "Ferti Flora",
+    "type": "bioattivato",
+    "subtype": "liquido",
+    "family": "micorrizico",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 5,
+      "max": 10,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-fertizon-1l",
+        "size": 1,
+        "unit": "L",
+        "label": "Bottiglia da 1 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Azoto organico 1%, carbonio organico 10%. Inoculo micorrizico con Trichoderma e batteri della rizosfera. Ripetere secondo necessità.",
+    "url": "https://www.padanasementi.com/prodotto/fertizon/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/ferti-zon.pdf",
+    "image": null,
+    "actives": [
+      {
+        "name": "Glomus spp.",
+        "amount": 1e-05,
+        "unit": "%"
+      },
+      {
+        "name": "Batteri della rizosfera",
+        "amount": 1000,
+        "unit": "UFC/g"
+      },
+      {
+        "name": "Trichoderma",
+        "amount": 100000000,
+        "unit": "UFC/g"
+      }
+    ],
+    "sourceUrl": "https://www.padanasementi.com/prodotto/fertizon/"
+  },
+
+  {
+    "id": "padana-nemaferti",
+    "brand": "Padana Sementi",
+    "name": "Nemaferti",
+    "line": "Ferti Flora",
+    "type": "bioattivato",
+    "subtype": "liquido",
+    "family": "microbiologia_suolo",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": {
+      "min": 2,
+      "max": 3,
+      "unit": "kg/ha"
+    },
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-nemaferti-1l",
+        "size": 1,
+        "unit": "L",
+        "label": "Bottiglia da 1 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Attivatore: 3,5–5 kg/ha (Accafert, Amiprot o Alga Ecklomax). Attivare circa 3 ore prima, preferibilmente il giorno precedente; irrigare 2–3 minuti dopo.",
+    "url": "https://www.padanasementi.com/prodotto/nemaferti/",
+    "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/nemaferti.pdf",
+    "image": "products/padana/padana-nemaferti.png",
+    "targetPests": [
+      "nematodi galligeni"
+    ],
+    "actives": [
+      {
+        "name": "Glomus spp.",
+        "amount": 0.0001,
+        "unit": "%"
+      },
+      {
+        "name": "Batteri della rizosfera",
+        "amount": 1000,
+        "unit": "UFC/g"
+      }
+    ],
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/2-800x800.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/nemaferti/"
+  },
+
+  {
+    "id": "padana-tricoferti",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/tricoferti-1-l.png",
+    "brand": "Padana Sementi",
+    "name": "Tricoferti",
+    "line": "Ferti Flora",
+    "type": "speciale",
+    "subtype": null,
+    "family": null,
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": null,
+    "url": "https://www.padanasementi.com/prodotto/tricoferti/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-tricoferti.png",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/tricoferti/"
+  },
+
+  {
+    "id": "padana-forgreen",
+    "imageUrl": "https://www.padanasementi.com/wp-content/uploads/2022/12/forgreen.jpg",
+    "brand": "Padana Sementi",
+    "name": "FORGREEN",
+    "line": "Specialità",
+    "type": "colorante",
+    "subtype": null,
+    "family": "colorante_estetico",
+    "npk": null,
+    "npkLabel": null,
+    "secondary": {},
+    "slowRelease": null,
+    "organic": null,
+    "dose": null,
+    "dilution": null,
+    "durationDays": null,
+    "seasonMicro": null,
+    "seasonMacro": null,
+    "temperatureRange": null,
+    "application": null,
+    "granulometry": null,
+    "formats": [
+      {
+        "sku": "padana-forgreen-1l",
+        "size": 1,
+        "unit": "L",
+        "label": "Bottiglia da 1 L",
+        "verified": true
+      }
+    ],
+    "gddWindow": null,
+    "audienceLevel": null,
+    "notes": "Pigmento verde per tappeti erbosi. Persistenza fino a 3 mesi, variabile con taglio e clima; nessuna conversione stimata in giorni.",
+    "url": "https://www.padanasementi.com/prodotto/forgreen/",
+    "sheetUrl": null,
+    "image": "products/padana/padana-forgreen.jpg",
+    "sourceUrl": "https://www.padanasementi.com/prodotto/forgreen/"
   }
 ];
 

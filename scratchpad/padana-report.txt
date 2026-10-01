@@ -1,0 +1,376 @@
+PADANA SEMENTI — importazione parziale, 1 ottobre 2026
+
+STATO: NON COMPLETATO. Nessun commit, push o deploy.
+38 prodotti Padana aggiunti ai 122 esistenti (160 totali). ID univoci; array inline identico al modulo anche come contenuto. Rimosso il catalogo Padana separato a runtime: conteneva sementi, linee generiche e valori predefiniti. I 122 prodotti di altri brand restano invariati per i lookup delle scorte esistenti.
+
+FOTO E FONTI
+0/38 foto locali: download bloccato dal sandbox di rete (DNS/fetch failed). Non sono stati inseriti hotlink né percorsi di immagini inesistenti. 11 URL immagine recuperati dai collegamenti delle pagine; 27 ancora da recuperare.
+34/38 URL prodotto verificati tramite pagina o collegamento ufficiale. Mancano Control Advance, Control Field, Control Kappa e Alga Ecklomax: url=null, sourceUrl punta alla categoria ufficiale.
+20/38 collegamenti PDF in sheetUrl. Di questi, 7 testi tecnici consultati via web (Control Advance, Ferti Grow, Ferti Sowing, Bacteria, Ferti 3A, Fertizon, Nemaferti); gli altri 13 PDF collegati non erano leggibili. Nessun PDF scaricato, pertanto pdftotext non è stato eseguito. Le altre informazioni tecniche provengono esclusivamente dalle pagine prodotto consultabili, anche tramite indice web. Le fonti possono essere copie indicizzate di date diverse: la completezza rispetto al sito live non è certificata.
+
+CAMPI
+npk: 10/38; npkLabel: 11/38; secondary: 8/38; dose: 26/38; subtype: 21/38; family: 29/38; formats: 30/38; application: 17/38; dilution: 3/38; durationDays: 1/38; slowRelease: 2/38; actives: 3/38; targetPests: 2/38.
+organic, seasonMicro, seasonMacro, temperatureRange, gddWindow restano null per tutti: nessuna certificazione bio, mesi micro/macroterme o temperatura d'impiego ricavati per analogia. Le temperature di conservazione non diventano temperature di applicazione. I periodi generici (es. primavera/autunno), gli intervalli d'acqua, i diversi contesti di dose e i limiti massimi di durata restano nelle notes; nessuna conversione arbitraria mesi→giorni. MgO/CaO/SO3 conservati come ossidi, senza convertirli in Mg/Ca/S. Formati sconosciuti: []. Elementi secondari non documentati: {}. Dettaglio campi valorizzati/null per voce: products/padana/sources.json.
+
+CASI DA VERIFICARE
+- Alga Ecklomax, FERTI ENDURANCE, Super Life, Tricoferti: type=speciale prudenziale, family=null; consultato solo l'elenco ufficiale, scheda non recuperata.
+- Ferti Defence: type=speciale prudenziale, funzione resistenza_stress dichiarata, nessun titolo numerico dedotto da potassio/silicio.
+- Rooting Plus organico e Rooting Plus NK 10-5 sono due voci distinte nelle pagine ufficiali. Il vecchio ID padana-rooting-plus (già associato alla formula 10-0-5) resta alla voce NK 10-5; il prodotto organico usa padana-rooting-plus-organico. Non dedotto P=0 dal titolo NK.
+- Ferti Go 18-7-9 (vecchio ID conservato) e Ferti Go 23-6-6 sono due voci distinte. Non sovrascritta la formula storica.
+- Control Kappa: titolo 12-0-25 dell'elenco corrente; non usate le formule 16-0-25/14-5-25 dei vecchi cataloghi. Nessuna dose non verificata aggiunta.
+- Control Strong: 39% riportato nelle notes; non trasformato automaticamente in percentuale di azoto lento.
+- Ferti 3A: linea Ferti Flora dalla pagina indicizzata più recente; vecchia pagina/PDF lo collocano in Ferti Liquid. Dose per litro d'acqua conservata nelle notes, dose per superficie null.
+- Humet Pro: presente nella pagina prodotto Ferti Defence, aggiunto oltre alle 37 voci ricostruite dalle linee. Dose L/ha e concentrazione % nelle notes; dose=null perché L/ha non è un'unità prevista dallo schema.
+- Accafert: pagina consultata più vecchia, formato 25 L; confermare confezione attuale.
+- Famiglie non determinabili: Rooting Plus NK 10-5; Control Field NPK 24-5-8 +2,5 MgO; Control Kappa NPK 12-0-25 + 2,5 MgO; PSE Slow N NPK 33-0-0; Alga Ecklomax; Ferti Leaf; FERTI ENDURANCE; Super Life; Tricoferti.
+
+UI
+Immagine condizionale in scheda dettaglio, suggerimenti np-sg, righe Magazzino e selettore catalogo; loading=lazy, alt con marca e nome, object-fit contain e sfondo var(--card). Logo Padana mantenuto. Prodotti senza immagine conservano la precedente icona. Lookup del Magazzino prima per productId. Link acquisto usa la pagina prodotto quando disponibile; PDF aperto tramite sheetUrl.
+
+VERIFICHE
+PASS: calendar-application.test.mjs (include node --check dei 4 script inline), centralina.test.mjs, irrigations.test.mjs, photos.test.mjs, warehouse.test.mjs.
+PASS: padana-catalog.test.mjs (schema, ID/SKU, unità, nessuna semente Padana, parità completa inline/modulo); sync-catalog-inline.mjs --check; confronto profondo con HEAD dei 122 prodotti originali.
+BLOCCATO: merge.test.mjs — @neondatabase/serverless non installato; npm install --offline --ignore-scripts --package-lock=false fallisce ENOTCACHED. Nessun lockfile modificato.
+BLOCCATO: python3 -m http.server 8765 --bind 127.0.0.1 — PermissionError: Operation not permitted. Chrome --headless=new termina con exit 134 anche su about:blank; nessuna verifica runtime/visiva dichiarata. Il controllo UI Chrome richiede approvazione, non disponibile nella sessione.
+Il detector Impeccable segnala stili preesistenti (palette, glow, ecc.); tema conservato come richiesto.
+
+SEMENTI TROVATE: 24 nomi con URL, SOLO REPORT
+Elenco parziale di quelle identificate: non è un censimento completo della categoria (indice generale: 59 risultati; sottocategorie indicizzate con conteggi incoerenti). Nessuna semente aggiunta al catalogo concimi.
+1. Blue Lex Revolution — https://www.padanasementi.com/product/blue-lex-revolution/
+2. Brillante — https://www.padanasementi.com/product/brillante/
+3. Emme — https://www.padanasementi.com/product/emme/
+4. Esse — https://www.padanasementi.com/product/esse/
+5. Extreme Blue — https://www.padanasementi.com/product/extreme-blue/
+6. Ferti-fum Turf — https://www.padanasementi.com/prodotto/ferti-fum-turf/
+7. Festumix — https://www.padanasementi.com/prodotto/festumix/
+8. Forte New Plus — https://www.padanasementi.com/product/forte-new-plus/
+9. Micromacro — https://www.padanasementi.com/product/micromacro/
+10. Naturstrong — https://www.padanasementi.com/product/naturstrong/
+11. Ombra — https://www.padanasementi.com/product/ombra/
+12. Prestige — https://www.padanasementi.com/product/prestige/
+13. Rigenervit — https://www.padanasementi.com/product/rigenervit/
+14. Rigenervit Prof New — https://www.padanasementi.com/product/rigenervit-prof-new/
+15. Rusticus Lawn — https://www.padanasementi.com/prodotto/rusticus-lawn/
+16. Self Repair — https://www.padanasementi.com/product/self-repair/
+17. Special Sod — https://www.padanasementi.com/product/special-sod/
+18. Sport — https://www.padanasementi.com/prodotto/sport/
+19. Sportfield Regeneration — https://www.padanasementi.com/product/sportfield-regeneration/
+20. Sporting — https://www.padanasementi.com/product/sporting/
+21. Sportplay — https://www.padanasementi.com/product/sportplay/
+22. Sun Seed — https://www.padanasementi.com/product/sun-seed/
+23. Unirustic Plus — https://www.padanasementi.com/product/unirustic-plus/
+24. Winter Sportfield Regeneration — https://www.padanasementi.com/product/winter-sportfield-regeneration/
+
+PRODOTTI AGGIUNTI E PROVENIENZA
+1. Rooting Plus [Ferti Green]
+   ID: padana-rooting-plus-organico
+   Pagina: https://www.padanasementi.com/product/rooting-plus/
+   Fonte: https://www.padanasementi.com/product/rooting-plus/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2025/09/ROOTING-PLUS.pdf
+   Immagine originale: https://www.padanasementi.com/wp-content/uploads/2021/04/ferti-rooting-plus-800x1189.jpg
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: dose, family, formats
+2. Rooting Plus NK 10-5 [Ferti Green]
+   ID: padana-rooting-plus
+   Pagina: https://www.padanasementi.com/prodotto/rooting-plus-nk-10-5/
+   Fonte: https://www.padanasementi.com/prodotto/rooting-plus-nk-10-5/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Solo nome/titolo e linea da categoria o prodotti correlati
+   Campi valorizzati: npkLabel
+3. Ferti Go NPK 18-7-9 [Ferti Green]
+   ID: padana-ferti-go
+   Pagina: https://www.padanasementi.com/product/ferti-go-npk-18-7-9/
+   Fonte: https://www.padanasementi.com/product/ferti-go-npk-18-7-9/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2021/04/FERTI_GO_18-7-9_.pdf
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: npk, npkLabel, dose, family, formats
+4. Ferti Go NPK 23-6-6 + 5 SO3 + 3 C [Ferti Green]
+   ID: padana-ferti-go-23-6-6
+   Pagina: https://www.padanasementi.com/product/ferti-go-npk-23-6-6/
+   Fonte: https://www.padanasementi.com/product/ferti-go-npk-23-6-6/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2025/09/FERTI_GO_NPK-23-6-6.pdf
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: npk, npkLabel, secondary, dose, family, formats
+5. Ferti Force Plus NPK 8-6-14 + 2 MgO+Me [Ferti Green]
+   ID: padana-ferti-force-plus
+   Pagina: https://www.padanasementi.com/product/ferti-force-plus-npk-8-6-14-2mgome/
+   Fonte: https://www.padanasementi.com/product/ferti-force-plus-npk-8-6-14-2mgome/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: npk, npkLabel, secondary, dose, family, formats
+6. Ferti Sowing NPK 10-17-10 [Ferti Green]
+   ID: padana-ferti-sowing
+   Pagina: https://www.padanasementi.com/product/ferti-sowing-npk-10-17-10/
+   Fonte: https://www.padanasementi.com/product/ferti-sowing-npk-10-17-10/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2021/03/FERTI_SOWING_.pdf
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo PDF consultato via web
+   Campi valorizzati: npk, npkLabel, secondary, dose, family, formats
+7. Control Advance NPK 21-5-9 + 3 MgO [Ferti Control]
+   ID: padana-control-advance
+   Pagina: null — da verificare
+   Fonte: https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-control/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2021/03/CONTROL-ADVANCE-5.pdf
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo PDF consultato via web
+   Campi valorizzati: npk, npkLabel, secondary, dose, subtype, family, formats, slowRelease
+8. Control Field NPK 24-5-8 +2,5 MgO [Ferti Control]
+   ID: padana-control-field
+   Pagina: null — da verificare
+   Fonte: https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-control/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Solo nome/titolo e linea da categoria o prodotti correlati
+   Campi valorizzati: npk, npkLabel, secondary, subtype
+9. Control Kappa NPK 12-0-25 + 2,5 MgO [Ferti Control]
+   ID: padana-control-kappa
+   Pagina: null — da verificare
+   Fonte: https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-control/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Solo nome/titolo e linea da categoria o prodotti correlati
+   Campi valorizzati: npk, npkLabel, secondary, subtype
+10. Control Strong NPK 18-0-18 + 3 MgO [Ferti Control]
+   ID: padana-control-strong
+   Pagina: https://www.padanasementi.com/product/control-strong-npk-18-0-18-3-mgo/
+   Fonte: https://www.padanasementi.com/product/control-strong-npk-18-0-18-3-mgo/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2021/03/CONTROL-STRONG-NPK-18-0-18-1.pdf
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: npk, npkLabel, secondary, dose, subtype, family, formats
+11. Ferti Grow NPK 12-6-14 + 2 MgO + M.e. [Ferti Slow]
+   ID: padana-ferti-grow
+   Pagina: https://www.padanasementi.com/prodotto/ferti-grow-npk-12-6-14-2-2-mgo-me/
+   Fonte: https://www.padanasementi.com/prodotto/ferti-grow-npk-12-6-14-2-2-mgo-me/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2021/04/FERTI-GROW_NPK-12-6-14.pdf
+   Immagine originale: https://www.padanasementi.com/wp-content/uploads/2021/04/ferti_grow-removebg-preview.png
+   Evidenza: Testo PDF consultato via web
+   Campi valorizzati: npk, npkLabel, secondary, dose, subtype, family, formats, durationDays, slowRelease
+12. PSE Slow N NPK 33-0-0 [Ferti Slow]
+   ID: padana-pse-slow-n
+   Pagina: https://www.padanasementi.com/prodotto/pse-slow-n-33/
+   Fonte: https://www.padanasementi.com/prodotto/pse-slow-n-33/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Solo nome/titolo e linea da categoria o prodotti correlati
+   Campi valorizzati: npk, npkLabel
+13. Accafert [Ferti Liquid]
+   ID: padana-accafert
+   Pagina: https://www.padanasementi.com/prodotto/accafert/
+   Fonte: https://www.padanasementi.com/prodotto/accafert/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2021/03/accafert-4.pdf
+   Immagine originale: https://www.padanasementi.com/wp-content/uploads/2021/03/ACCAFERT-25L-1-800x800.png
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: subtype, family, formats
+14. Alga Ecklomax [Ferti Liquid]
+   ID: padana-alga-ecklomax
+   Pagina: null — da verificare
+   Fonte: https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-liquid/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Solo nome/titolo e linea da categoria o prodotti correlati
+   Campi valorizzati: 
+15. Alga Suprema [Ferti Liquid]
+   ID: padana-alga-suprema
+   Pagina: https://www.padanasementi.com/product/alga-suprema/
+   Fonte: https://www.padanasementi.com/product/alga-suprema/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: dose, subtype, family, formats, application
+16. Amiprot [Ferti Liquid]
+   ID: padana-amiprot
+   Pagina: https://www.padanasementi.com/prodotto/amiprot/
+   Fonte: https://www.padanasementi.com/prodotto/amiprot/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2021/03/AMIPROT-2.pdf
+   Immagine originale: https://www.padanasementi.com/wp-content/uploads/2021/03/13-800x800.png
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: dose, subtype, family, formats, application
+17. Ascoferti [Ferti Liquid]
+   ID: padana-ascoferti
+   Pagina: https://www.padanasementi.com/prodotto/ascoferti/
+   Fonte: https://www.padanasementi.com/prodotto/ascoferti/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2021/03/ASCOFERTI-.pdf
+   Immagine originale: https://www.padanasementi.com/wp-content/uploads/2021/03/11-800x800.png
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: dose, subtype, family, formats, application
+18. Ferti K [Ferti Liquid]
+   ID: padana-ferti-k
+   Pagina: https://www.padanasementi.com/prodotto/ferti-k/
+   Fonte: https://www.padanasementi.com/prodotto/ferti-k/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: dose, subtype, family, formats, application
+19. Ferti Leaf [Ferti Liquid]
+   ID: padana-ferti-leaf
+   Pagina: https://www.padanasementi.com/product/fertileaf/
+   Fonte: https://www.padanasementi.com/product/fertileaf/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2021/03/FERTI-LEAF-1.pdf
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: dose, subtype, formats
+20. Ferti N [Ferti Liquid]
+   ID: padana-ferti-n
+   Pagina: https://www.padanasementi.com/product/ferti-n/
+   Fonte: https://www.padanasementi.com/product/ferti-n/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2025/10/FERTI-N_.pdf
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: dose, subtype, family, formats, application
+21. Sprint L [Ferti Liquid]
+   ID: padana-sprint-l
+   Pagina: https://www.padanasementi.com/prodotto/sprint-l/
+   Fonte: https://www.padanasementi.com/prodotto/sprint-l/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: dose, subtype, family, formats, application
+22. Sun Shield [Ferti Liquid]
+   ID: padana-sun-shield
+   Pagina: https://www.padanasementi.com/product/sun-shield/
+   Fonte: https://www.padanasementi.com/product/sun-shield/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2025/10/SUN-SHIELD-.pdf
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: dose, subtype, family, formats, application, dilution
+23. Fast Defence [Ferti Defence]
+   ID: padana-fast-defence
+   Pagina: https://www.padanasementi.com/prodotto/fast-defence/
+   Fonte: https://www.padanasementi.com/prodotto/fast-defence/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: dose, subtype, family, formats, application, dilution
+24. Ferti Defence [Ferti Defence]
+   ID: padana-ferti-defence
+   Pagina: https://www.padanasementi.com/prodotto/ferti-defence/
+   Fonte: https://www.padanasementi.com/prodotto/ferti-defence/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: dose, subtype, family, formats, application
+25. FERTI ENDURANCE [Ferti Defence]
+   ID: padana-ferti-endurance
+   Pagina: https://www.padanasementi.com/prodotto/ferti-endurance/
+   Fonte: https://www.padanasementi.com/prodotto/ferti-endurance/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Solo nome/titolo e linea da categoria o prodotti correlati
+   Campi valorizzati: 
+26. Ferti Energy Wet [Ferti Defence]
+   ID: padana-ferti-energy-wet
+   Pagina: https://www.padanasementi.com/product/energy-wet/
+   Fonte: https://www.padanasementi.com/product/energy-wet/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: dose, family, formats, application
+27. Super Life [Ferti Defence]
+   ID: padana-super-life
+   Pagina: https://www.padanasementi.com/prodotto/super-life/
+   Fonte: https://www.padanasementi.com/prodotto/super-life/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Solo nome/titolo e linea da categoria o prodotti correlati
+   Campi valorizzati: 
+28. Humet Pro [Ferti Defence]
+   ID: padana-humet-pro
+   Pagina: https://www.padanasementi.com/prodotto/humet-pro/
+   Fonte: https://www.padanasementi.com/prodotto/humet-pro/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: subtype, family, formats, application
+29. Agiferti [Ferti Flora]
+   ID: padana-agiferti
+   Pagina: https://www.padanasementi.com/prodotto/agiferti/
+   Fonte: https://www.padanasementi.com/prodotto/agiferti/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2021/04/AGIFERTI_.pdf
+   Immagine originale: https://www.padanasementi.com/wp-content/uploads/2021/03/14-800x800.png
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: dose, family, formats, application
+30. Bacteria [Ferti Flora]
+   ID: padana-bacteria
+   Pagina: https://www.padanasementi.com/prodotto/bacteria/
+   Fonte: https://www.padanasementi.com/prodotto/bacteria/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2025/10/BACTERIA-.pdf
+   Immagine originale: https://www.padanasementi.com/wp-content/uploads/2025/10/110-800x800.png
+   Evidenza: Testo PDF consultato via web
+   Campi valorizzati: dose, subtype, family, formats, application, dilution, actives
+31. Botriferti [Ferti Flora]
+   ID: padana-botriferti
+   Pagina: https://www.padanasementi.com/prodotto/botriferti/
+   Fonte: https://www.padanasementi.com/prodotto/botriferti/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2021/03/BOTRIFERTI_.pdf
+   Immagine originale: https://www.padanasementi.com/wp-content/uploads/2021/03/10-800x800.png
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: dose, family, formats, application
+32. Ferti 3A [Ferti Flora]
+   ID: padana-ferti-3a
+   Pagina: https://www.padanasementi.com/prodotto/ferti-3a/
+   Fonte: https://www.padanasementi.com/prodotto/ferti-3a/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2021/04/FERTI-3-A.pdf
+   Immagine originale: https://www.padanasementi.com/wp-content/uploads/2021/03/9-800x800.png
+   Evidenza: Testo PDF consultato via web
+   Campi valorizzati: subtype, family, formats, application
+33. Ferti Bometa [Ferti Flora]
+   ID: padana-ferti-bometa
+   Pagina: https://www.padanasementi.com/prodotto/ferti-bometa/
+   Fonte: https://www.padanasementi.com/prodotto/ferti-bometa/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2021/04/FERTI_BOMETA.pdf
+   Immagine originale: https://www.padanasementi.com/wp-content/uploads/2021/03/8-800x800.png
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: dose, family, formats, application, targetPests
+34. Ferti Iron [Ferti Flora]
+   ID: padana-ferti-iron
+   Pagina: https://www.padanasementi.com/product/ferti-iron/
+   Fonte: https://www.padanasementi.com/product/ferti-iron/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: dose, family, formats, application
+35. FERTIZON [Ferti Flora]
+   ID: padana-fertizon
+   Pagina: https://www.padanasementi.com/prodotto/fertizon/
+   Fonte: https://www.padanasementi.com/prodotto/fertizon/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2021/04/ferti-zon.pdf
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo PDF consultato via web
+   Campi valorizzati: dose, subtype, family, formats, actives
+36. Nemaferti [Ferti Flora]
+   ID: padana-nemaferti
+   Pagina: https://www.padanasementi.com/prodotto/nemaferti/
+   Fonte: https://www.padanasementi.com/prodotto/nemaferti/
+   Scheda: https://www.padanasementi.com/wp-content/uploads/2021/04/nemaferti.pdf
+   Immagine originale: https://www.padanasementi.com/wp-content/uploads/2021/03/2-800x800.png
+   Evidenza: Testo PDF consultato via web
+   Campi valorizzati: dose, subtype, family, formats, actives, targetPests
+37. Tricoferti [Ferti Flora]
+   ID: padana-tricoferti
+   Pagina: https://www.padanasementi.com/prodotto/tricoferti/
+   Fonte: https://www.padanasementi.com/prodotto/tricoferti/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Solo nome/titolo e linea da categoria o prodotti correlati
+   Campi valorizzati: 
+38. FORGREEN [Specialità]
+   ID: padana-forgreen
+   Pagina: https://www.padanasementi.com/prodotto/forgreen/
+   Fonte: https://www.padanasementi.com/prodotto/forgreen/
+   Scheda: null — collegamento non recuperato
+   Immagine originale: null — URL non recuperato
+   Evidenza: Testo tecnico della pagina prodotto
+   Campi valorizzati: family, formats
+
+FILE
+Modificati: productCatalog.js; index.html.
+Nuovi: products/padana/sources.json; scratchpad/padana-report.txt; scratchpad/padana-catalog.test.mjs; scratchpad/sync-catalog-inline.mjs; scratchpad/download-padana-images.mjs.
+
+RIPRESA NECESSARIA PER FINIRE
+Con accesso rete e browser funzionanti: completare/verificare 4 URL prodotto e 27 URL immagine, scaricare e verificare tutte le foto, leggere i 13 PDF mancanti e le altre schede, completare il censimento sementi, eseguire merge.test.mjs e prova UI chiara/scura desktop/mobile.
+node scratchpad/download-padana-images.mjs scarica soltanto gli 11 URL già verificati, valida con sips e ridimensiona a max 600 px senza ingrandire; aggiorna image solo dopo il successo e sincronizza l'inline. Non sostituisce il completamento delle fonti mancanti.
