@@ -382,10 +382,11 @@ input[type=range]{width:100%;accent-color:var(--green);cursor:pointer;margin:6px
 .rdz .card.next-card{display:flex;align-items:center;gap:15px;border-left:4px solid var(--amber);cursor:pointer;}
 .rdz .card.next-card .next{flex:1;min-width:0;}
 .rdz .next-prod{font-size:19px;font-weight:800;letter-spacing:-0.3px;color:var(--ink);line-height:1.15;}
-.rdz .cons-day{display:flex;align-items:center;gap:13px;border-left:4px solid var(--amber);cursor:pointer;}
-.rdz .cons-ic{font-size:26px;flex-shrink:0;line-height:1;}
-.rdz .cons-eye{font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--t3);margin-bottom:3px;}
-.rdz .cons-txt{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.45;}
+.rdz .cons-pill{display:flex;align-items:center;gap:9px;width:100%;min-height:44px;padding:9px 10px 9px 14px;background:var(--card);border:1px solid var(--line);border-radius:99px;box-shadow:var(--sh);font:inherit;color:var(--ink);text-align:left;cursor:pointer;}
+.rdz .cons-dot{width:8px;height:8px;border-radius:50%;background:var(--amber);flex-shrink:0;}
+.rdz .cons-pt{flex:1;min-width:0;font-size:13px;font-weight:600;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.rdz .cons-pt b{font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--t3);margin-right:7px;}
+.rdz .cons-more{flex-shrink:0;font-size:11px;font-weight:800;color:var(--amber-deep);background:var(--amber-soft);border-radius:99px;padding:2px 8px;}
 .rdz .qa{display:flex;gap:10px;}
 .rdz .qbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;padding:14px 6px;border-radius:var(--r-md);background:var(--card);border:1px solid var(--line);box-shadow:var(--sh);cursor:pointer;}
 .rdz .qbtn svg{width:21px;height:21px;color:var(--green);}
@@ -10795,6 +10796,7 @@ function Oggi({wx,prof,setPg}){
     if(nextOp)parts.push('Prossimo intervento: '+(npTitle||'da pianificare')+(nextDay?(' ('+nextDay.wd.toLowerCase()+')'):'')+'.');
     return parts.join(' ');
   })();
+  const _cs=consiglioGiorno?(consiglioGiorno.match(/.+?[.!](?=\s|$)/g)||[consiglioGiorno]).map(x=>x.trim()):[];
   // Dottor Verde: messaggio iniziale a dati reali
   const aiGreet='Ciao '+(name||'')+', sono il Dottor Verde.'+(salute!=null?(' Il tuo prato è a '+salute+'/100.'):'')+' Oggi '+(isYes?'meglio irrigare':'non serve irrigare')+(moist!=null?(' (umidità '+moist+'%).'):'.') + (INDS&&INDS.thermalStress&&INDS.thermalStress.value>=5?' Attenzione allo stress termico in arrivo.':'');
 
@@ -10891,12 +10893,6 @@ function Oggi({wx,prof,setPg}){
       <div class="head-r">${(()=>{const via=[prof&&prof.street,prof&&prof.streetNumber].filter(Boolean).join(' ');const citta=(prof&&(prof.city||prof.location))||'';return (via||citta)?html`<div class="loc-pill" onClick=${()=>setPg&&setPg('profilo2')}><svg class="loc-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg><span class="loc-txt">${via?html`<b>${via}</b>`:''}${citta?html`<i>${citta}</i>`:''}</span></div>`:'';})()}</div>
     </div>
 
-    ${consiglioGiorno?html`<div class="card cons-day fade" onClick=${openS('sh-ai')}>
-      <div class="cons-ic">☀️</div>
-      <div style="flex:1;min-width:0;"><div class="cons-eye">Consiglio del giorno · ${dateLabel}</div><div class="cons-txt">${consiglioGiorno}</div></div>
-      <span class="vchev">${goChev}</span>
-    </div>`:''}
-
     <div class="phero fade" onTouchStart=${e=>{touchX.current=e.touches[0].clientX;}} onTouchEnd=${e=>{if(touchX.current==null)return;const dx=e.changedTouches[0].clientX-touchX.current;touchX.current=null;if(Math.abs(dx)>40)heroSwipe(dx<0?1:-1);}}>
       ${slides.map((u,i)=>html`<div key=${i} class=${'pslide'+(i===slide?' on':'')} style=${u?('background-image:url('+u+')'):'background:linear-gradient(150deg,#6FA84B,#3C6A2B)'}></div>`)}
       <div class="phero-grad"></div>
@@ -10904,6 +10900,8 @@ function Oggi({wx,prof,setPg}){
       <div class="phero-bot"><div><div class="phero-h">${salute==null?'Il tuo prato':(salute>=75?'Il tuo prato sta bene':(salute>=50?'Il prato richiede attenzione':'Il prato ha bisogno di cure'))}</div><div class="phero-sub">${[phaseName,prof?.grassMixture||'microterme',(zones.length+' zon'+(zones.length===1?'a':'e'))].filter(Boolean).join(' · ')}</div></div>
         <div class="ring"><svg viewBox="0 0 96 96"><circle class="ring-bg" cx="48" cy="48" r="40"/><circle class="ring-fill" ref=${heroRef} cx="48" cy="48" r="40"/></svg><div class="ring-in"><span class="ring-n">${salute==null?'—':html`<${Num} end=${salute}/>`}</span><span class="ring-l">Salute<${InfoDot} titolo="Salute del prato" testo="È un punteggio su 100 che riassume la valutazione salvata del prato. Ti aiuta a capire se ci sono aspetti da controllare osservando il giardino. Viene dalla diagnosi e dalle analisi AI delle foto disponibili; in attesa di una diagnosi può essere un valore iniziale, non una misura aggiornata in tempo reale."/></span></div></div></div>
     </div>
+
+    ${consiglioGiorno?html`<button type="button" class="cons-pill fade" onClick=${openS('sh-ai')} aria-label=${'Consiglio del giorno: '+consiglioGiorno}><span class="cons-dot"></span><span class="cons-pt"><b>Consiglio</b>${_cs[0]}</span>${_cs.length>1?html`<span class="cons-more">+${_cs.length-1}</span>`:''}<span class="vchev">${goChev}</span></button>`:''}
 
     <div class=${'card verdict '+vCls+' fade'} onClick=${openS('sh-irrig')}>
       <div class="verdict-ic"><svg viewBox="0 0 24 24" class="dropico" fill="none">${isYes?html`<g class="yesart"><path d="M3.2 19.4q4.4-1.5 8.8 0t8.8 0" fill="none" stroke="#5E8C44" stroke-width="2.2" stroke-linecap="round"/><path class="fdrop" d="M12 1.6S8.4 5.6 8.4 8.1a3.6 3.6 0 0 0 7.2 0C15.6 5.6 12 1.6 12 1.6Z" fill="#5B93C9" stroke="none"/><g class="splash" fill="none" stroke="#5B93C9" stroke-width="1.8" stroke-linecap="round"><path d="M8.4 18.2q1.4-2.5 2.6 0"/><path d="M12.9 18.2q1.4-2.5 2.6 0"/></g></g>`:html`<g class="noart" fill="none" stroke="#5B93C9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.6v4.6"/><path d="M3 8.7h7.4a2.4 2.4 0 0 1 2.4 2.4v1.5"/><path class="taphandle" d="M6.5 8.7V5.4M4.8 6.1h3.4"/></g><path class="noart tapdrop" d="M12.8 13.4s-1.3 1.6-1.3 2.5a1.3 1.3 0 0 0 2.6 0c0-.9-1.3-2.5-1.3-2.5Z" fill="#5B93C9" stroke="none"/><g class="noart noslash" stroke="#E0563E" stroke-width="2" stroke-linecap="round" fill="none"><circle cx="12.7" cy="16" r="4.6"/><path d="M9.4 12.8 16 19.2"/></g>`}</svg></div>
@@ -14813,6 +14811,7 @@ html[data-theme="dark"] .rdz .fchip.on{background:var(--green) !important;color:
 html[data-theme="dark"] .rdz{background:#0E120C;}
 html[data-theme="dark"] .rdz .card,html[data-theme="dark"] .rdz .tile,html[data-theme="dark"] .rdz .sheet{background:rgba(40,48,35,.94) !important;border-color:rgba(255,255,255,.12) !important;box-shadow:0 8px 24px rgba(0,0,0,.32) !important;}
 html[data-theme="dark"] .rdz .loc-pill{background:rgba(40,48,35,.94);border-color:rgba(255,255,255,.12);}
+html[data-theme="dark"] .rdz .cons-pill{background:rgba(40,48,35,.94);border-color:rgba(255,255,255,.12);}
 html[data-theme="dark"] .rdz .virr-min,html[data-theme="dark"] .rdz .next-prod{color:#9FD27E;}
 html[data-theme="dark"] .rdz .mpill{filter:brightness(1.25);}
 html[data-theme="dark"] .help-modal{--hm-bg:linear-gradient(180deg,#242A1E 0%,#161B12 100%);--hm-txt:#C7D2BC;--hm-btn:rgba(255,255,255,.12);--text:#EAF0E2;--muted:#9CAA8E;}
