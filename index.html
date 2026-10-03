@@ -7588,7 +7588,7 @@ async function _lwFlushPending(){
     console.warn('[sync] PUT fallita ('+_lwRetries+'):',e.message);
     if(/sessione cambiata/.test(e.message||'')){ _lwPending=null; _lwRetries=0; return; }
     if(_lwRetries<=3) setTimeout(_lwFlushPending, 3000*_lwRetries);
-    else { _lwRetries=0; try{ if(typeof showGlobalToast==='function') showGlobalToast('Salvataggio cloud non riuscito — le modifiche restano sul telefono e riproviamo più tardi','warning',6000); }catch(_){}
+    else { _lwRetries=0; try{ if(typeof showGlobalToast==='function') showGlobalToast('Salvataggio cloud non riuscito — le modifiche restano sul telefono e riproviamo più tardi','warning',12000); }catch(_){}
            setTimeout(_lwFlushPending, 30000); }
   }
 }
@@ -10231,7 +10231,7 @@ function showGlobalToast(msg,severity='info',duration=6000){
     const border=severity==='warning'?'#fca5a5':severity==='info'?'#7dd3fc':severity==='success'?'#86efac':'#cbd5e1';
     const el=document.createElement('div');
     el.textContent=msg;
-    el.style.cssText=`position:fixed;top:16px;right:16px;z-index:10000;max-width:min(420px,calc(100vw - 32px));background:${bg};color:${color};border:1px solid ${border};border-radius:10px;padding:12px 14px;font-size:12px;line-height:1.5;box-shadow:0 10px 30px rgba(0,0,0,.18);cursor:pointer;opacity:0;transform:translateY(-8px);transition:all .25s ease;font-family:inherit;white-space:pre-wrap`;
+    el.style.cssText=`position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);left:16px;right:16px;margin-left:auto;z-index:10000;max-width:420px;background:${bg};color:${color};border:1px solid ${border};border-radius:12px;padding:14px 16px;font-size:14px;font-weight:600;line-height:1.45;box-shadow:0 10px 30px rgba(0,0,0,.18);cursor:pointer;opacity:0;transform:translateY(-8px);transition:all .25s ease;font-family:inherit;white-space:pre-wrap`;
     el.addEventListener('click',()=>{el.style.opacity='0';setTimeout(()=>el.remove(),250);});
     document.body.appendChild(el);
     requestAnimationFrame(()=>{el.style.opacity='1';el.style.transform='translateY(0)';});
@@ -12442,7 +12442,6 @@ function Oggi({wx,prof,setPg}){
 
   const photos=Object.values(photosObj).flat().filter(Boolean).slice(0,3).map(_photoSrc).filter(Boolean);
   const slides=photos.length?photos.slice(0,3):[null]; // niente foto stock: gradiente finche' l'utente non carica le sue
-  useEffect(()=>{const n=slides.length;if(n<2)return;const id=setInterval(()=>setSlide(s=>(s+1)%n),3500);return()=>clearInterval(id);},[slides.length]);
   useEffect(()=>{const el=heroRef.current;if(!el)return;el.style.strokeDashoffset=251;const v=(salute==null)?0:salute/100;requestAnimationFrame(()=>{requestAnimationFrame(()=>{el.style.strokeDashoffset=251*(1-v);});});},[salute]);
 
   const gdd=(wx&&typeof wx.gddTotal==='number')?Math.round(wx.gddTotal):null;
@@ -12588,6 +12587,7 @@ function Oggi({wx,prof,setPg}){
     'sh-irrig':{title:'Irrigazione',body:html`<div>
       <div class="sh-tabs" role="tablist" aria-label="Irrigazione">${[['um','Umidità suolo'],['cen','Centralina']].map(([id,label])=>html`<button type="button" id=${'irrig-tab-'+id} class=${'sh-tab'+(irrigTab===id?' on':'')} role="tab" aria-selected=${irrigTab===id} aria-controls=${'irrig-pane-'+id} tabIndex=${irrigTab===id?0:-1} onClick=${()=>setIrrigTab(id)} onKeyDown=${e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const tab=e.key==='Home'?'um':e.key==='End'?'cen':id==='um'?'cen':'um';setIrrigTab(tab);document.getElementById('irrig-tab-'+tab)?.focus();}}}>${label}</button>`)}</div>
       <div id="irrig-pane-um" class=${'sh-pane'+(irrigTab==='um'?' on':'')} role="tabpanel" aria-labelledby="irrig-tab-um">
+      <div class="dt-note" style="margin:0 0 12px;">${vReason}</div>
       <div class="dt-eye">Pioggia prevista · prossimi 5 giorni</div>
       <div class="dt-fc">${fcDays(5).map((d,i)=>html`<div key=${i} class=${'dt-fcd'+(d.mm>=1?' on':'')}><span class="dt-fd">${d.lbl}</span><span class="dt-fdd">${d.dd}</span><span class="dt-fmm">${(+d.mm).toFixed(1)}</span><span class="dt-fdd">mm</span></div>`)}</div>
       <div class="dt-eye" style="margin-top:18px;">Umidità suolo radicale (5–15cm)<${InfoDot} titolo="Umidità del suolo · VWC" testo="Indica quanto è umido il terreno vicino alle radici, su una scala da 0 a 100 adattata al tipo di suolo. Ti aiuta a valutare se serve acqua. La stima usa meteo, irrigazioni registrate e misure del suolo disponibili; il valore mostrato non è una percentuale diretta del volume di acqua nel terreno."/></div>
@@ -12653,18 +12653,23 @@ function Oggi({wx,prof,setPg}){
         <div class="dt-chip"><span class="dt-chipv">${(+todayMm).toFixed(0)}mm</span><span class="dt-chipl">Pioggia</span></div>
         <div class="dt-chip"><span class="dt-chipv">${wind==null?'—':wind}</span><span class="dt-chipl">km/h</span></div>
       </div></div>`},
+    'sh-cons':{title:'Consiglio del giorno',body:html`<div>
+      ${_cs.map((c,i)=>html`<div class="cons-row" key=${i}><span class="cons-dot"></span><span>${c}</span></div>`)}
+      <button class="dt-goto dt-ghost" style="margin-top:12px;" onClick=${openS('sh-ai')}>Chiedi al Dottor Verde ${goChev}</button></div>`},
     'sh-prossimo':{title:'Prossimo intervento',body:nextOp?html`<div>
       <div style="font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--amber);">${nextDay?('Questa settimana · '+nextDay.wk+' · '+nextDay.full.split(' ')[0]):'In programma'}</div>
       <div style="font-size:21px;font-weight:800;letter-spacing:-.4px;color:var(--ink);margin:6px 0 8px;">${nextOp.name||nextOp.product||'Operazione'}</div>
       <div class="dt-note" style="margin-top:0;">${isMech?npDesc:(nextOp.note||nextOp.description||nextOp.category||'')}</div>
       <div style="margin-top:14px;">
-        ${!isMech&&(nextOp.brand||nextOp.product)?val('Prodotto',[nextOp.brand,nextOp.product].filter(Boolean).join(' ')):''}
+        ${!isMech&&npProd?val('Prodotto',npProd):''}
         ${!isMech&&opDose?val('Dose',opDose):''}
+        ${!isMech&&nextOp.manualQty?val('Quantità',nextOp.manualQty):''}
         ${!isMech&&opWater?val('Acqua',opWater):''}
         ${opArea?val('Superficie',opArea+' m²'):''}
         ${!isMech&&opTotal?val('Totale prodotto',opTotal):''}
       </div>
-      ${npProd?(npInWh!=null?html`<div class="np-have">✓ Hai <b>${npProd}</b> a magazzino${npInWh?(' · '+npInWh+(npCat&&npCat.unit?(' '+npCat.unit):'')):''}.${npCat&&npCat.notes?html`<div class="dt-note" style="margin-top:6px;">${npCat.notes}</div>`:''}</div>`
+      ${!isMech?html`<${OpProductPicker} key=${nextOp.id} op=${nextOp} onSaved=${()=>setHistTick(t=>t+1)}/>`:''}
+      ${npProd&&!(nextOp.productManual&&npInWh==null)?(npInWh!=null?html`<div class="np-have">✓ Hai <b>${npProd}</b> a magazzino${npInWh?(' · '+npInWh+(npCat&&npCat.unit?(' '+npCat.unit):'')):''}.${npCat&&npCat.notes?html`<div class="dt-note" style="margin-top:6px;">${npCat.notes}</div>`:''}</div>`
         :html`<div class="np-suggest"><div class="dt-eye">Non a magazzino · prodotti consigliati · link affiliati</div>${npSuggest.length?npSuggest.map((s,i)=>html`<div class="np-sg" key=${i}>${s.image?html`<img class="pd-product-image" src=${s.image} alt=${[s.brand,s.name].filter(Boolean).join(' ')} loading="lazy" decoding="async"/>`:''}<button class="np-buy" onClick=${(e)=>{e.stopPropagation();lawnlyBuyPadana(s);}}>Acquista ↗</button><b>${[s.brand,s.name].filter(Boolean).join(' ')}</b>${s.npkLabel?html`<span> · ${s.npkLabel}</span>`:''}${s.notes?html`<div class="dt-note" style="margin-top:2px;">${s.notes.length>80?s.notes.slice(0,78)+'…':s.notes}</div>`:''}</div>`):html`<div class="dt-note">Aggiungi prodotti dal catalogo in Magazzino per ricevere consigli mirati.</div>`}<button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>{closeS();setPg&&setPg('mag');}}>Vai al Magazzino ${goChev}</button></div>`):''}
       <button class="dt-goto" onClick=${()=>{closeS();setPg&&setPg('piano');}}>Vai al Calendario ${goChev}</button></div>`:html`<div class="dt-note">Nessun intervento in programma.</div>`}
   };
@@ -12677,15 +12682,7 @@ function Oggi({wx,prof,setPg}){
       <div class="head-r">${(()=>{const via=[prof&&prof.street,prof&&prof.streetNumber].filter(Boolean).join(' ');const citta=(prof&&(prof.city||prof.location))||'';return (via||citta)?html`<div class="loc-pill" onClick=${()=>setPg&&setPg('profilo2')}><svg class="loc-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg><span class="loc-txt">${via?html`<b>${via}</b>`:''}${citta?html`<i>${citta}</i>`:''}</span></div>`:'';})()}</div>
     </div>
 
-    <div class="phero fade" onTouchStart=${e=>{touchX.current=e.touches[0].clientX;}} onTouchEnd=${e=>{if(touchX.current==null)return;const dx=e.changedTouches[0].clientX-touchX.current;touchX.current=null;if(Math.abs(dx)>40)heroSwipe(dx<0?1:-1);}}>
-      ${slides.map((u,i)=>html`<div key=${i} class=${'pslide'+(i===slide?' on':'')} style=${u?('background-image:url('+u+')'):'background:linear-gradient(150deg,#6FA84B,#3C6A2B)'}></div>`)}
-      <div class="phero-grad"></div>
-      <div class="phero-top"><span class="hstatus"><i></i>${dateLabel} · Live</span><div class="pdots">${slides.map((_,i)=>html`<span key=${i} class=${'pdot'+(i===slide?' on':'')} onClick=${()=>setSlide(i)}></span>`)}</div></div>
-      <div class="phero-bot"><div><div class="phero-h">${salute==null?'Il tuo prato':(salute>=75?'Il tuo prato sta bene':(salute>=50?'Il prato richiede attenzione':'Il prato ha bisogno di cure'))}</div><div class="phero-sub">${[phaseName,prof?.grassMixture||'microterme',(zones.length+' zon'+(zones.length===1?'a':'e'))].filter(Boolean).join(' · ')}</div></div>
-        <div class="ring"><svg viewBox="0 0 96 96"><circle class="ring-bg" cx="48" cy="48" r="40"/><circle class="ring-fill" ref=${heroRef} cx="48" cy="48" r="40"/></svg><div class="ring-in"><span class="ring-n">${salute==null?'—':html`<${Num} end=${salute}/>`}</span><span class="ring-l">Salute<${InfoDot} titolo="Salute del prato" testo="È un punteggio su 100 che riassume la valutazione salvata del prato. Ti aiuta a capire se ci sono aspetti da controllare osservando il giardino. Viene dalla diagnosi e dalle analisi AI delle foto disponibili; in attesa di una diagnosi può essere un valore iniziale, non una misura aggiornata in tempo reale."/></span></div></div></div>
-    </div>
-
-    ${consiglioGiorno?html`<button type="button" class="cons-pill fade" onClick=${openS('sh-ai')} aria-label=${'Consiglio del giorno: '+consiglioGiorno}><span class="cons-dot"></span><span class="cons-pt"><b>Consiglio</b>${_cs[0]}</span>${_cs.length>1?html`<span class="cons-more">+${_cs.length-1}</span>`:''}<span class="vchev">${goChev}</span></button>`:''}
+    ${consiglioGiorno?html`<button type="button" class="cons-pill fade" onClick=${openS('sh-cons')} aria-label=${'Consiglio del giorno: '+consiglioGiorno}><span class="cons-dot"></span><span class="cons-pt"><b>Consiglio</b>${_cs[0]}</span>${_cs.length>1?html`<span class="cons-more">+${_cs.length-1}</span>`:''}<span class="vchev">${goChev}</span></button>`:''}
 
     <div class=${'card verdict '+vCls+' fade'} onClick=${openS('sh-irrig')}>
       <div class="verdict-ic"><svg viewBox="0 0 24 24" class="dropico" fill="none">${isYes?html`<g class="yesart"><path d="M3.2 19.4q4.4-1.5 8.8 0t8.8 0" fill="none" stroke="#5E8C44" stroke-width="2.2" stroke-linecap="round"/><path class="fdrop" d="M12 1.6S8.4 5.6 8.4 8.1a3.6 3.6 0 0 0 7.2 0C15.6 5.6 12 1.6 12 1.6Z" fill="#5B93C9" stroke="none"/><g class="splash" fill="none" stroke="#5B93C9" stroke-width="1.8" stroke-linecap="round"><path d="M8.4 18.2q1.4-2.5 2.6 0"/><path d="M12.9 18.2q1.4-2.5 2.6 0"/></g></g>`:html`<g class="noart" fill="none" stroke="#5B93C9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.6v4.6"/><path d="M3 8.7h7.4a2.4 2.4 0 0 1 2.4 2.4v1.5"/><path class="taphandle" d="M6.5 8.7V5.4M4.8 6.1h3.4"/></g><path class="noart tapdrop" d="M12.8 13.4s-1.3 1.6-1.3 2.5a1.3 1.3 0 0 0 2.6 0c0-.9-1.3-2.5-1.3-2.5Z" fill="#5B93C9" stroke="none"/><g class="noart noslash" stroke="#E0563E" stroke-width="2" stroke-linecap="round" fill="none"><circle cx="12.7" cy="16" r="4.6"/><path d="M9.4 12.8 16 19.2"/></g>`}</svg></div>
@@ -12693,7 +12690,7 @@ function Oggi({wx,prof,setPg}){
         <div class="verdict-a">${isYes?'Sì, meglio irrigare':vNoLabel}</div>
         ${isYes&&irrZonesRaw.length?html`<div class="virr">${irrZonesRaw.map(z=>html`<div class="virr-z" key=${z.zoneId||z.name}><span class="virr-min">${z.minutesAtFlowRate>0?(z.minutesAtFlowRate+' min'):(z.liters+' L')}</span><span class="virr-zn">${z.name}</span></div>`)}</div>`:''}
         <div class="vmoist"><span class="vmoist-v">${moist==null?'—':moist}%</span><span class="vmoist-bar"><${SlideI} mode="width" target=${moist||0}/></span></div>
-        <div class="verdict-d">${vReason}</div></div>
+        </div>
       <div class="virr-right"><span class="virr-right-l">Centralina</span><button type="button" class=${'ios-tog'+(controller.on?' on':'')} role="switch" aria-checked=${!!controller.on} aria-label="Centralina virtuale" onClick=${e=>{e.stopPropagation();toggleController();}}><i aria-hidden="true"></i></button><span class=${'virr-right-s'+(controller.on?'':' off')}>${controller.on?html`Attiva · ${controllerNext?.program.time||'—'}<br/>${controllerZones} ${controllerZones===1?'zona':'zone'}`:'Spenta'}</span></div>
       <span class="vchev">${goChev}</span>
     </div>
@@ -13024,7 +13021,7 @@ function Piano({prof,wx,setPg}){
         <div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:800;color:var(--ink);">Piano aggiornabile</div><div class="dt-note" style="margin:2px 0 0;">Sono passate 2 settimane: ricalibra in base a GDD e meteo, o fatti consigliare dal Dottor Verde.</div></div>
         <button class="dt-goto dt-ghost" style="flex-shrink:0;width:auto;padding:8px 12px;" onClick=${()=>setChat(true)}>Dottor Verde ${chev}</button>
       </div>`:''}
-      ${_overdue.length?html`<div class="card fade" style="border-left:4px solid ${_dkP?'#FCD34D':'#B45309'};">
+      ${_overdue.length?html`<div class="card fade" style="border-left:4px solid ${_dkP?'#FCD34D':'#B45309'};margin-bottom:18px;">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="font-size:20px;line-height:1;">📌</span>
           <div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:800;">${_overdue.length===1?'1 operazione arretrata':_overdue.length+' operazioni arretrate'}<${InfoDot} titolo="Operazioni arretrate" testo="Sono lavori con una data già passata che risultano ancora aperti. Indica se li hai fatti, spostali o saltali per tenere il piano aderente a ciò che succede nel prato. La lista deriva dalle date e dagli stati salvati nel calendario: una scadenza passata non significa che il lavoro vada fatto subito."/></div>
           <div class="dt-note" style="margin:2px 0 0;">${_hor.staleness.level==='reset'?'È passato molto tempo: chiudi gli arretrati e poi Ricalibra il piano con l’AI.':'Dimmi cosa è successo: il piano si aggiorna in base alle tue risposte.'}</div></div></div>
@@ -13063,11 +13060,14 @@ function Piano({prof,wx,setPg}){
           <div style="font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--amber);">${detail.category||detail.type||'Operazione'}${detail.date?(' · '+new Date(detail.date).toLocaleDateString('it-IT',{day:'numeric',month:'long'})):''}</div>
           ${(detail.notes||detail.note||detail.description)?html`<div class="dt-note" style="margin-top:8px;">${detail.notes||detail.note||detail.description}</div>`:''}
           <div style="margin-top:12px;">
-            ${detail.product?_dval('Prodotto',detail.product):''}
+            ${opProductName(detail)?_dval('Prodotto',opProductName(detail)):''}
             ${(detail.doseGm2>0||detail.dose)?_dval('Dose',detail.dose||(detail.doseGm2+' g/m²')):''}
+            ${opTotalLabel(detail,prof)?_dval('Totale prodotto',opTotalLabel(detail,prof)):''}
+            ${detail.manualQty?_dval('Quantità',detail.manualQty):''}
             ${(Array.isArray(detail.zones)&&detail.zones.length)?_dval('Zone',detail.zones.join(', ')):''}
             ${detail.date?_dval('Data',new Date(detail.date).toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'})):''}
           </div>
+          ${(detail.status!=='completato'&&detail.category!=='meccanica'&&detail.type!=='meccanico')?html`<${OpProductPicker} key=${detail.id} op=${detail} onSaved=${()=>{try{setDetail((S.get('dss_calendar_events',[])||[]).find(e=>e&&e.id===detail.id)||detail);}catch(e){}setTick(t=>t+1);}}/>`:''}
           ${(detail.status==='completato')?html`<div class="dt-note" style="text-align:center;color:var(--green-deep);font-weight:800;margin-top:14px;">✓ Operazione completata</div>`:html`
           <button class="sh-save" onClick=${()=>markDone(detail)}>✓ Segna come fatta</button>
           <div style="display:flex;gap:10px;margin-top:10px;">
@@ -13334,10 +13334,10 @@ function ProAccountCard(){
 }
 /* Pannello Centralina e stesso editor completo nel Profilo. */
 function ControllerSchedule({program,onChange}){
-  const repeat=program.repeat??'days', days=program.days||[];
+  const days=program.days||[];
   const weekdays=['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'];
-  return html`<span class="cen-lab">Ripeti</span><div class="cen-freq cen-rep" role="group" aria-label="Ripeti">${[['days','Giorni scelti'],['every2','Ogni 2 gg'],['every3','Ogni 3 gg']].map(([value,label])=>html`<button type="button" class=${'cen-day'+(repeat===value?' on':'')} aria-pressed=${repeat===value} onClick=${()=>onChange({repeat:value,anchor:program.anchor??new Date().toLocaleDateString('sv-SE')})}>${label}</button>`)}</div>
-    <span class="cen-lab">Giorni</span><div class="cen-days" role="group" aria-label="Giorni della settimana">${[1,2,3,4,5,6,0].map((d,i)=>html`<button type="button" class=${'cen-day'+(repeat==='days'&&days.includes(d)?' on':'')} aria-label=${weekdays[d]} aria-pressed=${repeat==='days'&&days.includes(d)} disabled=${repeat!=='days'} onClick=${()=>onChange({days:days.includes(d)?days.filter(day=>day!==d):[...days,d]})}>${['L','M','M','G','V','S','D'][i]}</button>`)}</div>`;
+  // come sulla centralina fisica: si scelgono i giorni (i vecchi programmi 'ogni 2/3 gg' passano a 'giorni scelti' al primo tocco)
+  return html`<span class="cen-lab">Giorni</span><div class="cen-days" role="group" aria-label="Giorni della settimana">${[1,2,3,4,5,6,0].map((d,i)=>html`<button type="button" class=${'cen-day'+(days.includes(d)?' on':'')} aria-label=${weekdays[d]} aria-pressed=${days.includes(d)} onClick=${()=>onChange({repeat:'days',days:days.includes(d)?days.filter(day=>day!==d):[...days,d]})}>${['L','M','M','G','V','S','D'][i]}</button>`)}</div>`;
 }
 function Centralina({wx,editor=false}){
   const [,refresh]=useState(0), [draft,setDraft]=useState(null), [error,setError]=useState(''), [pending,setPending]=useState({});
@@ -13397,9 +13397,7 @@ function Centralina({wx,editor=false}){
       ${editor?html`<div class="cen-actions"><button type="button" class="pf-edit" aria-label=${'Modifica '+program.name} onClick=${()=>edit(program)}>Modifica</button><button type="button" class="pf-edit" aria-label=${'Elimina '+program.name} onClick=${()=>remove(program.id)}>Elimina</button></div>`:''}
     </div>`)}
     <div class="cen-summary">Totale stimato: <b>~${Math.round(summary.litersPerCycle)} L/ciclo</b> · ${summary.cyclesPerWeek} cicli a settimana · <b>~${Math.round(summary.litersPerWeek)} L/settimana</b></div>
-    <p class="dt-note">Un ciclo corrisponde a un programma. Litri medi per ciclo e stima sui prossimi 7 giorni, prima degli eventuali salti per pioggia.</p>
-    ${!editor?html`<p class="dt-note">Registra da sola le irrigazioni dei tuoi programmi. Non comanda l'acqua: quella resta sulla centralina di casa.</p>`:''}
-    ${editor?html`<p class="dt-note">Copia qui gli stessi programmi della tua centralina di casa. Lawnly registra le irrigazioni all'apertura e al rientro nell'app, recuperando fino a 7 giorni. Per accendere o sospendere l'acqua, agisci sulla centralina fisica.</p>`:''}
+    <p class="dt-note">Come funziona<${InfoDot} titolo="Come funziona la centralina" testo=${(editor?"Copia qui gli stessi programmi della tua centralina di casa. Lawnly registra le irrigazioni all'apertura e al rientro nell'app, recuperando fino a 7 giorni. Per accendere o sospendere l'acqua, agisci sulla centralina fisica.":"Registra da sola le irrigazioni dei tuoi programmi. Non comanda l'acqua: quella resta sulla centralina di casa.")+"\n\nUn ciclo corrisponde a un programma. Litri medi per ciclo e stima sui prossimi 7 giorni, prima degli eventuali salti per pioggia."}/></p>
     ${!ctrl.on||!programs.length?html`<p class="dt-note">${!programs.length?'Aggiungi i programmi della tua centralina per registrare le irrigazioni in automatico.':'Registrazione automatica spenta. Controlla i programmi e accendila quando sei pronto.'}</p>`:next?html`
       <p class="dt-note">${zoneNames(next.program.zones)} · ${nextLabel} ${next.program.time} · ${next.program.minutes} min</p>
       ${rainAlert||skipNext?html`<div class="dt-note">
@@ -13717,6 +13715,28 @@ function RegistraLavorazioneSheet({prof,onClose,only,setPg}){
 /* ===== LAWNLY RE-SKIN — Catalogo prodotti / Aggiungi a magazzino (sh-prod) ===== */
 function _catFromType(t){t=(t||'').toLowerCase();if(/sement|seed/.test(t))return'cat-sem';if(/liquid|biostim|fungic/.test(t))return'cat-liq';if(/sabbia/.test(t))return'cat-sab';if(/terr/.test(t))return'cat-ter';return'cat-gran';}
 function _mSvg2(k){if(k==='cat-liq')return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7S5 9.5 5 14a7 7 0 0 0 14 0c0-4.5-7-11.3-7-11.3Z"/></svg>`;if(k==='cat-sem')return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-1-5 1-9 5-11-1 5-2 8-5 11Z"/><path d="M12 21C8 18 6 14 7 9c4 2 6 6 5 12Z"/></svg>`;if(k==='cat-sab')return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18M5 14h.01M9 14h.01M13 14h.01M17 14h.01M7 10.5h.01M11 10.5h.01M15 10.5h.01"/></svg>`;if(k==='cat-ter')return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-4 9 4-9 4-9-4Z"/><path d="m3 14 9 4 9-4"/></svg>`;return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="1.6"/><circle cx="13.5" cy="8" r="1.6"/><circle cx="16.5" cy="12.5" r="1.6"/><circle cx="11" cy="13" r="1.6"/><circle cx="7" cy="14.5" r="1.6"/><circle cx="14" cy="16.5" r="1.6"/></svg>`;}
+/* ===== Prodotto di un'operazione: consigliato, dal magazzino (es. Bottos da finire) o scritto a mano ===== */
+function patchCalendarOp(id,patch){try{const all=S.get('dss_calendar_events',[])||[];const i=all.findIndex(e=>e&&e.id===id);if(i<0)return false;all[i]={...all[i],...patch};if(!saveCalendarEvents(all))return false;window.dispatchEvent(new CustomEvent('lawnly:sync'));return true;}catch(e){return false;}}
+function opProductName(o){const d=[o.brand,o.product].filter(Boolean).join(' ');if(d)return d;try{const p=window.__LAWNLY_GET_PRODUCT__&&window.__LAWNLY_GET_PRODUCT__(o.finalProductId||o.suggestedProductId);return p?[p.brand,p.name].filter(Boolean).join(' '):'';}catch(e){return '';}}
+function opTotalLabel(o,prof){const a=(()=>{const zs=(prof&&prof.zones)||[];const ids=Array.isArray(o.zones)?o.zones:null;if(ids&&ids.length&&zs.length){const t=zs.filter(z=>ids.includes(z.id||z.name)).reduce((x,z)=>x+(parseFloat(z.area||z.m2)||0),0);if(t>0)return t;}return parseFloat(prof&&prof.totalArea)||0;})();if(!(o.doseGm2>0&&a))return '';const g=o.doseGm2*a;return '~'+(g>=1000?(g/1000).toFixed(2)+' kg':Math.round(g)+' g');}
+function OpProductPicker({op,onSaved}){
+  const [open,setOpen]=useState(false);
+  const [name,setName]=useState(op.productManual&&!op.finalProductId?[op.brand,op.product].filter(Boolean).join(' '):'');
+  const [qty,setQty]=useState(op.manualQty||'');
+  const wh=open?(()=>{try{return whProducts();}catch(e){return [];}})():[];
+  const save=patch=>{if(patchCalendarOp(op.id,{...patch,productManual:true,manualQty:qty.trim()})){setOpen(false);onSaved&&onSaved();}};
+  const typed=name.trim();
+  return html`<div style="margin-top:12px;">
+    <button type="button" class="dt-goto dt-ghost" onClick=${()=>setOpen(!open)}>${open?'Chiudi':'Usa un altro prodotto'}</button>
+    ${open?html`<div style="margin-top:10px;">
+      ${wh.length?html`<div class="dt-eye">Dal tuo magazzino</div><div class="fchips" style="margin-bottom:12px;">${wh.map(p=>html`<span key=${p.id} class="fchip" onClick=${()=>save({brand:p.brand||'',product:p.name,finalProductId:p.id,suggestedProductId:null})}>${[p.brand,p.name].filter(Boolean).join(' ')}</span>`)}</div>`:''}
+      <div class="dt-eye">Oppure scrivilo a mano</div>
+      <input class="finput" style="margin-bottom:8px;" placeholder="Prodotto (es. Bottos ...)" value=${name} onInput=${e=>setName(e.target.value)}/>
+      <input class="finput" placeholder="Quantità (es. 1,5 kg)" value=${qty} onInput=${e=>setQty(e.target.value)}/>
+      <button type="button" class="sh-save" disabled=${!typed} onClick=${()=>save({brand:'',product:typed,finalProductId:null,suggestedProductId:null})}>Salva prodotto</button>
+    </div>`:''}
+  </div>`;
+}
 function AggiungiProdottoSheet({onClose}){
   const [cat,setCat]=useState(()=>{try{const w=(typeof window!=='undefined'&&window.__LAWNLY_CATALOG__);if(w&&w.length)return w;if(typeof APP_PRODUCT_CATALOG!=='undefined'&&APP_PRODUCT_CATALOG&&APP_PRODUCT_CATALOG.length)return APP_PRODUCT_CATALOG;return [];}catch(e){return [];}});
   useEffect(()=>{
@@ -13759,7 +13779,8 @@ function AggiungiProdottoSheet({onClose}){
       <div class="sh-body">
         ${saved?html`<div style="text-align:center;padding:30px 0;"><div style="font-size:40px;color:var(--green);">✓</div><div style="font-size:15px;font-weight:800;margin-top:8px;">Aggiunto al magazzino</div></div>`
         :sel?html`<div>
-          <div class="prod" style="cursor:default;">${sel.image?html`<img class="pd-product-image" src=${sel.image} alt=${[sel.brand,sel.name].filter(Boolean).join(' ')} loading="lazy" decoding="async"/>`:html`<span class=${'prod-ic '+sel.cat}>${_mSvg2(sel.cat)}</span>`}<div class="prod-m"><div class="prod-n">${sel.name}</div><div class="prod-meta">${[sel.brand,sel.type,sel.fmt].filter(Boolean).join(' · ')}</div></div></div>
+          ${sel.image?html`<div class="ap-photo"><img src=${sel.image} alt=${[sel.brand,sel.name].filter(Boolean).join(' ')} decoding="async"/>${sel.brand==='Padana Sementi'?html`<img class="ap-logo" src="padana-logo.png" alt="Padana Sementi"/>`:''}</div>`:''}
+          <div class="prod" style="cursor:default;">${sel.image?'':html`<span class=${'prod-ic '+sel.cat}>${_mSvg2(sel.cat)}</span>`}<div class="prod-m"><div class="prod-n">${sel.name}</div><div class="prod-meta">${[sel.brand,sel.type,sel.fmt].filter(Boolean).join(' · ')}</div></div></div>
           ${sel.desc?html`<div class="dt-note" style="margin-top:2px;">${sel.desc}</div>`:''}
           <div class="field"><label class="flab">Confezione (formato acquistabile)</label><div class="fchips">${(sel.formats||[]).map((ff,i)=>html`<span key=${i} class=${'fchip'+(selFmt===i?' on':'')} onClick=${()=>setSelFmt(i)}>${ff.label||(ff.size+' '+ff.unit)}</span>`)}</div></div>
           <div class="field"><label class="flab">Numero di confezioni</label><input class="finput" type="text" inputmode="numeric" value=${qty} onInput=${e=>setQty(e.target.value)}/></div>
@@ -13769,7 +13790,7 @@ function AggiungiProdottoSheet({onClose}){
           <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:6px;">Link di affiliazione: riceviamo una commissione, senza costi per te.</div>
         </div>`:html`<div>
           <p class="cat-intro">Scegli la marca, poi il prodotto dal catalogo Lawnly per aggiungerlo al magazzino.</p>
-          <div class="cat-filter">${brands.map(b=>html`<span key=${b} class=${'fchip'+(brand===b?' on':'')} onClick=${()=>setBrand(b)}>${b}</span>`)}</div>
+          <div class="cat-filter">${brands.map(b=>html`<span key=${b} class=${'fchip'+(brand===b?' on':'')+(b==='Padana Sementi'?' brand-chip':'')} aria-label=${b} onClick=${()=>setBrand(b)}>${b==='Padana Sementi'?html`<img src="padana-logo.png" alt=${b}/>`:b}</span>`)}</div>
           <div class="cat-list">
             ${list.length?list.map((p,i)=>html`<div class="catrow" key=${i} onClick=${()=>{setSel(p);setQty('1');setSelFmt(0);}}>${p.image?html`<img class="pd-product-image" src=${p.image} alt=${[p.brand,p.name].filter(Boolean).join(' ')} loading="lazy" decoding="async"/>`:html`<span class=${'prod-ic '+p.cat}>${_mSvg2(p.cat)}</span>`}<div class="catrow-m"><div class="catrow-n">${p.name}</div><div class="catrow-meta">${[p.brand,p.type,p.fmt].filter(Boolean).join(' · ')}</div></div>${arr}</div>`)
               :html`<div class="zp-empty">Catalogo non disponibile.</div>`}
@@ -16596,6 +16617,19 @@ html[data-theme="dark"] .rdz .fchip.on{background:var(--green) !important;color:
 html[data-theme="dark"] .rdz{background:#0E120C;}
 html[data-theme="dark"] .rdz .card,html[data-theme="dark"] .rdz .tile,html[data-theme="dark"] .rdz .sheet{background:rgba(40,48,35,.94) !important;border-color:rgba(255,255,255,.12) !important;box-shadow:0 8px 24px rgba(0,0,0,.32) !important;}
 html[data-theme="dark"] .rdz .loc-pill{background:rgba(40,48,35,.94);border-color:rgba(255,255,255,.12);}
+.rdz .card.verdict{padding-top:12px;padding-bottom:12px;gap:12px;}
+.rdz .card.verdict .virr{margin:4px 0 2px;}
+.rdz .card.verdict .vmoist{margin:4px 0 0;}
+.rdz .card.verdict .verdict-a{margin:1px 0 2px;}
+.rdz .cons-row{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line2,rgba(0,0,0,.06));font-size:14px;line-height:1.45;}
+.rdz .cons-row:first-child{border-top:0;}
+.rdz .cons-row .cons-dot{margin-top:7px;}
+.rdz .ap-photo{position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px;display:flex;justify-content:center;}
+.rdz .ap-photo>img:first-child{display:block;max-width:100%;max-height:210px;object-fit:contain;}
+.rdz .ap-photo .ap-logo{position:absolute;top:10px;left:12px;height:26px;width:auto;}
+.rdz .fchip.brand-chip{display:inline-flex;align-items:center;padding:6px 16px !important;background:#fff !important;}
+.rdz .fchip.brand-chip img{display:block;height:26px;width:auto;}
+.rdz .fchip.brand-chip.on{border-color:var(--green) !important;box-shadow:0 0 0 2px var(--green);}
 html[data-theme="dark"] .rdz .cons-pill{background:rgba(40,48,35,.94);border-color:rgba(255,255,255,.12);}
 html[data-theme="dark"] .rdz .virr-min,html[data-theme="dark"] .rdz .next-prod{color:#9FD27E;}
 html[data-theme="dark"] .rdz .mpill{filter:brightness(1.25);}
