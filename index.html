@@ -13772,13 +13772,15 @@ function lawnlyOpProfile(op){
     else if(/correttor|\bph\b|zolfo|ferro/.test(txt))type='correttore';
     else type='concime';
   }
-  return{type,family:(cur&&cur.family)||null,cur};
+  let hint=null;
+  if(/pre-?invernal/.test(txt))hint='pre_invernale';else if(/ferro|colore/.test(txt))hint='ferro_colore';else if(/starter|semina/.test(txt))hint='starter';else if(/antistress/.test(txt))hint='antistress';else if(/estiv/.test(txt))hint='equilibrio_estivo';
+  return{type,family:(cur&&cur.family)||hint,hint,cur};
 }
 // dose del prodotto riportata a grammi (o ml) per m²
 function lawnlyDoseBasis(p){
   const d=p&&p.dose;if(!d||!(d.min>0||d.max>0))return null;
   const avg=((d.min||d.max)+(d.max||d.min))/2;
-  const m={'g/m2':['g',avg],'g/1000m2':['g',avg/1000],'kg/1000m2':['g',avg],'kg/ha':['g',avg/10],'ml/m2':['ml',avg],'ml/100m2':['ml',avg/100],'ml/1000m2':['ml',avg/1000]}[d.unit];
+  const m={'g/m2':['g',avg],'g/1000m2':['g',avg/1000],'kg/1000m2':['g',avg],'kg/ha':['g',avg/10],'ml/m2':['ml',avg],'l/ha':['ml',avg/10],'L/ha':['ml',avg/10],'ml/100m2':['ml',avg/100],'ml/1000m2':['ml',avg/1000]}[d.unit];
   return m?{base:m[0],perM2:m[1]}:null;
 }
 function lawnlyDoseText(p){const d=p&&p.dose;if(!d)return '';const u=String(d.unit||'').replace('m2','m²');return d.min===d.max?(d.min+' '+u):(d.min+'–'+d.max+' '+u);}
@@ -13807,7 +13809,7 @@ function lawnlySolutions(op,prof,n){
     if(P.cur&&P.cur.npk&&p.npk)s-=Math.min(20,Math.abs(p.npk.n-P.cur.npk.n)+Math.abs(p.npk.p-P.cur.npk.p)+Math.abs(p.npk.k-P.cur.npk.k));
     if(p.dose)s+=3;
     return s;};
-  const ranked=all.filter(p=>p.type===P.type).map(p=>({p,s:score(p)})).sort((a,b)=>b.s-a.s);
+  const ranked=all.filter(p=>p.type===P.type||(P.hint&&p.family===P.hint)).map(p=>({p,s:score(p)})).sort((a,b)=>b.s-a.s);
   const out=[],seen=new Set();
   ranked.forEach(r=>{if(out.length<n&&!seen.has(r.p.brand)){seen.add(r.p.brand);out.push(r.p);}}); // prima il migliore di ogni marca
   ranked.forEach(r=>{if(out.length<n&&!out.includes(r.p))out.push(r.p);});
@@ -13863,7 +13865,7 @@ function SolutionsSheet({op,onClose,onChanged}){
         ${b&&area?row('Per i tuoi '+Math.round(area)+' m²',lawnlyAmountText(b.base,b.perM2*area)):''}
         ${row('Come si usa',LAWNLY_APPL[p.application]||'')}
         ${row('Diluizione',dil)}
-        ${row('Durata effetto',p.durationDays?(p.durationDays[0]+'–'+p.durationDays[1]+' giorni'):'')}
+        ${row('Durata effetto',p.durationDays?(p.durationDays[0]===p.durationDays[1]?(p.durationDays[0]+' giorni'):(p.durationDays[0]+'–'+p.durationDays[1]+' giorni')):'')}
         ${row('Cessione',p.slowRelease&&p.slowRelease.enabled?('Lenta'+(p.slowRelease.tech?(' · '+p.slowRelease.tech):'')):'')}
       </div>
       ${p.notes?html`<div class="sol-note">${p.notes.length>150?p.notes.slice(0,148)+'…':p.notes}</div>`:''}
