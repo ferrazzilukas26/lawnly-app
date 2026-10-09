@@ -514,6 +514,25 @@ input[type=range]{width:100%;accent-color:var(--green);cursor:pointer;margin:6px
 .rdz .pd-head>.pd-product-image{width:96px;height:96px;}
 .rdz .np-sg:has(.pd-product-image){display:flow-root;}
 .rdz .np-sg>.pd-product-image{float:left;margin:0 10px 4px 0;}
+.rdz .sol-strip{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 12px;margin:0 -2px;-webkit-overflow-scrolling:touch;}
+.rdz .sol-card{flex:0 0 84%;max-width:340px;scroll-snap-align:start;background:var(--card);border:1px solid var(--line2);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px;}
+.rdz .sol-card.cur{border-color:var(--green);box-shadow:0 0 0 2px var(--green-soft);}
+.rdz .sol-top{display:flex;gap:10px;align-items:center;}
+.rdz .sol-top .pd-product-image{width:64px;height:64px;}
+.rdz .sol-brand{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);}
+.rdz .sol-name{font-size:16px;font-weight:800;letter-spacing:-.2px;color:var(--ink);line-height:1.15;}
+.rdz .sol-badges{display:flex;flex-wrap:wrap;gap:5px;}
+.rdz .sol-b{font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:999px;background:var(--card2);color:var(--ink);}
+.rdz .sol-b.ok{background:var(--green-soft);color:var(--green-deep);}
+.rdz .sol-b.warn{background:var(--amber-soft);color:var(--amber-deep,#9a5b12);}
+.rdz .sol-rows{display:flex;flex-direction:column;gap:5px;}
+.rdz .sol-r{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;}
+.rdz .sol-r span{color:var(--t3);}
+.rdz .sol-r b{text-align:right;color:var(--ink);}
+.rdz .sol-note{font-size:12px;color:var(--t2);line-height:1.45;}
+.rdz .sol-form{background:var(--card2);border-radius:12px;padding:10px;}
+.rdz .sol-link{background:none;border:0;color:var(--green-deep);font-size:12.5px;font-weight:700;padding:4px 0;text-align:left;}
+.rdz .sol-disc{font-size:11px;color:var(--t3);line-height:1.45;margin-top:6px;}
 .rdz .pd-logo-padana{display:block;height:20px;width:auto;margin-top:6px;}
 html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
 .rdz .pd-have{font-size:13px;color:var(--green-deep);background:var(--green-soft);border-radius:10px;padding:9px 12px;margin:10px 0 4px;}
@@ -1920,6 +1939,14 @@ html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
 <div id="app"></div>
 <script>/* LAWNLY_THEME_BOOT */try{var _t=localStorage.getItem("dss_theme")||"auto";var _d=(_t==="dark")||(_t==="auto"&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",_d?"dark":"light");if(window.matchMedia){window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(e){var t=localStorage.getItem("dss_theme")||"auto";if(t==="auto")document.documentElement.setAttribute("data-theme",e.matches?"dark":"light");});}}catch(e){}</script>
 
+<script>/* LAWNLY_PARTNER — UNICO interruttore marca. null = catalogo multimarca neutro (lancio senza accordo).
+   'Padana Sementi' = modalita' partner: solo i loro prodotti proposti, logo, link affiliati (comportamento 1/9). */
+window.LAWNLY_PARTNER=null;
+window.__LAWNLY_IS_PARTNER__=function(b){return !!window.LAWNLY_PARTNER&&b===window.LAWNLY_PARTNER;};
+/* Foto di confezione/logo di una marca solo in modalita' partner: senza accordo non si usano immagini altrui. */
+window.__lawnlyBrandAssets=function(c){(c||[]).forEach(function(p){if(p.brand!==window.LAWNLY_PARTNER)p.image=null;});};
+window.addEventListener('lawnly-catalog-ready',function(){window.__lawnlyBrandAssets(window.__LAWNLY_CATALOG__);});
+</script>
 <script>/* LAWNLY_INLINE_CATALOG — catalogo globale, funziona anche via file:// */
 try{window.__LAWNLY_CATALOG__=[
 
@@ -7357,17 +7384,17 @@ try{window.__LAWNLY_CATALOG__=[
 
   // Esponi su window per accesso dagli altri script/moduli
   window.__LAWNLY_CATALOG__ = PRODUCT_CATALOG;
+  window.__lawnlyBrandAssets(PRODUCT_CATALOG);
   window.__LAWNLY_FILTER__ = filterCatalogForContext;
   window.__LAWNLY_MATCH__ = matchProductForOperation;
-  window.__LAWNLY_GET_PRODUCT__ = getProductById;
+  window.__LAWNLY_GET_PRODUCT__ = id => getProductById(PRODUCT_CATALOG, id); // i chiamanti passano solo l'id
   window.__LAWNLY_GET_FORMAT__ = getFormatBySku;
 
-  // Scelta soci 1/9: Padana Sementi unico fornitore PROPOSTO. Il catalogo completo resta per i
+  // Con LAWNLY_PARTNER impostato (es. Padana Sementi) e' l'unico fornitore PROPOSTO; con null tutte le marche. Il catalogo completo resta per i
   // lookup per id (prodotti gia' a magazzino di altre marche); si filtra solo dove si SCEGLIE.
   window.__LAWNLY_PICKABLE__ = () => {
     const c = window.__LAWNLY_CATALOG__ || [];
-    const p = c.filter(x => x.brand === 'Padana Sementi');
-    return p;
+    return window.LAWNLY_PARTNER ? c.filter(x => x.brand === window.LAWNLY_PARTNER) : c;
   };
 
   // Evento per segnalare catalogo caricato
@@ -7532,7 +7559,7 @@ async function _lwPutState(userId, data, opts){
   if(userId && (!_ses || String(_ses.user?.id) !== String(userId))){
     throw new Error('sessione cambiata: salvataggio annullato');
   }
-  data={...data,dss_zone_photos:await prepareZonePhotos(data?.dss_zone_photos||{})};
+  data={...data,dss_zone_photos:await prepareZonePhotos(data?.dss_zone_photos||{},{tolerant:true})};
   if(_ses?.access_token!==_lwToken())throw new Error('sessione cambiata: salvataggio annullato');
   const r = await fetch((window.LAWNLY_API_BASE||'')+'/api/state', {
     method:'PUT',
@@ -7540,7 +7567,7 @@ async function _lwPutState(userId, data, opts){
     body:JSON.stringify({ data, baseUpdatedAt:_lwLastSyncedAt }),
     keepalive: !!(opts&&opts.keepalive)
   });
-  if(!r.ok) throw new Error('HTTP '+r.status);
+  if(!r.ok){ const er=new Error('HTTP '+r.status); er.status=r.status; throw er; }
   try{
     const j=await r.json();
     if(j&&j.updatedAt) _lwLastSyncedAt=j.updatedAt;
@@ -7586,9 +7613,16 @@ async function _lwFlushPending(){
   }catch(e){
     _lwSending=false; _lwRetries++;
     console.warn('[sync] PUT fallita ('+_lwRetries+'):',e.message);
-    if(/sessione cambiata/.test(e.message||'')){ _lwPending=null; _lwRetries=0; return; }
+    try{ localStorage.setItem('dss_sync_lasterr', new Date().toISOString()+' '+(e.message||'')); }catch(_){}
+    if(/sessione cambiata/.test(e.message||'')){
+      _lwPending=null; _lwRetries=0;
+      // token scaduto (30 giorni): prima il salvataggio veniva scartato in silenzio
+      if(_lwToken()&&!_lwSession()){ try{ if(typeof showGlobalToast==='function') showGlobalToast('Sessione scaduta: esci e rientra per salvare nel cloud (i dati restano sul telefono)','warning',12000); }catch(_){} }
+      return;
+    }
+    if(e.status===401){ _lwRetries=0; try{ if(typeof showGlobalToast==='function') showGlobalToast('Accesso non più valido: esci e rientra per salvare nel cloud (i dati restano sul telefono)','warning',12000); }catch(_){} return; }
     if(_lwRetries<=3) setTimeout(_lwFlushPending, 3000*_lwRetries);
-    else { _lwRetries=0; try{ if(typeof showGlobalToast==='function') showGlobalToast('Salvataggio cloud non riuscito — le modifiche restano sul telefono e riproviamo più tardi','warning',12000); }catch(_){}
+    else { _lwRetries=0; try{ if(typeof showGlobalToast==='function') showGlobalToast('Salvataggio cloud non riuscito ('+(e.message||'errore')+') — le modifiche restano sul telefono e riproviamo più tardi','warning',12000); }catch(_){}
            setTimeout(_lwFlushPending, 30000); }
   }
 }
@@ -7814,13 +7848,15 @@ function persistZonePhotoMetadata(all){
   window.dispatchEvent(new CustomEvent('lawnly:photos'));
   window.dispatchEvent(new CustomEvent('lawnly:sync'));
 }
-async function prepareZonePhotos(all){
+async function prepareZonePhotos(all,{tolerant=false}={}){
+  /* tolerant (salvataggio cloud): una foto che non si carica non deve bloccare TUTTO il salvataggio dello stato. */
   const token=_lwToken(),result={};
   for(const [zid,list] of Object.entries(all||{})){
     result[zid]=[];
     for(const p of list||[]){
       if(token!==_lwToken())throw new Error('sessione cambiata: migrazione foto annullata');
-      const meta=await uploadZonePhoto(zid,p);
+      let meta;
+      try{meta=await uploadZonePhoto(zid,p);}catch(e){if(!tolerant||/sessione cambiata/.test(e&&e.message||''))throw e;console.warn('[sync] foto non caricata, resta solo sul telefono:',e&&e.message);try{localStorage.setItem('dss_sync_photo_err',new Date().toISOString()+' '+(e&&e.message||''));}catch(_){}continue;}
       if(token!==_lwToken())throw new Error('sessione cambiata: migrazione foto annullata');
       result[zid].push(meta);
       if(inlineZonePhoto(p)&&meta.remoteId){
@@ -10899,10 +10935,10 @@ async function generateAnnualPlan({gardenData,profile,weather,diagnosisInputs},o
     .filter(w=>Array.isArray(w.packages)&&w.packages.some(pk=>(pk.remaining_qty||pk.remaining||0)>0))
     .map(w=>w.id||w.productId).filter(Boolean));
   // Prodotti in magazzino prima, poi il resto — max 80 totali
-  // Scelta soci 1/9: l'AI propone SOLO Padana (i prodotti già a magazzino restano validi qualunque marca)
+  // L'AI propone le marche scelte da LAWNLY_PARTNER (null = tutte, alternate per marca); i prodotti a magazzino restano validi sempre
   const sortedCatalog=[
     ...filteredCatalog.filter(p=>warehouseIds.has(p.id)),
-    ...filteredCatalog.filter(p=>!warehouseIds.has(p.id)&&p.brand==='Padana Sementi')
+    ...lawnlyInterleaveBrands(filteredCatalog.filter(p=>!warehouseIds.has(p.id)&&(!window.LAWNLY_PARTNER||p.brand===window.LAWNLY_PARTNER)))
   ];
   const catalogLines=sortedCatalog.slice(0,80).map(p=>{
     const npk=p.npkLabel?` NPK ${p.npkLabel}`:'';
@@ -12558,7 +12594,7 @@ function Oggi({wx,prof,setPg}){
   // #7 — il prodotto è già a magazzino? altrimenti suggerisci dal catalogo
   const npCat=npProd?_findCatalogProduct(npProd):null;
   const npInWh=(()=>{if(!npProd)return null;try{const whp=(typeof whProducts==='function'?(whProducts()||[]):[]);const q=npProd.toLowerCase();const f=whp.find(p=>(((p.brand?p.brand+' ':'')+(p.name||'')).toLowerCase()).includes(q.split(' ').slice(0,2).join(' ')));return f?(typeof whTotal==='function'?whTotal(f):(f.qty||0)):null;}catch(e){return null;}})();
-  const npSuggest=(()=>{if(!npProd||npInWh!=null)return [];try{const c=((typeof window!=='undefined'&&window.__LAWNLY_CATALOG__)||[]).filter(p=>p.brand==='Padana Sementi');const t=npCat&&npCat.type;const base=t?c.filter(p=>p.type===t):[];return (base.length?base:c).slice(0,3);}catch(e){return [];}})();
+  const npSuggest=(()=>{if(!npProd||npInWh!=null)return [];try{const c=((typeof window!=='undefined'&&window.__LAWNLY_CATALOG__)||[]).filter(p=>!window.LAWNLY_PARTNER||p.brand===window.LAWNLY_PARTNER);const t=npCat&&npCat.type;const base=t?c.filter(p=>p.type===t):[];return (base.length?base:c).slice(0,3);}catch(e){return [];}})();
   // Consiglio del giorno — calcolato dai dati freschi al caricamento (meteo/GDD/bilancio idrico). Solo informativo, l'utente resta al comando.
   const consiglioGiorno=(()=>{
     const parts=[];
@@ -12670,7 +12706,7 @@ function Oggi({wx,prof,setPg}){
       </div>
       ${!isMech?html`<${OpProductPicker} key=${nextOp.id} op=${nextOp} onSaved=${()=>setHistTick(t=>t+1)}/>`:''}
       ${npProd&&!(nextOp.productManual&&npInWh==null)?(npInWh!=null?html`<div class="np-have">✓ Hai <b>${npProd}</b> a magazzino${npInWh?(' · '+npInWh+(npCat&&npCat.unit?(' '+npCat.unit):'')):''}.${npCat&&npCat.notes?html`<div class="dt-note" style="margin-top:6px;">${npCat.notes}</div>`:''}</div>`
-        :html`<div class="np-suggest"><div class="dt-eye">Non a magazzino · prodotti consigliati · link affiliati</div>${npSuggest.length?npSuggest.map((s,i)=>html`<div class="np-sg" key=${i}>${s.image?html`<img class="pd-product-image" src=${s.image} alt=${[s.brand,s.name].filter(Boolean).join(' ')} loading="lazy" decoding="async"/>`:''}<button class="np-buy" onClick=${(e)=>{e.stopPropagation();lawnlyBuyPadana(s);}}>Acquista ↗</button><b>${[s.brand,s.name].filter(Boolean).join(' ')}</b>${s.npkLabel?html`<span> · ${s.npkLabel}</span>`:''}${s.notes?html`<div class="dt-note" style="margin-top:2px;">${s.notes.length>80?s.notes.slice(0,78)+'…':s.notes}</div>`:''}</div>`):html`<div class="dt-note">Aggiungi prodotti dal catalogo in Magazzino per ricevere consigli mirati.</div>`}<button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>{closeS();setPg&&setPg('mag');}}>Vai al Magazzino ${goChev}</button></div>`):''}
+        :(!window.LAWNLY_PARTNER?'':html`<div class="np-suggest"><div class="dt-eye">Non a magazzino · prodotti consigliati · link affiliati</div>${npSuggest.length?npSuggest.map((s,i)=>html`<div class="np-sg" key=${i}>${s.image?html`<img class="pd-product-image" src=${s.image} alt=${[s.brand,s.name].filter(Boolean).join(' ')} loading="lazy" decoding="async"/>`:''}<button class="np-buy" onClick=${(e)=>{e.stopPropagation();lawnlyBuyPadana(s);}}>Acquista ↗</button><b>${[s.brand,s.name].filter(Boolean).join(' ')}</b>${s.npkLabel?html`<span> · ${s.npkLabel}</span>`:''}${s.notes?html`<div class="dt-note" style="margin-top:2px;">${s.notes.length>80?s.notes.slice(0,78)+'…':s.notes}</div>`:''}</div>`):html`<div class="dt-note">Aggiungi prodotti dal catalogo in Magazzino per ricevere consigli mirati.</div>`}<button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>{closeS();setPg&&setPg('mag');}}>Vai al Magazzino ${goChev}</button></div>`)):''}
       <button class="dt-goto" onClick=${()=>{closeS();setPg&&setPg('piano');}}>Vai al Calendario ${goChev}</button></div>`:html`<div class="dt-note">Nessun intervento in programma.</div>`}
   };
   const sd=(sheet&&sheet!=='sh-ai')?sheetDefs[sheet]:null;
@@ -13118,8 +13154,8 @@ function ProductDetailSheet({prod,onClose,qtyInWarehouse,onManage}){
       <div class="sh-body">
         <div class="pd-head">${prod.image?html`<img class="pd-product-image" src=${prod.image} alt=${[prod.brand,prod.name].filter(Boolean).join(' ')} loading="lazy" decoding="async"/>`:html`<span class=${'prod-ic '+cat} style="width:62px;height:62px;border-radius:16px;">${_mSvg(cat)}</span>`}
           <div style="flex:1;min-width:0;">${badge?html`<span class="pd-badge">${badge.toUpperCase()}</span>`:''}
-            <div class="pd-name">${prod.brand==='Padana Sementi'?prod.name:([prod.brand,prod.name].filter(Boolean).join(' ')||prod.name)}</div>
-            ${prod.brand==='Padana Sementi'?html`<img class="pd-logo-padana" src="padana-logo.png" alt="Padana Sementi" loading="lazy"/>`:''}
+            <div class="pd-name">${__LAWNLY_IS_PARTNER__(prod.brand)?prod.name:([prod.brand,prod.name].filter(Boolean).join(' ')||prod.name)}</div>
+            ${__LAWNLY_IS_PARTNER__(prod.brand)?html`<img class="pd-logo-padana" src="padana-logo.png" alt="Padana Sementi" loading="lazy"/>`:''}
             ${prod.family?html`<div class="pd-sub">${(''+prod.family).replace(/_/g,' ')}</div>`:''}
           </div></div>
         ${qtyInWarehouse!=null?html`<div class="pd-have"><b>In magazzino:</b> ${qtyInWarehouse} ${prod.unit||''}</div>`:''}
@@ -13719,6 +13755,143 @@ function _mSvg2(k){if(k==='cat-liq')return html`<svg viewBox="0 0 24 24" fill="n
 function patchCalendarOp(id,patch){try{const all=S.get('dss_calendar_events',[])||[];const i=all.findIndex(e=>e&&e.id===id);if(i<0)return false;all[i]={...all[i],...patch};if(!saveCalendarEvents(all))return false;window.dispatchEvent(new CustomEvent('lawnly:sync'));return true;}catch(e){return false;}}
 function opProductName(o){const d=[o.brand,o.product].filter(Boolean).join(' ');if(d)return d;try{const p=window.__LAWNLY_GET_PRODUCT__&&window.__LAWNLY_GET_PRODUCT__(o.finalProductId||o.suggestedProductId);return p?[p.brand,p.name].filter(Boolean).join(' '):'';}catch(e){return '';}}
 function opTotalLabel(o,prof){const a=(()=>{const zs=(prof&&prof.zones)||[];const ids=Array.isArray(o.zones)?o.zones:null;if(ids&&ids.length&&zs.length){const t=zs.filter(z=>ids.includes(z.id||z.name)).reduce((x,z)=>x+(parseFloat(z.area||z.m2)||0),0);if(t>0)return t;}return parseFloat(prof&&prof.totalArea)||0;})();if(!(o.doseGm2>0&&a))return '';const g=o.doseGm2*a;return '~'+(g>=1000?(g/1000).toFixed(2)+' kg':Math.round(g)+' g');}
+/* ===== Soluzioni per un'operazione: prodotti adatti di piu' marche, confronto e scorta personale =====
+   Marca-neutro: legge window.__LAWNLY_PICKABLE__ (tutte le marche, oppure solo LAWNLY_PARTNER). */
+function lawnlyInterleaveBrands(list){const by={};list.forEach(p=>{(by[p.brand]=by[p.brand]||[]).push(p);});const keys=Object.keys(by);const out=[];for(let i=0,more=true;more;i++){more=false;keys.forEach(k=>{if(by[k][i]){out.push(by[k][i]);more=true;}});}return out;}
+const LAWNLY_APPL={spandiconcime_granulare:'Spandiconcime, a secco',fogliare:'Irrorazione fogliare',radicale_diluito:'Diluito, via radicale',fertirrigazione:'Fertirrigazione',localizzato:'Localizzato',proportioner:'Proportioner'};
+function lawnlyOpProfile(op){
+  let cur=null;try{cur=window.__LAWNLY_GET_PRODUCT__&&window.__LAWNLY_GET_PRODUCT__(op.finalProductId||op.suggestedProductId);}catch(e){}
+  const txt=[op.name,op.title,op.phase,op.type,op.category,op.product,op.notes,op.note].filter(Boolean).join(' ').toLowerCase();
+  let type=cur&&cur.type;
+  if(!type){
+    if(/bioattiv|insett|fungic|microbi/.test(txt))type='bioattivato';
+    else if(/concim|npk|azot|potass|fosfor|starter|ripresa|pre-?invernal/.test(txt))type='concime';
+    else if(/biostim|alga|aminoac|umic|antistress/.test(txt))type='biostimolante';
+    else if(/bagnante|wetting|surfatt/.test(txt))type='surfattante';
+    else if(/colorant|pigment/.test(txt))type='colorante';
+    else if(/correttor|\bph\b|zolfo|ferro/.test(txt))type='correttore';
+    else type='concime';
+  }
+  return{type,family:(cur&&cur.family)||null,cur};
+}
+// dose del prodotto riportata a grammi (o ml) per m²
+function lawnlyDoseBasis(p){
+  const d=p&&p.dose;if(!d||!(d.min>0||d.max>0))return null;
+  const avg=((d.min||d.max)+(d.max||d.min))/2;
+  const m={'g/m2':['g',avg],'g/1000m2':['g',avg/1000],'kg/1000m2':['g',avg],'kg/ha':['g',avg/10],'ml/m2':['ml',avg],'ml/100m2':['ml',avg/100],'ml/1000m2':['ml',avg/1000]}[d.unit];
+  return m?{base:m[0],perM2:m[1]}:null;
+}
+function lawnlyDoseText(p){const d=p&&p.dose;if(!d)return '';const u=String(d.unit||'').replace('m2','m²');return d.min===d.max?(d.min+' '+u):(d.min+'–'+d.max+' '+u);}
+function lawnlyOpZones(op,prof){const zs=(prof&&prof.zones)||[];const ids=Array.isArray(op.zones)&&op.zones.length?op.zones:null;return ids?zs.filter(z=>ids.includes(z.id||z.name)):zs;}
+function lawnlyOpArea(op,prof){const a=lawnlyOpZones(op,prof).reduce((t,z)=>t+(parseFloat(z.area||z.m2)||0),0);return a>0?a:(parseFloat(prof&&prof.totalArea)||0);}
+function lawnlyAmountText(base,qty){if(!(qty>0))return '';const big=qty>=1000;const v=big?qty/1000:qty;const u=base==='g'?(big?'kg':'g'):(big?'L':'ml');return '~'+v.toLocaleString('it-IT',{maximumFractionDigits:big?1:0})+' '+u;}
+// campi dell'operazione che dipendono dal prodotto scelto (la scalatura del magazzino legge `doses`)
+function lawnlyDosesFor(p,op,prof){
+  const b=lawnlyDoseBasis(p);const text=lawnlyDoseText(p);
+  if(!b)return{doseGm2:0,doses:[],text};
+  const zs=lawnlyOpZones(op,prof).filter(z=>parseFloat(z.area||z.m2)>0);
+  const doses=zs.map(z=>{const tot=b.perM2*(parseFloat(z.area||z.m2)||0);return{zone:z.name||z.id,amount:(tot/1000).toFixed(3),unit:b.base==='g'?'kg':'L'};});
+  return{doseGm2:b.base==='g'?Math.round(b.perM2*100)/100:0,doses,text};
+}
+function lawnlySolutions(op,prof,n){
+  const all=(window.__LAWNLY_PICKABLE__?window.__LAWNLY_PICKABLE__():(window.__LAWNLY_CATALOG__||[]));
+  const P=lawnlyOpProfile(op);
+  let own=new Set();try{own=new Set(whProducts().map(w=>w.productId||w.id));}catch(e){}
+  const month=(op.date?new Date(op.date):new Date()).getMonth()+1;
+  const macro=/macro|bermuda|cynodon|zoysia|paspalum/.test(String((prof&&(prof.grassMixture||prof.grassType))||'').toLowerCase());
+  const score=p=>{let s=0;
+    if(own.has(p.id))s+=50;
+    if(P.family&&p.family===P.family)s+=30;
+    const se=macro?p.seasonMacro:p.seasonMicro;if(se&&se.length)s+=se.includes(month)?20:-40;
+    if(p.audienceLevel==='pro')s-=15;
+    if(P.cur&&P.cur.npk&&p.npk)s-=Math.min(20,Math.abs(p.npk.n-P.cur.npk.n)+Math.abs(p.npk.p-P.cur.npk.p)+Math.abs(p.npk.k-P.cur.npk.k));
+    if(p.dose)s+=3;
+    return s;};
+  const ranked=all.filter(p=>p.type===P.type).map(p=>({p,s:score(p)})).sort((a,b)=>b.s-a.s);
+  const out=[],seen=new Set();
+  ranked.forEach(r=>{if(out.length<n&&!seen.has(r.p.brand)){seen.add(r.p.brand);out.push(r.p);}}); // prima il migliore di ogni marca
+  ranked.forEach(r=>{if(out.length<n&&!out.includes(r.p))out.push(r.p);});
+  return out.map(p=>({p,s:score(p)})).sort((a,b)=>b.s-a.s).map(r=>r.p);
+}
+function lawnlyWhAdd(p,f,nPack){
+  const parsed=whFormat(f);const each=parsed.size,u=parsed.unit;
+  const packages=Array.from({length:nPack},(_,k)=>({id:Date.now()+k,size:each,unit:u,qty:each,remaining_qty:each,added_date:new Date().toISOString()}));
+  const entry={id:'wh_'+Date.now(),productId:p.id||null,name:p.name,brand:p.brand,category:p.type,unit:u,format:f.label||(each+' '+u),formatSku:f.sku||null,sizeEach:each,packages,qty:each*nPack};
+  S.set('dss_warehouse_v2',whAddPackages(whProducts(),entry));
+  try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}
+}
+function lawnlyOpenExt(url){if(window.LawnlyNative)window.LawnlyNative.openExternal(url);else window.open(url,'_blank','noopener');}
+function SolutionsSheet({op,onClose,onChanged}){
+  const prof=(()=>{try{return S.get('dss_profile',{})||{};}catch(e){return {};}})();
+  const list=useMemo(()=>lawnlySolutions(op,prof,4),[op.id]);
+  const [tick,setTick]=useState(0);
+  const [form,setForm]=useState(null);
+  const [cur,setCur]=useState(op.finalProductId||null);
+  const [msg,setMsg]=useState('');
+  const wh=useMemo(()=>{try{return whProducts();}catch(e){return [];}},[tick]);
+  const area=lawnlyOpArea(op,prof);
+  const month=(op.date?new Date(op.date):new Date()).getMonth()+1;
+  const macro=/macro|bermuda|cynodon|zoysia|paspalum/.test(String((prof&&(prof.grassMixture||prof.grassType))||'').toLowerCase());
+  const ownedOf=p=>wh.find(w=>(w.productId||w.id)===p.id);
+  const use=p=>{
+    const d=lawnlyDosesFor(p,op,prof);
+    const ok=patchCalendarOp(op.id,{brand:p.brand,product:p.name,finalProductId:p.id,suggestedProductId:null,productManual:true,manualQty:'',quantityTotal:null,doseGm2:d.doseGm2,doses:d.doses,dose:d.text||null});
+    if(ok){setCur(p.id);setMsg(d.doses.length?'':'Dose non calcolabile: il magazzino non verrà scalato in automatico.');onChanged&&onChanged();}
+  };
+  const addOwned=p=>{
+    const fm=(p.formats&&p.formats.length)?p.formats:[{label:'Confezione',size:1,unit:'conf'}];
+    const f=fm[form.fi]||fm[0];const n=Math.max(1,Math.round(parseFloat(String(form.n||'1').replace(',','.'))||1));
+    try{lawnlyWhAdd(p,f,n);}catch(e){setMsg(e.message||'Impossibile aggiungere al magazzino.');return;}
+    setForm(null);setTick(t=>t+1);onChanged&&onChanged();
+  };
+  const row=(l,v)=>v?html`<div class="sol-r"><span>${l}</span><b>${v}</b></div>`:'';
+  const closeX=html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+  const card=p=>{
+    const ow=ownedOf(p);const isCur=cur===p.id;
+    const b=lawnlyDoseBasis(p);
+    const se=macro?p.seasonMacro:p.seasonMicro;const offSeason=!!(se&&se.length&&!se.includes(month));
+    const fm=(p.formats&&p.formats.length)?p.formats:[{label:'Confezione',size:1,unit:'conf'}];
+    const dil=p.dilution&&p.dilution.water?(p.dilution.water+' '+(p.dilution.waterUnit||'L')+' ogni '+p.dilution.per+' '+String(p.dilution.perUnit||'m²').replace('m2','m²')):'';
+    const isP=__LAWNLY_IS_PARTNER__(p.brand);
+    const link=p.sheetUrl||p.url;
+    return html`<div class=${'sol-card'+(isCur?' cur':'')} key=${p.id}>
+      <div class="sol-top">${p.image?html`<img class="pd-product-image" src=${p.image} alt=${[p.brand,p.name].filter(Boolean).join(' ')} loading="lazy" decoding="async"/>`:''}
+        <div class="sol-id"><span class="sol-brand">${p.brand}</span><div class="sol-name">${p.name}</div>${isP?html`<img class="pd-logo-padana" src="padana-logo.png" alt=${p.brand} loading="lazy"/>`:''}</div></div>
+      <div class="sol-badges">${p.npkLabel?html`<span class="sol-b">NPK ${p.npkLabel}</span>`:''}${p.organic?html`<span class="sol-b">Bio</span>`:''}${offSeason?html`<span class="sol-b warn">Fuori stagione</span>`:''}${ow?html`<span class="sol-b ok">Ce l'hai</span>`:''}</div>
+      <div class="sol-rows">
+        ${row('Dose',lawnlyDoseText(p))}
+        ${b&&area?row('Per i tuoi '+Math.round(area)+' m²',lawnlyAmountText(b.base,b.perM2*area)):''}
+        ${row('Come si usa',LAWNLY_APPL[p.application]||'')}
+        ${row('Diluizione',dil)}
+        ${row('Durata effetto',p.durationDays?(p.durationDays[0]+'–'+p.durationDays[1]+' giorni'):'')}
+        ${row('Cessione',p.slowRelease&&p.slowRelease.enabled?('Lenta'+(p.slowRelease.tech?(' · '+p.slowRelease.tech):'')):'')}
+      </div>
+      ${p.notes?html`<div class="sol-note">${p.notes.length>150?p.notes.slice(0,148)+'…':p.notes}</div>`:''}
+      ${ow?html`<div class="np-have">✓ A magazzino: <b>${(()=>{const t=whTotal(ow);return isNaN(t)?'quantità da verificare':(t.toLocaleString('it-IT',{maximumFractionDigits:2})+' '+(ow.unit||''));})()}</b></div>`:''}
+      ${form&&form.pid===p.id?html`<div class="sol-form">
+        <div class="flab">Confezione</div><div class="fchips">${fm.map((ff,i)=>html`<span key=${i} class=${'fchip'+(form.fi===i?' on':'')} onClick=${()=>setForm({...form,fi:i})}>${ff.label||(ff.size+' '+ff.unit)}</span>`)}</div>
+        <div class="flab" style="margin-top:8px;">${ow?'Quante confezioni aggiungi':'Quante confezioni hai'}</div>
+        <input class="finput" type="text" inputmode="numeric" value=${form.n} onInput=${e=>setForm({...form,n:e.target.value})}/>
+        <button type="button" class="sh-save" onClick=${()=>addOwned(p)}>Metti nel mio magazzino</button>
+      </div>`:html`<button type="button" class="dt-goto dt-ghost" onClick=${()=>setForm({pid:p.id,fi:0,n:'1'})}>${ow?'Aggiungi altre confezioni':'Ce l\'ho già'}</button>`}
+      <button type="button" class=${isCur?'dt-goto':'dt-goto dt-ghost'} onClick=${()=>use(p)}>${isCur?'✓ Scelto per questa operazione':'Usa per questa operazione'}</button>
+      ${link?html`<button type="button" class="sol-link" onClick=${()=>lawnlyOpenExt(link)}>Scheda del produttore ↗</button>`:''}
+      ${isP?html`<button type="button" class="sol-link" onClick=${()=>lawnlyBuyPadana({name:p.name,id:p.id,url:p.url})}>Acquista ↗</button>`:''}
+    </div>`;
+  };
+  return html`<${ModalPortal}><div class="rdz" style="position:fixed;inset:0;z-index:260;padding:0;min-height:0;display:block;gap:0">
+    <div class="ov on" onClick=${onClose}></div>
+    <div class="sheet on"><div class="sh-handle"></div>
+      <div class="sh-head"><div class="sh-title">${op.name||op.title||'Soluzioni'}</div><div class="sh-x" onClick=${onClose}>${closeX}</div></div>
+      <div class="sh-body">
+        <p class="cat-intro">Prodotti adatti a questa operazione, di marche diverse. Scorri per confrontarli, segna quelli che hai già e scegli quello da usare.</p>
+        ${list.length?html`<div class="sol-strip">${list.map(card)}</div>`:html`<div class="zp-empty">Nessun prodotto adatto nel catalogo per questa operazione.</div>`}
+        ${msg?html`<div class="dt-note" style="color:var(--amber-deep,#9a5b12);font-weight:700;">${msg}</div>`:''}
+        <div class="sol-disc">Confronto indicativo, ricavato dalle schede dei produttori: leggi sempre l'etichetta prima dell'uso. I marchi appartengono ai rispettivi titolari; Lawnly non è affiliata ai produttori citati${window.LAWNLY_PARTNER?'':' e non vende prodotti'}.</div>
+      </div>
+    </div>
+  </div></${ModalPortal}>`;
+}
 function OpProductPicker({op,onSaved}){
   const [open,setOpen]=useState(false);
   const [name,setName]=useState(op.productManual&&!op.finalProductId?[op.brand,op.product].filter(Boolean).join(' '):'');
@@ -13726,8 +13899,11 @@ function OpProductPicker({op,onSaved}){
   const wh=open?(()=>{try{return whProducts();}catch(e){return [];}})():[];
   const save=patch=>{if(patchCalendarOp(op.id,{...patch,productManual:true,manualQty:qty.trim()})){setOpen(false);onSaved&&onSaved();}};
   const typed=name.trim();
+  const [sol,setSol]=useState(false);
   return html`<div style="margin-top:12px;">
-    <button type="button" class="dt-goto dt-ghost" onClick=${()=>setOpen(!open)}>${open?'Chiudi':'Usa un altro prodotto'}</button>
+    <button type="button" class="dt-goto" onClick=${()=>setSol(true)}>Vedi soluzioni</button>
+    ${sol?html`<${SolutionsSheet} op=${op} onClose=${()=>setSol(false)} onChanged=${()=>onSaved&&onSaved()}/>`:''}
+    <button type="button" class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>setOpen(!open)}>${open?'Chiudi':'Scegli a mano'}</button>
     ${open?html`<div style="margin-top:10px;">
       ${wh.length?html`<div class="dt-eye">Dal tuo magazzino</div><div class="fchips" style="margin-bottom:12px;">${wh.map(p=>html`<span key=${p.id} class="fchip" onClick=${()=>save({brand:p.brand||'',product:p.name,finalProductId:p.id,suggestedProductId:null})}>${[p.brand,p.name].filter(Boolean).join(' ')}</span>`)}</div>`:''}
       <div class="dt-eye">Oppure scrivilo a mano</div>
@@ -13749,24 +13925,19 @@ function AggiungiProdottoSheet({onClose}){
   },[]);
   const items=cat.map(p=>{const name=p.name||p.label||'Prodotto';const brand=p.brand||p.marca||(name.split(' ')[0]);const type=p.type||p.subtype||p.category||'';const formats=(p.formats&&p.formats.length)?p.formats:[{label:(p.size?(p.size+' '+(p.unit||'')):'Confezione'),size:p.size||1,unit:p.unit||'conf'}];const fmt=(formats[0]&&(formats[0].label||(formats[0].size+' '+formats[0].unit)))||'';const desc=p.notes||p.description||[p.npkLabel||p.npk,p.slowRelease&&'a cessione lenta',p.organic&&'organico'].filter(Boolean).join(' · ')||'';
     return {name,brand,type,formats,fmt,desc,image:p.image,url:p.url,cat:_catFromType(type+' '+name),pid:p.id};})
-    .filter(i=>i.brand==='Padana Sementi'); // scelta soci 1/9: per ora in catalogo solo Padana
+    .filter(i=>!window.LAWNLY_PARTNER||i.brand===window.LAWNLY_PARTNER);
   const brands=['Tutte',...[...new Set(items.map(i=>i.brand))].slice(0,6)];
   const [brand,setBrand]=useState('Tutte');
   const [sel,setSel]=useState(null);
   const [qty,setQty]=useState('1');
   const [selFmt,setSelFmt]=useState(0);
   const [saved,setSaved]=useState(false);
-  const list=items.filter(i=>brand==='Tutte'||i.brand===brand).slice(0,60);
+  const list=items.filter(i=>brand==="Tutte"||i.brand===brand).slice(0,250);
   const add=()=>{
     if(!sel)return;
     const f=(sel.formats||[])[selFmt]||(sel.formats||[])[0]||{size:1,unit:'conf'};
-    const parsed=whFormat(f);
-    const sizeEach=parsed.size;
     const nPack=Math.max(1,Math.round(parseFloat((qty||'1').replace(',','.'))||1));
-    const u=parsed.unit;
-    const packages=Array.from({length:nPack},(_,k)=>({id:Date.now()+k,size:sizeEach,unit:u,qty:sizeEach,remaining_qty:sizeEach,added_date:new Date().toISOString()}));
-    const entry={id:'wh_'+Date.now(),productId:sel.pid||null,name:sel.name,brand:sel.brand,category:sel.type,unit:u,format:f.label||(sizeEach+' '+u),formatSku:f.sku||null,sizeEach,packages,qty:sizeEach*nPack};
-    try{S.set('dss_warehouse_v2',whAddPackages(whProducts(),entry));}catch(e){alert(e.message);return;}
+    try{lawnlyWhAdd({id:sel.pid,name:sel.name,brand:sel.brand,type:sel.type},f,nPack);}catch(e){alert(e.message);return;}
     try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}
     setSaved(true);setTimeout(()=>onClose&&onClose(),900);
   };
@@ -13779,18 +13950,18 @@ function AggiungiProdottoSheet({onClose}){
       <div class="sh-body">
         ${saved?html`<div style="text-align:center;padding:30px 0;"><div style="font-size:40px;color:var(--green);">✓</div><div style="font-size:15px;font-weight:800;margin-top:8px;">Aggiunto al magazzino</div></div>`
         :sel?html`<div>
-          ${sel.image?html`<div class="ap-photo"><img src=${sel.image} alt=${[sel.brand,sel.name].filter(Boolean).join(' ')} decoding="async"/>${sel.brand==='Padana Sementi'?html`<img class="ap-logo" src="padana-logo.png" alt="Padana Sementi"/>`:''}</div>`:''}
+          ${sel.image?html`<div class="ap-photo"><img src=${sel.image} alt=${[sel.brand,sel.name].filter(Boolean).join(' ')} decoding="async"/>${__LAWNLY_IS_PARTNER__(sel.brand)?html`<img class="ap-logo" src="padana-logo.png" alt="Padana Sementi"/>`:''}</div>`:''}
           <div class="prod" style="cursor:default;">${sel.image?'':html`<span class=${'prod-ic '+sel.cat}>${_mSvg2(sel.cat)}</span>`}<div class="prod-m"><div class="prod-n">${sel.name}</div><div class="prod-meta">${[sel.brand,sel.type,sel.fmt].filter(Boolean).join(' · ')}</div></div></div>
           ${sel.desc?html`<div class="dt-note" style="margin-top:2px;">${sel.desc}</div>`:''}
           <div class="field"><label class="flab">Confezione (formato acquistabile)</label><div class="fchips">${(sel.formats||[]).map((ff,i)=>html`<span key=${i} class=${'fchip'+(selFmt===i?' on':'')} onClick=${()=>setSelFmt(i)}>${ff.label||(ff.size+' '+ff.unit)}</span>`)}</div></div>
           <div class="field"><label class="flab">Numero di confezioni</label><input class="finput" type="text" inputmode="numeric" value=${qty} onInput=${e=>setQty(e.target.value)}/></div>
           ${(()=>{const f=(sel.formats||[])[selFmt]||{};const parsed=whFormat(f);const sz=parsed.size;const q=parseFloat((qty||'1').replace(',','.'))||1;const u=parsed.unit;return html`<div style="font-size:11.5px;color:var(--green-deep);background:var(--green-soft);border-radius:9px;padding:8px 10px;">Totale a magazzino: <b>${(sz*q).toLocaleString('it-IT')} ${u}</b> (${q} × ${sz} ${u})${u==='conf'?' · Giacenza in confezioni: contenuto non noto.':''}</div>`;})()}
           <button class="sh-save" onClick=${add}>Aggiungi al magazzino</button>
-          <button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>lawnlyBuyPadana({name:sel.name,id:sel.pid,url:sel.url})}>Acquista su Padana Sementi ↗</button>
-          <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:6px;">Link di affiliazione: riceviamo una commissione, senza costi per te.</div>
+          ${__LAWNLY_IS_PARTNER__(sel.brand)?html`<button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>lawnlyBuyPadana({name:sel.name,id:sel.pid,url:sel.url})}>${'Acquista su '+sel.brand+' ↗'}</button>
+          <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:6px;">Link di affiliazione: riceviamo una commissione, senza costi per te.</div>`:(sel.url?html`<button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>lawnlyOpenExt(sel.url)}>Scheda del produttore ↗</button>`:'')}
         </div>`:html`<div>
           <p class="cat-intro">Scegli la marca, poi il prodotto dal catalogo Lawnly per aggiungerlo al magazzino.</p>
-          <div class="cat-filter">${brands.map(b=>html`<span key=${b} class=${'fchip'+(brand===b?' on':'')+(b==='Padana Sementi'?' brand-chip':'')} aria-label=${b} onClick=${()=>setBrand(b)}>${b==='Padana Sementi'?html`<img src="padana-logo.png" alt=${b}/>`:b}</span>`)}</div>
+          <div class="cat-filter">${brands.map(b=>html`<span key=${b} class=${'fchip'+(brand===b?' on':'')+(__LAWNLY_IS_PARTNER__(b)?' brand-chip':'')} aria-label=${b} onClick=${()=>setBrand(b)}>${__LAWNLY_IS_PARTNER__(b)?html`<img src="padana-logo.png" alt=${b}/>`:b}</span>`)}</div>
           <div class="cat-list">
             ${list.length?list.map((p,i)=>html`<div class="catrow" key=${i} onClick=${()=>{setSel(p);setQty('1');setSelFmt(0);}}>${p.image?html`<img class="pd-product-image" src=${p.image} alt=${[p.brand,p.name].filter(Boolean).join(' ')} loading="lazy" decoding="async"/>`:html`<span class=${'prod-ic '+p.cat}>${_mSvg2(p.cat)}</span>`}<div class="catrow-m"><div class="catrow-n">${p.name}</div><div class="catrow-meta">${[p.brand,p.type,p.fmt].filter(Boolean).join(' · ')}</div></div>${arr}</div>`)
               :html`<div class="zp-empty">Catalogo non disponibile.</div>`}
@@ -16498,7 +16669,7 @@ function App(){
   return html`<div>
     <main class=${['oggi','prato','meteo2','piano','mag','profilo2'].includes(pg)?'main-rdz':''}>
       <div key=${pg} class="anim">${PAGES[pg]||''}</div>
-      <footer class="partner-credit"><span>prodotti</span><img src="padana-logo.png" alt="Padana Sementi" style="height:14px;width:auto"/></footer>
+      ${window.LAWNLY_PARTNER?html`<footer class="partner-credit"><span>prodotti</span><img src="padana-logo.png" alt=${window.LAWNLY_PARTNER} style="height:14px;width:auto"/></footer>`:''}
     </main>
     <${BNav} pg=${pg} setPg=${setPg}/>
   </div>`;
