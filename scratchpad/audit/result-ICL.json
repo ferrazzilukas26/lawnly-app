@@ -1,0 +1,887 @@
+{
+ "brand": "ICL",
+ "products": [
+  {
+   "id": "icl-greenmaster-pro-lite-cold-start",
+   "formats": [],
+   "dose": null,
+   "status": "non_trovato",
+   "note": "Non presente nei mini-cataloghi ICL Italia 2023/2024 (gamma Pro-Lite: NK, Invigorator Plus, Autumn)."
+  },
+  {
+   "id": "icl-greenmaster-pro-lite-invigorator-plus",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo ICL Italia 2024 pag. Greenmaster Pro-Lite: Imballo 25 kg."
+  },
+  {
+   "id": "icl-greenmaster-pro-lite-nk",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 25 kg."
+  },
+  {
+   "id": "icl-greenmaster-liquid-calmag-booster",
+   "formats": [
+    {
+     "size": 10,
+     "unit": "L",
+     "label": "Tanica da 10 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27132316/2024-turf-mini-catalogo-concimi-liquidi.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo concimi liquidi 2024: Tanica da 10 litri."
+  },
+  {
+   "id": "icl-greenmaster-liquid-effect-iron",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "L",
+     "label": "Flacone/bottiglia da 1 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27132316/2024-turf-mini-catalogo-concimi-liquidi.pdf"
+    },
+    {
+     "size": 10,
+     "unit": "L",
+     "label": "Tanica da 10 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27132316/2024-turf-mini-catalogo-concimi-liquidi.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo concimi liquidi 2024: Imballo 1-10 litri."
+  },
+  {
+   "id": "icl-greenmaster-liquid-high-n",
+   "formats": [
+    {
+     "size": 10,
+     "unit": "L",
+     "label": "Tanica da 10 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27132316/2024-turf-mini-catalogo-concimi-liquidi.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 10 litri."
+  },
+  {
+   "id": "icl-greenmaster-liquid-nk",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "L",
+     "label": "Flacone/bottiglia da 1 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27132316/2024-turf-mini-catalogo-concimi-liquidi.pdf"
+    },
+    {
+     "size": 10,
+     "unit": "L",
+     "label": "Tanica da 10 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27132316/2024-turf-mini-catalogo-concimi-liquidi.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 1-10 litri."
+  },
+  {
+   "id": "icl-greenmaster-liquid-step",
+   "formats": [
+    {
+     "size": 10,
+     "unit": "L",
+     "label": "Tanica da 10 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27132316/2024-turf-mini-catalogo-concimi-liquidi.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo lo chiama 'Step Liquid': Tanica da 10 litri."
+  },
+  {
+   "id": "icl-step-hi-mag",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo lo elenca come Sierraform GT Step Hi Mag, imballo 20 kg. Dose fonte 7-11 g/m2 (uguale al catalogo)."
+  },
+  {
+   "id": "icl-gronamic-mini-high-k",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27154429/2024-turf-mini-catalogo-organo-minerali_compressed.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "parziale",
+   "note": "Nome non presente: la gamma ICL 2024 e' Gronamic Golf/Sport. Gronamic Golf High K = 25 kg, dose fonte 20-30 g/m2 (catalogo Lawnly dice 25-40). Corrispondenza Mini=Golf NON verificata."
+  },
+  {
+   "id": "icl-gronamic-mini-high-n",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27154429/2024-turf-mini-catalogo-organo-minerali_compressed.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "parziale",
+   "note": "Come High K: fonte e' Gronamic Golf High N, 25 kg, dose 20-30 g/m2 (catalogo 25-40). Corrispondenza non verificata."
+  },
+  {
+   "id": "icl-gronamic-sport-high-k",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27154429/2024-turf-mini-catalogo-organo-minerali_compressed.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 25 kg. Dose fonte 30-40 g/m2 (uguale)."
+  },
+  {
+   "id": "icl-gronamic-sport-high-n",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27154429/2024-turf-mini-catalogo-organo-minerali_compressed.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 25 kg. Dose fonte 30-40 g/m2 (uguale)."
+  },
+  {
+   "id": "icl-landscaper-pro-full-season",
+   "formats": [
+    {
+     "size": 15,
+     "unit": "kg",
+     "label": "Sacco da 15 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 15 kg. Dose fonte 50-60 g/m2 (uguale)."
+  },
+  {
+   "id": "icl-landscaper-pro-maintenance",
+   "formats": [
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Sacco da 5 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    },
+    {
+     "size": 15,
+     "unit": "kg",
+     "label": "Sacco da 15 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    },
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 5-15-25 kg (catalogo Lawnly: 15 e 25; manca il 5 kg)."
+  },
+  {
+   "id": "icl-landscaper-pro-new-grass",
+   "formats": [
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Sacco da 5 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    },
+    {
+     "size": 15,
+     "unit": "kg",
+     "label": "Sacco da 15 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 5-15 kg."
+  },
+  {
+   "id": "icl-landscaper-pro-shade-special",
+   "formats": [
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Sacco da 5 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    },
+    {
+     "size": 15,
+     "unit": "kg",
+     "label": "Sacco da 15 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 5-15 kg."
+  },
+  {
+   "id": "icl-landscaper-pro-stress-control",
+   "formats": [
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Sacco da 5 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    },
+    {
+     "size": 15,
+     "unit": "kg",
+     "label": "Sacco da 15 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 5-15 kg."
+  },
+  {
+   "id": "icl-landscaper-pro-flora",
+   "formats": [
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Sacco da 5 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    },
+    {
+     "size": 15,
+     "unit": "kg",
+     "label": "Sacco da 15 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 5-15 kg (catalogo Lawnly: solo 15). Dose fonte 50-75 g/m2."
+  },
+  {
+   "id": "icl-landscaperpro-readystar-n",
+   "formats": [
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Sacco da 5 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    },
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "2024: 5-25 kg (il mini-catalogo 2023 riportava solo 25 kg)."
+  },
+  {
+   "id": "icl-landscaperpro-readystar-k",
+   "formats": [
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Sacco da 5 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    },
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 5-25 kg."
+  },
+  {
+   "id": "icl-landscaperpro-universtar-balance",
+   "formats": [
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Sacco da 5 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    },
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 5-25 kg (catalogo Lawnly: solo 25)."
+  },
+  {
+   "id": "icl-landscaperpro-universtar-classic",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 25 kg."
+  },
+  {
+   "id": "icl-proturf-active",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 25 kg."
+  },
+  {
+   "id": "icl-proturf-classic",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo 2024 lo chiama 'ProTurf Classic N' (20-0-7): Imballo 25 kg."
+  },
+  {
+   "id": "icl-proturf-high-k",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 25 kg."
+  },
+  {
+   "id": "icl-proturf-high-n",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 25 kg."
+  },
+  {
+   "id": "icl-sierrablen-plus-active",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 25 kg."
+  },
+  {
+   "id": "icl-sierrablen-plus-mini",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Fonte: 'Sierrablen Plus Mini N' 38-0-0, imballo 20 kg. Dose fonte 15-30 g/m2 (catalogo Lawnly 15-20: da correggere)."
+  },
+  {
+   "id": "icl-sierrablen-plus-n-start",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 25 kg."
+  },
+  {
+   "id": "icl-sierrablen-plus-renovator",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 25 kg."
+  },
+  {
+   "id": "icl-sierrablen-plus-spring-starter-3m",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Fonte: 'Spring Starter' 24-5-13, durata 3M, imballo 25 kg."
+  },
+  {
+   "id": "icl-sierrablen-plus-spring-starter-4-5m",
+   "formats": [],
+   "dose": null,
+   "status": "non_trovato",
+   "note": "La variante 4-5M non compare nei cataloghi ICL Italia 2023/2024 (solo Spring Starter 3M)."
+  },
+  {
+   "id": "icl-sierrablen-plus-stress-control",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 25 kg."
+  },
+  {
+   "id": "icl-sierrablen-plus-turf-starter-con-tecnologia-pearl",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 25 kg. Dose fonte 20-50 g/m2."
+  },
+  {
+   "id": "icl-sierrablen-plus-renovator-con-tecnologia-pearl",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Fonte: 'Renovator PT Pearl Technology', imballo 25 kg, dose 20-50 g/m2 (catalogo Lawnly 25-35: da verificare, 25-35 e' il Renovator senza Pearl)."
+  },
+  {
+   "id": "icl-sierraform-gt-all-season",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 20 kg."
+  },
+  {
+   "id": "icl-sierraform-gt-anti-stress",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 20 kg."
+  },
+  {
+   "id": "icl-sierraform-gt-k-step",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 20 kg."
+  },
+  {
+   "id": "icl-sierraform-gt-momentum",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 20 kg."
+  },
+  {
+   "id": "icl-sierraform-gt-preseeder",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 20 kg. Dose fonte 15-30 g/m2 (catalogo Lawnly 20-30: da correggere)."
+  },
+  {
+   "id": "icl-sportsmaster-crf-mini-spring-starter",
+   "formats": [],
+   "dose": null,
+   "status": "non_trovato",
+   "note": "Prodotto assente da cataloghi ICL Italia 2023/2024 e dalla pagina brand."
+  },
+  {
+   "id": "icl-sportsmaster-crf-mini-start",
+   "formats": [],
+   "dose": null,
+   "status": "non_trovato",
+   "note": "Prodotto assente da cataloghi ICL Italia 2023/2024."
+  },
+  {
+   "id": "icl-sportsmaster-wsf-high-k",
+   "formats": [],
+   "dose": null,
+   "status": "non_trovato",
+   "note": "Pagina brand Sportsmaster WSF (Wayback) senza confezioni; nessuna scheda con formato trovata."
+  },
+  {
+   "id": "icl-sportsmaster-wsf-high-n",
+   "formats": [],
+   "dose": null,
+   "status": "non_trovato",
+   "note": "Come High K."
+  },
+  {
+   "id": "icl-sportsmaster-crf-mini-high-k",
+   "formats": [],
+   "dose": null,
+   "status": "non_trovato",
+   "note": "Prodotto assente da cataloghi ICL Italia 2023/2024."
+  },
+  {
+   "id": "icl-vitalnova-aminoboost",
+   "formats": [
+    {
+     "size": 10,
+     "unit": "L",
+     "label": "Tanica da 10 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27141710/2024-turf-mini-catalogo-biostimolanti_compressed.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Tanica da 10 litri. Dose fonte 10 l/ha (catalogo Lawnly '20-30 g/m2' e' errato)."
+  },
+  {
+   "id": "icl-vitalnova-blade",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "L",
+     "label": "Flacone/bottiglia da 1 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27141710/2024-turf-mini-catalogo-biostimolanti_compressed.pdf"
+    },
+    {
+     "size": 10,
+     "unit": "L",
+     "label": "Tanica da 10 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27141710/2024-turf-mini-catalogo-biostimolanti_compressed.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo 2024: 1-10 litri. Dose fonte 2-20 ml/m2 / 20-50 l/ha (2023: 25-50 l/ha)."
+  },
+  {
+   "id": "icl-vitalnova-smx",
+   "formats": [
+    {
+     "size": 10,
+     "unit": "L",
+     "label": "Tanica da 10 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27141710/2024-turf-mini-catalogo-biostimolanti_compressed.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Tanica da 10 litri. Dose 5-10 l/ha (uguale)."
+  },
+  {
+   "id": "icl-vitalnova-silk",
+   "formats": [
+    {
+     "size": 10,
+     "unit": "L",
+     "label": "Tanica da 10 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27141710/2024-turf-mini-catalogo-biostimolanti_compressed.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Tanica da 10 litri. Dose fonte 20 l/ha (catalogo Lawnly '20-30 g/m2' errato)."
+  },
+  {
+   "id": "icl-vitalnova-stressbuster",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "L",
+     "label": "Flacone/bottiglia da 1 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27141710/2024-turf-mini-catalogo-biostimolanti_compressed.pdf"
+    },
+    {
+     "size": 10,
+     "unit": "L",
+     "label": "Tanica da 10 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27141710/2024-turf-mini-catalogo-biostimolanti_compressed.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo 2024: 1-10 litri. Dose fonte 25-50 l/ha (catalogo Lawnly '20-30 g/m2' errato)."
+  },
+  {
+   "id": "icl-h2pro-aquasmart",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "L",
+     "label": "Flacone/bottiglia da 1 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27134542/2024-turf-mini-catalogo-agenti-umettanti.pdf"
+    },
+    {
+     "size": 5,
+     "unit": "L",
+     "label": "Tanica da 5 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27134542/2024-turf-mini-catalogo-agenti-umettanti.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo 2024: 1-5 litri. Dose fonte 5 l/ha (catalogo Lawnly '20-30 g/m2' errato)."
+  },
+  {
+   "id": "icl-h2pro-conserve-granules",
+   "formats": [
+    {
+     "size": 10,
+     "unit": "kg",
+     "label": "Sacco da 10 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27134542/2024-turf-mini-catalogo-agenti-umettanti.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Sacco da 10 kg. Dose fonte 200 kg/ha."
+  },
+  {
+   "id": "icl-h2pro-flowsmart",
+   "formats": [
+    {
+     "size": 10,
+     "unit": "L",
+     "label": "Tanica da 10 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27134542/2024-turf-mini-catalogo-agenti-umettanti.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Tanica da 10 litri. Dose fonte 10 l/ha (catalogo Lawnly '20-30 g/m2' errato)."
+  },
+  {
+   "id": "icl-h2pro-trismart",
+   "formats": [
+    {
+     "size": 5,
+     "unit": "L",
+     "label": "Tanica da 5 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27134542/2024-turf-mini-catalogo-agenti-umettanti.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Tanica da 5 litri. Dose 10-25 l/ha (uguale)."
+  },
+  {
+   "id": "icl-h2pro-trismart-granulare",
+   "formats": [],
+   "dose": null,
+   "status": "non_trovato",
+   "note": "Non presente nel catalogo ICL Italia 2023/2024 (gamma H2Pro: TriSmart liquido, AquaSmart, FlowSmart, Conserve Granule)."
+  },
+  {
+   "id": "icl-phixer",
+   "formats": [
+    {
+     "size": 5,
+     "unit": "L",
+     "label": "Tanica da 5 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/29131438/2024-turf-mini-catalogo-specialitaPDF.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Tanica da 5 litri. Dose: la fonte da' solo copertura 2.330-12.500 litri d'acqua per tanica; catalogo '30-50 g/m2' non confermato."
+  },
+  {
+   "id": "icl-colourpro",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "L",
+     "label": "Bottiglia da 1 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/29131438/2024-turf-mini-catalogo-specialitaPDF.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "parziale",
+   "note": "Fonte: solo bottiglia da 1 litro (5 L NON confermato). Dose fonte 1-1,25 l/ha."
+  },
+  {
+   "id": "icl-ready-germiplus",
+   "formats": [],
+   "dose": null,
+   "status": "non_trovato",
+   "note": "Brochure Landscaper Pro 2023 da' solo dosi (7 g/m2 pre-emergenza prato; 3-5 g/m2 aiuole) ma nessun formato di confezione."
+  },
+  {
+   "id": "icl-warm-up-100",
+   "formats": [],
+   "dose": null,
+   "status": "non_trovato",
+   "note": "Non presente in cataloghi/pagine ICL Italia consultati."
+  },
+  {
+   "id": "icl-hicure",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "L",
+     "label": "Bottiglia da 1 L",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/29131438/2024-turf-mini-catalogo-specialitaPDF.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo 2024: bottiglia da 1 litro (catalogo Lawnly '10 L' errato). Dose fonte fogliare 10-20 (unita' non esplicita)."
+  },
+  {
+   "id": "icl-greenmaster-pro-lite-autumn",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Imballo 25 kg. Dose fonte 20-35 g/m2 (catalogo 20-30)."
+  }
+ ]
+}

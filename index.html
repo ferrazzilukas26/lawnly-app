@@ -514,8 +514,13 @@ input[type=range]{width:100%;accent-color:var(--green);cursor:pointer;margin:6px
 .rdz .pd-head>.pd-product-image{width:96px;height:96px;}
 .rdz .np-sg:has(.pd-product-image){display:flow-root;}
 .rdz .np-sg>.pd-product-image{float:left;margin:0 10px 4px 0;}
-.rdz .sol-strip{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 12px;margin:0 -2px;-webkit-overflow-scrolling:touch;}
-.rdz .sol-card{flex:0 0 84%;max-width:340px;scroll-snap-align:start;background:var(--card);border:1px solid var(--line2);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px;}
+.rdz .sol-strip{display:grid;grid-template-columns:1fr;gap:12px;padding:4px 0 12px;}
+@media(min-width:680px){.rdz .sol-strip{grid-template-columns:1fr 1fr;}}
+.rdz .sol-dose{background:var(--green-soft);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;}
+.rdz .sol-dose small{font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--green-deep);}
+.rdz .sol-dose b{font-size:16px;color:var(--ink);}
+.rdz .sol-dose span{font-size:12.5px;color:var(--t2);}
+.rdz .sol-card{background:var(--card);border:1px solid var(--line2);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px;}
 .rdz .sol-card.cur{border-color:var(--green);box-shadow:0 0 0 2px var(--green-soft);}
 .rdz .sol-top{display:flex;gap:10px;align-items:center;}
 .rdz .sol-top .pd-product-image{width:64px;height:64px;}
@@ -2639,8 +2644,10 @@ try{window.__LAWNLY_CATALOG__=[
     application: "spandiconcime_granulare",
     granulometry: "mini-granulare",
     formats: [
+      { sku: "bottos-tryko-plus-1kg", size: 1, unit: "kg", label: "Confezione 1 kg", verified: true, source: "https://www.bottos1848.com/prodotti/tryko-plus/" },
       { sku: "bottos-tryko-plus-5kg", size: 5, unit: "kg", label: "Sacco 5 kg", verified: true },
-      { sku: "bottos-tryko-plus-20kg", size: 20, unit: "kg", label: "Sacco 20 kg", verified: true }
+      { sku: "bottos-tryko-plus-20kg", size: 20, unit: "kg", label: "Sacco 20 kg", verified: true },
+      { sku: "bottos-tryko-plus-250g", size: 250, unit: "g", label: "Confezione 250 g", verified: true, source: "https://www.bottos1848.com/prodotti/tryko-plus/" }
     ],
     actives: [
       { name: "Trichoderma atroviride", amount: 1e8, unit: "UFC/g" },
@@ -2738,7 +2745,8 @@ try{window.__LAWNLY_CATALOG__=[
     granulometry: null,
     formats: [
       { sku: "bottos-verdigo-1l", size: 1, unit: "L", label: "Flacone 1 L", verified: true },
-      { sku: "bottos-verdigo-5l", size: 5, unit: "L", label: "Tanica 5 L", verified: true }
+      { sku: "bottos-verdigo-5l", size: 5, unit: "L", label: "Tanica 5 L", verified: true },
+      { sku: "bottos-verdigo-500ml", size: 500, unit: "ml", label: "Confezione 500 ml", verified: true, source: "https://www.bottos1848.com/prodotti/verdigo/" }
     ],
     actives: [
       { name: "Pigmento verde turf-grade", amount: null, unit: "%" }
@@ -3708,7 +3716,8 @@ try{window.__LAWNLY_CATALOG__=[
     application: "spandiconcime_granulare",
     granulometry: null,
     formats: [
-      { sku: "barenbrug-joker-bio-turf-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true }
+      { sku: "barenbrug-joker-bio-turf-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true },
+      { sku: "barenbrug-joker-bio-turf-20kg", size: 20, unit: "kg", label: "Sacco da 20 kg", verified: true, source: "https://www.barenbrug.it/tappeto-erboso/products/joker-bio-turf" }
     ],
     gddWindow: null,
     audienceLevel: "pro",
@@ -3741,7 +3750,8 @@ try{window.__LAWNLY_CATALOG__=[
     application: "radicale_diluito",
     granulometry: null,
     formats: [
-      { sku: "barenbrug-pbs-150-10lt", size: 10, unit: "lt", label: "Tanica 10 lt", verified: true }
+      { sku: "barenbrug-pbs-150-10lt", size: 10, unit: "lt", label: "Tanica 10 lt", verified: true },
+      { sku: "barenbrug-pbs-150-10l", size: 10, unit: "L", label: "Tanica da 10 lt", verified: true, source: "https://www.barenbrug.it/tappeto-erboso/products/pbs-150" }
     ],
     gddWindow: null,
     audienceLevel: "pro",
@@ -3989,7 +3999,10 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "fogliare",
     granulometry: null,
-    formats: [{ sku: "icl-greenmaster-liquid-effect-iron-10l", size: 10, unit: "L", label: "10 L", verified: true }],
+    formats: [
+      { sku: "icl-greenmaster-liquid-effect-iron-1l", size: 1, unit: "L", label: "Flacone/bottiglia da 1 L", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27132316/2024-turf-mini-catalogo-concimi-liquidi.pdf" },
+      { sku: "icl-greenmaster-liquid-effect-iron-10l", size: 10, unit: "L", label: "10 L", verified: true }
+    ],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4045,7 +4058,10 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "fogliare",
     granulometry: null,
-    formats: [{ sku: "icl-greenmaster-liquid-nk-10l", size: 10, unit: "L", label: "10 L", verified: true }],
+    formats: [
+      { sku: "icl-greenmaster-liquid-nk-1l", size: 1, unit: "L", label: "Flacone/bottiglia da 1 L", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27132316/2024-turf-mini-catalogo-concimi-liquidi.pdf" },
+      { sku: "icl-greenmaster-liquid-nk-10l", size: 10, unit: "L", label: "10 L", verified: true }
+    ],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4269,7 +4285,11 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-landscaper-pro-maintenance-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true }, { sku: "icl-landscaper-pro-maintenance-25kg", size: 25, unit: "kg", label: "Sacco 25 kg", verified: true }],
+    formats: [
+      { sku: "icl-landscaper-pro-maintenance-5kg", size: 5, unit: "kg", label: "Sacco da 5 kg", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf" },
+      { sku: "icl-landscaper-pro-maintenance-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true },
+      { sku: "icl-landscaper-pro-maintenance-25kg", size: 25, unit: "kg", label: "Sacco 25 kg", verified: true }
+    ],
     audienceLevel: "prosumer",
     actives: null,
     targetPests: null,
@@ -4381,7 +4401,10 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-landscaper-pro-flora-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true }],
+    formats: [
+      { sku: "icl-landscaper-pro-flora-5kg", size: 5, unit: "kg", label: "Sacco da 5 kg", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf" },
+      { sku: "icl-landscaper-pro-flora-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true }
+    ],
     audienceLevel: "prosumer",
     actives: null,
     targetPests: null,
@@ -4465,7 +4488,10 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-landscaperpro-universtar-balance-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
+    formats: [
+      { sku: "icl-landscaperpro-universtar-balance-5kg", size: 5, unit: "kg", label: "Sacco da 5 kg", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf" },
+      { sku: "icl-landscaperpro-universtar-balance-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }
+    ],
     audienceLevel: "prosumer",
     actives: null,
     targetPests: null,
@@ -5193,7 +5219,10 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-vitalnova-blade-10l", size: 10, unit: "L", label: "Tanica 10 L", verified: true }],
+    formats: [
+      { sku: "icl-vitalnova-blade-1l", size: 1, unit: "L", label: "Flacone/bottiglia da 1 L", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27141710/2024-turf-mini-catalogo-biostimolanti_compressed.pdf" },
+      { sku: "icl-vitalnova-blade-10l", size: 10, unit: "L", label: "Tanica 10 L", verified: true }
+    ],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5277,7 +5306,10 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-vitalnova-stressbuster-10l", size: 10, unit: "L", label: "Tanica 10 L", verified: true }],
+    formats: [
+      { sku: "icl-vitalnova-stressbuster-1l", size: 1, unit: "L", label: "Flacone/bottiglia da 1 L", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27141710/2024-turf-mini-catalogo-biostimolanti_compressed.pdf" },
+      { sku: "icl-vitalnova-stressbuster-10l", size: 10, unit: "L", label: "Tanica 10 L", verified: true }
+    ],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5305,7 +5337,10 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-h2pro-aquasmart-5l", size: 5, unit: "L", label: "Tanica 5 L", verified: true }],
+    formats: [
+      { sku: "icl-h2pro-aquasmart-1l", size: 1, unit: "L", label: "Flacone/bottiglia da 1 L", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27134542/2024-turf-mini-catalogo-agenti-umettanti.pdf" },
+      { sku: "icl-h2pro-aquasmart-5l", size: 5, unit: "L", label: "Tanica 5 L", verified: true }
+    ],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5557,7 +5592,9 @@ try{window.__LAWNLY_CATALOG__=[
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-hicure-10l", size: 10, unit: "L", label: "Tanica 10 L", verified: true }],
+    formats: [
+      { sku: "icl-hicure-1l", size: 1, unit: "L", label: "Bottiglia da 1 L", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/29131438/2024-turf-mini-catalogo-specialitaPDF.pdf" }
+    ],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -5653,7 +5690,7 @@ try{window.__LAWNLY_CATALOG__=[
     "secondary": {},
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min":40,"max":50,"unit":"g/m2","source":"https://www.padanasementi.com/product/rooting-plus-npk-10-0-5/"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -5661,7 +5698,9 @@ try{window.__LAWNLY_CATALOG__=[
     "temperatureRange": null,
     "application": null,
     "granulometry": null,
-    "formats": [],
+    "formats": [
+      {"sku":"padana-rooting-plus-4kg","size":4,"unit":"kg","label":"Sacco da 4 kg","verified":true,"source":"https://www.padanasementi.com/product/rooting-plus-npk-10-0-5/"}
+    ],
     "gddWindow": null,
     "audienceLevel": null,
     "notes": null,
@@ -5951,7 +5990,7 @@ try{window.__LAWNLY_CATALOG__=[
     },
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min":30,"max":35,"unit":"g/m2","source":"https://www.padanasementi.com/product/control-field-npk-24-5-8/"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -5959,7 +5998,9 @@ try{window.__LAWNLY_CATALOG__=[
     "temperatureRange": null,
     "application": null,
     "granulometry": null,
-    "formats": [],
+    "formats": [
+      {"sku":"padana-control-field-25kg","size":25,"unit":"kg","label":"Sacco da 25 kg","verified":true,"source":"https://www.padanasementi.com/product/control-field-npk-24-5-8/"}
+    ],
     "gddWindow": null,
     "audienceLevel": null,
     "notes": null,
@@ -5988,7 +6029,7 @@ try{window.__LAWNLY_CATALOG__=[
     },
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min":25,"max":35,"unit":"g/m2","source":"https://www.padanasementi.com/product/control-kappa-npk-12-0-25-25-mgo/"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -5996,7 +6037,9 @@ try{window.__LAWNLY_CATALOG__=[
     "temperatureRange": null,
     "application": null,
     "granulometry": null,
-    "formats": [],
+    "formats": [
+      {"sku":"padana-control-kappa-25kg","size":25,"unit":"kg","label":"Sacco da 25 kg","verified":true,"source":"https://www.padanasementi.com/product/control-kappa-npk-12-0-25-25-mgo/"}
+    ],
     "gddWindow": null,
     "audienceLevel": null,
     "notes": null,
@@ -6143,7 +6186,7 @@ try{window.__LAWNLY_CATALOG__=[
     "secondary": {},
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min":20,"max":25,"unit":"g/m2","source":"https://www.padanasementi.com/product/pse-slow-n-33/"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -6151,7 +6194,9 @@ try{window.__LAWNLY_CATALOG__=[
     "temperatureRange": null,
     "application": null,
     "granulometry": null,
-    "formats": [],
+    "formats": [
+      {"sku":"padana-pse-slow-n-25kg","size":25,"unit":"kg","label":"Sacco da 25 kg","verified":true,"source":"https://www.padanasementi.com/product/pse-slow-n-33/"}
+    ],
     "gddWindow": null,
     "audienceLevel": null,
     "notes": null,
@@ -6174,7 +6219,7 @@ try{window.__LAWNLY_CATALOG__=[
     "secondary": {},
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min":20,"max":30,"unit":"kg/ha","source":"https://www.padanasementi.com/product/accafert/"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -6214,7 +6259,7 @@ try{window.__LAWNLY_CATALOG__=[
     "secondary": {},
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min":6,"max":8,"unit":"kg/ha","source":"https://www.padanasementi.com/product/algaecklomax/"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -6222,7 +6267,10 @@ try{window.__LAWNLY_CATALOG__=[
     "temperatureRange": null,
     "application": null,
     "granulometry": null,
-    "formats": [],
+    "formats": [
+      {"sku":"padana-alga-ecklomax-1kg","size":1,"unit":"kg","label":"Bottiglia da 1 kg","verified":true,"source":"https://www.padanasementi.com/product/algaecklomax/"},
+      {"sku":"padana-alga-ecklomax-6kg","size":6,"unit":"kg","label":"Bottiglia da 6 Kg","verified":true,"source":"https://www.padanasementi.com/product/algaecklomax/"}
+    ],
     "gddWindow": null,
     "audienceLevel": null,
     "notes": null,
@@ -6806,7 +6854,7 @@ try{window.__LAWNLY_CATALOG__=[
     "secondary": {},
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min":20,"max":40,"unit":"kg/ha","source":"https://www.padanasementi.com/product/super-life/"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -6814,7 +6862,9 @@ try{window.__LAWNLY_CATALOG__=[
     "temperatureRange": null,
     "application": null,
     "granulometry": null,
-    "formats": [],
+    "formats": [
+      {"sku":"padana-super-life-1kg","size":1,"unit":"kg","label":"Bottiglia da 1 kg","verified":true,"source":"https://www.padanasementi.com/product/super-life/"}
+    ],
     "gddWindow": null,
     "audienceLevel": null,
     "notes": null,
@@ -6838,7 +6888,7 @@ try{window.__LAWNLY_CATALOG__=[
     "secondary": {},
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min": 1000, "max": 1500, "unit": "ml/1000m2", "source": "https://www.padanasementi.com/product/humet-pro/", "note": "scheda: 10-15 L/ha (1 L/ha = 100 ml/1000 m2)"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -7315,7 +7365,7 @@ try{window.__LAWNLY_CATALOG__=[
     "secondary": {},
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min": 200, "max": 300, "unit": "ml/1000m2", "source": "https://www.padanasementi.com/product/tricoferti/", "note": "scheda: 2-3 L/ha (1 L/ha = 100 ml/1000 m2)"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -7323,7 +7373,10 @@ try{window.__LAWNLY_CATALOG__=[
     "temperatureRange": null,
     "application": null,
     "granulometry": null,
-    "formats": [],
+    "formats": [
+      {"sku":"padana-tricoferti-250ml","size":250,"unit":"ml","label":"Bottiglia da 250 mL","verified":true,"source":"https://www.padanasementi.com/product/tricoferti/"},
+      {"sku":"padana-tricoferti-1l","size":1,"unit":"L","label":"Bottiglia da 1 L","verified":true,"source":"https://www.padanasementi.com/product/tricoferti/"}
+    ],
     "gddWindow": null,
     "audienceLevel": null,
     "notes": null,
@@ -12460,6 +12513,7 @@ function Oggi({wx,prof,setPg}){
   const [slide,setSlide]=useState(0);
   const heroSwipe=(dir)=>{const n=slides.length;if(n<2)return;setSlide(s=>((s+dir)%n+n)%n);};
   const [sheet,setSheet]=useState(null);
+  const [solOp,setSolOp]=useState(null); // box «4 prodotti» aperto dal tocco sull'azione
   const [irrigTab,setIrrigTab]=useState('um');
   const controller=prof?.controller||{}, controllerNext=nextControllerRun(controller);
   const controllerZones=new Set((controller.programs||[]).flatMap(p=>p.zones||[])).size;
@@ -12696,6 +12750,7 @@ function Oggi({wx,prof,setPg}){
       </div></div>`},
     'sh-cons':{title:'Consiglio del giorno',body:html`<div>
       ${_cs.map((c,i)=>html`<div class="cons-row" key=${i}><span class="cons-dot"></span><span>${c}</span></div>`)}
+      ${nextOp&&!isMech?html`<button class="dt-goto" style="margin-top:12px;" onClick=${()=>{closeS();setSolOp(nextOp);}}>Prodotti per «${nextOp.name||nextOp.product||'il prossimo intervento'}» ${goChev}</button>`:''}
       <button class="dt-goto dt-ghost" style="margin-top:12px;" onClick=${openS('sh-ai')}>Chiedi al Dottor Verde ${goChev}</button></div>`},
     'sh-prossimo':{title:'Prossimo intervento',body:nextOp?html`<div>
       <div style="font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--amber);">${nextDay?('Questa settimana · '+nextDay.wk+' · '+nextDay.full.split(' ')[0]):'In programma'}</div>
@@ -12743,13 +12798,14 @@ function Oggi({wx,prof,setPg}){
       <span class="vchev">${goChev}</span>
     </div>
 
-    <div class="card next-card fade" onClick=${openS('sh-prossimo')}>
+    <div class="card next-card fade" onClick=${()=>{if(nextOp&&!isMech)setSolOp(nextOp);else openS('sh-prossimo')();}}>
       <div class="next"><div class="next-ic">${isMech?html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M4 16h16M4 16v5M8 16v5M12 16v5M16 16v5M20 16v5"/></svg>`:html`<svg class="ic-spray" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21.5h5.2a2 2 0 0 0 2-2v-6.6a2.6 2.6 0 0 0-2.6-2.6H9a2 2 0 0 0-2 2v7.2a2 2 0 0 0 2 2Z"/><path d="M9.6 10.3V7.4h4v2.9"/><path d="M13.6 7.4h3.3a1.6 1.6 0 0 1 1.6 1.6"/><path d="M7.4 14.6h8.6"/><g fill="currentColor" stroke="none"><circle cx="20.6" cy="6.2" r=".85"/><circle cx="22" cy="7.7" r=".75"/><circle cx="20.9" cy="9.2" r=".7"/></g></svg>`}</div>
         <div style="flex:1;min-width:0;"><div class="tile-lab" style="margin-bottom:3px;">Prossimo intervento<${InfoDot} titolo="Prossimo intervento" testo="È la prima attività per data che il calendario non segna come completata, includendo gli ultimi 14 giorni. Ti ricorda cosa controllare o organizzare: può essere anche un arretrato recente. Nome, data e dosi vengono dalle operazioni salvate nel piano; verifica le condizioni del prato prima di procedere."/></div>
           ${nextOp?html`<div class="next-prod">${npTitle}</div>${npDesc?html`<div class="next-s">${npDesc}</div>`:''}<div class="next-meta">${[!isMech&&opDose&&('Dose '+opDose),opArea&&(opArea+' m²')].filter(Boolean).map((x,i,a)=>html`<span>${x}</span>${i<a.length-1?html`<span>·</span>`:''}`)}</div>`:html`<div class="next-prod" style="font-size:16px;">Nessun intervento in programma</div><div class="next-s">Il calendario è libero</div>`}
         </div>${nextDay?html`<div class="next-day"><b>${nextDay.wd}</b><span>${nextDay.wk}</span></div>`:''}</div>
       <span class="vchev">${goChev}</span>
     </div>
+    ${solOp?html`<${SolutionsSheet} op=${solOp} onClose=${()=>setSolOp(null)} onChanged=${()=>setHistTick(t=>t+1)}/>`:''}
 
     <div class="bento fade">
       <div class="tile" onClick=${openS('sh-meteo')}>
@@ -12974,6 +13030,7 @@ function Piano({prof,wx,setPg}){
     setTimeout(()=>{ setRegen(false); setTick(t=>t+1); },700);
   };
   const [detail,setDetail]=useState(null);
+  const [solOp,setSolOp]=useState(null);
   const _X=html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
   const _dval=(l,r)=>html`<div class="dt-val"><span class="dt-val-l">${l}</span><span class="dt-val-r">${r}</span></div>`;
   const _upd=(id,patch,fbType)=>{
@@ -13076,11 +13133,13 @@ function Piano({prof,wx,setPg}){
         ${_overdue.map(o=>html`<div key=${o.id} style="display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--line2,rgba(0,0,0,.06));flex-wrap:wrap;">
           <div style="flex:1;min-width:140px;"><div style="font-size:12.5px;font-weight:700;">${o.name||o.title||'Operazione'}</div><div class="dt-note" style="margin:0;">${_opISO(o)?new Date(_opISO(o)+'T12:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'short'}):''}</div></div>
           <div style="display:flex;gap:6px;flex-shrink:0;">
+            ${(o.category!=='meccanica'&&o.type!=='meccanico')?html`<button class="pf-edit" style="padding:6px 10px;font-size:11px;" onClick=${()=>setSolOp(o)}>Prodotti</button>`:''}
             <button class="pf-edit" style="padding:6px 10px;font-size:11px;" onClick=${()=>markDone(o)}>✓ Fatta</button>
             <button class="pf-edit" style="padding:6px 10px;font-size:11px;" onClick=${()=>postponeOp(o)}>+1 sett.</button>
             <button class="pf-edit" style="padding:6px 10px;font-size:11px;" onClick=${()=>skipOp(o)}>Salta</button>
           </div></div>`)}
       </div>`:''}
+      ${solOp?html`<${SolutionsSheet} op=${solOp} onClose=${()=>setSolOp(null)} onChanged=${()=>setTick(t=>t+1)}/>`:''}
       <div class="pills">${months.map(m=>html`<div key=${m} class=${'pill'+(selM===m?' on':'')} onClick=${()=>setSelM(m)}>${_MESIF[m]}</div>`)}</div>
       ${weeks.length?html`<div class="ag-month">${weeks.map(wk=>{const isCur=wk.w===curWeek;return html`<div key=${wk.w}>
         <div class=${'ag-wlab'+(isCur?' cur':'')}>Settimana ${wk.w}${isCur?' · questa settimana':''}<span class="rng">${_weekRange(wk.d)}</span></div>
@@ -13259,14 +13318,14 @@ function Magazzino2({prof,setPg}){
 
   return html`<div class="rdz olx">
     <div class="rdz-ambient"></div>
-    <div class="head"><div><div class="page-eyebrow">Scorte e prodotti</div><div class="page-title">Il <span class="serif">magazzino</span><${InfoDot} titolo="Magazzino e scorte" testo="È la lista dei prodotti e delle quantità che hai registrato. Ti aiuta a controllare cosa hai prima di comprare o preparare un trattamento. Le scorte vengono dai dati del magazzino; Riordina compare quando la quantità scende alla soglia prevista per il prodotto, quindi verifica che i dati siano aggiornati."/></div></div></div>
+    <div class="head"><div><div class="page-eyebrow">Scorte e prodotti</div><div class="page-title">Il tuo <span class="serif">magazzino</span><${InfoDot} titolo="Magazzino e scorte" testo="È la lista dei prodotti e delle quantità che hai registrato. Ti aiuta a controllare cosa hai prima di comprare o preparare un trattamento. Le scorte vengono dai dati del magazzino; Riordina compare quando la quantità scende alla soglia prevista per il prodotto, quindi verifica che i dati siano aggiornati."/></div></div></div>
     <div class="mag3 fade">
       <div class="mst"><b>${tot}</b><span>Prodotti</span></div>
       <div class="mst"><b style="color:var(--green-deep)">${ok}</b><span>Scorte ok</span></div>
       <div class="mst"><b style="color:var(--red)">${low}</b><span>Da riordinare</span></div>
     </div>
-    <button class="addbtn fade" onClick=${()=>setShProd(true)}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> Aggiungi prodotto dal catalogo</button>
-    ${tot===0?html`<div class="card fade"><div class="zp-empty">Magazzino vuoto.<br/>Aggiungi i tuoi prodotti dal catalogo per tracciarne le scorte.</div></div>`:''}
+    <button class="addbtn fade" onClick=${()=>setShProd(true)}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> Aggiungi un prodotto che hai in casa</button>
+    ${tot===0?html`<div class="card fade"><div class="zp-empty">Il tuo magazzino è vuoto.<br/>Aggiungi quello che hai in casa, scegliendo prodotto e confezione dall'elenco completo: così i consigli ti dicono subito cosa hai già.</div></div>`:''}
     ${prods.length?html`<div class="card fade"><div class="c-eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8l9 5 9-5Z"/><path d="m3 8 0 8 9 5 9-5 0-8"/></svg> Prodotti in magazzino</div>${prods.map(row)}</div>`:''}
     ${shProd?html`<${AggiungiProdottoSheet} onClose=${()=>setShProd(false)}/>`:''}
     ${mats.length?html`<div class="card fade"><div class="c-eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-4 9 4-9 4-9-4Z"/><path d="m3 14 9 4 9-4"/></svg> Materiali per lavorazioni meccaniche</div>${mats.map(row)}</div>`:''}
@@ -13874,8 +13933,7 @@ function SolutionsSheet({op,onClose,onChanged}){
         <div class="sol-id"><span class="sol-brand">${p.brand}</span><div class="sol-name">${p.name}</div>${isP?html`<img class="pd-logo-padana" src="padana-logo.png" alt=${p.brand} loading="lazy"/>`:''}</div></div>
       <div class="sol-badges">${p.npkLabel?html`<span class="sol-b">NPK ${p.npkLabel}</span>`:''}${p.organic?html`<span class="sol-b">Bio</span>`:''}${offSeason?html`<span class="sol-b warn">Fuori stagione</span>`:''}${ow?html`<span class="sol-b ok">Ce l'hai</span>`:''}</div>
       <div class="sol-rows">
-        ${row('Dose',lawnlyDoseText(p))}
-        ${b&&area?row('Per i tuoi '+Math.round(area)+' m²',lawnlyAmountText(b.base,b.perM2*area)):''}
+        <div class="sol-dose"><small>Dose da usare</small><b>${lawnlyDoseText(p)||'Vedi etichetta del prodotto'}</b>${b&&area?html`<span>Per i tuoi ${Math.round(area)} m²: ${lawnlyAmountText(b.base,b.perM2*area)}</span>`:(lawnlyDoseText(p)?'':html`<span>La dose non è nella scheda: segui sempre l'etichetta.</span>`)}</div>
         ${row('Come si usa',LAWNLY_APPL[p.application]||'')}
         ${row('Diluizione',dil)}
         ${row('Durata effetto',p.durationDays?(p.durationDays[0]===p.durationDays[1]?(p.durationDays[0]+' giorni'):(p.durationDays[0]+'–'+p.durationDays[1]+' giorni')):'')}
@@ -13899,7 +13957,7 @@ function SolutionsSheet({op,onClose,onChanged}){
     <div class="sheet on"><div class="sh-handle"></div>
       <div class="sh-head"><div class="sh-title">${op.name||op.title||'Soluzioni'}</div><div class="sh-x" onClick=${onClose}>${closeX}</div></div>
       <div class="sh-body">
-        <p class="cat-intro">Prodotti adatti a questa operazione, di marche diverse. Scorri per confrontarli, segna quelli che hai già e scegli quello da usare.</p>
+        <p class="cat-intro">I ${list.length||4} prodotti più indicati per questa operazione adesso${area?(', calcolati sui tuoi '+Math.round(area)+' m²'):''}. Segna quelli che hai già: li ritrovi nel tuo magazzino e il consumo si scala da solo.</p>
         ${list.length?html`<div class="sol-strip">${list.map(card)}</div>`:html`<div class="zp-empty">Nessun prodotto adatto nel catalogo per questa operazione.</div>`}
         ${msg?html`<div class="dt-note" style="color:var(--amber-deep,#9a5b12);font-weight:700;">${msg}</div>`:''}
         <div class="sol-disc">Confronto indicativo, ricavato dalle schede dei produttori: leggi sempre l'etichetta prima dell'uso. I marchi appartengono ai rispettivi titolari; Lawnly non è affiliata ai produttori citati${window.LAWNLY_PARTNER?'':' e non vende prodotti'}.</div>
@@ -13943,18 +14001,27 @@ function AggiungiProdottoSheet({onClose}){
     .filter(i=>!window.LAWNLY_PARTNER||i.brand===window.LAWNLY_PARTNER);
   const brands=['Tutte',...[...new Set(items.map(i=>i.brand))].slice(0,6)];
   const [brand,setBrand]=useState('Tutte');
+  const [q,setQ]=useState('');
+  const [tipo,setTipo]=useState('Tutti');
+  const [custom,setCustom]=useState('');
+  const ownedIds=(()=>{try{return new Set(whProducts().map(w=>w.productId||w.id));}catch(e){return new Set();}})();
   const [sel,setSel]=useState(null);
   const [qty,setQty]=useState('1');
   const [selFmt,setSelFmt]=useState(0);
   const [saved,setSaved]=useState(false);
-  const list=items.filter(i=>brand==="Tutte"||i.brand===brand).slice(0,250);
+  const tipi=['Tutti',...[...new Set(items.map(i=>i.type).filter(Boolean))]];
+  const qq=q.trim().toLowerCase();
+  const list=items.filter(i=>(brand==="Tutte"||i.brand===brand)&&(tipo==='Tutti'||i.type===tipo)&&(!qq||(i.name+' '+i.brand+' '+i.type).toLowerCase().includes(qq))).slice(0,250);
   const add=()=>{
     if(!sel)return;
-    const f=(sel.formats||[])[selFmt]||(sel.formats||[])[0]||{size:1,unit:'conf'};
+    const base=(sel.formats||[])[0]||{size:1,unit:'conf'};
+    const cz=parseFloat(String(custom||'').replace(',','.'));
+    if(selFmt===-1&&!(cz>0)){alert('Scrivi la grammatura della confezione (es. 7,5).');return;}
+    const f=selFmt===-1?{size:cz,unit:base.unit,label:(cz.toLocaleString('it-IT')+' '+base.unit+' (altra confezione)')}:((sel.formats||[])[selFmt]||base);
     const nPack=Math.max(1,Math.round(parseFloat((qty||'1').replace(',','.'))||1));
     try{lawnlyWhAdd({id:sel.pid,name:sel.name,brand:sel.brand,type:sel.type},f,nPack);}catch(e){alert(e.message);return;}
     try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}
-    setSaved(true);setTimeout(()=>onClose&&onClose(),900);
+    setSaved(true);
   };
   const closeX=html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
   const arr=html`<span class="catrow-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>`;
@@ -13963,22 +14030,27 @@ function AggiungiProdottoSheet({onClose}){
     <div class="sheet on"><div class="sh-handle"></div>
       <div class="sh-head"><div class="sh-title">${sel?'Aggiungi a magazzino':'Catalogo prodotti'}</div><div class="sh-x" onClick=${()=>sel?setSel(null):onClose()}>${closeX}</div></div>
       <div class="sh-body">
-        ${saved?html`<div style="text-align:center;padding:30px 0;"><div style="font-size:40px;color:var(--green);">✓</div><div style="font-size:15px;font-weight:800;margin-top:8px;">Aggiunto al magazzino</div></div>`
+        ${saved?html`<div style="text-align:center;padding:30px 0;"><div style="font-size:40px;color:var(--green);">✓</div><div style="font-size:15px;font-weight:800;margin-top:8px;">Aggiunto al tuo magazzino</div>
+          <button class="sh-save" style="margin-top:18px;" onClick=${()=>{setSaved(false);setSel(null);setCustom('');setSelFmt(0);}}>Aggiungi un altro prodotto</button>
+          <button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${onClose}>Ho finito</button></div>`
         :sel?html`<div>
           ${sel.image?html`<div class="ap-photo"><img src=${sel.image} alt=${[sel.brand,sel.name].filter(Boolean).join(' ')} decoding="async"/>${__LAWNLY_IS_PARTNER__(sel.brand)?html`<img class="ap-logo" src="padana-logo.png" alt="Padana Sementi"/>`:''}</div>`:''}
           <div class="prod" style="cursor:default;">${sel.image?'':html`<span class=${'prod-ic '+sel.cat}>${_mSvg2(sel.cat)}</span>`}<div class="prod-m"><div class="prod-n">${sel.name}</div><div class="prod-meta">${[sel.brand,sel.type,sel.fmt].filter(Boolean).join(' · ')}</div></div></div>
           ${sel.desc?html`<div class="dt-note" style="margin-top:2px;">${sel.desc}</div>`:''}
-          <div class="field"><label class="flab">Confezione (formato acquistabile)</label><div class="fchips">${(sel.formats||[]).map((ff,i)=>html`<span key=${i} class=${'fchip'+(selFmt===i?' on':'')} onClick=${()=>setSelFmt(i)}>${ff.label||(ff.size+' '+ff.unit)}</span>`)}</div></div>
+          <div class="field"><label class="flab">Confezione (formato acquistabile)</label><div class="fchips">${(sel.formats||[]).map((ff,i)=>html`<span key=${i} class=${'fchip'+(selFmt===i?' on':'')} onClick=${()=>setSelFmt(i)}>${ff.label||(ff.size+' '+ff.unit)}</span>`)}<span class=${'fchip'+(selFmt===-1?' on':'')} onClick=${()=>setSelFmt(-1)}>Altra confezione</span></div>
+            ${selFmt===-1?html`<input class="finput" style="margin-top:8px;" type="text" inputmode="decimal" placeholder=${'Quanti '+(((sel.formats||[])[0]||{}).unit||'kg')+' contiene la confezione?'} value=${custom} onInput=${e=>setCustom(e.target.value)}/>`:''}</div>
           <div class="field"><label class="flab">Numero di confezioni</label><input class="finput" type="text" inputmode="numeric" value=${qty} onInput=${e=>setQty(e.target.value)}/></div>
-          ${(()=>{const f=(sel.formats||[])[selFmt]||{};const parsed=whFormat(f);const sz=parsed.size;const q=parseFloat((qty||'1').replace(',','.'))||1;const u=parsed.unit;return html`<div style="font-size:11.5px;color:var(--green-deep);background:var(--green-soft);border-radius:9px;padding:8px 10px;">Totale a magazzino: <b>${(sz*q).toLocaleString('it-IT')} ${u}</b> (${q} × ${sz} ${u})${u==='conf'?' · Giacenza in confezioni: contenuto non noto.':''}</div>`;})()}
+          ${(()=>{const f=selFmt===-1?{size:parseFloat(String(custom||'').replace(',','.'))||0,unit:((sel.formats||[])[0]||{}).unit||'kg'}:((sel.formats||[])[selFmt]||{});const parsed=whFormat(f);const sz=parsed.size;const q=parseFloat((qty||'1').replace(',','.'))||1;const u=parsed.unit;return html`<div style="font-size:11.5px;color:var(--green-deep);background:var(--green-soft);border-radius:9px;padding:8px 10px;">Totale a magazzino: <b>${(sz*q).toLocaleString('it-IT')} ${u}</b> (${q} × ${sz} ${u})${u==='conf'?' · Giacenza in confezioni: contenuto non noto.':''}</div>`;})()}
           <button class="sh-save" onClick=${add}>Aggiungi al magazzino</button>
           ${__LAWNLY_IS_PARTNER__(sel.brand)?html`<button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>lawnlyBuyPadana({name:sel.name,id:sel.pid,url:sel.url})}>${'Acquista su '+sel.brand+' ↗'}</button>
           <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:6px;">Link di affiliazione: riceviamo una commissione, senza costi per te.</div>`:(sel.url?html`<button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>lawnlyOpenExt(sel.url)}>Scheda del produttore ↗</button>`:'')}
         </div>`:html`<div>
-          <p class="cat-intro">Scegli la marca, poi il prodotto dal catalogo Lawnly per aggiungerlo al magazzino.</p>
+          <p class="cat-intro">Tutti i prodotti presenti in Lawnly, con le confezioni in vendita. Cerca quello che hai in casa, scegli la confezione e quante ne hai.</p>
+          <input class="finput" type="search" placeholder="Cerca per nome o marca…" value=${q} onInput=${e=>setQ(e.target.value)} style="margin-bottom:10px;"/>
+          <div class="cat-filter" style="margin-bottom:6px;">${tipi.map(t=>html`<span key=${t} class=${'fchip'+(tipo===t?' on':'')} onClick=${()=>setTipo(t)}>${t==='Tutti'?'Tutti i tipi':t}</span>`)}</div>
           <div class="cat-filter">${brands.map(b=>html`<span key=${b} class=${'fchip'+(brand===b?' on':'')+(__LAWNLY_IS_PARTNER__(b)?' brand-chip':'')} aria-label=${b} onClick=${()=>setBrand(b)}>${__LAWNLY_IS_PARTNER__(b)?html`<img src="padana-logo.png" alt=${b}/>`:b}</span>`)}</div>
           <div class="cat-list">
-            ${list.length?list.map((p,i)=>html`<div class="catrow" key=${i} onClick=${()=>{setSel(p);setQty('1');setSelFmt(0);}}>${p.image?html`<img class="pd-product-image" src=${p.image} alt=${[p.brand,p.name].filter(Boolean).join(' ')} loading="lazy" decoding="async"/>`:html`<span class=${'prod-ic '+p.cat}>${_mSvg2(p.cat)}</span>`}<div class="catrow-m"><div class="catrow-n">${p.name}</div><div class="catrow-meta">${[p.brand,p.type,p.fmt].filter(Boolean).join(' · ')}</div></div>${arr}</div>`)
+            ${list.length?list.map((p,i)=>html`<div class="catrow" key=${i} onClick=${()=>{setSel(p);setQty('1');setSelFmt(0);}}>${p.image?html`<img class="pd-product-image" src=${p.image} alt=${[p.brand,p.name].filter(Boolean).join(' ')} loading="lazy" decoding="async"/>`:html`<span class=${'prod-ic '+p.cat}>${_mSvg2(p.cat)}</span>`}<div class="catrow-m"><div class="catrow-n">${p.name}</div><div class="catrow-meta">${[p.brand,p.type,(p.formats&&p.formats.length>1?(p.formats.length+' confezioni'):p.fmt),ownedIds.has(p.pid)?'✓ Ce l\'hai':''].filter(Boolean).join(' · ')}</div></div>${arr}</div>`)
               :html`<div class="zp-empty">Catalogo non disponibile.</div>`}
           </div>
         </div>`}

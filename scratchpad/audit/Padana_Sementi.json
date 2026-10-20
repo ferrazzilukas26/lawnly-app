@@ -1,0 +1,414 @@
+[
+ {
+  "id": "padana-rooting-plus-organico",
+  "name": "Rooting Plus",
+  "type": "concime",
+  "formats": [
+   "Sacco da 20 kg"
+  ],
+  "dose": "40-60 g/m2",
+  "url": "https://www.padanasementi.com/product/rooting-plus/",
+  "sourceUrl": "https://www.padanasementi.com/product/rooting-plus/"
+ },
+ {
+  "id": "padana-rooting-plus",
+  "name": "Rooting Plus NK 10-5",
+  "type": "concime",
+  "formats": [],
+  "dose": null,
+  "url": "https://www.padanasementi.com/prodotto/rooting-plus-nk-10-5/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/rooting-plus-nk-10-5/"
+ },
+ {
+  "id": "padana-ferti-go",
+  "name": "Ferti Go NPK 18-7-9",
+  "type": "concime",
+  "formats": [
+   "Sacco da 4 kg"
+  ],
+  "dose": "25-35 g/m2",
+  "url": "https://www.padanasementi.com/product/ferti-go-npk-18-7-9/",
+  "sourceUrl": "https://www.padanasementi.com/product/ferti-go-npk-18-7-9/"
+ },
+ {
+  "id": "padana-ferti-go-23-6-6",
+  "name": "Ferti Go NPK 23-6-6 + 5 SO3 + 3 C",
+  "type": "concime",
+  "formats": [
+   "Sacco da 25 kg"
+  ],
+  "dose": "30-35 g/m2",
+  "url": "https://www.padanasementi.com/product/ferti-go-npk-23-6-6/",
+  "sourceUrl": "https://www.padanasementi.com/product/ferti-go-npk-23-6-6/"
+ },
+ {
+  "id": "padana-ferti-force-plus",
+  "name": "Ferti Force Plus NPK 8-6-14 + 2 MgO+Me",
+  "type": "concime",
+  "formats": [
+   "Sacco da 25 kg"
+  ],
+  "dose": "30-35 g/m2",
+  "url": "https://www.padanasementi.com/product/ferti-force-plus-npk-8-6-14-2mgome/",
+  "sourceUrl": "https://www.padanasementi.com/product/ferti-force-plus-npk-8-6-14-2mgome/"
+ },
+ {
+  "id": "padana-ferti-sowing",
+  "name": "Ferti Sowing NPK 10-17-10",
+  "type": "concime",
+  "formats": [
+   "Sacco da 4 kg",
+   "Sacco da 25 kg"
+  ],
+  "dose": "35-40 g/m2",
+  "url": "https://www.padanasementi.com/product/ferti-sowing-npk-10-17-10/",
+  "sourceUrl": "https://www.padanasementi.com/product/ferti-sowing-npk-10-17-10/"
+ },
+ {
+  "id": "padana-control-advance",
+  "name": "Control Advance NPK 21-5-9 + 3 MgO",
+  "type": "concime",
+  "formats": [
+   "Sacco da 25 kg"
+  ],
+  "dose": "15-25 g/m2",
+  "url": null,
+  "sourceUrl": "https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-control/"
+ },
+ {
+  "id": "padana-control-field",
+  "name": "Control Field NPK 24-5-8 +2,5 MgO",
+  "type": "concime",
+  "formats": [],
+  "dose": null,
+  "url": null,
+  "sourceUrl": "https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-control/"
+ },
+ {
+  "id": "padana-control-kappa",
+  "name": "Control Kappa NPK 12-0-25 + 2,5 MgO",
+  "type": "concime",
+  "formats": [],
+  "dose": null,
+  "url": null,
+  "sourceUrl": "https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-control/"
+ },
+ {
+  "id": "padana-control-strong",
+  "name": "Control Strong NPK 18-0-18 + 3 MgO",
+  "type": "concime",
+  "formats": [
+   "Sacco da 25 kg"
+  ],
+  "dose": "20-25 g/m2",
+  "url": "https://www.padanasementi.com/product/control-strong-npk-18-0-18-3-mgo/",
+  "sourceUrl": "https://www.padanasementi.com/product/control-strong-npk-18-0-18-3-mgo/"
+ },
+ {
+  "id": "padana-ferti-grow",
+  "name": "Ferti Grow NPK 12-6-14 + 2 MgO + M.e.",
+  "type": "concime",
+  "formats": [
+   "Sacco da 4 kg",
+   "Sacco da 25 kg"
+  ],
+  "dose": "20-25 g/m2",
+  "url": "https://www.padanasementi.com/prodotto/ferti-grow-npk-12-6-14-2-2-mgo-me/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-grow-npk-12-6-14-2-2-mgo-me/"
+ },
+ {
+  "id": "padana-pse-slow-n",
+  "name": "PSE Slow N NPK 33-0-0",
+  "type": "concime",
+  "formats": [],
+  "dose": null,
+  "url": "https://www.padanasementi.com/prodotto/pse-slow-n-33/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/pse-slow-n-33/"
+ },
+ {
+  "id": "padana-accafert",
+  "name": "Accafert",
+  "type": "concime",
+  "formats": [
+   "Tanica da 25 L"
+  ],
+  "dose": null,
+  "url": "https://www.padanasementi.com/prodotto/accafert/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/accafert/"
+ },
+ {
+  "id": "padana-alga-ecklomax",
+  "name": "Alga Ecklomax",
+  "type": "speciale",
+  "formats": [],
+  "dose": null,
+  "url": null,
+  "sourceUrl": "https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-liquid/"
+ },
+ {
+  "id": "padana-alga-suprema",
+  "name": "Alga Suprema",
+  "type": "biostimolante",
+  "formats": [
+   "Bottiglia da 1 kg"
+  ],
+  "dose": "2.5-3.5 kg/ha",
+  "url": "https://www.padanasementi.com/product/alga-suprema/",
+  "sourceUrl": "https://www.padanasementi.com/product/alga-suprema/"
+ },
+ {
+  "id": "padana-amiprot",
+  "name": "Amiprot",
+  "type": "biostimolante",
+  "formats": [
+   "Bottiglia da 250 ml",
+   "Bottiglia da 1 kg",
+   "Tanica da 6 kg"
+  ],
+  "dose": "5-6 kg/ha",
+  "url": "https://www.padanasementi.com/prodotto/amiprot/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/amiprot/"
+ },
+ {
+  "id": "padana-ascoferti",
+  "name": "Ascoferti",
+  "type": "biostimolante",
+  "formats": [
+   "Bottiglia da 1 kg",
+   "Tanica da 6 kg"
+  ],
+  "dose": "2-4 kg/ha",
+  "url": "https://www.padanasementi.com/prodotto/ascoferti/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/ascoferti/"
+ },
+ {
+  "id": "padana-ferti-k",
+  "name": "Ferti K",
+  "type": "concime",
+  "formats": [
+   "Tanica da 5 kg"
+  ],
+  "dose": "20-30 kg/ha",
+  "url": "https://www.padanasementi.com/prodotto/ferti-k/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-k/"
+ },
+ {
+  "id": "padana-ferti-leaf",
+  "name": "Ferti Leaf",
+  "type": "concime",
+  "formats": [
+   "Bottiglia da 1 kg"
+  ],
+  "dose": "20-40 kg/ha",
+  "url": "https://www.padanasementi.com/product/fertileaf/",
+  "sourceUrl": "https://www.padanasementi.com/product/fertileaf/"
+ },
+ {
+  "id": "padana-ferti-n",
+  "name": "Ferti N",
+  "type": "concime",
+  "formats": [
+   "Tanica da 5 kg"
+  ],
+  "dose": "20-30 kg/ha",
+  "url": "https://www.padanasementi.com/product/ferti-n/",
+  "sourceUrl": "https://www.padanasementi.com/product/ferti-n/"
+ },
+ {
+  "id": "padana-sprint-l",
+  "name": "Sprint L",
+  "type": "concime",
+  "formats": [
+   "Bottiglia da 1 kg",
+   "Tanica da 5 kg"
+  ],
+  "dose": "3-5 kg/ha",
+  "url": "https://www.padanasementi.com/prodotto/sprint-l/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/sprint-l/"
+ },
+ {
+  "id": "padana-sun-shield",
+  "name": "Sun Shield",
+  "type": "concime",
+  "formats": [
+   "Bottiglia da 1 kg"
+  ],
+  "dose": "6-8 kg/ha",
+  "url": "https://www.padanasementi.com/product/sun-shield/",
+  "sourceUrl": "https://www.padanasementi.com/product/sun-shield/"
+ },
+ {
+  "id": "padana-fast-defence",
+  "name": "Fast Defence",
+  "type": "concime",
+  "formats": [
+   "Bottiglia da 1 kg"
+  ],
+  "dose": "3.5-4.5 kg/ha",
+  "url": "https://www.padanasementi.com/prodotto/fast-defence/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/fast-defence/"
+ },
+ {
+  "id": "padana-ferti-defence",
+  "name": "Ferti Defence",
+  "type": "speciale",
+  "formats": [
+   "Tanica da 6 kg"
+  ],
+  "dose": "10-15 kg/ha",
+  "url": "https://www.padanasementi.com/prodotto/ferti-defence/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-defence/"
+ },
+ {
+  "id": "padana-ferti-endurance",
+  "name": "FERTI ENDURANCE",
+  "type": "speciale",
+  "formats": [],
+  "dose": null,
+  "url": "https://www.padanasementi.com/prodotto/ferti-endurance/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-endurance/"
+ },
+ {
+  "id": "padana-ferti-energy-wet",
+  "name": "Ferti Energy Wet",
+  "type": "surfattante",
+  "formats": [
+   "Bottiglia da 1 kg",
+   "Tanica da 5 kg"
+  ],
+  "dose": "10-15 kg/ha",
+  "url": "https://www.padanasementi.com/product/energy-wet/",
+  "sourceUrl": "https://www.padanasementi.com/product/energy-wet/"
+ },
+ {
+  "id": "padana-super-life",
+  "name": "Super Life",
+  "type": "speciale",
+  "formats": [],
+  "dose": null,
+  "url": "https://www.padanasementi.com/prodotto/super-life/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/super-life/"
+ },
+ {
+  "id": "padana-humet-pro",
+  "name": "Humet Pro",
+  "type": "surfattante",
+  "formats": [
+   "Bottiglia da 1 kg"
+  ],
+  "dose": null,
+  "url": "https://www.padanasementi.com/prodotto/humet-pro/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/humet-pro/"
+ },
+ {
+  "id": "padana-agiferti",
+  "name": "Agiferti",
+  "type": "bioattivato",
+  "formats": [
+   "Bottiglia da 250 ml",
+   "Bottiglia da 1 L"
+  ],
+  "dose": "0.2-0.3 ml/m2",
+  "url": "https://www.padanasementi.com/prodotto/agiferti/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/agiferti/"
+ },
+ {
+  "id": "padana-bacteria",
+  "name": "Bacteria",
+  "type": "bioattivato",
+  "formats": [
+   "Bottiglia da 1 kg"
+  ],
+  "dose": "3-3 kg/ha",
+  "url": "https://www.padanasementi.com/prodotto/bacteria/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/bacteria/"
+ },
+ {
+  "id": "padana-botriferti",
+  "name": "Botriferti",
+  "type": "bioattivato",
+  "formats": [
+   "Bottiglia da 250 ml",
+   "Bottiglia da 1 L"
+  ],
+  "dose": "0.2-0.3 ml/m2",
+  "url": "https://www.padanasementi.com/prodotto/botriferti/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/botriferti/"
+ },
+ {
+  "id": "padana-ferti-3a",
+  "name": "Ferti 3A",
+  "type": "correttore",
+  "formats": [
+   "Bottiglia da 1 L"
+  ],
+  "dose": null,
+  "url": "https://www.padanasementi.com/prodotto/ferti-3a/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-3a/"
+ },
+ {
+  "id": "padana-ferti-bometa",
+  "name": "Ferti Bometa",
+  "type": "bioattivato",
+  "formats": [
+   "Bottiglia da 250 ml",
+   "Bottiglia da 1 L"
+  ],
+  "dose": "0.2-0.3 ml/m2",
+  "url": "https://www.padanasementi.com/prodotto/ferti-bometa/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/ferti-bometa/"
+ },
+ {
+  "id": "padana-ferti-iron",
+  "name": "Ferti Iron",
+  "type": "bioattivato",
+  "formats": [
+   "Bottiglia da 1 L"
+  ],
+  "dose": "0.6-0.8 ml/m2",
+  "url": "https://www.padanasementi.com/product/ferti-iron/",
+  "sourceUrl": "https://www.padanasementi.com/product/ferti-iron/"
+ },
+ {
+  "id": "padana-fertizon",
+  "name": "FERTIZON",
+  "type": "bioattivato",
+  "formats": [
+   "Bottiglia da 1 L"
+  ],
+  "dose": "5-10 kg/ha",
+  "url": "https://www.padanasementi.com/prodotto/fertizon/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/fertizon/"
+ },
+ {
+  "id": "padana-nemaferti",
+  "name": "Nemaferti",
+  "type": "bioattivato",
+  "formats": [
+   "Bottiglia da 1 L"
+  ],
+  "dose": "2-3 kg/ha",
+  "url": "https://www.padanasementi.com/prodotto/nemaferti/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/nemaferti/"
+ },
+ {
+  "id": "padana-tricoferti",
+  "name": "Tricoferti",
+  "type": "speciale",
+  "formats": [],
+  "dose": null,
+  "url": "https://www.padanasementi.com/prodotto/tricoferti/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/tricoferti/"
+ },
+ {
+  "id": "padana-forgreen",
+  "name": "FORGREEN",
+  "type": "colorante",
+  "formats": [
+   "Bottiglia da 1 L"
+  ],
+  "dose": null,
+  "url": "https://www.padanasementi.com/prodotto/forgreen/",
+  "sourceUrl": "https://www.padanasementi.com/prodotto/forgreen/"
+ }
+]

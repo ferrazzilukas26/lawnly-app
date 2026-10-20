@@ -1,0 +1,658 @@
+{
+ "brand": "Padana Sementi",
+ "products": [
+  {
+   "id": "padana-rooting-plus-organico",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "https://www.padanasementi.com/product/rooting-plus/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-rooting-plus",
+   "formats": [
+    {
+     "size": 4,
+     "unit": "kg",
+     "label": "Sacco da 4 kg",
+     "source": "https://www.padanasementi.com/product/rooting-plus-npk-10-0-5/"
+    }
+   ],
+   "dose": {
+    "min": 40,
+    "max": 50,
+    "unit": "g/m2",
+    "source": "https://www.padanasementi.com/product/rooting-plus-npk-10-0-5/"
+   },
+   "status": "confermato",
+   "note": "Dose dal sito (tappeti erbosi); il sito riporta anche altre dosi per altri usi. URL catalogo (rooting-plus-nk-10-5) non valido, pagina corretta: https://www.padanasementi.com/product/rooting-plus-npk-10-0-5/ Sacco da 4 kg venduto in confezioni da 4 pz."
+  },
+  {
+   "id": "padana-ferti-go",
+   "formats": [
+    {
+     "size": 4,
+     "unit": "kg",
+     "label": "Sacco da 4 kg",
+     "source": "https://www.padanasementi.com/product/ferti-go-npk-18-7-9/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Sacco da 4 kg venduto in confezioni da 4 pz."
+  },
+  {
+   "id": "padana-ferti-go-23-6-6",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://www.padanasementi.com/product/ferti-go-npk-23-6-6/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-ferti-force-plus",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://www.padanasementi.com/product/ferti-force-plus-npk-8-6-14-2mgome/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-ferti-sowing",
+   "formats": [
+    {
+     "size": 4,
+     "unit": "kg",
+     "label": "Sacco da 4 kg",
+     "source": "https://www.padanasementi.com/product/ferti-sowing-npk-10-17-10/"
+    },
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://www.padanasementi.com/product/ferti-sowing-npk-10-17-10/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Sacco da 4 kg venduto in confezioni da 4 pz."
+  },
+  {
+   "id": "padana-control-advance",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://www.padanasementi.com/product/control-advance-npk-21-5-9-3mgo/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Pagina prodotto trovata dalla categoria (url catalogo null)."
+  },
+  {
+   "id": "padana-control-field",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://www.padanasementi.com/product/control-field-npk-24-5-8/"
+    }
+   ],
+   "dose": {
+    "min": 30,
+    "max": 35,
+    "unit": "g/m2",
+    "source": "https://www.padanasementi.com/product/control-field-npk-24-5-8/"
+   },
+   "status": "confermato",
+   "note": "Dose dal sito; il sito riporta anche altre dosi per altri usi. Pagina prodotto trovata dalla categoria (url catalogo null)."
+  },
+  {
+   "id": "padana-control-kappa",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://www.padanasementi.com/product/control-kappa-npk-12-0-25-25-mgo/"
+    }
+   ],
+   "dose": {
+    "min": 25,
+    "max": 35,
+    "unit": "g/m2",
+    "source": "https://www.padanasementi.com/product/control-kappa-npk-12-0-25-25-mgo/"
+   },
+   "status": "confermato",
+   "note": "Dose dal sito; il sito riporta anche altre dosi per altri usi. Pagina prodotto trovata dalla categoria (url catalogo null)."
+  },
+  {
+   "id": "padana-control-strong",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://www.padanasementi.com/product/control-strong-npk-18-0-18-3-mgo/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-ferti-grow",
+   "formats": [
+    {
+     "size": 4,
+     "unit": "kg",
+     "label": "Sacco da 4 kg",
+     "source": "https://www.padanasementi.com/product/ferti-grow-npk-12-6-14-2-2-mgo-me/"
+    },
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://www.padanasementi.com/product/ferti-grow-npk-12-6-14-2-2-mgo-me/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Sacco da 4 kg venduto in confezioni da 4 pz."
+  },
+  {
+   "id": "padana-pse-slow-n",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "https://www.padanasementi.com/product/pse-slow-n-33/"
+    }
+   ],
+   "dose": {
+    "min": 20,
+    "max": 25,
+    "unit": "g/m2",
+    "source": "https://www.padanasementi.com/product/pse-slow-n-33/"
+   },
+   "status": "confermato",
+   "note": "Dose dal sito (tappeto erboso ornamentale); il sito riporta anche altre dosi per altri usi."
+  },
+  {
+   "id": "padana-accafert",
+   "formats": [
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Tanica da 25 kg",
+     "source": "https://www.padanasementi.com/product/accafert/"
+    },
+    {
+     "size": 1200,
+     "unit": "kg",
+     "label": "Tank 1200 kg",
+     "source": "https://www.padanasementi.com/product/accafert/"
+    }
+   ],
+   "dose": {
+    "min": 20,
+    "max": 30,
+    "unit": "kg/ha",
+    "source": "https://www.padanasementi.com/product/accafert/"
+   },
+   "status": "confermato",
+   "note": "Dose dal sito (uso fogliare); il sito riporta anche altre dosi per altri usi."
+  },
+  {
+   "id": "padana-alga-ecklomax",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "kg",
+     "label": "Bottiglia da 1 kg",
+     "source": "https://www.padanasementi.com/product/algaecklomax/"
+    },
+    {
+     "size": 6,
+     "unit": "kg",
+     "label": "Bottiglia da 6 Kg",
+     "source": "https://www.padanasementi.com/product/algaecklomax/"
+    }
+   ],
+   "dose": {
+    "min": 6,
+    "max": 8,
+    "unit": "kg/ha",
+    "source": "https://www.padanasementi.com/product/algaecklomax/"
+   },
+   "status": "confermato",
+   "note": "Dose dal sito (uso fogliare); il sito riporta anche altre dosi per altri usi. Pagina prodotto trovata dalla categoria (url catalogo null)."
+  },
+  {
+   "id": "padana-alga-suprema",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "kg",
+     "label": "Bottiglia da 1 kg",
+     "source": "https://www.padanasementi.com/product/alga-suprema/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-amiprot",
+   "formats": [
+    {
+     "size": 250,
+     "unit": "ml",
+     "label": "Bottiglia da 250 mL",
+     "source": "https://www.padanasementi.com/product/amiprot/"
+    },
+    {
+     "size": 1,
+     "unit": "kg",
+     "label": "Bottiglia da 1 kg",
+     "source": "https://www.padanasementi.com/product/amiprot/"
+    },
+    {
+     "size": 6,
+     "unit": "kg",
+     "label": "Tanica da 6 kg",
+     "source": "https://www.padanasementi.com/product/amiprot/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-ascoferti",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "kg",
+     "label": "Bottiglia da 1 kg",
+     "source": "https://www.padanasementi.com/product/ascoferti/"
+    },
+    {
+     "size": 6,
+     "unit": "kg",
+     "label": "Tanica da 6 kg",
+     "source": "https://www.padanasementi.com/product/ascoferti/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-ferti-k",
+   "formats": [
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Tanica da 5 kg",
+     "source": "https://www.padanasementi.com/product/ferti-k/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-ferti-leaf",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "kg",
+     "label": "Bottiglia da 1 kg",
+     "source": "https://www.padanasementi.com/product/fertileaf/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-ferti-n",
+   "formats": [
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Tanica da 5 kg",
+     "source": "https://www.padanasementi.com/product/ferti-n/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-sprint-l",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "kg",
+     "label": "Bottiglia da 1 kg",
+     "source": "https://www.padanasementi.com/product/sprint-l/"
+    },
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Tanica da 5 kg",
+     "source": "https://www.padanasementi.com/product/sprint-l/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-sun-shield",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "kg",
+     "label": "Bottiglia da 1 kg",
+     "source": "https://www.padanasementi.com/product/sun-shield/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-fast-defence",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "kg",
+     "label": "Bottiglia da 1 kg",
+     "source": "https://www.padanasementi.com/product/fast-defence/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-ferti-defence",
+   "formats": [
+    {
+     "size": 6,
+     "unit": "kg",
+     "label": "Tanica da 6 kg",
+     "source": "https://www.padanasementi.com/product/ferti-defence/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-ferti-endurance",
+   "formats": [],
+   "dose": null,
+   "status": "non_trovato",
+   "note": "Prodotto non presente nel sito padanasementi.com (URL catalogo = pagina home/404, non in nessuna categoria, ricerca interna senza risultati)."
+  },
+  {
+   "id": "padana-ferti-energy-wet",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "kg",
+     "label": "Bottiglia da 1 kg",
+     "source": "https://www.padanasementi.com/product/energy-wet/"
+    },
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Tanica da 5 kg",
+     "source": "https://www.padanasementi.com/product/energy-wet/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-super-life",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "kg",
+     "label": "Bottiglia da 1 kg",
+     "source": "https://www.padanasementi.com/product/super-life/"
+    }
+   ],
+   "dose": {
+    "min": 20,
+    "max": 40,
+    "unit": "kg/ha",
+    "source": "https://www.padanasementi.com/product/super-life/"
+   },
+   "status": "confermato",
+   "note": "Dose dal sito (uso fogliare); il sito riporta anche altre dosi per altri usi."
+  },
+  {
+   "id": "padana-humet-pro",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "kg",
+     "label": "Bottiglia da 1 kg",
+     "source": "https://www.padanasementi.com/product/humet-pro/"
+    }
+   ],
+   "dose": {
+    "min": 10,
+    "max": 15,
+    "unit": "L/ha",
+    "source": "https://www.padanasementi.com/product/humet-pro/"
+   },
+   "status": "confermato",
+   "note": "Dose dal sito (uso fogliare); il sito riporta anche altre dosi per altri usi."
+  },
+  {
+   "id": "padana-agiferti",
+   "formats": [
+    {
+     "size": 250,
+     "unit": "ml",
+     "label": "Bottiglia da 250 mL",
+     "source": "https://www.padanasementi.com/product/agiferti/"
+    },
+    {
+     "size": 1,
+     "unit": "L",
+     "label": "Bottiglia da 1 L",
+     "source": "https://www.padanasementi.com/product/agiferti/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-bacteria",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "kg",
+     "label": "Bottiglia da 1 kg",
+     "source": "https://www.padanasementi.com/product/bacteria/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-botriferti",
+   "formats": [
+    {
+     "size": 250,
+     "unit": "ml",
+     "label": "Bottiglia da 250 mL",
+     "source": "https://www.padanasementi.com/product/botriferti/"
+    },
+    {
+     "size": 1,
+     "unit": "L",
+     "label": "Bottiglia da 1 L",
+     "source": "https://www.padanasementi.com/product/botriferti/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-ferti-3a",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "L",
+     "label": "Bottiglia da 1 L",
+     "source": "https://www.padanasementi.com/product/ferti-3a/"
+    }
+   ],
+   "dose": {
+    "min": 0.9,
+    "max": 1.3,
+    "unit": "mL/L",
+    "source": "https://www.padanasementi.com/product/ferti-3a/"
+   },
+   "status": "confermato",
+   "note": "Dose dal sito (mL per litro d acqua di irrorazione); il sito riporta anche altre dosi per altri usi."
+  },
+  {
+   "id": "padana-ferti-bometa",
+   "formats": [
+    {
+     "size": 250,
+     "unit": "ml",
+     "label": "Bottiglia da 250 mL",
+     "source": "https://www.padanasementi.com/product/ferti-bometa/"
+    },
+    {
+     "size": 1,
+     "unit": "L",
+     "label": "Bottiglia da 1 L",
+     "source": "https://www.padanasementi.com/product/ferti-bometa/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-ferti-iron",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "L",
+     "label": "Bottiglia da 1 L",
+     "source": "https://www.padanasementi.com/product/ferti-iron/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-fertizon",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "L",
+     "label": "Bottiglia da 1 L",
+     "source": "https://www.padanasementi.com/product/fertizon/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-nemaferti",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "L",
+     "label": "Bottiglia da 1 L",
+     "source": "https://www.padanasementi.com/product/nemaferti/"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": ""
+  },
+  {
+   "id": "padana-tricoferti",
+   "formats": [
+    {
+     "size": 250,
+     "unit": "ml",
+     "label": "Bottiglia da 250 mL",
+     "source": "https://www.padanasementi.com/product/tricoferti/"
+    },
+    {
+     "size": 1,
+     "unit": "L",
+     "label": "Bottiglia da 1 L",
+     "source": "https://www.padanasementi.com/product/tricoferti/"
+    }
+   ],
+   "dose": {
+    "min": 2,
+    "max": 3,
+    "unit": "L/ha",
+    "source": "https://www.padanasementi.com/product/tricoferti/"
+   },
+   "status": "confermato",
+   "note": "Dose dal sito (uso radicale); il sito riporta anche altre dosi per altri usi."
+  },
+  {
+   "id": "padana-forgreen",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "L",
+     "label": "Bottiglia 1 l",
+     "source": "https://www.padanasementi.com/product/forgreen/"
+    }
+   ],
+   "dose": null,
+   "status": "parziale",
+   "note": "Confezioni confermate; dose non indicata nella pagina prodotto."
+  }
+ ]
+}

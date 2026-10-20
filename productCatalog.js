@@ -743,8 +743,10 @@ export const PRODUCT_CATALOG = [
     application: "spandiconcime_granulare",
     granulometry: "mini-granulare",
     formats: [
+      { sku: "bottos-tryko-plus-1kg", size: 1, unit: "kg", label: "Confezione 1 kg", verified: true, source: "https://www.bottos1848.com/prodotti/tryko-plus/" },
       { sku: "bottos-tryko-plus-5kg", size: 5, unit: "kg", label: "Sacco 5 kg", verified: true },
-      { sku: "bottos-tryko-plus-20kg", size: 20, unit: "kg", label: "Sacco 20 kg", verified: true }
+      { sku: "bottos-tryko-plus-20kg", size: 20, unit: "kg", label: "Sacco 20 kg", verified: true },
+      { sku: "bottos-tryko-plus-250g", size: 250, unit: "g", label: "Confezione 250 g", verified: true, source: "https://www.bottos1848.com/prodotti/tryko-plus/" }
     ],
     actives: [
       { name: "Trichoderma atroviride", amount: 1e8, unit: "UFC/g" },
@@ -842,7 +844,8 @@ export const PRODUCT_CATALOG = [
     granulometry: null,
     formats: [
       { sku: "bottos-verdigo-1l", size: 1, unit: "L", label: "Flacone 1 L", verified: true },
-      { sku: "bottos-verdigo-5l", size: 5, unit: "L", label: "Tanica 5 L", verified: true }
+      { sku: "bottos-verdigo-5l", size: 5, unit: "L", label: "Tanica 5 L", verified: true },
+      { sku: "bottos-verdigo-500ml", size: 500, unit: "ml", label: "Confezione 500 ml", verified: true, source: "https://www.bottos1848.com/prodotti/verdigo/" }
     ],
     actives: [
       { name: "Pigmento verde turf-grade", amount: null, unit: "%" }
@@ -1812,7 +1815,8 @@ export const PRODUCT_CATALOG = [
     application: "spandiconcime_granulare",
     granulometry: null,
     formats: [
-      { sku: "barenbrug-joker-bio-turf-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true }
+      { sku: "barenbrug-joker-bio-turf-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true },
+      { sku: "barenbrug-joker-bio-turf-20kg", size: 20, unit: "kg", label: "Sacco da 20 kg", verified: true, source: "https://www.barenbrug.it/tappeto-erboso/products/joker-bio-turf" }
     ],
     gddWindow: null,
     audienceLevel: "pro",
@@ -1845,7 +1849,8 @@ export const PRODUCT_CATALOG = [
     application: "radicale_diluito",
     granulometry: null,
     formats: [
-      { sku: "barenbrug-pbs-150-10lt", size: 10, unit: "lt", label: "Tanica 10 lt", verified: true }
+      { sku: "barenbrug-pbs-150-10lt", size: 10, unit: "lt", label: "Tanica 10 lt", verified: true },
+      { sku: "barenbrug-pbs-150-10l", size: 10, unit: "L", label: "Tanica da 10 lt", verified: true, source: "https://www.barenbrug.it/tappeto-erboso/products/pbs-150" }
     ],
     gddWindow: null,
     audienceLevel: "pro",
@@ -2093,7 +2098,10 @@ export const PRODUCT_CATALOG = [
     temperatureRange: null,
     application: "fogliare",
     granulometry: null,
-    formats: [{ sku: "icl-greenmaster-liquid-effect-iron-10l", size: 10, unit: "L", label: "10 L", verified: true }],
+    formats: [
+      { sku: "icl-greenmaster-liquid-effect-iron-1l", size: 1, unit: "L", label: "Flacone/bottiglia da 1 L", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27132316/2024-turf-mini-catalogo-concimi-liquidi.pdf" },
+      { sku: "icl-greenmaster-liquid-effect-iron-10l", size: 10, unit: "L", label: "10 L", verified: true }
+    ],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -2149,7 +2157,10 @@ export const PRODUCT_CATALOG = [
     temperatureRange: null,
     application: "fogliare",
     granulometry: null,
-    formats: [{ sku: "icl-greenmaster-liquid-nk-10l", size: 10, unit: "L", label: "10 L", verified: true }],
+    formats: [
+      { sku: "icl-greenmaster-liquid-nk-1l", size: 1, unit: "L", label: "Flacone/bottiglia da 1 L", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27132316/2024-turf-mini-catalogo-concimi-liquidi.pdf" },
+      { sku: "icl-greenmaster-liquid-nk-10l", size: 10, unit: "L", label: "10 L", verified: true }
+    ],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -2373,7 +2384,11 @@ export const PRODUCT_CATALOG = [
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-landscaper-pro-maintenance-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true }, { sku: "icl-landscaper-pro-maintenance-25kg", size: 25, unit: "kg", label: "Sacco 25 kg", verified: true }],
+    formats: [
+      { sku: "icl-landscaper-pro-maintenance-5kg", size: 5, unit: "kg", label: "Sacco da 5 kg", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf" },
+      { sku: "icl-landscaper-pro-maintenance-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true },
+      { sku: "icl-landscaper-pro-maintenance-25kg", size: 25, unit: "kg", label: "Sacco 25 kg", verified: true }
+    ],
     audienceLevel: "prosumer",
     actives: null,
     targetPests: null,
@@ -2485,7 +2500,10 @@ export const PRODUCT_CATALOG = [
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-landscaper-pro-flora-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true }],
+    formats: [
+      { sku: "icl-landscaper-pro-flora-5kg", size: 5, unit: "kg", label: "Sacco da 5 kg", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf" },
+      { sku: "icl-landscaper-pro-flora-15kg", size: 15, unit: "kg", label: "Sacco 15 kg", verified: true }
+    ],
     audienceLevel: "prosumer",
     actives: null,
     targetPests: null,
@@ -2569,7 +2587,10 @@ export const PRODUCT_CATALOG = [
     temperatureRange: null,
     application: "spandiconcime_granulare",
     granulometry: null,
-    formats: [{ sku: "icl-landscaperpro-universtar-balance-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }],
+    formats: [
+      { sku: "icl-landscaperpro-universtar-balance-5kg", size: 5, unit: "kg", label: "Sacco da 5 kg", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf" },
+      { sku: "icl-landscaperpro-universtar-balance-25kg", size: 25, unit: "kg", label: "25 kg", verified: true }
+    ],
     audienceLevel: "prosumer",
     actives: null,
     targetPests: null,
@@ -3297,7 +3318,10 @@ export const PRODUCT_CATALOG = [
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-vitalnova-blade-10l", size: 10, unit: "L", label: "Tanica 10 L", verified: true }],
+    formats: [
+      { sku: "icl-vitalnova-blade-1l", size: 1, unit: "L", label: "Flacone/bottiglia da 1 L", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27141710/2024-turf-mini-catalogo-biostimolanti_compressed.pdf" },
+      { sku: "icl-vitalnova-blade-10l", size: 10, unit: "L", label: "Tanica 10 L", verified: true }
+    ],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -3381,7 +3405,10 @@ export const PRODUCT_CATALOG = [
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-vitalnova-stressbuster-10l", size: 10, unit: "L", label: "Tanica 10 L", verified: true }],
+    formats: [
+      { sku: "icl-vitalnova-stressbuster-1l", size: 1, unit: "L", label: "Flacone/bottiglia da 1 L", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27141710/2024-turf-mini-catalogo-biostimolanti_compressed.pdf" },
+      { sku: "icl-vitalnova-stressbuster-10l", size: 10, unit: "L", label: "Tanica 10 L", verified: true }
+    ],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -3409,7 +3436,10 @@ export const PRODUCT_CATALOG = [
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-h2pro-aquasmart-5l", size: 5, unit: "L", label: "Tanica 5 L", verified: true }],
+    formats: [
+      { sku: "icl-h2pro-aquasmart-1l", size: 1, unit: "L", label: "Flacone/bottiglia da 1 L", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27134542/2024-turf-mini-catalogo-agenti-umettanti.pdf" },
+      { sku: "icl-h2pro-aquasmart-5l", size: 5, unit: "L", label: "Tanica 5 L", verified: true }
+    ],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -3661,7 +3691,9 @@ export const PRODUCT_CATALOG = [
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-hicure-10l", size: 10, unit: "L", label: "Tanica 10 L", verified: true }],
+    formats: [
+      { sku: "icl-hicure-1l", size: 1, unit: "L", label: "Bottiglia da 1 L", verified: true, source: "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/29131438/2024-turf-mini-catalogo-specialitaPDF.pdf" }
+    ],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -3757,7 +3789,7 @@ export const PRODUCT_CATALOG = [
     "secondary": {},
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min":40,"max":50,"unit":"g/m2","source":"https://www.padanasementi.com/product/rooting-plus-npk-10-0-5/"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -3765,7 +3797,9 @@ export const PRODUCT_CATALOG = [
     "temperatureRange": null,
     "application": null,
     "granulometry": null,
-    "formats": [],
+    "formats": [
+      {"sku":"padana-rooting-plus-4kg","size":4,"unit":"kg","label":"Sacco da 4 kg","verified":true,"source":"https://www.padanasementi.com/product/rooting-plus-npk-10-0-5/"}
+    ],
     "gddWindow": null,
     "audienceLevel": null,
     "notes": null,
@@ -4055,7 +4089,7 @@ export const PRODUCT_CATALOG = [
     },
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min":30,"max":35,"unit":"g/m2","source":"https://www.padanasementi.com/product/control-field-npk-24-5-8/"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -4063,7 +4097,9 @@ export const PRODUCT_CATALOG = [
     "temperatureRange": null,
     "application": null,
     "granulometry": null,
-    "formats": [],
+    "formats": [
+      {"sku":"padana-control-field-25kg","size":25,"unit":"kg","label":"Sacco da 25 kg","verified":true,"source":"https://www.padanasementi.com/product/control-field-npk-24-5-8/"}
+    ],
     "gddWindow": null,
     "audienceLevel": null,
     "notes": null,
@@ -4092,7 +4128,7 @@ export const PRODUCT_CATALOG = [
     },
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min":25,"max":35,"unit":"g/m2","source":"https://www.padanasementi.com/product/control-kappa-npk-12-0-25-25-mgo/"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -4100,7 +4136,9 @@ export const PRODUCT_CATALOG = [
     "temperatureRange": null,
     "application": null,
     "granulometry": null,
-    "formats": [],
+    "formats": [
+      {"sku":"padana-control-kappa-25kg","size":25,"unit":"kg","label":"Sacco da 25 kg","verified":true,"source":"https://www.padanasementi.com/product/control-kappa-npk-12-0-25-25-mgo/"}
+    ],
     "gddWindow": null,
     "audienceLevel": null,
     "notes": null,
@@ -4247,7 +4285,7 @@ export const PRODUCT_CATALOG = [
     "secondary": {},
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min":20,"max":25,"unit":"g/m2","source":"https://www.padanasementi.com/product/pse-slow-n-33/"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -4255,7 +4293,9 @@ export const PRODUCT_CATALOG = [
     "temperatureRange": null,
     "application": null,
     "granulometry": null,
-    "formats": [],
+    "formats": [
+      {"sku":"padana-pse-slow-n-25kg","size":25,"unit":"kg","label":"Sacco da 25 kg","verified":true,"source":"https://www.padanasementi.com/product/pse-slow-n-33/"}
+    ],
     "gddWindow": null,
     "audienceLevel": null,
     "notes": null,
@@ -4278,7 +4318,7 @@ export const PRODUCT_CATALOG = [
     "secondary": {},
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min":20,"max":30,"unit":"kg/ha","source":"https://www.padanasementi.com/product/accafert/"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -4318,7 +4358,7 @@ export const PRODUCT_CATALOG = [
     "secondary": {},
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min":6,"max":8,"unit":"kg/ha","source":"https://www.padanasementi.com/product/algaecklomax/"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -4326,7 +4366,10 @@ export const PRODUCT_CATALOG = [
     "temperatureRange": null,
     "application": null,
     "granulometry": null,
-    "formats": [],
+    "formats": [
+      {"sku":"padana-alga-ecklomax-1kg","size":1,"unit":"kg","label":"Bottiglia da 1 kg","verified":true,"source":"https://www.padanasementi.com/product/algaecklomax/"},
+      {"sku":"padana-alga-ecklomax-6kg","size":6,"unit":"kg","label":"Bottiglia da 6 Kg","verified":true,"source":"https://www.padanasementi.com/product/algaecklomax/"}
+    ],
     "gddWindow": null,
     "audienceLevel": null,
     "notes": null,
@@ -4910,7 +4953,7 @@ export const PRODUCT_CATALOG = [
     "secondary": {},
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min":20,"max":40,"unit":"kg/ha","source":"https://www.padanasementi.com/product/super-life/"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -4918,7 +4961,9 @@ export const PRODUCT_CATALOG = [
     "temperatureRange": null,
     "application": null,
     "granulometry": null,
-    "formats": [],
+    "formats": [
+      {"sku":"padana-super-life-1kg","size":1,"unit":"kg","label":"Bottiglia da 1 kg","verified":true,"source":"https://www.padanasementi.com/product/super-life/"}
+    ],
     "gddWindow": null,
     "audienceLevel": null,
     "notes": null,
@@ -4942,7 +4987,7 @@ export const PRODUCT_CATALOG = [
     "secondary": {},
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min": 1000, "max": 1500, "unit": "ml/1000m2", "source": "https://www.padanasementi.com/product/humet-pro/", "note": "scheda: 10-15 L/ha (1 L/ha = 100 ml/1000 m2)"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -5419,7 +5464,7 @@ export const PRODUCT_CATALOG = [
     "secondary": {},
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min": 200, "max": 300, "unit": "ml/1000m2", "source": "https://www.padanasementi.com/product/tricoferti/", "note": "scheda: 2-3 L/ha (1 L/ha = 100 ml/1000 m2)"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,
@@ -5427,7 +5472,10 @@ export const PRODUCT_CATALOG = [
     "temperatureRange": null,
     "application": null,
     "granulometry": null,
-    "formats": [],
+    "formats": [
+      {"sku":"padana-tricoferti-250ml","size":250,"unit":"ml","label":"Bottiglia da 250 mL","verified":true,"source":"https://www.padanasementi.com/product/tricoferti/"},
+      {"sku":"padana-tricoferti-1l","size":1,"unit":"L","label":"Bottiglia da 1 L","verified":true,"source":"https://www.padanasementi.com/product/tricoferti/"}
+    ],
     "gddWindow": null,
     "audienceLevel": null,
     "notes": null,

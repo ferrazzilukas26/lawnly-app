@@ -1,0 +1,691 @@
+[
+ {
+  "id": "icl-greenmaster-pro-lite-cold-start",
+  "name": "Greenmaster Pro-Lite Cold Start",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "20-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-greenmaster-pro-lite-invigorator-plus",
+  "name": "Greenmaster Pro-Lite Invigorator Plus",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "20-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-greenmaster-pro-lite-nk",
+  "name": "Greenmaster Pro-Lite NK",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "20-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-greenmaster-liquid-calmag-booster",
+  "name": "Greenmaster Liquid CalMag Booster",
+  "type": "concime",
+  "formats": [
+   "10 L"
+  ],
+  "dose": "20-60 l/ha",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-greenmaster-liquid-effect-iron",
+  "name": "Greenmaster Liquid Effect Iron",
+  "type": "concime",
+  "formats": [
+   "10 L"
+  ],
+  "dose": "10-30 l/ha",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-greenmaster-liquid-high-n",
+  "name": "Greenmaster Liquid High N",
+  "type": "concime",
+  "formats": [
+   "10 L"
+  ],
+  "dose": "40-120 l/ha",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-greenmaster-liquid-nk",
+  "name": "Greenmaster Liquid NK",
+  "type": "concime",
+  "formats": [
+   "10 L"
+  ],
+  "dose": "40-120 l/ha",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-greenmaster-liquid-step",
+  "name": "Greenmaster Liquid STEP",
+  "type": "concime",
+  "formats": [
+   "10 L"
+  ],
+  "dose": "20-60 l/ha",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-step-hi-mag",
+  "name": "STEP Hi-Mag",
+  "type": "concime",
+  "formats": [
+   "Sacco 20 kg"
+  ],
+  "dose": "7-11 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-gronamic-mini-high-k",
+  "name": "Gronamic Mini High K",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "25-40 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-gronamic-mini-high-n",
+  "name": "Gronamic Mini High N",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "25-40 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-gronamic-sport-high-k",
+  "name": "Gronamic Sport High K",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "30-40 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-gronamic-sport-high-n",
+  "name": "Gronamic Sport High N",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "30-40 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-landscaper-pro-full-season",
+  "name": "Landscaper Pro Full Season",
+  "type": "concime",
+  "formats": [
+   "Sacco 15 kg"
+  ],
+  "dose": "50-60 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-landscaper-pro-maintenance",
+  "name": "Landscaper Pro Maintenance",
+  "type": "concime",
+  "formats": [
+   "Sacco 15 kg",
+   "Sacco 25 kg"
+  ],
+  "dose": "30-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-landscaper-pro-new-grass",
+  "name": "Landscaper Pro New Grass",
+  "type": "concime",
+  "formats": [
+   "Sacco 5 kg",
+   "Sacco 15 kg"
+  ],
+  "dose": "25-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-landscaper-pro-shade-special",
+  "name": "Landscaper Pro Shade Special",
+  "type": "concime",
+  "formats": [
+   "Sacco 5 kg",
+   "Sacco 15 kg"
+  ],
+  "dose": "25-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-landscaper-pro-stress-control",
+  "name": "Landscaper Pro Stress Control",
+  "type": "concime",
+  "formats": [
+   "Sacco 5 kg",
+   "Sacco 15 kg"
+  ],
+  "dose": "30-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-landscaper-pro-flora",
+  "name": "Landscaper Pro Flora",
+  "type": "concime",
+  "formats": [
+   "Sacco 15 kg"
+  ],
+  "dose": "50-75 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-landscaperpro-readystar-n",
+  "name": "LandscaperPro Readystar N",
+  "type": "concime",
+  "formats": [
+   "Sacco 5 kg",
+   "Sacco 25 kg"
+  ],
+  "dose": "20-30 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-landscaperpro-readystar-k",
+  "name": "LandscaperPro Readystar K",
+  "type": "concime",
+  "formats": [
+   "Sacco 5 kg",
+   "Sacco 25 kg"
+  ],
+  "dose": "25-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-landscaperpro-universtar-balance",
+  "name": "LandscaperPro Universtar Balance",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "25-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-landscaperpro-universtar-classic",
+  "name": "LandscaperPro Universtar Classic",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "25-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-proturf-active",
+  "name": "ProTurf Active",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "25-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-proturf-classic",
+  "name": "ProTurf Classic",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "25-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-proturf-high-k",
+  "name": "ProTurf High K",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "25-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-proturf-high-n",
+  "name": "ProTurf High N",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "25-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sierrablen-plus-active",
+  "name": "Sierrablen Plus Active",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "25-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sierrablen-plus-mini",
+  "name": "Sierrablen Plus Mini",
+  "type": "concime",
+  "formats": [
+   "20 kg"
+  ],
+  "dose": "15-20 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sierrablen-plus-n-start",
+  "name": "Sierrablen Plus N-Start",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "25-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sierrablen-plus-renovator",
+  "name": "Sierrablen Plus Renovator",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "25-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sierrablen-plus-spring-starter-3m",
+  "name": "Sierrablen Plus Spring Starter 3M",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "25-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sierrablen-plus-spring-starter-4-5m",
+  "name": "Sierrablen Plus Spring Starter 4-5M",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "25-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sierrablen-plus-stress-control",
+  "name": "Sierrablen Plus Stress Control",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "25-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sierrablen-plus-turf-starter-con-tecnologia-pearl",
+  "name": "Sierrablen Plus Turf Starter con tecnologia Pearl",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "20-50 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sierrablen-plus-renovator-con-tecnologia-pearl",
+  "name": "Sierrablen Plus Renovator con Tecnologia Pearl",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "25-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sierraform-gt-all-season",
+  "name": "Sierraform GT All Season",
+  "type": "concime",
+  "formats": [
+   "20 kg"
+  ],
+  "dose": "15-30 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sierraform-gt-anti-stress",
+  "name": "Sierraform GT Anti-Stress",
+  "type": "concime",
+  "formats": [
+   "Sacco 20 kg"
+  ],
+  "dose": "15-30 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sierraform-gt-k-step",
+  "name": "Sierraform GT K-Step",
+  "type": "concime",
+  "formats": [
+   "Sacco 20 kg"
+  ],
+  "dose": "15-30 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sierraform-gt-momentum",
+  "name": "Sierraform GT Momentum",
+  "type": "concime",
+  "formats": [
+   "Sacco 20 kg"
+  ],
+  "dose": "15-30 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sierraform-gt-preseeder",
+  "name": "Sierraform GT Preseeder",
+  "type": "concime",
+  "formats": [
+   "Sacco 20 kg"
+  ],
+  "dose": "20-30 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sportsmaster-crf-mini-spring-starter",
+  "name": "Sportsmaster CRF Mini Spring Starter",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "20-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sportsmaster-crf-mini-start",
+  "name": "Sportsmaster CRF Mini Start",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "20-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sportsmaster-wsf-high-k",
+  "name": "Sportsmaster WSF High K",
+  "type": "concime",
+  "formats": [
+   "Sacco 15 kg"
+  ],
+  "dose": "15-60 kg/ha",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sportsmaster-wsf-high-n",
+  "name": "Sportsmaster WSF High N",
+  "type": "concime",
+  "formats": [
+   "Sacco 15 kg"
+  ],
+  "dose": "15-60 kg/ha",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-sportsmaster-crf-mini-high-k",
+  "name": "Sportsmaster CRF Mini High K",
+  "type": "concime",
+  "formats": [
+   "25 kg"
+  ],
+  "dose": "20-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-vitalnova-aminoboost",
+  "name": "Vitalnova AminoBoost",
+  "type": "biostimolante",
+  "formats": [
+   "Tanica 10 L"
+  ],
+  "dose": "20-30 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-vitalnova-blade",
+  "name": "Vitalnova Blade",
+  "type": "biostimolante",
+  "formats": [
+   "Tanica 10 L"
+  ],
+  "dose": "25-50 l/ha",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-vitalnova-smx",
+  "name": "Vitalnova SMX",
+  "type": "biostimolante",
+  "formats": [
+   "Tanica 10 L"
+  ],
+  "dose": "5-10 l/ha",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-vitalnova-silk",
+  "name": "Vitalnova SilK",
+  "type": "biostimolante",
+  "formats": [
+   "Tanica 10 L"
+  ],
+  "dose": "20-30 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-vitalnova-stressbuster",
+  "name": "Vitalnova Stressbuster",
+  "type": "biostimolante",
+  "formats": [
+   "Tanica 10 L"
+  ],
+  "dose": "20-30 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-h2pro-aquasmart",
+  "name": "H2Pro AquaSmart",
+  "type": "surfattante",
+  "formats": [
+   "Tanica 5 L"
+  ],
+  "dose": "20-30 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-h2pro-conserve-granules",
+  "name": "H2Pro Conserve Granules",
+  "type": "surfattante",
+  "formats": [
+   "Sacco 10 kg"
+  ],
+  "dose": "200-200 kg/ha",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-h2pro-flowsmart",
+  "name": "H2Pro FlowSmart",
+  "type": "surfattante",
+  "formats": [
+   "Tanica 10 L"
+  ],
+  "dose": "20-30 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-h2pro-trismart",
+  "name": "H2Pro TriSmart",
+  "type": "surfattante",
+  "formats": [
+   "Tanica 5 L"
+  ],
+  "dose": "10-25 l/ha",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-h2pro-trismart-granulare",
+  "name": "H2Pro TriSmart Granulare",
+  "type": "surfattante",
+  "formats": [
+   "5 kg [NON VERIF]"
+  ],
+  "dose": "5-20 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-phixer",
+  "name": "pHixer",
+  "type": "correttore",
+  "formats": [
+   "Tanica 5 L"
+  ],
+  "dose": "30-50 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-colourpro",
+  "name": "ColourPro",
+  "type": "tracciante",
+  "formats": [
+   "Tanica 1 L",
+   "Tanica 5 L"
+  ],
+  "dose": "2-5 L/ha",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-ready-germiplus",
+  "name": "Ready Germiplus",
+  "type": "speciale",
+  "formats": [
+   "Sacco 7 kg"
+  ],
+  "dose": "30-50 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-warm-up-100",
+  "name": "Warm-up 100",
+  "type": "speciale",
+  "formats": [
+   "Tanica 1 L"
+  ],
+  "dose": "30-50 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-hicure",
+  "name": "Hicure",
+  "type": "biostimolante",
+  "formats": [
+   "Tanica 10 L"
+  ],
+  "dose": "20-30 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ },
+ {
+  "id": "icl-greenmaster-pro-lite-autumn",
+  "name": "Greenmaster Pro-Lite Autumn",
+  "type": "concime",
+  "formats": [
+   "Sacco 25 kg"
+  ],
+  "dose": "20-30 g/m2",
+  "url": null,
+  "sourceUrl": "https://icl-sf.com/it/"
+ }
+]

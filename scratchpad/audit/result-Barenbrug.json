@@ -1,0 +1,549 @@
+{
+ "brand": "Barenbrug",
+ "products": [
+  {
+   "id": "barenbrug-barfertile-eco",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.32"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.32: dose 40 g/m2; scheda sito 40-50 g/m2 tappeti erbosi. Dose gia presente nel catalogo, non ripetuta."
+  },
+  {
+   "id": "barenbrug-barfertile-eco-k",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.32"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.32: dose 40 g/m2; scheda sito 40-50 g/m2."
+  },
+  {
+   "id": "barenbrug-barfertile-spring-autumn",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.33"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.33: dose 35-40 g/m2. Pagina prodotto non trovata sul sito."
+  },
+  {
+   "id": "barenbrug-barfertile-summer-winter",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.33"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.33: dose 35-40 g/m2."
+  },
+  {
+   "id": "barenbrug-barfertile-starter",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.33"
+    },
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "https://www.barenbrug.it/tappeto-erboso/products/barfertile-starter"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.33: dose 35-40 g/m2 (sito: 20-30 g/mq tappeti erbosi)."
+  },
+  {
+   "id": "barenbrug-barfertile-micro-balance",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.36"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.36: dose 20-30 g/m2."
+  },
+  {
+   "id": "barenbrug-barfertile-micro-k",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.36"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.36: dose 20-30 g/m2."
+  },
+  {
+   "id": "barenbrug-barfertile-sport",
+   "formats": [
+    {
+     "size": 2.5,
+     "unit": "kg",
+     "label": "Confezione da 2,5 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.34"
+    },
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Sacco da 5 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.34"
+    },
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.34"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.34: 'Confezione 2,5 kg, 5 kg, 20 kg', dose 20-30 g/m2. Pagina prodotto non trovata sul sito."
+  },
+  {
+   "id": "barenbrug-barfertile-fairway",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.34"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.34: dose 20-30 g/m2."
+  },
+  {
+   "id": "barenbrug-barfertile-active",
+   "formats": [
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Confezione da 5 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.35"
+    },
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.35"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.35: 'Confezione 5 kg - 20 kg', dose 25-35 g/m2 (catalogo Lawnly: 25-30)."
+  },
+  {
+   "id": "barenbrug-barfertile-k-plus",
+   "formats": [
+    {
+     "size": 2.5,
+     "unit": "kg",
+     "label": "Confezione da 2,5 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.35"
+    },
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.35"
+    },
+    {
+     "size": 2.5,
+     "unit": "kg",
+     "label": "Sacco da 2,5 kg",
+     "source": "https://www.barenbrug.it/tappeto-erboso/products/barfertile-k-plus-25-kg"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.35: 'Confezione 2,5 kg - 20 kg', dose 25-30 g/m2."
+  },
+  {
+   "id": "barenbrug-barfertile-maintenance",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.38"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.38: dose 20-30 g/m2."
+  },
+  {
+   "id": "barenbrug-barfertile-ferro-31",
+   "formats": [
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Confezione da 5 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.38"
+    },
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Sacco da 25 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.38"
+    },
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Confezione da 5 kg",
+     "source": "https://www.barenbrug.it/tappeto-erboso/products/barfertile-ferro-31-microgranulare"
+    },
+    {
+     "size": 25,
+     "unit": "kg",
+     "label": "Confezione da 25 kg",
+     "source": "https://www.barenbrug.it/tappeto-erboso/products/barfertile-ferro-31-microgranulare"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.38: 'Confezione 5 kg - 25 kg', dose 30-40 g/m2."
+  },
+  {
+   "id": "barenbrug-verde-cal-g-correttivo",
+   "formats": [
+    {
+     "size": 23,
+     "unit": "kg",
+     "label": "Sacco da 23 kg",
+     "source": "https://www.barenbrug.it/tappeto-erboso/products/verde-cal-g-microgranulare"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Solo sito (non nel catalogo visionato). Sito: dosi 2,5 / 4,0 / 5,0 kg per 100 m2 (25/40/50 g/m2) in base all'uso; catalogo Lawnly 25 g/m2 e solo la dose di mantenimento."
+  },
+  {
+   "id": "barenbrug-nitrotech-n28",
+   "formats": [
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.37"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.37: dose 15-20 g/m2. Pagina prodotto non trovata sul sito."
+  },
+  {
+   "id": "barenbrug-rubix-turf",
+   "formats": [
+    {
+     "size": 2.5,
+     "unit": "kg",
+     "label": "Confezione da 2,5 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.39"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.39: 2,5 kg, dose 700-800 g/1000 m2 in 80 lt acqua; il sito scrive 'Confezione 2,5 lt' (700-800 ml/1000 m2): kg vs lt incoerenti nelle fonti."
+  },
+  {
+   "id": "barenbrug-green-fit",
+   "formats": [
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Tanica da 5 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.39"
+    },
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Tanica da 5 kg",
+     "source": "https://www.barenbrug.it/tappeto-erboso/products/green-fit"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.39 dose 2-3 kg/1000 m2 in 50-100 lt acqua; sito: fogliare 200-250 g/100 m2 (160-200 ml/100 m2 = 1,6-2 L/1000 m2, coerente col catalogo Lawnly), radicale 250-300 g/100 m2."
+  },
+  {
+   "id": "barenbrug-barfertile-defender-pk",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "kg",
+     "label": "Confezione da 1 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.39"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.39: dose 200-300 g/1000 m2 in 100 lt acqua; sito: fogliare 20-25 ml/10 l acqua."
+  },
+  {
+   "id": "barenbrug-turf-care",
+   "formats": [
+    {
+     "size": 0.5,
+     "unit": "kg",
+     "label": "Confezione da 0,5 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.40"
+    },
+    {
+     "size": 0.5,
+     "unit": "kg",
+     "label": "Confezione da 0,5 kg",
+     "source": "https://www.barenbrug.it/tappeto-erboso/products/turf-care"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.40: dose 350-450 g/1000 m2 in 50-100 lt acqua."
+  },
+  {
+   "id": "barenbrug-turf-protect",
+   "formats": [
+    {
+     "size": 0.5,
+     "unit": "kg",
+     "label": "Confezione da 0,5 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.40"
+    },
+    {
+     "size": 0.5,
+     "unit": "kg",
+     "label": "Confezione da 0,5 kg",
+     "source": "https://www.barenbrug.it/tappeto-erboso/products/turf-protect"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.40: dose 250-350 g/1000 m2 in 50-100 lt acqua."
+  },
+  {
+   "id": "barenbrug-planta-fit",
+   "formats": [
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Confezione da 5 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.41"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.41: dose 400-600 g/1000 m2 in 60-80 lt acqua; sito: fogliari 4-6 kg/ha. Catalogo Lawnly indica L/ha (unita da correggere in kg/ha)."
+  },
+  {
+   "id": "barenbrug-radi-fit",
+   "formats": [
+    {
+     "size": 5,
+     "unit": "kg",
+     "label": "Confezione da 5 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.41"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.41: dose 2-3 kg/1000 m2 in 150-200 lt acqua (= 20-30 kg/ha, non L/ha)."
+  },
+  {
+   "id": "barenbrug-algaturf-plus",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "kg",
+     "label": "Confezione da 1 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.42"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.42: dose 300 g/1000 m2 in 100 lt acqua; sito: 30 g/10 litri acqua. Catalogo Lawnly '3 L/ha' probabilmente da correggere (3 kg/ha equivalente)."
+  },
+  {
+   "id": "barenbrug-radi-care",
+   "formats": [
+    {
+     "size": 1,
+     "unit": "kg",
+     "label": "Confezione da 1 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.42"
+    },
+    {
+     "size": 1,
+     "unit": "kg",
+     "label": "Confezione da 1 kg",
+     "source": "https://www.barenbrug.it/tappeto-erboso/products/radi-care"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.42: dose 400-800 g/1000 m2 in 150-200 lt acqua; sito: 4-8 kg/ha in 1000-2000 lt acqua (non L/ha)."
+  },
+  {
+   "id": "barenbrug-bionatural",
+   "formats": [
+    {
+     "size": 250,
+     "unit": "g",
+     "label": "Confezione da 250 g",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.46"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.46: 250 gr, dose 2,5-3,5 kg/ha in 1000 lt acqua (non L/ha); sito: 1 kg/100 kg seme per concia."
+  },
+  {
+   "id": "barenbrug-ecolit",
+   "formats": [
+    {
+     "size": 250,
+     "unit": "g",
+     "label": "Confezione da 250 g",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.46"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.46: 250 gr, dose 2,5-3,5 kg/ha in 1000 lt acqua; sito: 250-350 ml/1000 mq."
+  },
+  {
+   "id": "barenbrug-biosoil",
+   "formats": [
+    {
+     "size": 10,
+     "unit": "kg",
+     "label": "Sacco da 10 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.47"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.47: dose 50-100 g/m2."
+  },
+  {
+   "id": "barenbrug-joker-bio-turf",
+   "formats": [
+    {
+     "size": 15,
+     "unit": "kg",
+     "label": "Sacco da 15 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.47"
+    },
+    {
+     "size": 20,
+     "unit": "kg",
+     "label": "Sacco da 20 kg",
+     "source": "https://www.barenbrug.it/tappeto-erboso/products/joker-bio-turf"
+    }
+   ],
+   "dose": null,
+   "status": "parziale",
+   "note": "Conflitto: catalogo p.47 e sacco in foto 15 kg (dose 40-50 g/m2); pagina prodotto sito 'Sacco 20 kg'. Verificare con Barenbrug Italia."
+  },
+  {
+   "id": "barenbrug-pbs-150",
+   "formats": [
+    {
+     "size": 10,
+     "unit": "L",
+     "label": "Tanica da 10 lt",
+     "source": "https://www.barenbrug.it/tappeto-erboso/products/pbs-150"
+    },
+    {
+     "size": 10,
+     "unit": "L",
+     "label": "Tanica da 10 lt",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment sezione Umettanti"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Sito e catalogo (sezione umettanti): confezione 10 lt, dose 130-160 ml/100 m2 in 8 lt acqua."
+  },
+  {
+   "id": "barenbrug-oars-pellet",
+   "formats": [
+    {
+     "size": 225,
+     "unit": "g",
+     "label": "Pellet 225 gr",
+     "source": "https://www.barenbrug.it/tappeto-erboso/products/oars-pellet"
+    },
+    {
+     "size": 225,
+     "unit": "g",
+     "label": "Confezione da 225 gr",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment sezione Umettanti"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Sito e catalogo: confezione 225 gr; dose: spruzzare sulle macchie idrofobiche con lancia ProPortioner (nessun valore numerico)."
+  },
+  {
+   "id": "barenbrug-ecovital-crescita",
+   "formats": [
+    {
+     "size": 15,
+     "unit": "kg",
+     "label": "Sacco da 15 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.45"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.45: dose 50-70 g/m2."
+  },
+  {
+   "id": "barenbrug-ecovital-mantenimento",
+   "formats": [
+    {
+     "size": 15,
+     "unit": "kg",
+     "label": "Sacco da 15 kg",
+     "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.45"
+    }
+   ],
+   "dose": null,
+   "status": "confermato",
+   "note": "Catalogo p.45: dose 50-70 g/m2."
+  }
+ ]
+}

@@ -1,0 +1,37 @@
+import {spawn} from 'node:child_process';import fs from 'node:fs';
+const CH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const proc=spawn(CH,['--headless=new','--disable-gpu','--remote-debugging-port=9333','--user-data-dir=/tmp/chprof4','--window-size=430,900','about:blank'],{stdio:'ignore'});
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+await sleep(2500);
+const tabs=await (await fetch('http://localhost:9333/json')).json();
+const ws=new WebSocket(tabs.find(t=>t.type==='page').webSocketDebuggerUrl);
+await new Promise(r=>ws.onopen=r);
+let id=0;const pend={};const errors=[];
+ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.id&&pend[m.id]){pend[m.id](m);delete pend[m.id];}if(m.method==='Runtime.exceptionThrown')errors.push(m.params.exceptionDetails.exception?.description||m.params.exceptionDetails.text);};
+const send=(method,params={})=>new Promise(r=>{const i=++id;pend[i]=r;ws.send(JSON.stringify({id:i,method,params}));});
+const ev=async x=>(await send('Runtime.evaluate',{expression:x,returnByValue:true,awaitPromise:true})).result?.result?.value;
+const shot=async n=>{const r=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync('/tmp/'+n+'.png',Buffer.from(r.result.data,'base64'));};
+await send('Runtime.enable');await send('Page.enable');
+await send('Emulation.setDeviceMetricsOverride',{width:430,height:900,deviceScaleFactor:1,mobile:true});
+await send('Page.navigate',{url:'http://localhost:5311/index.html'});
+await sleep(6000);
+console.log('next-card:',await ev("!!document.querySelector('.next-card')"));
+await ev("document.querySelector('.next-card').click()");await sleep(1200);
+console.log('sol-cards:',await ev("document.querySelectorAll('.sol-card').length"),'dose-block:',await ev("document.querySelectorAll('.sol-dose').length"));
+await shot('sol');
+console.log(await ev("[...document.querySelectorAll('.sol-card')].map(c=>c.querySelector('.sol-name')?.textContent+' | '+c.querySelector('.sol-dose b')?.textContent).join('\\n')"));
+// ce l'ho già -> apre il form confezioni
+await ev("document.querySelectorAll('.sol-card')[0].querySelector('.dt-goto.dt-ghost').click()");await sleep(500);
+console.log('form chips:',await ev("document.querySelectorAll('.sol-card')[0].querySelectorAll('.sol-form .fchip').length"));
+await ev("document.querySelector('.sol-card .sol-form .sh-save').click()");await sleep(600);
+console.log('ce l hai badge:',await ev("document.querySelectorAll('.sol-b.ok').length"));
+// magazzino
+await send('Page.navigate',{url:'http://localhost:5311/index.html?pg=mag'});await sleep(5000);
+console.log('titolo:',await ev("document.querySelector('.page-title')?.textContent"),'prodotti:',await ev("document.querySelectorAll('.prod').length"));
+await ev("document.querySelector('.addbtn').click()");await sleep(800);
+console.log('catrows:',await ev("document.querySelectorAll('.catrow').length"));
+await ev("(()=>{const i=document.querySelector('input[type=search]');i.value='sprint';i.dispatchEvent(new Event('input',{bubbles:true}));})()");await sleep(500);
+console.log('dopo ricerca sprint:',await ev("document.querySelectorAll('.catrow').length"));
+await shot('mag');
+console.log('errors:',errors.length,errors.slice(0,3));
+proc.kill();ws.close();process.exit(0);

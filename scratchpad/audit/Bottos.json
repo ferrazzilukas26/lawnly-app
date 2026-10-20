@@ -1,0 +1,341 @@
+[
+ {
+  "id": "bottos-sprint-n-27-0-14",
+  "name": "Sprint N 27-0-14",
+  "type": "concime",
+  "formats": [
+   "Scatola 2 kg",
+   "Sacco 5 kg",
+   "Sacco 10 kg",
+   "Sacco 25 kg"
+  ],
+  "dose": "30-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-slow-green-22-5-10",
+  "name": "Slow Green 22-5-10",
+  "type": "concime",
+  "formats": [
+   "Scatola 2 kg",
+   "Scatola 4 kg",
+   "Sacco 25 kg"
+  ],
+  "dose": "30-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-speed-green-20-5-10",
+  "name": "Speed Green 20-5-10",
+  "type": "concime",
+  "formats": [
+   "Sacco 20 kg",
+   "Scatola 2,5 kg"
+  ],
+  "dose": "25-30 g/m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-superturf-22-0-9",
+  "name": "Superturf 22-0-9",
+  "type": "concime",
+  "formats": [
+   "Sacco 25 kg",
+   "Scatola 2 kg"
+  ],
+  "dose": "30-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-perfect-life-18-5-10",
+  "name": "Perfect Life 18-5-10",
+  "type": "concime",
+  "formats": [
+   "Sacco 20 kg",
+   "Scatola 2 kg"
+  ],
+  "dose": "20-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-summer-k-10-0-30",
+  "name": "Summer K 10-0-30",
+  "type": "concime",
+  "formats": [
+   "Scatola 2 kg",
+   "Sacco 5 kg",
+   "Sacco 10 kg",
+   "Sacco 25 kg"
+  ],
+  "dose": "30-40 g/m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-pro-start-13-24-10",
+  "name": "Pro Start 13-24-10",
+  "type": "concime",
+  "formats": [
+   "Scatola 2 kg",
+   "Scatola 4 kg",
+   "Sacco 25 kg"
+  ],
+  "dose": "30-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-nutriprato-12-6-6",
+  "name": "Nutriprato 12-6-6",
+  "type": "concime",
+  "formats": [
+   "Sacco 5 kg"
+  ],
+  "dose": "35-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-duraprato-10-6-15",
+  "name": "Duraprato 10-6-15",
+  "type": "concime",
+  "formats": [
+   "Sacco 5 kg"
+  ],
+  "dose": "35-35 g/m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-nutraforte",
+  "name": "Nutraforte 4-(3)-8",
+  "type": "concime",
+  "formats": [
+   "Sacco 20 kg"
+  ],
+  "dose": "40-100 g/m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-nutrattiva-6-2-6",
+  "name": "Nutrattiva 6-(2)-6 IMI",
+  "type": "concime",
+  "formats": [
+   "Sacco 20 kg"
+  ],
+  "dose": "40-100 g/m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-nutrattiva-5-0-7",
+  "name": "Nutrattiva 5-0-7 IMI",
+  "type": "concime",
+  "formats": [
+   "Sacco 20 kg",
+   "Scatola 2,7 kg"
+  ],
+  "dose": "40-100 g/m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-help",
+  "name": "Help 10-5-7",
+  "type": "concime",
+  "formats": [
+   "Flacone 1 kg",
+   "Tanica 5 kg"
+  ],
+  "dose": "2.5-5 kg/1000m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-new-radical",
+  "name": "New Radical 3-16",
+  "type": "concime",
+  "formats": [
+   "Flacone 1 kg",
+   "Tanica 5 kg"
+  ],
+  "dose": "2-5 kg/1000m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-promoter",
+  "name": "Promoter",
+  "type": "biostimolante",
+  "formats": [
+   "Flacone 1 kg",
+   "Tanica 5 kg"
+  ],
+  "dose": "0.5-2.5 kg/1000m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-always",
+  "name": "Always",
+  "type": "biostimolante",
+  "formats": [
+   "Flacone 1 kg",
+   "Tanica 5 kg"
+  ],
+  "dose": "2-2.5 kg/1000m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-power-liquid",
+  "name": "Power Liquid",
+  "type": "biostimolante",
+  "formats": [
+   "Flacone 1 kg",
+   "Tanica 5 kg"
+  ],
+  "dose": "5-8 kg/1000m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-pre-stress",
+  "name": "Pre-Stress",
+  "type": "biostimolante",
+  "formats": [
+   "Flacone 250 g",
+   "Flacone 1 kg",
+   "Tanica 5 kg"
+  ],
+  "dose": "0.6-0.6 kg/1000m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-myko-power",
+  "name": "Myko Power",
+  "type": "biostimolante",
+  "formats": [
+   "Barattolo 125 g",
+   "Barattolo 500 g"
+  ],
+  "dose": "200-400 g/1000m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-fly",
+  "name": "Fly",
+  "type": "bioattivato",
+  "formats": [
+   "Flacone 250 g",
+   "Flacone 1 kg"
+  ],
+  "dose": "250-300 g/1000m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-frost",
+  "name": "Frost",
+  "type": "bioattivato",
+  "formats": [
+   "Flacone 250 g",
+   "Flacone 1 kg"
+  ],
+  "dose": "250-300 g/1000m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-fighter",
+  "name": "Fighter",
+  "type": "bioattivato",
+  "formats": [
+   "Flacone 250 g",
+   "Flacone 1 kg"
+  ],
+  "dose": "250-300 g/1000m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-thur",
+  "name": "Thur",
+  "type": "bioattivato",
+  "formats": [
+   "Flacone 1 L",
+   "Tanica 5 L"
+  ],
+  "dose": "200-300 ml/1000m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-tryko-plus",
+  "name": "Tryko Plus",
+  "type": "bioattivato",
+  "formats": [
+   "Sacco 5 kg",
+   "Sacco 20 kg"
+  ],
+  "dose": "20-30 g/m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-si-strong",
+  "name": "Si Strong",
+  "type": "biostimolante",
+  "formats": [
+   "Flacone 1 L",
+   "Tanica 5 L"
+  ],
+  "dose": "100-200 ml/1000m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-signal-blue",
+  "name": "Signal Blue",
+  "type": "tracciante",
+  "formats": [
+   "Flacone 500 ml",
+   "Flacone 1 L"
+  ],
+  "dose": "20-40 ml/1000m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-verdigo",
+  "name": "Verdigo",
+  "type": "colorante",
+  "formats": [
+   "Flacone 1 L",
+   "Tanica 5 L"
+  ],
+  "dose": "100-200 ml/1000m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ },
+ {
+  "id": "bottos-water-plus",
+  "name": "Water Plus",
+  "type": "surfattante",
+  "formats": [
+   "Flacone 1 L",
+   "Tanica 5 L"
+  ],
+  "dose": "200-400 ml/1000m2",
+  "url": null,
+  "sourceUrl": "https://bottos1848.com/"
+ }
+]
