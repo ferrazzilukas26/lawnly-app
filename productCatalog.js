@@ -689,39 +689,7 @@ export const PRODUCT_CATALOG = [
     sourceUrl: "https://bottos1848.com/"
   },
 
-  {
-    id: "bottos-thur",
-    brand: "Bottos",
-    name: "Thur",
-    type: "bioattivato",
-    subtype: "liquido",
-    family: "microbiologia_suolo",
-    npk: null,
-    npkLabel: null,
-    secondary: {},
-    slowRelease: null,
-    organic: true,
-    dose: { min: 200, max: 300, unit: "ml/1000m2" },
-    dilution: "1:100",
-    durationDays: [30, 45],
-    seasonMicro: [3, 4, 5, 9, 10],
-    seasonMacro: [4, 5, 6, 9],
-    temperatureRange: [12, 28],
-    application: "radicale_diluito",
-    granulometry: null,
-    formats: [
-      {"sku":"bottos-thur-1kg","size":1,"unit":"kg","label":"Confezione 1 kg","verified":true,"source":"https://www.bottos1848.com/prodotti/thur/"},
-      {"sku":"bottos-thur-250g","size":250,"unit":"g","label":"Confezione 250 g","verified":true,"source":"https://www.bottos1848.com/prodotti/thur/"}
-    ],
-    actives: [
-      { name: "Micorrize endo/ecto", amount: null, unit: "propaguli/g" },
-      { name: "Batteri PGPR", amount: null, unit: "UFC/g" },
-      { name: "Trichoderma spp.", amount: null, unit: "UFC/g" }
-    ],
-    audienceLevel: "prosumer",
-    notes: "Consorzio microbico per rigenerazione rizosfera. Usare a terreno umido, evitare sole diretto.",
-    sourceUrl: "https://bottos1848.com/"
-  },
+  
 
   {
     id: "bottos-tryko-plus",
