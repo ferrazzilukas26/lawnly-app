@@ -710,8 +710,8 @@ export const PRODUCT_CATALOG = [
     application: "radicale_diluito",
     granulometry: null,
     formats: [
-      { sku: "bottos-thur-1l", size: 1, unit: "L", label: "Flacone 1 L", verified: true },
-      { sku: "bottos-thur-5l", size: 5, unit: "L", label: "Tanica 5 L", verified: true }
+      {"sku":"bottos-thur-1kg","size":1,"unit":"kg","label":"Confezione 1 kg","verified":true,"source":"https://www.bottos1848.com/prodotti/thur/"},
+      {"sku":"bottos-thur-250g","size":250,"unit":"g","label":"Confezione 250 g","verified":true,"source":"https://www.bottos1848.com/prodotti/thur/"}
     ],
     actives: [
       { name: "Micorrize endo/ecto", amount: null, unit: "propaguli/g" },
@@ -743,10 +743,8 @@ export const PRODUCT_CATALOG = [
     application: "spandiconcime_granulare",
     granulometry: "mini-granulare",
     formats: [
-      { sku: "bottos-tryko-plus-1kg", size: 1, unit: "kg", label: "Confezione 1 kg", verified: true, source: "https://www.bottos1848.com/prodotti/tryko-plus/" },
-      { sku: "bottos-tryko-plus-5kg", size: 5, unit: "kg", label: "Sacco 5 kg", verified: true },
-      { sku: "bottos-tryko-plus-20kg", size: 20, unit: "kg", label: "Sacco 20 kg", verified: true },
-      { sku: "bottos-tryko-plus-250g", size: 250, unit: "g", label: "Confezione 250 g", verified: true, source: "https://www.bottos1848.com/prodotti/tryko-plus/" }
+      {"sku":"bottos-tryko-plus-1kg","size":1,"unit":"kg","label":"Confezione 1 kg","verified":true,"source":"https://www.bottos1848.com/prodotti/tryko-plus/"},
+      {"sku":"bottos-tryko-plus-250g","size":250,"unit":"g","label":"Confezione 250 g","verified":true,"source":"https://www.bottos1848.com/prodotti/tryko-plus/"}
     ],
     actives: [
       { name: "Trichoderma atroviride", amount: 1e8, unit: "UFC/g" },
@@ -779,8 +777,8 @@ export const PRODUCT_CATALOG = [
     application: "fogliare",
     granulometry: null,
     formats: [
-      { sku: "bottos-si-strong-1l", size: 1, unit: "L", label: "Flacone 1 L", verified: true },
-      { sku: "bottos-si-strong-5l", size: 5, unit: "L", label: "Tanica 5 L", verified: true }
+      {"sku":"bottos-si-strong-1kg","size":1,"unit":"kg","label":"Confezione 1 kg","verified":true,"source":"https://www.bottos1848.com/prodotti/si-strong/"},
+      {"sku":"bottos-si-strong-250g","size":250,"unit":"g","label":"Confezione 250 g","verified":true,"source":"https://www.bottos1848.com/prodotti/si-strong/"}
     ],
     actives: [
       { name: "Silicio biodisponibile", amount: 15, unit: "% SiO2" }
@@ -843,9 +841,7 @@ export const PRODUCT_CATALOG = [
     application: "fogliare",
     granulometry: null,
     formats: [
-      { sku: "bottos-verdigo-1l", size: 1, unit: "L", label: "Flacone 1 L", verified: true },
-      { sku: "bottos-verdigo-5l", size: 5, unit: "L", label: "Tanica 5 L", verified: true },
-      { sku: "bottos-verdigo-500ml", size: 500, unit: "ml", label: "Confezione 500 ml", verified: true, source: "https://www.bottos1848.com/prodotti/verdigo/" }
+      {"sku":"bottos-verdigo-500ml","size":500,"unit":"ml","label":"Confezione 500 ml","verified":true,"source":"https://www.bottos1848.com/prodotti/verdigo/"}
     ],
     actives: [
       { name: "Pigmento verde turf-grade", amount: null, unit: "%" }
@@ -902,7 +898,7 @@ export const PRODUCT_CATALOG = [
     secondary: { Mg: 3.5, S: 17 },
     slowRelease: { enabled: true, tech: "Metilenurea", pctN: 15 },
     organic: true,
-    dose: { min: 40, max: 40, unit: "g/m2" },
+    "dose": {"min":40,"max":50,"unit":"g/m2","source":"https://www.barenbrug.it/tappeto-erboso/products/barfertile-eco"},
     dilution: null,
     durationDays: [30, 40],
     seasonMicro: [3, 4, 9, 10],
@@ -935,7 +931,7 @@ export const PRODUCT_CATALOG = [
     secondary: { Mg: 5, S: 10 },
     slowRelease: { enabled: true, tech: "Metilenurea", pctN: 15 },
     organic: true,
-    dose: { min: 40, max: 40, unit: "g/m2" },
+    "dose": {"min":40,"max":50,"unit":"g/m2","source":"https://www.barenbrug.it/tappeto-erboso/products/barfertile-eco-k"},
     dilution: null,
     durationDays: [30, 40],
     seasonMicro: [6, 7, 8, 10, 11],
@@ -1411,7 +1407,7 @@ export const PRODUCT_CATALOG = [
     application: "radicale_diluito",
     granulometry: null,
     formats: [
-      { sku: "barenbrug-rubix-turf-2.5kg", size: 2.5, unit: "kg", label: "Bottiglia 2.5 kg", verified: true }
+      {"sku":"barenbrug-rubix-turf-2_5l","size":2.5,"unit":"L","label":"Tanica da 2,5 L","verified":true,"source":"https://www.barenbrug.it/tappeto-erboso/products/rubix-turf"}
     ],
     gddWindow: null,
     audienceLevel: "pro",
@@ -1567,7 +1563,7 @@ export const PRODUCT_CATALOG = [
     secondary: null,
     slowRelease: null,
     organic: true,
-    dose: { min: 4, max: 6, unit: "L/ha" },
+    "dose": {"min":4,"max":6,"unit":"kg/ha","source":"https://www.barenbrug.it/tappeto-erboso/products/planta-fit"},
     dilution: "1:100",
     durationDays: [30, 45],
     seasonMicro: [3, 4, 5, 9, 10],
@@ -1633,7 +1629,7 @@ export const PRODUCT_CATALOG = [
     secondary: null,
     slowRelease: null,
     organic: true,
-    dose: { min: 3, max: 3, unit: "L/ha" },
+    "dose": {"min":300,"max":300,"unit":"g/1000m2","source":"Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment pag. 42"},
     dilution: "1:1000",
     durationDays: [21, 30],
     seasonMicro: [3, 4, 5, 9, 10],
@@ -1666,7 +1662,7 @@ export const PRODUCT_CATALOG = [
     secondary: null,
     slowRelease: null,
     organic: true,
-    dose: { min: 4, max: 8, unit: "L/ha" },
+    "dose": {"min":4,"max":8,"unit":"kg/ha","source":"https://www.barenbrug.it/tappeto-erboso/products/radi-care"},
     dilution: "1:1000",
     durationDays: [30, 45],
     seasonMicro: [3, 4, 5, 9, 10],
@@ -1883,7 +1879,7 @@ export const PRODUCT_CATALOG = [
     application: "radicale_diluito",
     granulometry: null,
     formats: [
-      { sku: "barenbrug-oars-pellet-225gr", size: 225, unit: "gr", label: "Pellet 225 gr", verified: true }
+      {"sku":"barenbrug-oars-pellet-225g","size":225,"unit":"g","label":"Confezione da 225 g","verified":true,"source":"Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment pag. 52 Agenti umettanti; https://www.barenbrug.it/tappeto-erboso/products/oars-pellet"}
     ],
     gddWindow: null,
     audienceLevel: "pro",
@@ -2778,7 +2774,7 @@ export const PRODUCT_CATALOG = [
     secondary: {},
     slowRelease: null,
     organic: false,
-    dose: { min: 15, max: 20, unit: "g/m2" },
+    "dose": {"min":15,"max":30,"unit":"g/m2","source":"https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"},
     dilution: null,
     durationDays: [60, 90],
     seasonMicro: [3, 4, 5, 9],
@@ -2974,7 +2970,7 @@ export const PRODUCT_CATALOG = [
     secondary: { Mg: 8.0 },
     slowRelease: null,
     organic: false,
-    dose: { min: 25, max: 35, unit: "g/m2" },
+    "dose": {"min":20,"max":50,"unit":"g/m2","source":"https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"},
     dilution: null,
     durationDays: [90, 120],
     seasonMicro: [3, 4, 9],
@@ -3114,7 +3110,7 @@ export const PRODUCT_CATALOG = [
     secondary: {},
     slowRelease: null,
     organic: false,
-    dose: { min: 20, max: 30, unit: "g/m2" },
+    "dose": {"min":15,"max":30,"unit":"g/m2","source":"https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"},
     dilution: null,
     durationDays: [90, 120],
     seasonMicro: [2, 3, 4],
@@ -3282,7 +3278,7 @@ export const PRODUCT_CATALOG = [
     secondary: {},
     slowRelease: null,
     organic: false,
-    dose: { min: 20, max: 30, unit: "g/m2" },
+    "dose": {"min":1000,"max":1000,"unit":"ml/1000m2","source":"https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27141710/2024-turf-mini-catalogo-biostimolanti_compressed.pdf"},
     dilution: null,
     durationDays: [21, 30],
     seasonMicro: [3, 4, 5, 9, 10],
@@ -3369,7 +3365,7 @@ export const PRODUCT_CATALOG = [
     secondary: {},
     slowRelease: null,
     organic: false,
-    dose: { min: 20, max: 30, unit: "g/m2" },
+    "dose": {"min":2000,"max":2000,"unit":"ml/1000m2","source":"https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27141710/2024-turf-mini-catalogo-biostimolanti_compressed.pdf"},
     dilution: null,
     durationDays: [21, 30],
     seasonMicro: [3, 4, 5, 9, 10],
@@ -3397,7 +3393,7 @@ export const PRODUCT_CATALOG = [
     secondary: { Fe: 2.4 },
     slowRelease: null,
     organic: false,
-    dose: { min: 20, max: 30, unit: "g/m2" },
+    "dose": {"min":2500,"max":5000,"unit":"ml/1000m2","source":"https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27141710/2024-turf-mini-catalogo-biostimolanti_compressed.pdf"},
     dilution: null,
     durationDays: [21, 30],
     seasonMicro: [6, 7, 8],
@@ -3428,7 +3424,7 @@ export const PRODUCT_CATALOG = [
     secondary: {},
     slowRelease: null,
     organic: false,
-    dose: { min: 20, max: 30, unit: "g/m2" },
+    "dose": {"min":500,"max":500,"unit":"ml/1000m2","source":"https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27134542/2024-turf-mini-catalogo-agenti-umettanti.pdf"},
     dilution: null,
     durationDays: [21, 30],
     seasonMicro: [3, 4, 5, 9, 10],
@@ -3487,7 +3483,7 @@ export const PRODUCT_CATALOG = [
     secondary: {},
     slowRelease: null,
     organic: false,
-    dose: { min: 20, max: 30, unit: "g/m2" },
+    "dose": {"min":1000,"max":1000,"unit":"ml/1000m2","source":"https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27134542/2024-turf-mini-catalogo-agenti-umettanti.pdf"},
     dilution: null,
     durationDays: [21, 30],
     seasonMicro: [3, 4, 5, 9, 10],
@@ -3607,7 +3603,9 @@ export const PRODUCT_CATALOG = [
     temperatureRange: null,
     application: "radicale_diluito",
     granulometry: null,
-    formats: [{ sku: "icl-colourpro-1l", size: 1, unit: "L", label: "Tanica 1 L", verified: true }, { sku: "icl-colourpro-5l", size: 5, unit: "L", label: "Tanica 5 L", verified: true }],
+    formats: [
+      {"sku":"icl-colourpro-1l","size":1,"unit":"L","label":"Bottiglia da 1 L","verified":true,"source":"https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/29131438/2024-turf-mini-catalogo-specialitaPDF.pdf"}
+    ],
     audienceLevel: "pro",
     actives: null,
     targetPests: null,
@@ -4327,13 +4325,8 @@ export const PRODUCT_CATALOG = [
     "application": null,
     "granulometry": null,
     "formats": [
-      {
-        "sku": "padana-accafert-25l",
-        "size": 25,
-        "unit": "L",
-        "label": "Tanica da 25 L",
-        "verified": true
-      }
+      {"sku":"padana-accafert-25kg","size":25,"unit":"kg","label":"Tanica da 25 kg","verified":true,"source":"https://www.padanasementi.com/prodotto/accafert/"},
+      {"sku":"padana-accafert-1200kg","size":1200,"unit":"kg","label":"Tank da 1200 kg","verified":true,"source":"https://www.padanasementi.com/prodotto/accafert/"}
     ],
     "gddWindow": null,
     "audienceLevel": null,
@@ -5499,7 +5492,7 @@ export const PRODUCT_CATALOG = [
     "secondary": {},
     "slowRelease": null,
     "organic": null,
-    "dose": null,
+    "dose": {"min":250,"max":250,"unit":"ml/1000m2","source":"https://www.padanasementi.com/wp-content/uploads/2022/12/FORGREEN.pdf"},
     "dilution": null,
     "durationDays": null,
     "seasonMicro": null,

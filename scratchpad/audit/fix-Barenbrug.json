@@ -1,0 +1,135 @@
+[
+ {
+  "id": "barenbrug-joker-bio-turf",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Catalogo (pag. 47, sacco in foto) dice 15 kg, pagina prodotto sito dice 20 kg: entrambe fonti ufficiali, nessun elemento per scegliere, restano entrambi i formati."
+ },
+ {
+  "id": "barenbrug-rubix-turf",
+  "action": "set_formats",
+  "formats": [
+   {
+    "size": 2.5,
+    "unit": "L",
+    "label": "Tanica da 2,5 L",
+    "source": "https://www.barenbrug.it/tappeto-erboso/products/rubix-turf"
+   }
+  ],
+  "dose": null,
+  "decision": "Catalogo scrive 2,5 kg ma il sito (piu recente) scrive 2,5 lt e dose 700-800 ml/1000 m2 (=800-900 g): prodotto liquido, scelto litri come da sito."
+ },
+ {
+  "id": "barenbrug-bionatural",
+  "action": "set_both",
+  "formats": [
+   {
+    "size": 250,
+    "unit": "g",
+    "label": "Confezione da 250 g",
+    "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.46 (pag. 46)"
+   }
+  ],
+  "dose": {
+   "min": 250,
+   "max": 350,
+   "unit": "g/1000m2",
+   "source": "https://www.barenbrug.it/tappeto-erboso/products/bionatural"
+  },
+  "decision": "Sito 250-350 g/1000 m2 equivale al catalogo 2,5-3,5 kg/ha: unita fisica e massa (non L/ha), 'gr' corretto in 'g'."
+ },
+ {
+  "id": "barenbrug-ecolit",
+  "action": "set_both",
+  "formats": [
+   {
+    "size": 250,
+    "unit": "g",
+    "label": "Confezione da 250 g",
+    "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment p.46 (pag. 46)"
+   }
+  ],
+  "dose": {
+   "min": 250,
+   "max": 350,
+   "unit": "ml/1000m2",
+   "source": "https://www.barenbrug.it/tappeto-erboso/products/ecolit"
+  },
+  "decision": "Sito (piu recente) indica 250-350 ml/1000 m2 in 100 l acqua, numericamente pari al 2,5-3,5 kg/ha del catalogo; unita L/ha errata sostituita, confezione 250 g da catalogo."
+ },
+ {
+  "id": "barenbrug-oars-pellet",
+  "action": "set_formats",
+  "formats": [
+   {
+    "size": 225,
+    "unit": "g",
+    "label": "Confezione da 225 g",
+    "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment pag. 52 Agenti umettanti; https://www.barenbrug.it/tappeto-erboso/products/oars-pellet"
+   }
+  ],
+  "dose": null,
+  "decision": "Catalogo e sito concordano su 225 gr (massa, non volume): unita corretta in g; la dose numerica non esiste (spruzzo localizzato con ProPortioner), lasciata invariata."
+ },
+ {
+  "id": "barenbrug-planta-fit",
+  "action": "set_dose",
+  "formats": null,
+  "dose": {
+   "min": 4,
+   "max": 6,
+   "unit": "kg/ha",
+   "source": "https://www.barenbrug.it/tappeto-erboso/products/planta-fit"
+  },
+  "decision": "Sito 4-6 kg/ha equivale al catalogo 400-600 g/1000 m2: L/ha era sbagliato, la dose e in massa."
+ },
+ {
+  "id": "barenbrug-radi-care",
+  "action": "set_dose",
+  "formats": null,
+  "dose": {
+   "min": 4,
+   "max": 8,
+   "unit": "kg/ha",
+   "source": "https://www.barenbrug.it/tappeto-erboso/products/radi-care"
+  },
+  "decision": "Sito 4-8 kg/ha in 1000-2000 l acqua equivale al catalogo 400-800 g/1000 m2: dose in massa, non L/ha."
+ },
+ {
+  "id": "barenbrug-algaturf-plus",
+  "action": "set_dose",
+  "formats": null,
+  "dose": {
+   "min": 300,
+   "max": 300,
+   "unit": "g/1000m2",
+   "source": "Catalogo Barenbrug Italia https://www.barenbrug.it/media/872/download?attachment pag. 42"
+  },
+  "decision": "Catalogo (unica fonte numerica, pagina sito inesistente) 300 g/1000 m2 in 100 l acqua (=3 kg/ha): dose in massa, non 3 L/ha."
+ },
+ {
+  "id": "barenbrug-barfertile-eco",
+  "action": "set_dose",
+  "formats": null,
+  "dose": {
+   "min": 40,
+   "max": 50,
+   "unit": "g/m2",
+   "source": "https://www.barenbrug.it/tappeto-erboso/products/barfertile-eco"
+  },
+  "decision": "Sito (piu recente) indica 40-50 g/m2 per tappeti erbosi, catalogo 40 g/m2 e contenuto nel range: adottato il range del sito."
+ },
+ {
+  "id": "barenbrug-barfertile-eco-k",
+  "action": "set_dose",
+  "formats": null,
+  "dose": {
+   "min": 40,
+   "max": 50,
+   "unit": "g/m2",
+   "source": "https://www.barenbrug.it/tappeto-erboso/products/barfertile-eco-k"
+  },
+  "decision": "Pagina sito con composizione 10-0-20 indica 40-50 g/m2 per tappeti erbosi, catalogo 40 contenuto nel range: adottato il range del sito."
+ }
+]

@@ -1,0 +1,210 @@
+[
+ {
+  "id": "icl-sierraform-gt-preseeder",
+  "action": "set_dose",
+  "formats": null,
+  "dose": {
+   "min": 15,
+   "max": 30,
+   "unit": "g/m2",
+   "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+  },
+  "decision": "Scheda ICL 2024 piu recente: 15-30 g/m2."
+ },
+ {
+  "id": "icl-sierrablen-plus-mini",
+  "action": "set_dose",
+  "formats": null,
+  "dose": {
+   "min": 15,
+   "max": 30,
+   "unit": "g/m2",
+   "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+  },
+  "decision": "Scheda ICL 2024 (Sierrablen Plus Mini N): 15-30 g/m2."
+ },
+ {
+  "id": "icl-sierrablen-plus-renovator-con-tecnologia-pearl",
+  "action": "set_dose",
+  "formats": null,
+  "dose": {
+   "min": 20,
+   "max": 50,
+   "unit": "g/m2",
+   "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27111819/2024-turf-mini-catalogo-concimi-granulari_compressed-2.pdf"
+  },
+  "decision": "Scheda ICL 2024 Renovator PT Pearl: 20-50 g/m2 (25-35 e il Renovator senza Pearl)."
+ },
+ {
+  "id": "icl-vitalnova-aminoboost",
+  "action": "set_dose",
+  "formats": null,
+  "dose": {
+   "min": 1000,
+   "max": 1000,
+   "unit": "ml/1000m2",
+   "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27141710/2024-turf-mini-catalogo-biostimolanti_compressed.pdf"
+  },
+  "decision": "Scheda ICL: 10 l/ha = 1000 ml/1000m2."
+ },
+ {
+  "id": "icl-vitalnova-silk",
+  "action": "set_dose",
+  "formats": null,
+  "dose": {
+   "min": 2000,
+   "max": 2000,
+   "unit": "ml/1000m2",
+   "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27141710/2024-turf-mini-catalogo-biostimolanti_compressed.pdf"
+  },
+  "decision": "Scheda ICL: 20 l/ha = 2000 ml/1000m2."
+ },
+ {
+  "id": "icl-vitalnova-stressbuster",
+  "action": "set_dose",
+  "formats": null,
+  "dose": {
+   "min": 2500,
+   "max": 5000,
+   "unit": "ml/1000m2",
+   "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27141710/2024-turf-mini-catalogo-biostimolanti_compressed.pdf"
+  },
+  "decision": "Scheda ICL: 25-50 l/ha = 2500-5000 ml/1000m2."
+ },
+ {
+  "id": "icl-h2pro-aquasmart",
+  "action": "set_dose",
+  "formats": null,
+  "dose": {
+   "min": 500,
+   "max": 500,
+   "unit": "ml/1000m2",
+   "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27134542/2024-turf-mini-catalogo-agenti-umettanti.pdf"
+  },
+  "decision": "Scheda ICL: 5 l/ha = 500 ml/1000m2."
+ },
+ {
+  "id": "icl-h2pro-flowsmart",
+  "action": "set_dose",
+  "formats": null,
+  "dose": {
+   "min": 1000,
+   "max": 1000,
+   "unit": "ml/1000m2",
+   "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/27134542/2024-turf-mini-catalogo-agenti-umettanti.pdf"
+  },
+  "decision": "Scheda ICL: 10 l/ha = 1000 ml/1000m2."
+ },
+ {
+  "id": "icl-colourpro",
+  "action": "set_formats",
+  "dose": null,
+  "formats": [
+   {
+    "size": 1,
+    "unit": "L",
+    "label": "Bottiglia da 1 L",
+    "source": "https://multisite-assets.icl-growingsolutions.com/wp-content/uploads/sites/36/2024/02/29131438/2024-turf-mini-catalogo-specialitaPDF.pdf"
+   }
+  ],
+  "decision": "Scheda ICL 2024 riporta solo la bottiglia da 1 L; 5 L non confermato, rimosso."
+ },
+ {
+  "id": "icl-phixer",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Fonte indica solo copertura in litri d'acqua per tanica, nessuna dose: non inventabile."
+ },
+ {
+  "id": "icl-hicure",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Dose fogliare 10-20 senza unita nella fonte: non convertibile senza stimare."
+ },
+ {
+  "id": "icl-greenmaster-pro-lite-cold-start",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Prodotto/formato assente da cataloghi ICL Italia 2023/2024 e fonti ufficiali consultate: nessun dato da inventare."
+ },
+ {
+  "id": "icl-sierrablen-plus-spring-starter-4-5m",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Prodotto/formato assente da cataloghi ICL Italia 2023/2024 e fonti ufficiali consultate: nessun dato da inventare."
+ },
+ {
+  "id": "icl-sportsmaster-crf-mini-spring-starter",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Prodotto/formato assente da cataloghi ICL Italia 2023/2024 e fonti ufficiali consultate: nessun dato da inventare."
+ },
+ {
+  "id": "icl-sportsmaster-crf-mini-start",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Prodotto/formato assente da cataloghi ICL Italia 2023/2024 e fonti ufficiali consultate: nessun dato da inventare."
+ },
+ {
+  "id": "icl-sportsmaster-crf-mini-high-k",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Prodotto/formato assente da cataloghi ICL Italia 2023/2024 e fonti ufficiali consultate: nessun dato da inventare."
+ },
+ {
+  "id": "icl-sportsmaster-wsf-high-k",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Prodotto/formato assente da cataloghi ICL Italia 2023/2024 e fonti ufficiali consultate: nessun dato da inventare."
+ },
+ {
+  "id": "icl-sportsmaster-wsf-high-n",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Prodotto/formato assente da cataloghi ICL Italia 2023/2024 e fonti ufficiali consultate: nessun dato da inventare."
+ },
+ {
+  "id": "icl-h2pro-trismart-granulare",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Prodotto/formato assente da cataloghi ICL Italia 2023/2024 e fonti ufficiali consultate: nessun dato da inventare."
+ },
+ {
+  "id": "icl-ready-germiplus",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Prodotto/formato assente da cataloghi ICL Italia 2023/2024 e fonti ufficiali consultate: nessun dato da inventare."
+ },
+ {
+  "id": "icl-warm-up-100",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Prodotto/formato assente da cataloghi ICL Italia 2023/2024 e fonti ufficiali consultate: nessun dato da inventare."
+ },
+ {
+  "id": "icl-gronamic-mini-high-k",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Corrispondenza Mini = Gronamic Golf non verificata da fonte ufficiale: formato e dose invariati."
+ },
+ {
+  "id": "icl-gronamic-mini-high-n",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Corrispondenza Mini = Gronamic Golf non verificata da fonte ufficiale: formato e dose invariati."
+ }
+]

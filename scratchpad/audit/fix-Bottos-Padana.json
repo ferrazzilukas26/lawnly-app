@@ -1,0 +1,148 @@
+[
+ {
+  "id": "bottos-thur",
+  "action": "set_formats",
+  "formats": [
+   {
+    "size": 1,
+    "unit": "kg",
+    "label": "Confezione 1 kg",
+    "source": "https://www.bottos1848.com/prodotti/thur/"
+   },
+   {
+    "size": 250,
+    "unit": "g",
+    "label": "Confezione 250 g",
+    "source": "https://www.bottos1848.com/prodotti/thur/"
+   }
+  ],
+  "dose": null,
+  "decision": "Pagina ufficiale Bottos (letta dall'audit, ora dietro captcha non aggirato) e ricerca web concordano su 1 kg e 250 g; i formati in L del catalogo non hanno fonte. Nota: Thur risulta Bacillus thuringiensis in polvere, non liquido: subtype/dose del catalogo (ml/1000m2) da rivedere a parte."
+ },
+ {
+  "id": "bottos-si-strong",
+  "action": "set_formats",
+  "formats": [
+   {
+    "size": 1,
+    "unit": "kg",
+    "label": "Confezione 1 kg",
+    "source": "https://www.bottos1848.com/prodotti/si-strong/"
+   },
+   {
+    "size": 250,
+    "unit": "g",
+    "label": "Confezione 250 g",
+    "source": "https://www.bottos1848.com/prodotti/si-strong/"
+   }
+  ],
+  "dose": null,
+  "decision": "La pagina ufficiale Bottos (audit) indica 1 kg e 250 g; 1 L e 5 L del catalogo senza fonte, sostituiti."
+ },
+ {
+  "id": "bottos-tryko-plus",
+  "action": "set_formats",
+  "formats": [
+   {
+    "size": 1,
+    "unit": "kg",
+    "label": "Confezione 1 kg",
+    "source": "https://www.bottos1848.com/prodotti/tryko-plus/"
+   },
+   {
+    "size": 250,
+    "unit": "g",
+    "label": "Confezione 250 g",
+    "source": "https://www.bottos1848.com/prodotti/tryko-plus/"
+   }
+  ],
+  "dose": null,
+  "decision": "Pagina ufficiale Bottos indica 1 kg e 250 g; i sacchi 5 e 20 kg del catalogo non hanno fonte, rimossi."
+ },
+ {
+  "id": "bottos-verdigo",
+  "action": "set_formats",
+  "formats": [
+   {
+    "size": 500,
+    "unit": "ml",
+    "label": "Confezione 500 ml",
+    "source": "https://www.bottos1848.com/prodotti/verdigo/"
+   }
+  ],
+  "dose": null,
+  "decision": "Pagina ufficiale Bottos indica solo 500 ml; 1 L e 5 L del catalogo non verificati, rimossi."
+ },
+ {
+  "id": "bottos-myko-power",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Pagina e PDF ufficiali dietro captcha (non aggirato); ricerca web riporta 125/500 g e 200-400 g/1000 m2, gia coincidenti col catalogo, quindi nessuna modifica."
+ },
+ {
+  "id": "bottos-nutrattiva-6-2-6",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Nessuna pagina sul sito Bottos; solo rivenditori (sacco 20 kg, 40-100 g/m2) che coincidono col catalogo, nessuna fonte ufficiale per modificare."
+ },
+ {
+  "id": "padana-accafert",
+  "action": "set_formats",
+  "formats": [
+   {
+    "size": 25,
+    "unit": "kg",
+    "label": "Tanica da 25 kg",
+    "source": "https://www.padanasementi.com/prodotto/accafert/"
+   },
+   {
+    "size": 1200,
+    "unit": "kg",
+    "label": "Tank da 1200 kg",
+    "source": "https://www.padanasementi.com/prodotto/accafert/"
+   }
+  ],
+  "dose": null,
+  "decision": "Concime organico NK liquido (borlanda fluida, P.S. 1,25 kg/l); la scheda collegata dal sito indica 25 kg e Tank 1200 kg, mentre la vecchia accafert-4 dice 25 l/pallet: si segue la pagina attuale; dose 20-30 kg/ha (fogliare) gia corretta."
+ },
+ {
+  "id": "padana-ferti-endurance",
+  "action": "set_both",
+  "formats": [
+   {
+    "size": 1,
+    "unit": "L",
+    "label": "Bottiglia da 1 L",
+    "source": "https://www.padanasementi.com/wp-content/uploads/2021/05/CONCIMI-CATALOGO-2021.pdf"
+   }
+  ],
+  "dose": {
+   "min": 3,
+   "max": 5,
+   "unit": "kg/ha",
+   "source": "https://www.padanasementi.com/wp-content/uploads/2021/05/CONCIMI-CATALOGO-2021.pdf"
+  },
+  "decision": "Non e piu sul sito ma e nel catalogo concimi ufficiale Padana 2021 (p.30): induttore di resistenza, bottiglia 1 litro, tappeto erboso 3-5 kg/ha, 3-5 trattamenti maggio-settembre."
+ },
+ {
+  "id": "padana-forgreen",
+  "action": "set_dose",
+  "formats": null,
+  "dose": {
+   "min": 250,
+   "max": 250,
+   "unit": "ml/1000m2",
+   "source": "https://www.padanasementi.com/wp-content/uploads/2022/12/FORGREEN.pdf"
+  },
+  "decision": "Scheda tecnica ufficiale: 2,5 L/ha in 300-400 L d'acqua = 250 ml/1000 m2."
+ },
+ {
+  "id": "padana-ferti-3a",
+  "action": "keep",
+  "formats": null,
+  "dose": null,
+  "decision": "Scheda e sito danno solo 0,9-1,3 mL per litro d'acqua di irrorazione, nessuna dose per area: dose resta null."
+ }
+]
