@@ -308,8 +308,8 @@ input[type=range]{width:100%;accent-color:var(--green);cursor:pointer;margin:6px
   padding:calc(var(--sat) + 12px) 18px calc(var(--nav-h) + var(--sab) + 26px);display:flex;flex-direction:column;gap:14px;}
 .rdz::-webkit-scrollbar{display:none;}
 .rdz .head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 2px 2px;}
-.rdz .head-hi{font-size:13px;color:var(--t3);font-weight:600;}
-.rdz .head-name{font-size:24px;font-weight:800;letter-spacing:-0.6px;line-height:1.05;margin-top:2px;}
+.rdz .head-hi{font-size:12px;color:var(--t3);font-weight:600;}
+.rdz .head-name{font-size:17px;font-weight:800;letter-spacing:-0.3px;line-height:1.1;margin-top:1px;}
 .rdz .head-name .serif{font-family:var(--serif);font-weight:600;font-style:italic;}
 .rdz .head-r{display:flex;gap:9px;align-items:center;}
 .rdz .hbtn{width:40px;height:40px;border-radius:50%;background:var(--card);border:1px solid var(--line);box-shadow:var(--sh);display:flex;align-items:center;justify-content:center;color:var(--t2);cursor:pointer;}
@@ -7421,6 +7421,8 @@ const Sprout=_ic('M12 21v-7','M12 14C12 9 9 6.5 4.5 6.5c0 4.5 2.8 7.5 7.5 7.5Z',
 const Home=_ic('M4 10.5 12 3.5l8 7','M6 9.8V20h12V9.8','M10 20v-5.5h4V20');
 
 /* Proxy AI del backend; le credenziali del fornitore restano sul server. */
+/* Verso l'AI parte solo il COMUNE: mai via/civico (l'indirizzo e' una stringa libera dell'utente) ne' le coordinate. */
+function lawnlyAiPlace(p){const raw=String((p&&(p.city||p.location))||'');const seg=raw.split(',').map(x=>x.trim()).filter(x=>x&&!/\d/.test(x)&&!/^(via|viale|v\.le|piazza|p\.za|corso|c\.so|strada|vicolo|largo|localit)/i.test(x));return seg.length?seg[0]:'?';}
 const AI_PROXY_URL = (window.LAWNLY_API_BASE||'')+'/api/ai';  // Vercel Function -> Anthropic (Haiku) + wx-proxy
 
 /* ── wxProxy: proxy server-side per Open-Meteo/NASA (risolve CORS su Vercel) ─
@@ -11237,9 +11239,10 @@ FLUSSO OBBLIGATORIO se calendario vuoto:
 MAI mescolare storico e suggerimenti futuri nello stesso CALENDAR_UPDATE.
 REGOLA: "Meno è meglio." Non recuperare trattamenti saltati. Parti dalla situazione di oggi.
 ESTATE (giu-ago): max 1 intervento/2 settimane. Zero azoto T>28°C. Zero meccaniche.
-OPERATIVO: stressHeat>0.7→no azoto. fusariumRisk>=3→fungicida. rainNext7d>40mm→rinvia granulari.
+OPERATIVO: stressHeat>0.7→no azoto. fusariumRisk>=3→segnala il rischio fungino e rimanda a etichetta/tecnico. rainNext7d>40mm→rinvia granulari.
+FITOSANITARI: NON nominare né dosare prodotti fitosanitari (fungicidi, insetticidi, diserbanti); per la difesa spiega il rischio, le buone pratiche colturali e rimanda all'etichetta e a un tecnico.
 
-CONTESTO GIARDINO: ${profile.gardenName||'—'} · ${profile.city||'—'} · ${profile.totalArea||'?'}m² · zone: ${zones.map(z=>z.name+'('+z.area+'m²)').join(', ')}${soil?` · suolo pH ${soil.ph||'—'}`:''}
+CONTESTO GIARDINO: ${profile.gardenName||'—'} · ${lawnlyAiPlace(profile)} · ${profile.totalArea||'?'}m² · zone: ${zones.map(z=>z.name+'('+z.area+'m²)').join(', ')}${soil?` · suolo pH ${soil.ph||'—'}`:''}
 
 RISPOSTA IN ITALIANO. BREVE. CONCISA. PRATICA. Niente teorie, niente papiri.`;
 }
@@ -11341,7 +11344,7 @@ function AuthScreen({onAuth}){
               </div>
             </div>`:''}
           </div>
-          ${mode==='register'?html`<label style="display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:12px;color:var(--t2);line-height:1.45;cursor:pointer;"><input type="checkbox" checked=${terms} onChange=${e=>setTerms(e.target.checked)} style="margin-top:1px;width:18px;height:18px;accent-color:var(--green);flex:none;"/><span>Ho almeno 14 anni e accetto i <a href="#" onClick=${e=>{e.preventDefault();lawnlyOpenLegal('termini.html');}} style="color:var(--green-deep);font-weight:700;">Termini di servizio</a> e l'<a href="#" onClick=${e=>{e.preventDefault();lawnlyOpenLegal('privacy.html');}} style="color:var(--green-deep);font-weight:700;">Informativa privacy</a>. I consigli sono generati anche con intelligenza artificiale.</span></label>`:''}
+          ${mode==='register'?html`<label style="display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:12px;color:var(--t2);line-height:1.45;cursor:pointer;"><input type="checkbox" checked=${terms} onChange=${e=>setTerms(e.target.checked)} style="margin-top:1px;width:18px;height:18px;accent-color:var(--green);flex:none;"/><span>Ho almeno 14 anni e accetto i <a href="#" onClick=${e=>{e.preventDefault();lawnlyOpenLegal('termini.html');}} style="color:var(--green-deep);font-weight:700;">Termini di servizio</a> e l'<a href="#" onClick=${e=>{e.preventDefault();lawnlyOpenLegal('privacy.html');}} style="color:var(--green-deep);font-weight:700;">Informativa privacy</a>. I consigli sono generati con intelligenza artificiale (Anthropic, USA): le inviamo solo comune, superficie, zone e misure del prato, mai indirizzo preciso o coordinate.</span></label>`:''}
 
           ${err?html`<div style="background:var(--red-soft);border:1px solid rgba(207,97,73,.28);border-radius:12px;padding:11px 13px;font-size:12.5px;color:var(--red);margin-top:14px;font-weight:600;line-height:1.4;">${err}</div>`:''}
           ${info?html`<div style="background:var(--green-soft);border:1px solid rgba(76,140,63,.28);border-radius:12px;padding:11px 13px;font-size:12.5px;color:var(--green-deep);margin-top:14px;font-weight:600;line-height:1.4;">${info}</div>`:''}
@@ -12342,8 +12345,9 @@ function DottorVerdeChat({prof,wx,onClose}){
     const evs=(S.get('dss_calendar_events',[])||[]).filter(e=>e&&!e.done&&e.status!=='completato').slice(0,8).map(e=>'- '+(e.name||e.title||'op')+' · '+(e.date||'')+(e.product?(' · '+e.product):'')).join('\n');
     const irr=(S.get('dss_irrigation_history',[])||[]).slice(0,3).map(h=>'- '+String(h.timestamp||'').slice(0,10)+' · '+(h.totalLiters||0)+'L').join('\n');
     return 'Sei il Dottor Verde, agronomo esperto di prati. Rispondi SEMPRE in italiano, conciso, pratico e concreto. Usa il contesto reale dell\'utente.\n'+
+      'Non nominare né dosare prodotti fitosanitari (fungicidi, insetticidi, diserbanti): spiega il rischio e rimanda all\'etichetta e a un tecnico. Sei un assistente basato su intelligenza artificiale: se serve, dillo.\n'+
       '<contesto>\nPrato: '+((prof&&prof.grassMixture)||'microterme')+' · '+zones.length+' zone · '+((prof&&prof.totalArea)||'?')+' m²\n'+
-      'Località: '+((prof&&(prof.city||prof.location))||'?')+'\nGDD '+new Date().getFullYear()+': '+((wx&&wx.gddTotal!=null)?Math.round(wx.gddTotal):'?')+'\n'+
+      'Località: '+lawnlyAiPlace(prof)+'\nGDD '+new Date().getFullYear()+': '+((wx&&wx.gddTotal!=null)?Math.round(wx.gddTotal):'?')+'\n'+
       'Salute prato: '+(salute!=null?(salute+'/100'):'n/d')+'\n</contesto>\n'+
       '<piano_prossime_operazioni>\n'+(evs||'(nessuna pianificata)')+'\n</piano_prossime_operazioni>\n'+
       '<ultime_irrigazioni>\n'+(irr||'(nessuna registrata)')+'\n</ultime_irrigazioni>'+
@@ -12477,8 +12481,9 @@ function Oggi({wx,prof,setPg}){
   const dateLabel=td.charAt(0).toUpperCase()+td.slice(1);
 
   const photos=Object.values(photosObj).flat().filter(Boolean).slice(0,3).map(_photoSrc).filter(Boolean);
-  const slides=photos.length?photos.slice(0,3):[null]; // niente foto stock: gradiente finche' l'utente non carica le sue
+  const slides=photos.length?photos.slice(0,3):['hero/prato-1.jpg']; // foto di prato (Unsplash License) finche' l'utente non carica le sue
   useEffect(()=>{const el=heroRef.current;if(!el)return;el.style.strokeDashoffset=251;const v=(salute==null)?0:salute/100;requestAnimationFrame(()=>{requestAnimationFrame(()=>{el.style.strokeDashoffset=251*(1-v);});});},[salute]);
+  useEffect(()=>{const n=slides.length;if(n<2)return;const id=setInterval(()=>setSlide(x=>(x+1)%n),3500);return()=>clearInterval(id);},[slides.length]);
 
   const gdd=(wx&&typeof wx.gddTotal==='number')?Math.round(wx.gddTotal):null;
   const gddBase=(prof&&prof.gddBase!=null)?prof.gddBase:10;
@@ -12718,6 +12723,13 @@ function Oggi({wx,prof,setPg}){
       <div class="head-r">${(()=>{const via=[prof&&prof.street,prof&&prof.streetNumber].filter(Boolean).join(' ');const citta=(prof&&(prof.city||prof.location))||'';return (via||citta)?html`<div class="loc-pill" onClick=${()=>setPg&&setPg('profilo2')}><svg class="loc-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg><span class="loc-txt">${via?html`<b>${via}</b>`:''}${citta?html`<i>${citta}</i>`:''}</span></div>`:'';})()}</div>
     </div>
 
+    <div class="phero fade" onTouchStart=${e=>{touchX.current=e.touches[0].clientX;}} onTouchEnd=${e=>{if(touchX.current==null)return;const dx=e.changedTouches[0].clientX-touchX.current;touchX.current=null;if(Math.abs(dx)>40)heroSwipe(dx<0?1:-1);}}>
+      ${slides.map((u,i)=>html`<div key=${i} class=${'pslide'+(i===slide?' on':'')} style=${u?('background-image:url('+u+')'):'background:linear-gradient(150deg,#6FA84B,#3C6A2B)'}></div>`)}
+      <div class="phero-grad"></div>
+      <div class="phero-top"><span class="hstatus"><i></i>${dateLabel} · Live</span><div class="pdots">${slides.map((_,i)=>html`<span key=${i} class=${'pdot'+(i===slide?' on':'')} onClick=${()=>setSlide(i)}></span>`)}</div></div>
+      <div class="phero-bot"><div><div class="phero-h">${salute==null?'Il tuo prato':(salute>=75?'Il tuo prato sta bene':(salute>=50?'Il prato richiede attenzione':'Il prato ha bisogno di cure'))}</div><div class="phero-sub">${[phaseName,prof?.grassMixture||'microterme',(zones.length+' zon'+(zones.length===1?'a':'e'))].filter(Boolean).join(' · ')}</div></div>
+        <div class="ring"><svg viewBox="0 0 96 96"><circle class="ring-bg" cx="48" cy="48" r="40"/><circle class="ring-fill" ref=${heroRef} cx="48" cy="48" r="40"/></svg><div class="ring-in"><span class="ring-n">${salute==null?'—':html`<${Num} end=${salute}/>`}</span><span class="ring-l">Salute<${InfoDot} titolo="Salute del prato" testo="È un punteggio su 100 che riassume la valutazione salvata del prato. Ti aiuta a capire se ci sono aspetti da controllare osservando il giardino. Viene dalla diagnosi e dalle analisi AI delle foto disponibili; in attesa di una diagnosi può essere un valore iniziale, non una misura aggiornata in tempo reale."/></span></div></div></div>
+    </div>
     ${consiglioGiorno?html`<button type="button" class="cons-pill fade" onClick=${openS('sh-cons')} aria-label=${'Consiglio del giorno: '+consiglioGiorno}><span class="cons-dot"></span><span class="cons-pt"><b>Consiglio</b>${_cs[0]}</span>${_cs.length>1?html`<span class="cons-more">+${_cs.length-1}</span>`:''}<span class="vchev">${goChev}</span></button>`:''}
 
     <div class=${'card verdict '+vCls+' fade'} onClick=${openS('sh-irrig')}>
@@ -13347,12 +13359,13 @@ function ProAccountCard(){
   const link=(p,l)=>html`<a href="#" onClick=${e=>{e.preventDefault();lawnlyOpenLegal(p);}} style="color:var(--green-deep);font-weight:700;">${l}</a>`;
   const btn='justify-content:center;width:100%;margin-top:8px;';
   return html`<div class="card fade">
-    <div class="c-eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7Z"/></svg> ${nat?'Lawnly Pro e privacy':'Privacy e termini'}</div>
+    <div class="c-eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7Z"/></svg> ${nat&&(pro||offers.length)?'Lawnly Pro e privacy':'Privacy e termini'}</div>
     <div class="pf-row" style="align-items:flex-start;gap:10px">
       <div style="min-width:0;flex:1">
         <div class="k" style="font-weight:700;color:var(--ink)">Analisi AI delle foto</div>
         <div class="k" style="margin-top:2px">Quando è attiva, le foto del prato vengono inviate al fornitore di AI per il consiglio agronomico. Da spenta, le foto restano salvate senza essere analizzate.</div>
       </div>
+    <div class="k" style="margin:2px 0 8px">Alla chat e ai piani cure inviamo solo comune, superficie, zone, misure e operazioni: mai indirizzo preciso, coordinate o email.</div>
       <button type="button" class=${'fswitch'+(aiPhoto?' on':'')} role="switch" aria-checked=${!!aiPhoto}
         aria-label="Analisi AI delle foto" onClick=${()=>setAiPhoto(setAiPhotoConsent(!aiPhoto))}>
         <span class="fswitch-t">${aiPhoto?'Attiva':'Spenta'}</span><span class="sw" aria-hidden="true"><i></i></span>

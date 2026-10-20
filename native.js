@@ -8,6 +8,8 @@
   const overrides = window.LAWNLY_NATIVE_CONFIG || {};
   const config = {
     ...overrides,
+    // FULL EXPERIENCE: niente pubblicità né abbonamenti finché non c'è un accordo con un marchio (adsEnabled:true da LAWNLY_NATIVE_CONFIG).
+    adsEnabled: overrides.adsEnabled === true,
     admob: {
       bannerIos: 'ca-app-pub-3940256099942544/2934735716',
       bannerAndroid: 'ca-app-pub-3940256099942544/6300978111',
@@ -28,7 +30,7 @@
   function syncBanner() {
     bannerQueue = bannerQueue.then(async () => {
       if (!isNative) return;
-      const show = bannerWanted && ready && !pro && consent?.canRequestAds === true;
+      const show = config.adsEnabled && bannerWanted && ready && !pro && consent?.canRequestAds === true;
       try {
         const ads = plugins().AdMob;
         if (show && !bannerVisible) {
@@ -75,6 +77,7 @@
     if (initPromise) return initPromise;
     initPromise = (async () => {
       if (!isNative) return;
+      if (config.adsEnabled) {
       try { await plugins().AdMob.initialize({ initializeForTesting: config.admob.testing }); }
       catch (error) { warn('initialize', error); }
       try { consent = await plugins().AdMob.requestConsentInfo(); }
@@ -88,6 +91,7 @@
             (await plugins().AdMob.trackingAuthorizationStatus()).status === 'notDetermined')
           await plugins().AdMob.requestTrackingAuthorization();
       } catch (error) { warn('trackingAuthorization', error); }
+      }
       try {
         const apiKey = platform === 'ios' ? config.revenuecat.iosKey : config.revenuecat.androidKey;
         if (apiKey) {
