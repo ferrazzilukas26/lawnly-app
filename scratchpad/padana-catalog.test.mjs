@@ -1,13 +1,10 @@
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
-import vm from 'node:vm';
 import { PRODUCT_CATALOG } from '../productCatalog.js';
 
 const root = new URL('../', import.meta.url);
 const html = readFileSync(new URL('index.html', root), 'utf8');
-const inline = html.match(/try\{window\.__LAWNLY_CATALOG__=(\[[\s\S]*?\n\]);window\.dispatchEvent/);
-assert.ok(inline, 'Fallback file:// presente');
-assert.deepEqual(JSON.parse(JSON.stringify(vm.runInNewContext(inline[1]))), PRODUCT_CATALOG);
+assert.ok(!html.includes('__LAWNLY_CATALOG__=['), 'Catalogo solo in productCatalog.js (niente copia inline da 180 KB)');
 assert.equal(new Set(PRODUCT_CATALOG.map(p => p.id)).size, PRODUCT_CATALOG.length);
 assert.ok(!html.includes('var PADANA='), 'Nessun catalogo parallelo aggiunto a runtime');
 const padana = PRODUCT_CATALOG.filter(p => p.brand === 'Padana Sementi');
@@ -45,4 +42,4 @@ assert.equal(padana.find(p => p.id === 'padana-ferti-3a').dose, null);
 assert.equal(padana.find(p => p.id === 'padana-ferti-energy-wet').durationDays, null);
 assert.equal(padana.find(p => p.id === 'padana-fertizon').temperatureRange, null);
 assert.ok(padana.every(p => p.seasonMicro === null && p.seasonMacro === null));
-console.log('Padana: ID, schema, unità, fonti, immagini locali e parità completa modulo/inline OK');
+console.log('Padana: ID, schema, unità, fonti, immagini locali OK');

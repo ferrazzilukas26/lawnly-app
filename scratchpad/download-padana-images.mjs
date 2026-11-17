@@ -41,5 +41,4 @@ for (const p of PRODUCT_CATALOG.filter(p => p.brand === 'Padana Sementi' && p.im
   }
 }
 writeFileSync(path, source);
-await import('./sync-catalog-inline.mjs');
 if (failures) process.exitCode = 1;
