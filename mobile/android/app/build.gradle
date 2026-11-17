@@ -16,8 +16,15 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    // Chiave di caricamento per Google Play: fuori dal repo (~/secrets o LAWNLY_SIGNING), mai committata.
+    def signingFile = file(System.getenv('LAWNLY_SIGNING') ?: "${System.getProperty('user.home')}/secrets/lawnly-upload.properties")
+    if (signingFile.exists()) {
+        def p = new Properties(); signingFile.withInputStream { p.load(it) }
+        signingConfigs { upload { storeFile file(p.storeFile); storePassword p.storePassword; keyAlias p.keyAlias; keyPassword p.keyPassword } }
+    }
     buildTypes {
         release {
+            if (signingFile.exists()) signingConfig signingConfigs.upload
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
