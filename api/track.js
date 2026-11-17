@@ -23,6 +23,7 @@ export default async function handler(req, res) {
         where user_id = ${user.uid} and product_id = ${productId} and created_at > now() - interval '10 minutes')`;
     return res.status(200).json({ ok: true });
   } catch (e) {
-    return fail(500, e.message);
+    console.error('[track]', e.message);
+    return fail(500, 'Errore del server.');
   }
 }

@@ -11,14 +11,22 @@
 //   ANTHROPIC_API_KEY   (https://console.anthropic.com -> API keys)
 //   AI_MODEL            optional, default 'claude-haiku-4-5'
 
-import { cors, sql, readBody, authUser } from './_db.js';
+import { cors, sql, readBody, authUser, verifyToken, bearer } from './_db.js';
 
 const AI_MODEL = process.env.AI_MODEL || 'claude-haiku-4-5';
 const DAILY_LIMIT = Number(process.env.AI_DAILY_LIMIT || 40); // per utente, per giorno
+// Tetto per tutta l'app: la registrazione è aperta, quindi il limite per utente da solo non
+// limita la spesa (cento account = cento quote).
+const GLOBAL_DAILY_LIMIT = Number(process.env.AI_GLOBAL_DAILY_LIMIT || 1000);
+// Una singola chiamata non può diventare arbitrariamente cara: testo (system + messaggi) e immagini.
+const TEXT_MAX = 100000; // caratteri, ~25k token
+const IMAGES_MAX = 4;
+const MAX_TOKENS = 4096; // il client non chiede mai più di 4000
 
 // Host consentiti al proxy meteo: senza allowlist l'endpoint inoltra ovunque (SSRF).
 const WX_HOSTS = new Set([
   'api.open-meteo.com', 'archive-api.open-meteo.com', 'air-quality-api.open-meteo.com',
+  'historical-forecast-api.open-meteo.com', // pioggia per modello (index.html, hrf): prima mancava e la chiamata falliva sempre
   'geocoding-api.open-meteo.com', 'power.larc.nasa.gov', 'nominatim.openstreetmap.org',
 ]);
 
@@ -35,10 +43,35 @@ async function overQuota(uid) {
   const day = new Date().toISOString().slice(0, 10);
   const rows = await sql`insert into lawnly_ai_usage (user_id, day, n) values (${uid}, ${day}, 1)
     on conflict (user_id, day) do update set n = lawnly_ai_usage.n + 1 returning n`;
-  return (rows[0]?.n || 0) > DAILY_LIMIT;
+  if ((rows[0]?.n || 0) > DAILY_LIMIT) return 'user';
+  const [all] = await sql`select coalesce(sum(n), 0)::int as n from lawnly_ai_usage where day = ${day}`;
+  return all.n > GLOBAL_DAILY_LIMIT ? 'global' : null;
 }
 
-// ---- Weather CORS proxy (unchanged behaviour) ----
+// Dimensione della richiesta: testo totale e numero di immagini.
+function requestSize(system, messages) {
+  let text = String(system || '').length, images = 0;
+  for (const m of messages) {
+    const parts = typeof m?.content === 'string' ? [{ type: 'text', text: m.content }] : Array.isArray(m?.content) ? m.content : [];
+    for (const p of parts) {
+      if (p?.type === 'image') images++;
+      else text += String(p?.text || '').length;
+    }
+  }
+  return { text, images };
+}
+
+// Coordinate a 2 decimali (~1 km) prima di uscire verso i servizi meteo: bastano per il meteo
+// locale e non identificano la casa. Vale per ogni chiamata, qualunque cosa mandi il client.
+function coarse(u) {
+  for (const k of ['latitude', 'longitude', 'lat', 'lon']) {
+    const v = u.searchParams.get(k);
+    if (v != null && v !== '' && Number.isFinite(Number(v))) u.searchParams.set(k, Number(v).toFixed(2));
+  }
+  return u.toString();
+}
+
+// ---- Weather CORS proxy ----
 async function wxProxy(url, res) {
   let u;
   try { u = new URL(url || ''); } catch { u = null; }
@@ -46,12 +79,13 @@ async function wxProxy(url, res) {
     res.status(400).json({ error: { message: 'bad url' } }); return;
   }
   try {
-    const r = await fetch(url, { headers: { 'User-Agent': 'lawnly/1.0' } });
+    const r = await fetch(coarse(u), { headers: { 'User-Agent': 'lawnly/1.0' } });
     const text = await r.text();
     res.status(r.status).setHeader('Content-Type', 'application/json');
     res.send(text);
   } catch (e) {
-    res.status(502).json({ error: { message: 'wx-proxy: ' + e.message } });
+    console.error('[wx-proxy]', e.message);
+    res.status(502).json({ error: { message: 'Servizio meteo non raggiungibile.' } });
   }
 }
 
@@ -60,25 +94,42 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') { res.status(405).json({ error: { message: 'POST only' } }); return; }
   const body = await readBody(req);
 
-  if (body.action === 'wx-proxy') return wxProxy(body.url, res);
+  // Il proxy meteo non è un servizio pubblico: l'app lo chiama solo dopo il login.
+  // Basta la firma del token (niente query): il meteo fa molte chiamate per apertura.
+  if (body.action === 'wx-proxy') {
+    if (!verifyToken(bearer(req))?.uid) { res.status(401).json({ error: { message: 'login richiesto' } }); return; }
+    return wxProxy(body.url, res);
+  }
 
   // Da qui in poi si spende: serve un utente autenticato, con una quota giornaliera.
   const user = await authUser(req); // account esistente: un token di un account eliminato non spende quota AI
   if (!user || !user.uid) { res.status(401).json({ error: { message: 'login richiesto' } }); return; }
-  try {
-    if (await overQuota(user.uid)) {
-      res.status(429).json({ error: { message: 'Hai raggiunto il limite di ' + DAILY_LIMIT + ' domande al giorno. Riprova domani.' } });
-      return;
-    }
-  } catch (e) { console.warn('[ai] quota non verificabile:', e.message); }
-
-  const key = process.env.ANTHROPIC_API_KEY;
-  if (!key) { res.status(500).json({ error: { message: 'ANTHROPIC_API_KEY missing' } }); return; }
 
   const messages = Array.isArray(body.messages) ? body.messages : [];
   const system = body.system || '';
-  const maxTokens = Math.min(Number(body.max_tokens) || 1500, 8192);
+  const maxTokens = Math.min(Number(body.max_tokens) || 1500, MAX_TOKENS);
   if (!messages.length) { res.status(400).json({ error: { message: 'messages required' } }); return; }
+  const size = requestSize(system, messages);
+  if (size.text > TEXT_MAX || size.images > IMAGES_MAX) {
+    res.status(413).json({ error: { message: 'Richiesta troppo lunga: accorcia il messaggio.' } }); return;
+  }
+
+  // Se la quota non si può verificare si rifiuta: un guasto del database non deve togliere il limite.
+  let over;
+  try { over = await overQuota(user.uid); }
+  catch (e) {
+    console.error('[ai] quota non verificabile:', e.message);
+    res.status(503).json({ error: { message: 'Servizio momentaneamente non disponibile. Riprova tra poco.' } }); return;
+  }
+  if (over === 'user') {
+    res.status(429).json({ error: { message: 'Hai raggiunto il limite di ' + DAILY_LIMIT + ' domande al giorno. Riprova domani.' } }); return;
+  }
+  if (over === 'global') {
+    res.status(429).json({ error: { message: 'Il Dottor Verde ha raggiunto il limite di oggi. Riprova domani.' } }); return;
+  }
+
+  const key = process.env.ANTHROPIC_API_KEY;
+  if (!key) { console.error('[ai] ANTHROPIC_API_KEY mancante'); res.status(503).json({ error: { message: 'Servizio momentaneamente non disponibile.' } }); return; }
 
   try {
     const payload = { model: AI_MODEL, max_tokens: maxTokens, messages };
@@ -101,12 +152,14 @@ export default async function handler(req, res) {
     });
     const d = await r.json();
     if (!r.ok) {
-      res.status(r.status).json({ error: { message: d?.error?.message || `Anthropic HTTP ${r.status}` } });
+      console.error('[ai] Anthropic', r.status, d?.error?.message);
+      res.status(502).json({ error: { message: 'Il Dottor Verde non risponde. Riprova tra poco.' } });
       return;
     }
     const text = (d.content || []).filter((b) => b.type === 'text').map((b) => b.text).join('') || '';
     res.status(200).json({ content: [{ text }] });
   } catch (e) {
-    res.status(502).json({ error: { message: e.message } });
+    console.error('[ai]', e.message);
+    res.status(502).json({ error: { message: 'Il Dottor Verde non risponde. Riprova tra poco.' } });
   }
 }

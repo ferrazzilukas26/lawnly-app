@@ -2,6 +2,7 @@
 import crypto from 'crypto';
 import { cors, sql, signToken, verifyToken, bearer, hashPassword, verifyPassword, readBody, ensureAccountTables, passFp } from './_db.js';
 
+const SIGNUPS_PER_IP_DAY = 10;
 const codeHash = code => crypto.createHash('sha256').update(code).digest('hex');
 // pv lega il token alla password: dopo un reset i token vecchi non valgono più (authUser in _db.js)
 const session = u => ({ token: signToken({ uid: u.id, email: u.email, pv: passFp(u.pass_hash) }), user: { id: u.id, email: u.email } });
@@ -103,9 +104,23 @@ export default async function handler(req, res) {
     if (action !== 'signup' && action !== 'login') return fail(400, 'Azione non valida.');
     if (!em || typeof password !== 'string' || !password) return fail(400, 'Inserisci email e password.');
     if (action === 'signup') {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em) || em.length > 254) return fail(400, 'Email non valida.');
       if (password.length < 8) return fail(400, 'Password minimo 8 caratteri.');
+      // Registrazioni per indirizzo IP: senza limite, un solo script crea centinaia di account e
+      // moltiplica la quota AI. L'IP non si salva in chiaro: impronta con il segreto del server,
+      // nella stessa tabella dei tentativi (cancellata dopo 30 giorni).
+      await ensureAccountTables();
+      const ip = String(req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || '').split(',')[0].trim();
+      const ipKey = 'signup:' + crypto.createHmac('sha256', process.env.JWT_SECRET).update(ip).digest('hex').slice(0, 24);
+      const [att] = await sql`insert into lawnly_auth_attempts (email, ok) values (${ipKey}, true) returning id`;
+      const [count] = await sql`select count(*)::int as n from lawnly_auth_attempts
+        where email = ${ipKey} and created_at > now() - interval '24 hours'`;
+      if (count.n > SIGNUPS_PER_IP_DAY) return fail(429, 'Troppe registrazioni da questa rete. Riprova domani.');
       const ex = await sql`select id from users where email = ${em}`;
-      if (ex.length) return fail(409, 'Email già registrata. Usa il login.');
+      if (ex.length) {
+        await sql`delete from lawnly_auth_attempts where id = ${att.id}`; // un'email già usata non consuma il limite
+        return fail(409, 'Email già registrata. Usa il login.');
+      }
       const [u] = await sql`insert into users (email, pass_hash) values (${em}, ${hashPassword(password)}) returning id, email, pass_hash`;
       return res.status(200).json(session(u));
     }
@@ -122,6 +137,7 @@ export default async function handler(req, res) {
     if (!ok) return fail(401, 'Email o password non corretti.');
     return res.status(200).json(session(u));
   } catch (e) {
-    return fail(500, e.message);
+    console.error('[auth]', action, e.message);
+    return fail(500, 'Errore del server. Riprova tra poco.');
   }
 }

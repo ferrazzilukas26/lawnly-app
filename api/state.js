@@ -187,7 +187,8 @@ export default async function handler(req, res) {
     res.status(405).json({ error: { message: 'method not allowed' } });
   } catch (e) {
     // 23503 = utente non più esistente (account eliminato con un token ancora in giro): è un 401, non un guasto
-    res.status(e.code === '23503' ? 401 : 500).json({ error: { message: e.code === '23503' ? 'unauthorized' : e.message } });
+    if (e.code !== '23503') console.error('[state]', e.message);
+    res.status(e.code === '23503' ? 401 : 500).json({ error: { message: e.code === '23503' ? 'unauthorized' : 'Errore del server. Riprova tra poco.' } });
   }
 }
 

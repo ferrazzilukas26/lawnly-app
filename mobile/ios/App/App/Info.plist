@@ -32,15 +32,6 @@
 	<string>Lawnly usa la fotocamera per fotografare il prato e analizzarne lo stato.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Lawnly accede alle foto che scegli per analizzare lo stato del prato.</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>Se acconsenti, gli annunci saranno più pertinenti per te. Lawnly resta gratuita anche se rifiuti.</string>
-	<!-- AdMob: ID APP DI TEST Google, sostituire con quello reale prima della pubblicazione -->
-	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-3940256099942544~1458002511</string>
-	<key>SKAdNetworkItems</key>
-	<array>
-		<dict><key>SKAdNetworkIdentifier</key><string>cstr6suwn9.skadnetwork</string></dict>
-	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>

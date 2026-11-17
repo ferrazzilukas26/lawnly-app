@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import { cors, sql, authUser, readBody } from './_db.js';
 
 const MAX_BODY = 2500000;
+let _ready = false;
 function decodePhoto(data) {
   const m = typeof data === 'string' && data.match(/^data:(image\/(?:jpeg|png|webp|gif));base64,([A-Za-z0-9+/]+={0,2})$/);
   if (!m) return null;
@@ -23,10 +24,13 @@ export default async function handler(req, res) {
     const user = await authUser(req);
     if (!user) return fail(401, 'Login richiesto.');
     if (!['GET', 'POST', 'DELETE'].includes(req.method)) return fail(405, 'Metodo non consentito.');
-    await sql`create table if not exists lawnly_zone_photos (
-      id text primary key, user_id text not null, zone_id text not null,
-      data text not null, created_at timestamptz default now()
-    )`;
+    if (!_ready) {
+      await sql`create table if not exists lawnly_zone_photos (
+        id text primary key, user_id text not null, zone_id text not null,
+        data text not null, created_at timestamptz default now()
+      )`;
+      _ready = true;
+    }
     const uid = String(user.uid);
     if (req.method === 'POST') {
       if (Number(req.headers['content-length']) > MAX_BODY) return fail(413, 'Foto troppo grande (massimo 2,5 MB).');
@@ -62,6 +66,7 @@ export default async function handler(req, res) {
     res.setHeader('Vary', [res.getHeader('Vary'), 'Authorization'].filter(Boolean).join(', '));
     return res.status(200).send(photo.bytes);
   } catch (e) {
-    return fail(500, e.message);
+    console.error('[photo]', e.message);
+    return fail(500, 'Errore del server. Riprova tra poco.');
   }
 }

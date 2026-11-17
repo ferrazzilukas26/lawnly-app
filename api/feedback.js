@@ -102,6 +102,7 @@ export default async function handler(req, res) {
     }
     return res.status(405).json({ error: 'method not allowed' });
   } catch (e) {
-    return res.status(500).json({ error: String((e && e.message) || e) });
+    console.error('[feedback]', (e && e.message) || e);
+    return res.status(500).json({ error: 'Errore del server.' });
   }
 }

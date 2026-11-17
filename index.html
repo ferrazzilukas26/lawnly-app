@@ -14,13 +14,17 @@
 <meta property="og:title" content="Lawnly">
 <meta property="og:description" content="Love only your Lawn">
 <title>Lawnly — Love only your Lawn</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/preact@10/dist/preact.umd.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/preact@10/hooks/dist/hooks.umd.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/htm@3/dist/htm.umd.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/preact@10/compat/dist/compat.umd.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<!-- Librerie e font serviti da noi (versioni fisse in vendor/): niente CDN all'avvio, niente IP a Google Fonts.
+     preact 10.29.8, htm 3.1.1, Chart.js 4.4.1, Inter variabile (fontsource 5.3.0) -->
+<style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url(vendor/inter-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url(vendor/inter-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+</style>
+<script src="vendor/preact.umd.js"></script>
+<script src="vendor/hooks.umd.js"></script>
+<script src="vendor/htm.umd.js"></script>
+<script src="vendor/compat.umd.js"></script>
+<script src="vendor/chart.umd.js"></script>
 <script src="native.js"></script>
 <style>
 :root{--bg:#F2F4F0;--card:#FFFFFF;--green:#6B9E6B;--green-l:rgba(107,158,107,0.10);--green-b:rgba(107,158,107,0.22);--green-dark:#4A7A4A;--muted:#9AAA96;--text:#1A2218;--r:1.4rem;--r-sm:1rem;--border:rgba(107,158,107,0.18);--shadow:0 4px 24px rgba(0,0,0,0.06);--glass:rgba(255,255,255,.50);--glass-strong:rgba(255,255,255,.66);--glass-line:rgba(255,255,255,.42);--blur:20px}
@@ -7451,7 +7455,7 @@ async function wxProxy(url, fallback) {
     const r = await fetch(AI_PROXY_URL, {
       method: 'POST',
       signal: ctrl.signal,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + (_lwToken() || '') }, // il proxy meteo richiede il login
       body: JSON.stringify({ action: 'wx-proxy', url })
     });
     clearTimeout(t);
@@ -10513,11 +10517,9 @@ async function aiChat(messages,sys,useHaiku=true,timeoutMs=60000){
     clearTimeout(timer);
   }
 }
-async function fileToBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=e=>res(e.target.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
 /* Le foto dei telefoni pesano 3-6 MB l'una: salvate intere riempivano lo storage del browser
    e gonfiavano ogni sincronizzazione. 1280px bastano sia all'analisi AI sia alla galleria. */
 async function shrinkImageFile(file,maxSide=1280,quality=0.72){
-  const mediaType=file&&file.type||'image/jpeg';
   try{
     const img=await createImageBitmap(file);
     const sc=Math.min(1,maxSide/Math.max(img.width,img.height));
@@ -10528,9 +10530,10 @@ async function shrinkImageFile(file,maxSide=1280,quality=0.72){
     try{img.close&&img.close();}catch(e){}
     return {b64:url.split(',')[1],mediaType:'image/jpeg',dataUrl:url};
   }catch(e){
-    console.warn('[foto] ridimensionamento non riuscito, uso l\'originale:',e.message);
-    const b64=await fileToBase64(file);
-    return {b64,mediaType,dataUrl:'data:'+mediaType+';base64,'+b64};
+    // Niente originale come ripiego: porterebbe con sé i metadati della foto (anche la posizione GPS).
+    // Il ricampionamento su canvas li toglie sempre.
+    console.warn('[foto] ridimensionamento non riuscito:',e.message);
+    throw new Error('foto non leggibile, prova con una foto JPEG o PNG');
   }
 }
 function parseAIPlan(raw){
@@ -13369,23 +13372,12 @@ function ProfiloEditSheet({prof,onClose,onSave}){
   </div></${ModalPortal}>`;
 }
 function ProAccountCard(){
-  const N=(typeof window!=='undefined'&&window.LawnlyNative)||null;
-  const nat=!!(N&&N.isNative);
-  const [pro,setPro]=useState(()=>!!(N&&N.isPro()));
-  const [offers,setOffers]=useState([]);const [privReq,setPrivReq]=useState(false);
-  const [busy,setBusy]=useState('');const [msg,setMsg]=useState('');
   // Il consenso all'analisi AI delle foto si revoca da qui (Apple lo richiede modificabile).
+  // Abbonamenti e preferenze pubblicità tolti per il lancio gratuito (storia git, commit a1c941a).
   const [aiPhoto,setAiPhoto]=useState(()=>getAiPhotoConsent()===true);
-  useEffect(()=>{if(!nat)return;const off=N.onProChange(v=>setPro(!!v));N.getOffers().then(setOffers).catch(()=>{});N.privacyOptionsRequired().then(v=>setPrivReq(!!v)).catch(()=>{});return()=>{try{off&&off();}catch(e){}};},[]);
-  const PER={P1W:'settimana',P1M:'mese',P3M:'3 mesi',P6M:'6 mesi',P1Y:'anno'};
-  const perks=(typeof window!=='undefined'&&window.LAWNLY_PRO_PERKS)||['Nessuna pubblicità'];
-  const buy=async(o)=>{setBusy(o.id);setMsg('');const r=await N.buy(o.id);setBusy('');if(!r.ok&&!r.cancelled)setMsg(r.message||'Acquisto non riuscito.');};
-  const restore=async()=>{setBusy('restore');setMsg('');const ok=await N.restore();setBusy('');setMsg(ok?'Abbonamento ripristinato.':'Nessun abbonamento attivo trovato su questo account '+(N.platform==='ios'?'Apple':'Google')+'.');};
-  const manage=()=>N.openExternal(N.platform==='ios'?'https://apps.apple.com/account/subscriptions':'https://play.google.com/store/account/subscriptions');
   const link=(p,l)=>html`<a href="#" onClick=${e=>{e.preventDefault();lawnlyOpenLegal(p);}} style="color:var(--green-deep);font-weight:700;">${l}</a>`;
-  const btn='justify-content:center;width:100%;margin-top:8px;';
   return html`<div class="card fade">
-    <div class="c-eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7Z"/></svg> ${nat&&(pro||offers.length)?'Lawnly Pro e privacy':'Privacy e termini'}</div>
+    <div class="c-eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7Z"/></svg> Privacy e termini</div>
     <div class="pf-row" style="align-items:flex-start;gap:10px">
       <div style="min-width:0;flex:1">
         <div class="k" style="font-weight:700;color:var(--ink)">Analisi AI delle foto</div>
@@ -13397,13 +13389,6 @@ function ProAccountCard(){
         <span class="fswitch-t">${aiPhoto?'Attiva':'Spenta'}</span><span class="sw" aria-hidden="true"><i></i></span>
       </button>
     </div>
-    ${nat&&pro?html`<div style="font-size:14px;font-weight:800;color:var(--green-deep);margin:4px 0 4px;">Lawnly Pro attivo ✓</div><button class="pf-edit" style=${btn} onClick=${manage}>Gestisci abbonamento</button>`:''}
-    ${nat&&!pro&&offers.length?html`<div style="font-size:13px;color:var(--t2);margin:4px 0 4px;line-height:1.6;">${perks.map(p=>html`<div key=${p}>✓ ${p}</div>`)}</div>
-      ${offers.map(o=>html`<button key=${o.id} class="sh-save" style="margin-top:8px;" disabled=${!!busy} onClick=${()=>buy(o)}>${busy===o.id?'Attendere…':(o.title+' · '+o.price+(o.period?(' / '+(PER[o.period]||o.period)):''))}</button>`)}
-      <div style="font-size:11px;color:var(--t3);margin-top:8px;line-height:1.45;">Abbonamento con rinnovo automatico allo stesso prezzo, addebitato sul tuo account ${N.platform==='ios'?'Apple':'Google'}. Puoi disdire fino a 24 ore prima del rinnovo dalle impostazioni dello store.</div>`:''}
-    ${nat?html`<button class="pf-edit" style=${btn} disabled=${!!busy} onClick=${restore}>${busy==='restore'?'Attendere…':'Ripristina acquisti'}</button>`:''}
-    ${nat&&privReq?html`<button class="pf-edit" style=${btn} onClick=${()=>N.showPrivacyOptions()}>Preferenze pubblicità</button>`:''}
-    ${msg?html`<div style="font-size:12px;color:var(--t2);margin-top:8px;">${msg}</div>`:''}
     <div style="font-size:12.5px;margin-top:12px;text-align:center;">${link('privacy.html','Informativa privacy')} · ${link('termini.html','Termini di servizio')}</div>
   </div>`;
 }
@@ -16640,7 +16625,6 @@ function App(){
     if(!pw)return;
     const r=await supa.auth.deleteAccount(pw);
     if(r.error){window.alert('Account non eliminato: '+r.error.message);return;}
-    try{window.LawnlyNative&&window.LawnlyNative.logOut();}catch(e){}
     // token via PRIMA della pulizia: nessun salvataggio in sospeso può ricreare i dati sul server
     await supa.auth.signOut();
     await resetGarden(true,{skipRedirect:true});
@@ -16653,7 +16637,6 @@ function App(){
     // prima di uscire, chiudi il salvataggio in sospeso: il debounce di 1s bastava a perdere
     // l'ultima modifica di chi fa logout subito dopo aver toccato qualcosa
     try{ if(_lwPending&&_lwHasPendingLocal()){ clearTimeout(syncTimer); await _lwFlushPending(); } }catch(e){ console.warn('[logout] salvataggio finale non riuscito:',e.message); }
-    try{const N=window.LawnlyNative;if(N){N.hideBanner();N.logOut();}}catch(e){}
     // Dopo il flush finale la coda va svuotata: quello che resta appartiene a chi sta uscendo,
     // e su un telefono condiviso finirebbe nell'account di chi entra dopo.
     try{ clearTimeout(syncTimer); _lwPending=null; _lwMarkDirty(false); }catch(e){}
@@ -16664,7 +16647,6 @@ function App(){
     currentUserId=authUser?.id||session?.user?.id||null;
     window.__LAWNLY_DEBUG=window.__LAWNLY_DEBUG||{};
     window.__LAWNLY_DEBUG.currentUserId=currentUserId;
-    try{const N=window.LawnlyNative;if(N&&N.isNative&&N._uid!==currentUserId){N._uid=currentUserId;if(currentUserId)N.init(currentUserId).then(()=>{N.logIn(currentUserId);N.showBanner();});else N.hideBanner();}}catch(e){}
     window.__LAWNLY_DEBUG.currentGardenId=prof?.gardenId||null;
     window.__LAWNLY_DEBUG.resetFunctions={
       resetGarden,
