@@ -143,7 +143,9 @@ export default async function handler(req, res) {
       let saved = null;
 
       for (let attempt = 0; attempt < 4 && !saved; attempt++) {
-        const cur = await sql`select data, updated_at from app_state where user_id = ${uid}`;
+        // updated_at anche come testo: il driver lo restituisce come Date JS (millisecondi) ma
+        // Postgres lo salva in microsecondi, e il confronto sotto non troverebbe mai la riga.
+        const cur = await sql`select data, updated_at, updated_at::text as ver from app_state where user_id = ${uid}`;
 
         if (!cur.length) {
           const ins = await sql`
@@ -156,8 +158,11 @@ export default async function handler(req, res) {
         }
 
         const serverUpdatedAt = new Date(cur[0].updated_at);
-        // conflitto: il server è cambiato dopo il base del client (margine 1s per jitter)
-        const changedSinceBase = !baseUpdatedAt || serverUpdatedAt.getTime() > baseUpdatedAt.getTime() + 1000;
+        // conflitto: il server è cambiato dopo il base del client. Il base viene sempre dal server
+        // (stesso orologio), quindi niente margine: col vecchio margine di 1s due salvataggi
+        // ravvicinati si sovrascrivevano. ponytail: confronto al millisecondo, due scritture nello
+        // stesso ms non si distinguono; se servisse, mandare al client la versione testuale esatta.
+        const changedSinceBase = !baseUpdatedAt || serverUpdatedAt.getTime() > baseUpdatedAt.getTime();
         if (changedSinceBase) {
           finalData = mergeState(cur[0].data || {}, data);
           merged = true;
@@ -167,7 +172,7 @@ export default async function handler(req, res) {
 
         const upd = await sql`
           update app_state set data = ${JSON.stringify(finalData)}::jsonb, updated_at = now()
-          where user_id = ${uid} and updated_at = ${cur[0].updated_at}
+          where user_id = ${uid} and updated_at = ${cur[0].ver}::timestamptz
           returning updated_at`;
         if (upd.length) saved = upd[0].updated_at;
         // 0 righe = un'altra scrittura è passata in mezzo: si rilegge e si rifonde
