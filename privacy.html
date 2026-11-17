@@ -32,6 +32,7 @@ table{width:100%;border-collapse:collapse;font-size:13.5px}td,th{border-bottom:1
 <tr><td>Foto del prato</td><td>Analisi dello stato del prato con intelligenza artificiale (solo se attivi «Analisi AI delle foto»; foto ridimensionate, senza metadati)</td><td>Consenso (art. 6.1.a), revocabile dal Profilo</td></tr>
 <tr><td>Messaggi alla chat «Dottor Verde»</td><td>Rispondere alle tue domande con intelligenza artificiale</td><td>Esecuzione del contratto, su tua richiesta</td></tr>
 <tr><td>Tentativi di accesso (email, esito, ora)</td><td>Proteggere gli account da accessi abusivi</td><td>Legittimo interesse</td></tr>
+<tr><td>Impronta cifrata dell'indirizzo IP al momento della registrazione (l'IP non viene salvato in chiaro)</td><td>Limitare le registrazioni automatiche in massa</td><td>Legittimo interesse</td></tr>
 </table></div>
 
 <h2>3. Intelligenza artificiale</h2>
@@ -41,9 +42,10 @@ table{width:100%;border-collapse:collapse;font-size:13.5px}td,th{border-bottom:1
 <div class="wrap"><table>
 <tr><th>Fornitore</th><th>Ruolo</th><th>Luogo</th></tr>
 <tr><td>Neon (Databricks)</td><td>Database dell'app</td><td>UE (Francoforte)</td></tr>
-<tr><td>Vercel</td><td>Hosting del servizio</td><td>USA*</td></tr>
+<tr><td>Vercel</td><td>Hosting del servizio (elaborazione dei dati a Francoforte)</td><td>UE (Francoforte); società con sede negli USA*</td></tr>
 <tr><td>Anthropic</td><td>Chat e analisi foto con AI</td><td>USA*</td></tr>
-<tr><td>Open-Meteo</td><td>Previsioni meteo (riceve solo le coordinate)</td><td>UE</td></tr>
+<tr><td>Open-Meteo</td><td>Previsioni meteo (riceve solo coordinate approssimate a circa 1 km, tramite il nostro server)</td><td>UE</td></tr>
+<tr><td>Open-Elevation</td><td>Altitudine del giardino, una volta alla scelta della posizione (riceve le coordinate)</td><td>[DA VERIFICARE]</td></tr>
 <tr><td>OpenStreetMap Nominatim</td><td>Conversione indirizzo ↔ coordinate</td><td>UE</td></tr>
 <tr><td>Resend</td><td>Invio email (recupero password)</td><td>USA*</td></tr>
 <tr><td>Apple, Google</td><td>Distribuzione dell'app</td><td>UE/USA*</td></tr>
@@ -57,7 +59,7 @@ table{width:100%;border-collapse:collapse;font-size:13.5px}td,th{border-bottom:1
 <ul>
 <li>Account e dati del prato: finché non elimini l'account.</li>
 <li>Codici di recupero password: 30 minuti.</li>
-<li>Tentativi di accesso: 30 giorni.</li>
+<li>Tentativi di accesso e impronte IP delle registrazioni: 30 giorni.</li>
 </ul>
 
 <h2>7. I tuoi diritti</h2>

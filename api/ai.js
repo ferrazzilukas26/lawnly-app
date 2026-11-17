@@ -44,7 +44,9 @@ async function overQuota(uid) {
   const rows = await sql`insert into lawnly_ai_usage (user_id, day, n) values (${uid}, ${day}, 1)
     on conflict (user_id, day) do update set n = lawnly_ai_usage.n + 1 returning n`;
   if ((rows[0]?.n || 0) > DAILY_LIMIT) return 'user';
-  const [all] = await sql`select coalesce(sum(n), 0)::int as n from lawnly_ai_usage where day = ${day}`;
+  // Ogni utente pesa al massimo DAILY_LIMIT: le richieste già respinte non devono consumare il tetto
+  // di tutti (altrimenti un solo account che insiste blocca il Dottor Verde per l'intera app).
+  const [all] = await sql`select coalesce(sum(least(n, ${DAILY_LIMIT})), 0)::int as n from lawnly_ai_usage where day = ${day}`;
   return all.n > GLOBAL_DAILY_LIMIT ? 'global' : null;
 }
 

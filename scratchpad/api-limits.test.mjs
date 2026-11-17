@@ -41,11 +41,12 @@ const emails = [];
 try {
   // --- registrazione: formato email e limite per rete
   assert.equal((await call(auth, { body: { action: 'signup', email: 'non-una-email', password: 'password123' }, ip: ipA })).code, 400);
-  let token, uid;
+  let token, uid; const tokens = [];
   for (let i = 0; i < 10; i++) {
     const email = `limiti-${run}-${i}@example.invalid`; emails.push(email);
     const r = await call(auth, { body: { action: 'signup', email, password: 'password123' }, ip: ipA });
     assert.equal(r.code, 200, `registrazione ${i}: ${JSON.stringify(r.payload)}`);
+    tokens.push(r.payload.token);
     if (i === 0) { token = r.payload.token; uid = r.payload.user.id; }
   }
   const dup = await call(auth, { body: { action: 'signup', email: emails[0], password: 'password123' }, ip: '192.0.2.200' });
@@ -81,14 +82,22 @@ try {
   const q1 = await call(ai, { body: msg('ciao'), token });
   assert.equal(q1.code, 429); assert.match(q1.payload.error.message, /40 domande/);
 
-  // --- tetto globale (riga fittizia di un altro "utente" nello stesso giorno)
-  await sql`update lawnly_ai_usage set n = 0 where user_id = ${String(uid)} and day = ${day}`;
-  await sql`insert into lawnly_ai_usage (user_id, day, n) values (${'test-globale-' + run}, ${day}, 1000)`;
-  const q2 = await call(ai, { body: msg('ciao'), token });
+  // --- regressione (review Codex): un account esaurito che insiste non consuma il tetto di tutti.
+  // Utenti fittizi: 23 x 40 = 920; il primo account ha 5000 richieste respinte (pesa solo 40) -> 960 < 1000.
+  const [prod] = await sql`select coalesce(sum(least(n, 40)), 0)::int as n from lawnly_ai_usage where day = ${day} and user_id <> ${String(uid)}`;
+  assert.ok(prod.n < 30, 'il branch ha già molto uso oggi: test non affidabile');
+  await sql`update lawnly_ai_usage set n = 5000 where user_id = ${String(uid)} and day = ${day}`;
+  await sql`insert into lawnly_ai_usage (user_id, day, n) select ${'test-globale-' + run + '-'} || g, ${day}, 40 from generate_series(1, 23) g`;
+  const other = await call(ai, { body: msg('ciao'), token: tokens[1] });
+  assert.equal(other.code, 200, 'un altro utente deve poter usare il Dottor Verde: ' + JSON.stringify(other.payload));
+
+  // --- tetto globale: altri 2 utenti pieni -> 920 + 40 + 1 + 80 > 1000
+  await sql`insert into lawnly_ai_usage (user_id, day, n) select ${'test-globale-' + run + '-x'} || g, ${day}, 40 from generate_series(1, 2) g`;
+  const q2 = await call(ai, { body: msg('ciao'), token: tokens[2] });
   assert.equal(q2.code, 429); assert.match(q2.payload.error.message, /limite di oggi/);
 
-  assert.equal(outbound.filter(o => o.url.includes('anthropic')).length, 1, 'solo la chiamata valida è arrivata ad Anthropic');
-  console.log('OK: registrazione (formato, limite per rete, IP non in chiaro), meteo (login, coordinate ~1 km), AI (login, testo, immagini, max_tokens, quota utente, tetto globale)');
+  assert.equal(outbound.filter(o => o.url.includes('anthropic')).length, 2, 'solo la chiamata valida è arrivata ad Anthropic');
+  console.log('OK: registrazione (formato, limite per rete, IP non in chiaro), meteo (login, coordinate ~1 km), AI (login, testo, immagini, max_tokens, quota utente, account esaurito non blocca gli altri, tetto globale)');
 } finally {
   await sql`delete from lawnly_ai_usage where user_id like ${'test-globale-%'}`;
   for (const e of emails) {
