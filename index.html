@@ -12332,11 +12332,16 @@ function Prato({prof,wx}){
 /* ===== fine Sezione PRATO ===== */
 
 /* ===== LAWNLY RE-SKIN — Dottor Verde chat in-app (sh-ai) ===== */
-/* Segnalazione di una risposta IA (richiesta Google Play): salva in locale e apre una mail precompilata. */
-function lawnlyReportAi(text){
-  try{const r=S.get('dss_ai_reports',[])||[];r.push({at:new Date().toISOString(),text:String(text||'').slice(0,1200)});S.set('dss_ai_reports',r.slice(-30));}catch(e){}
-  const body='Segnalo questa risposta del Dottor Verde:\n\n'+String(text||'').slice(0,1200)+'\n\nMotivo: ';
-  try{lawnlyOpenExt('mailto:'+(window.LAWNLY_REPORT_EMAIL||'ferrazzi.lukas26@gmail.com')+'?subject='+encodeURIComponent('Segnalazione risposta IA - Lawnly')+'&body='+encodeURIComponent(body));}catch(e){}
+/* Segnalazione di una risposta IA (Google Play: dentro l'app, senza uscire). Arriva sulla bacheca feedback. */
+async function lawnlyReportAi(text){
+  const motivo=window.prompt('Cosa non va in questa risposta? (facoltativo)')??null;
+  if(motivo===null)return; // annullato
+  try{
+    const r=await fetch(AI_PROXY_URL,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+(_lwToken()||'')},
+      body:JSON.stringify({action:'report',text:String(text||'').slice(0,1500),reason:String(motivo).slice(0,500)})});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    showGlobalToast('Segnalazione inviata, grazie: la controlliamo.','success',5000);
+  }catch(e){showGlobalToast('Segnalazione non inviata, riprova più tardi.','error',6000);}
 }
 function DottorVerdeChat({prof,wx,onClose}){
   const zones=(prof&&prof.zones&&prof.zones.length)?prof.zones:[{id:'A',name:'Zona A'}];
@@ -12891,6 +12896,10 @@ function Meteo2({wx,prof}){
         <div class=${'mt-imp-tag'+(overCount>=2?' warn':'')}><span>Rischio prato</span><b>${overCount>=2?'Alto':'Medio-alto'}</b></div>
       </div>
     </div>`:''}
+    ${/* attribuzioni richieste dalle licenze: Open-Meteo CC BY 4.0, OpenStreetMap ODbL (ricerca indirizzi) */''}
+    <div style="font-size:11px;color:var(--t3);text-align:center;padding:16px 0 4px;line-height:1.5;">
+      Dati meteo <a href="https://open-meteo.com/" onClick=${e=>{e.preventDefault();lawnlyOpenExt('https://open-meteo.com/');}} style="color:inherit;">Open-Meteo.com</a> (CC BY 4.0) · Indirizzi © <a href="https://www.openstreetmap.org/copyright" onClick=${e=>{e.preventDefault();lawnlyOpenExt('https://www.openstreetmap.org/copyright');}} style="color:inherit;">OpenStreetMap</a>
+    </div>
   </div>`;
 }
 /* ===== fine Sezione METEO ===== */

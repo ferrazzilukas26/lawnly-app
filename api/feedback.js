@@ -63,7 +63,9 @@ export default async function handler(req, res) {
         return res.status(200).send(Buffer.from(b64, 'base64'));
       }
       const items = await sql`select id, author, type, section, rating, text, status, created_at, updated_at,
-        (photo is not null) as has_photo from lawnly_feedback order by created_at desc limit 500`;
+        (photo is not null) as has_photo from lawnly_feedback
+        where ${role === 'admin'} or section is distinct from 'Risposta IA segnalata' -- segnalazioni degli utenti: solo admin
+        order by created_at desc limit 500`;
       // analytics base: chi usa l'app e quando (ultima sync per utente)
       let usage = [];
       try {

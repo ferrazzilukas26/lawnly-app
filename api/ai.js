@@ -103,6 +103,25 @@ export default async function handler(req, res) {
     return wxProxy(body.url, res);
   }
 
+  // Segnalazione di una risposta IA dall'app (richiesta Google Play): finisce sulla bacheca feedback.
+  // ponytail: nessun limite per utente oltre al login; aggiungerlo se arrivano abusi.
+  if (body.action === 'report') {
+    const u = verifyToken(bearer(req));
+    if (!u?.uid) { res.status(401).json({ error: { message: 'login richiesto' } }); return; }
+    const text = String(body.text || '').trim().slice(0, 1500);
+    if (!text) { res.status(400).json({ error: { message: 'testo mancante' } }); return; }
+    const reason = String(body.reason || '').trim().slice(0, 500);
+    try {
+      await sql`insert into lawnly_feedback (author, type, section, text)
+        values (${'Utente app #' + u.uid}, 'bug', 'Risposta IA segnalata', ${(reason ? 'Motivo: ' + reason + '\n\n' : '') + 'Risposta: ' + text})`;
+      res.status(200).json({ ok: true });
+    } catch (e) {
+      console.error('[report]', e.message);
+      res.status(500).json({ error: { message: 'Segnalazione non salvata.' } });
+    }
+    return;
+  }
+
   // Da qui in poi si spende: serve un utente autenticato, con una quota giornaliera.
   const user = await authUser(req); // account esistente: un token di un account eliminato non spende quota AI
   if (!user || !user.uid) { res.status(401).json({ error: { message: 'login richiesto' } }); return; }

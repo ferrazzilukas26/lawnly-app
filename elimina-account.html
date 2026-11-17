@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Elimina account · Lawnly</title>
+<style>
+:root{--bg:#F4F1E8;--ink:#1F2A1B;--t2:#55604F;--line:#DDD8C8;--acc:#36702C;--err:#A8432E;--on-err:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#1C1A16;--ink:#EDE9DD;--t2:#B4AE9E;--line:#3A362E;--acc:#8CC77A;--err:#E8846E;--on-err:#1C1A16}}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif}
+main{max-width:520px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:26px;margin:0 0 4px}p,li{color:var(--t2)}a{color:var(--acc)}
+label{display:block;font-weight:600;margin:14px 0 4px}
+input[type=email],input[type=password]{box-sizing:border-box;width:100%;padding:11px 12px;font:inherit;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--ink)}
+.chk{display:flex;gap:8px;align-items:flex-start;margin-top:14px;color:var(--t2);font-weight:400}
+button{margin-top:18px;width:100%;padding:12px;font:inherit;font-weight:700;border:0;border-radius:999px;background:var(--err);color:var(--on-err);cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
+#msg{margin-top:14px;font-weight:600}
+</style>
+</head>
+<body><main>
+<h1>Elimina il tuo account Lawnly</h1>
+<p>Da qui puoi eliminare l'account anche senza l'app. Vengono cancellati dai nostri server: account, dati del prato, foto, conteggio delle domande al Dottor Verde e codici di recupero. L'operazione è <b>irreversibile</b>.</p>
+<p>Puoi farlo anche dall'app: Profilo → Account e dati → Elimina account. Se non ricordi la password, recuperala prima dall'app. Per altre richieste vedi l'<a href="privacy.html">informativa privacy</a>.</p>
+<form id="f">
+  <label for="em">Email dell'account</label>
+  <input id="em" type="email" autocomplete="username" required>
+  <label for="pw">Password</label>
+  <input id="pw" type="password" autocomplete="current-password" required>
+  <label class="chk"><input id="ok" type="checkbox" required> Ho capito che account e dati vengono cancellati per sempre.</label>
+  <button id="go" type="submit">Elimina definitivamente</button>
+  <div id="msg" role="status"></div>
+</form>
+<script>
+// Stesse API dell'app: login per avere il token, poi cancellazione con conferma della password.
+const f = document.getElementById('f'), msg = document.getElementById('msg'), go = document.getElementById('go');
+const post = async (body, token) => {
+  const r = await fetch('/api/auth', { method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
+    body: JSON.stringify(body) });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok || d.error) throw new Error((d.error && d.error.message) || 'Errore ' + r.status);
+  return d;
+};
+f.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('em').value.trim(), password = document.getElementById('pw').value;
+  go.disabled = true; msg.style.color = ''; msg.textContent = 'Attendere…';
+  try {
+    const { token } = await post({ action: 'login', email, password });
+    await post({ action: 'delete', password }, token);
+    f.reset(); f.querySelectorAll('input,button').forEach(x => x.disabled = true);
+    msg.style.color = 'var(--acc)'; msg.textContent = 'Account eliminato. Se avevi l\'app aperta su un telefono, lì verrai disconnesso.';
+  } catch (err) {
+    go.disabled = false; msg.style.color = 'var(--err)'; msg.textContent = err.message;
+  }
+});
+</script>
+</main></body>
+</html>
