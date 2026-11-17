@@ -4,3 +4,4 @@ CHECKPOINT.md
 index.html.backup-*
 node_modules
 mobile/www
+.env*
