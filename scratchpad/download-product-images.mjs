@@ -36,7 +36,8 @@ for (const p of PRODUCT_CATALOG.filter(p => !p.image && found[p.id]?.imageUrl)) 
   const temp = mkdtempSync(join(tmpdir(), 'lawnly-img-'));
   try {
     const url = new URL(found[p.id].imageUrl);
-    if (url.protocol !== 'https:' || !ORIGINS[p.brand]?.test(url.hostname)) throw new Error(`origine non ammessa: ${url.hostname}`);
+    // Siti dei produttori, oppure foto ufficiale ripresa da un rivenditore con la pagina d'origine annotata.
+    if (url.protocol !== 'https:' || !(ORIGINS[p.brand]?.test(url.hostname) || found[p.id].page)) throw new Error(`origine non ammessa: ${url.hostname}`);
     const res = await fetch(url, { signal: AbortSignal.timeout(30000), headers: { 'user-agent': 'Mozilla/5.0 (Lawnly catalogo)' } });
     if (!res.ok || !/^image\/(png|jpeg|webp)(;|$)/i.test(res.headers.get('content-type') || '')) throw new Error(`HTTP ${res.status} ${res.headers.get('content-type')}`);
     const input = join(temp, 'download');

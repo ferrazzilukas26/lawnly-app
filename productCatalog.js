@@ -948,6 +948,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-barfertile-spring-autumn",
+    image: "products/barenbrug/barenbrug-barfertile-spring-autumn.png",
     brand: "Barenbrug",
     name: "BarFertile Spring/Autumn",
     type: "concime",
@@ -981,6 +982,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-barfertile-summer-winter",
+    image: "products/barenbrug/barenbrug-barfertile-summer-winter.png",
     brand: "Barenbrug",
     name: "BarFertile Summer/Winter",
     type: "concime",
@@ -1014,6 +1016,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-barfertile-starter",
+    image: "products/barenbrug/barenbrug-barfertile-starter.png",
     brand: "Barenbrug",
     name: "BarFertile Starter",
     type: "concime",
@@ -1113,6 +1116,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-barfertile-sport",
+    image: "products/barenbrug/barenbrug-barfertile-sport.png",
     brand: "Barenbrug",
     name: "BarFertile Sport",
     type: "concime",
@@ -1181,6 +1185,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-barfertile-active",
+    image: "products/barenbrug/barenbrug-barfertile-active.png",
     brand: "Barenbrug",
     name: "BarFertile Active",
     type: "concime",
@@ -1215,6 +1220,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-barfertile-k-plus",
+    image: "products/barenbrug/barenbrug-barfertile-k-plus.png",
     brand: "Barenbrug",
     name: "BarFertile K-Plus",
     type: "concime",
@@ -1282,6 +1288,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-barfertile-ferro-31",
+    image: "products/barenbrug/barenbrug-barfertile-ferro-31.png",
     brand: "Barenbrug",
     name: "BarFertile Ferro 31",
     type: "correttore",
@@ -1382,6 +1389,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-rubix-turf",
+    image: "products/barenbrug/barenbrug-rubix-turf.png",
     brand: "Barenbrug",
     name: "Rubix-Turf",
     type: "biostimolante",
@@ -1415,6 +1423,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-green-fit",
+    image: "products/barenbrug/barenbrug-green-fit.png",
     brand: "Barenbrug",
     name: "Green-Fit",
     type: "concime",
@@ -1448,6 +1457,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-barfertile-defender-pk",
+    image: "products/barenbrug/barenbrug-barfertile-defender-pk.png",
     brand: "Barenbrug",
     name: "BarFertile Defender PK",
     type: "concime",
@@ -1481,6 +1491,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-turf-care",
+    image: "products/barenbrug/barenbrug-turf-care.png",
     brand: "Barenbrug",
     name: "Turf-Care",
     type: "biostimolante",
@@ -1514,6 +1525,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-turf-protect",
+    image: "products/barenbrug/barenbrug-turf-protect.png",
     brand: "Barenbrug",
     name: "Turf-Protect",
     type: "biostimolante",
@@ -1547,6 +1559,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-planta-fit",
+    image: "products/barenbrug/barenbrug-planta-fit.png",
     brand: "Barenbrug",
     name: "Planta-Fit",
     type: "biostimolante",
@@ -1580,6 +1593,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-radi-fit",
+    image: "products/barenbrug/barenbrug-radi-fit.png",
     brand: "Barenbrug",
     name: "Radi-Fit",
     type: "biostimolante",
@@ -1613,6 +1627,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-algaturf-plus",
+    image: "products/barenbrug/barenbrug-algaturf-plus.png",
     brand: "Barenbrug",
     name: "Algaturf Plus",
     type: "biostimolante",
@@ -1646,6 +1661,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-radi-care",
+    image: "products/barenbrug/barenbrug-radi-care.png",
     brand: "Barenbrug",
     name: "Radi-Care",
     type: "biostimolante",
@@ -1753,6 +1769,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-biosoil",
+    image: "products/barenbrug/barenbrug-biosoil.png",
     brand: "Barenbrug",
     name: "BioSoil",
     type: "bioattivato",
@@ -1786,6 +1803,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-joker-bio-turf",
+    image: "products/barenbrug/barenbrug-joker-bio-turf.png",
     brand: "Barenbrug",
     name: "Joker Bio Turf",
     type: "bioattivato",
@@ -1820,6 +1838,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-pbs-150",
+    image: "products/barenbrug/barenbrug-pbs-150.png",
     brand: "Barenbrug",
     name: "PBS 150",
     type: "surfattante",
@@ -1854,6 +1873,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-oars-pellet",
+    image: "products/barenbrug/barenbrug-oars-pellet.png",
     brand: "Barenbrug",
     name: "OARS Pellet",
     type: "surfattante",
@@ -1887,6 +1907,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-ecovital-crescita",
+    image: "products/barenbrug/barenbrug-ecovital-crescita.png",
     brand: "Barenbrug",
     name: "EcoVital Crescita",
     type: "concime",
@@ -1920,6 +1941,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "barenbrug-ecovital-mantenimento",
+    image: "products/barenbrug/barenbrug-ecovital-mantenimento.png",
     brand: "Barenbrug",
     name: "EcoVital Mantenimento",
     type: "concime",
@@ -1958,6 +1980,7 @@ export const PRODUCT_CATALOG = [
   // ========================================================================
     {
     id: "icl-greenmaster-pro-lite-cold-start",
+    image: "products/icl/icl-greenmaster-pro-lite-cold-start.png",
     brand: "ICL",
     name: "Greenmaster Pro-Lite Cold Start",
     type: "concime",
@@ -1986,6 +2009,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-greenmaster-pro-lite-invigorator-plus",
+    image: "products/icl/icl-greenmaster-pro-lite-invigorator-plus.jpg",
     brand: "ICL",
     name: "Greenmaster Pro-Lite Invigorator Plus",
     type: "concime",
@@ -2014,6 +2038,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-greenmaster-pro-lite-nk",
+    image: "products/icl/icl-greenmaster-pro-lite-nk.png",
     brand: "ICL",
     name: "Greenmaster Pro-Lite NK",
     type: "concime",
@@ -2070,6 +2095,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-greenmaster-liquid-effect-iron",
+    image: "products/icl/icl-greenmaster-liquid-effect-iron.jpg",
     brand: "ICL",
     name: "Greenmaster Liquid Effect Iron",
     type: "concime",
@@ -2129,6 +2155,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-greenmaster-liquid-nk",
+    image: "products/icl/icl-greenmaster-liquid-nk.png",
     brand: "ICL",
     name: "Greenmaster Liquid NK",
     type: "concime",
@@ -2160,6 +2187,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-greenmaster-liquid-step",
+    image: "products/icl/icl-greenmaster-liquid-step.png",
     brand: "ICL",
     name: "Greenmaster Liquid STEP",
     type: "concime",
@@ -2188,6 +2216,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-step-hi-mag",
+    image: "products/icl/icl-step-hi-mag.png",
     brand: "ICL",
     name: "STEP Hi-Mag",
     type: "concime",
@@ -2730,6 +2759,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-sierrablen-plus-active",
+    image: "products/icl/icl-sierrablen-plus-active.png",
     brand: "ICL",
     name: "Sierrablen Plus Active",
     type: "concime",
@@ -2842,6 +2872,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-sierrablen-plus-spring-starter-3m",
+    image: "products/icl/icl-sierrablen-plus-spring-starter-3m.png",
     brand: "ICL",
     name: "Sierrablen Plus Spring Starter 3M",
     type: "concime",
@@ -2870,6 +2901,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-sierrablen-plus-spring-starter-4-5m",
+    image: "products/icl/icl-sierrablen-plus-spring-starter-4-5m.png",
     brand: "ICL",
     name: "Sierrablen Plus Spring Starter 4-5M",
     type: "concime",
@@ -2954,6 +2986,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-sierrablen-plus-renovator-con-tecnologia-pearl",
+    image: "products/icl/icl-sierrablen-plus-renovator-con-tecnologia-pearl.png",
     brand: "ICL",
     name: "Sierrablen Plus Renovator con Tecnologia Pearl",
     type: "concime",
@@ -2982,6 +3015,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-sierraform-gt-all-season",
+    image: "products/icl/icl-sierraform-gt-all-season.png",
     brand: "ICL",
     name: "Sierraform GT All Season",
     type: "concime",
@@ -3010,6 +3044,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-sierraform-gt-anti-stress",
+    image: "products/icl/icl-sierraform-gt-anti-stress.png",
     brand: "ICL",
     name: "Sierraform GT Anti-Stress",
     type: "concime",
@@ -3038,6 +3073,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-sierraform-gt-k-step",
+    image: "products/icl/icl-sierraform-gt-k-step.png",
     brand: "ICL",
     name: "Sierraform GT K-Step",
     type: "concime",
@@ -3094,6 +3130,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-sierraform-gt-preseeder",
+    image: "products/icl/icl-sierraform-gt-preseeder.png",
     brand: "ICL",
     name: "Sierraform GT Preseeder",
     type: "concime",
@@ -3178,6 +3215,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-sportsmaster-wsf-high-k",
+    image: "products/icl/icl-sportsmaster-wsf-high-k.png",
     brand: "ICL",
     name: "Sportsmaster WSF High K",
     type: "concime",
@@ -3206,6 +3244,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-sportsmaster-wsf-high-n",
+    image: "products/icl/icl-sportsmaster-wsf-high-n.png",
     brand: "ICL",
     name: "Sportsmaster WSF High N",
     type: "concime",
@@ -3290,6 +3329,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-vitalnova-blade",
+    image: "products/icl/icl-vitalnova-blade.jpg",
     brand: "ICL",
     name: "Vitalnova Blade",
     type: "biostimolante",
@@ -3377,6 +3417,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-vitalnova-stressbuster",
+    image: "products/icl/icl-vitalnova-stressbuster.jpg",
     brand: "ICL",
     name: "Vitalnova Stressbuster",
     type: "biostimolante",
@@ -3408,6 +3449,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-h2pro-aquasmart",
+    image: "products/icl/icl-h2pro-aquasmart.png",
     brand: "ICL",
     name: "H2Pro AquaSmart",
     type: "surfattante",
@@ -3467,6 +3509,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-h2pro-flowsmart",
+    image: "products/icl/icl-h2pro-flowsmart.png",
     brand: "ICL",
     name: "H2Pro FlowSmart",
     type: "surfattante",
@@ -3495,6 +3538,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-h2pro-trismart",
+    image: "products/icl/icl-h2pro-trismart.jpg",
     brand: "ICL",
     name: "H2Pro TriSmart",
     type: "surfattante",
@@ -3695,6 +3739,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "icl-greenmaster-pro-lite-autumn",
+    image: "products/icl/icl-greenmaster-pro-lite-autumn.png",
     brand: "ICL",
     name: "Greenmaster Pro-Lite Autumn",
     type: "concime",
