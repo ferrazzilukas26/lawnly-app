@@ -30,7 +30,7 @@ Stato al 17/11/2026, branch `lancio-fase0`. Sostituisce la versione dell'11/09: 
 | 4 | Collegare il dominio a Vercel; verificarlo su Resend; `MAIL_FROM=Lawnly <noreply@lawnly.it>`; **togliere `RESET_RELAY_TO`** | Claude, con accesso ai DNS | 🔴 |
 | 5 | Caselle `privacy@` e `supporto@` (bastano inoltri) | Lukas | 🔴 |
 | 6 | Titolare del trattamento (persona fisica o i tre soci) → compilare i segnaposto, togliere «BOZZA» | Soci decidono, Claude scrive | 🔴 |
-| 7 | Lettura di un avvocato su privacy e termini | Soci | 🔴 |
+| 7 | Lettura di un avvocato su privacy e termini, **e sull'uso delle foto ufficiali dei prodotti Bottos, Barenbrug, ICL, Padana mostrate senza accordo (scelta del 17/11)**; in alternativa chiedere il permesso ai marchi | Soci | 🔴 |
 | 8 | Vercel Pro (il piano gratuito vieta l'uso commerciale) | Lukas | 🔴 |
 | 9 | Risposta di Open-Meteo (bozza della mail: report del 16/11 §6.3) | Lukas | 🔴 |
 | 10 | DPA di Anthropic, Vercel, Neon, Resend; zero data retention ad Anthropic | Lukas | 🟡 |

@@ -501,7 +501,6 @@ input[type=range]{width:100%;accent-color:var(--green);cursor:pointer;margin:6px
 .rdz .prod{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid var(--line2);}
 .rdz .prod:last-child{border-bottom:none;padding-bottom:0;}
 .rdz .prod-ic{width:40px;height:40px;border-radius:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.rdz .prod-ic svg{width:19px;height:19px;}
 .rdz .prod-m{flex:1;min-width:0;}
 .rdz .prod-n{font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .rdz .prod-meta{font-size:11.5px;color:var(--t3);margin-top:2px;}
@@ -660,7 +659,6 @@ html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
 .rdz *{-webkit-tap-highlight-color:transparent;}
 .rdz button, .rdz .nv, .rdz .qb, .rdz .fchip, .rdz .fswitch, .rdz .menu-row, .rdz [data-open], .rdz [data-close], .rdz .pill, .rdz .seg2t{touch-action:manipulation;}
 .rdz{padding-bottom:calc(var(--nav-h) + var(--sab) + 34px) !important;}
-.rdz>*{flex-shrink:0;}
 .rdz .tile[data-open], .rdz .span2[data-open]{cursor:pointer;}
 .rdz .tile[data-open]:active{transform:scale(.985);}
 .rdz .next-meta{display:flex;gap:7px;font-size:10.5px;font-weight:700;color:var(--green-deep,#9CCB76);margin-top:7px;flex-wrap:wrap;}
@@ -1117,7 +1115,6 @@ html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
 .rdz #sh-meteo .dt-fcd:nth-child(5) svg{animation-delay:.4s;}
 .rdz #sh-meteo .dt-fcd.on svg{animation:wxShine 2.4s ease-in-out infinite;}
 .rdz .nv{flex-shrink:0 !important;}
-.rdz .nv{flex-shrink:0 !important;}
 .rdz .nv{padding:10px !important;}
 .rdz .nv.on{padding:10px !important;}
 .rdz .nv-l{position:absolute !important;bottom:calc(100% + 8px);left:50%;
@@ -1195,238 +1192,61 @@ html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
 .rdz .fade{opacity:1;}
 /* === fine === */
 /* === LIGHT LOCK — corregge la regola tema-scuro trapelata sul foglio === */
-.rdz .sheet{background:#FAF9F4 !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;border-top:1px solid var(--line) !important;box-shadow:0 -22px 50px rgba(0,0,0,.18) !important;color:var(--ink) !important;}
-.rdz .sheet .sh-body, .rdz .sheet .sh-title{color:var(--ink);}
 /* === icone Piano/Guida nello stile dashboard (boxless + glow, più grandi) === */
-.rdz .ag-ic, .rdz .gv-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .ag-ic svg, .rdz .gv-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .ag-ic.ic-g, .rdz .gv-ic.ic-g{color:var(--green);}
-.rdz .ag-ic.ic-a, .rdz .gv-ic.ic-a{color:var(--amber);}
-.rdz .ag-ic.ic-b, .rdz .gv-ic.ic-b{color:var(--blue);}
-.rdz .ag-ic.ic-g svg, .rdz .gv-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .ag-ic.ic-a svg, .rdz .gv-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .ag-ic.ic-b svg, .rdz .gv-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === icone prodotto Magazzino nello stile dashboard === */
-.rdz .prod-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .prod-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .prod-ic.cat-liq svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
-.rdz .prod-ic.cat-gran svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .prod-ic.cat-sem svg{filter:drop-shadow(0 0 5px rgba(156,203,118,.5));}
-.rdz .prod-ic.cat-sab svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .prod-ic.cat-ter svg{filter:drop-shadow(0 0 5px rgba(199,154,116,.55));}
 /* === icone sezioni Profilo nello stile dashboard === */
-.rdz .prow-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;color:var(--green);}
-.rdz .prow-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
 /* === ANIMAZIONI — crescita barre all'ingresso === */
-@keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-.rdz .pv-bar>i,.rdz .mbar>i,.rdz .dt-par-bar>i,.rdz .prod-bar>i,.rdz .comp>i,.rdz .vmoist-bar>i{transform-origin:left center;animation:barGrow 1.25s .35s cubic-bezier(.22,.7,.3,1) backwards;}
-@keyframes barRise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
-.rdz .dt-bars .dt-bar>i{transform-origin:bottom;animation:barRise 1s .4s cubic-bezier(.22,.8,.3,1) backwards;}
 /* === apertura morbida dei pannelli + blur sincronizzato === */
-@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.rdz>.sheet.on{animation:sheetUp .42s cubic-bezier(.25,1,.4,1);}
 
 /* === icone Stato del prato nello stile dashboard (boxless + glow) === */
-.rdz .dt-par-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .dt-par-ic svg{width:24px !important;height:24px !important;stroke-width:1.8;}
-.rdz .dt-par-ic.ic-g{color:var(--green);} .rdz .dt-par-ic.ic-a{color:var(--amber);} .rdz .dt-par-ic.ic-b{color:var(--blue);}
-.rdz .dt-par-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .dt-par-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .dt-par-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === barra GDD: marcatore che scorre all'ingresso === */
-@keyframes gddSlide{from{left:0 !important;opacity:0}to{opacity:1}}
-.rdz .dt-gddbar>i{animation:gddSlide .8s .3s cubic-bezier(.33,1,.5,1) backwards;}
 /* === apertura foglio: slide dal basso + sfocatura SIMULTANEA (come plus) === */
-@keyframes sheetUp2{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.rdz>.sheet.on{animation:sheetUp2 .44s cubic-bezier(.22,1,.36,1) both !important;}
-@keyframes ovIn2{from{opacity:0;-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px)}to{opacity:1;-webkit-backdrop-filter:blur(7px) saturate(115%);backdrop-filter:blur(7px) saturate(115%)}}
-.rdz>.ov.on{animation:ovIn2 .44s ease both !important;transition:none !important;}
 /* === icone meteo: raggi sole che ruotano === */
-.rdz .wx-sun .rays{transform-origin:12px 12px;animation:wxspin 10s linear infinite;}
-.rdz .wx-sun .core{transform-origin:12px 12px;animation:wxpulse 3s ease-in-out infinite;}
 /* === form foto: drop ordinato in colonna === */
-.rdz .drop{display:flex !important;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:120px;}
-.rdz .drop svg{display:block;margin:0 auto 6px;}
-.rdz .drop b{display:block;text-align:center;}
-.rdz .drop span{display:block;text-align:center;}
 /* === barra GDD: marcatore con scivolata più marcata + traccia che si riempie === */
-@keyframes gddSlide2{0%{left:0 !important;opacity:0;transform:translateX(-50%) scale(.4)}60%{opacity:1}100%{opacity:1;transform:translateX(-50%) scale(1)}}
-.rdz .dt-gddbar>i{animation:gddSlide2 1s .25s cubic-bezier(.34,1.3,.5,1) backwards;}
 /* === marcatori (irrigazione + GDD): SCIVOLANO da sinistra e si fermano al valore === */
-@keyframes markSlide{from{left:0%}}
-.rdz .dt-spec>i,.rdz .dt-gddbar>i{animation:markSlide 1.35s .3s cubic-bezier(.2,.7,.3,1) backwards;}
 /* === sfocatura ISTANTANEA all'apertura, solo la velatura scura sfuma (sincrona) === */
-@keyframes ovTint{from{background:rgba(30,40,20,0)}to{background:rgba(30,40,20,.30)}}
-.rdz>.ov.on{opacity:1 !important;background:rgba(30,40,20,.30) !important;-webkit-backdrop-filter:blur(7px) saturate(115%) !important;backdrop-filter:blur(7px) saturate(115%) !important;animation:ovTint .3s ease both !important;transition:none !important;}
 /* === Onboarding: pulsanti nav, GPS, suggerimenti, shimmer Genera === */
-.rdz .ob-nav{height:50px;min-width:120px;border-radius:999px;font-weight:800;font-size:14px;padding:0 24px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:var(--sh);transition:transform .12s;}
-.rdz .ob-nav:active{transform:scale(.97);}
-.rdz .ob-nav.primary{background:var(--green);color:#fff;border:none;}
-.rdz .ob-nav.off{opacity:.45;}
-.rdz .ob-nav:disabled{opacity:.35;cursor:default;box-shadow:none;}
-.rdz .ob-gps{height:46px;border:none;border-radius:14px;background:var(--green);color:#fff;font-weight:800;font-size:13px;padding:0 16px;white-space:nowrap;cursor:pointer;}
-.rdz .ob-sugg{position:absolute;left:0;right:0;top:100%;margin-top:6px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh-lg);z-index:5;overflow:hidden;max-height:240px;overflow-y:auto;}
-.rdz .ob-sugg-i{padding:11px 14px;font-size:12.5px;color:var(--t2);cursor:pointer;border-bottom:1px solid var(--line2);line-height:1.4;}
-.rdz .ob-sugg-i:last-child{border-bottom:none;}
-.rdz .ob-sugg-i:hover{background:var(--green-soft);}
-@keyframes obShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.rdz .ob-generate{position:relative;overflow:hidden;background:linear-gradient(100deg,var(--green) 0%,var(--green) 38%,#AEE08C 50%,var(--green) 62%,var(--green) 100%) !important;background-size:220% 100% !important;animation:obShimmer 2.4s linear infinite;box-shadow:0 8px 22px rgba(76,140,63,.35) !important;}
-.rdz .ob-generate.off{filter:grayscale(.4);opacity:.6;animation:none;}
 /* === illustrazioni guide lavorazioni === */
-.rdz .gv-ills{display:flex;flex-direction:column;gap:10px;padding:4px 2px 4px;}
-.rdz .gv-ill{border-radius:12px;overflow:hidden;background:var(--card2);border:1px solid var(--line);}
-.rdz .gv-ill>div:first-child,.rdz .gv-ill svg{display:block;width:100%;height:auto;}
-.rdz .gv-ill-cap{font-size:11.5px;font-weight:700;color:var(--t2);padding:8px 12px;}
 /* === onboarding: tile aggiungi foto === */
 .rdz .ob-photo-add{width:70px;height:70px;border-radius:12px;border:1.5px dashed var(--line);display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;background:var(--card2);color:var(--green);}
 .rdz .ob-photo-add:active{transform:scale(.96);}
 /* === LIGHT LOCK — corregge la regola tema-scuro trapelata sul foglio === */
-.rdz .sheet{background:#FAF9F4 !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;border-top:1px solid var(--line) !important;box-shadow:0 -22px 50px rgba(0,0,0,.18) !important;color:var(--ink) !important;}
-.rdz .sheet .sh-body, .rdz .sheet .sh-title{color:var(--ink);}
 /* === icone Piano/Guida nello stile dashboard (boxless + glow, più grandi) === */
-.rdz .ag-ic, .rdz .gv-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .ag-ic svg, .rdz .gv-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .ag-ic.ic-g, .rdz .gv-ic.ic-g{color:var(--green);}
-.rdz .ag-ic.ic-a, .rdz .gv-ic.ic-a{color:var(--amber);}
-.rdz .ag-ic.ic-b, .rdz .gv-ic.ic-b{color:var(--blue);}
-.rdz .ag-ic.ic-g svg, .rdz .gv-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .ag-ic.ic-a svg, .rdz .gv-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .ag-ic.ic-b svg, .rdz .gv-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === icone prodotto Magazzino nello stile dashboard === */
-.rdz .prod-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .prod-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .prod-ic.cat-liq svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
-.rdz .prod-ic.cat-gran svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .prod-ic.cat-sem svg{filter:drop-shadow(0 0 5px rgba(156,203,118,.5));}
-.rdz .prod-ic.cat-sab svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .prod-ic.cat-ter svg{filter:drop-shadow(0 0 5px rgba(199,154,116,.55));}
 /* === icone sezioni Profilo nello stile dashboard === */
-.rdz .prow-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;color:var(--green);}
-.rdz .prow-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
 /* === ANIMAZIONI — crescita barre all'ingresso === */
-@keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-.rdz .pv-bar>i,.rdz .mbar>i,.rdz .dt-par-bar>i,.rdz .prod-bar>i,.rdz .comp>i,.rdz .vmoist-bar>i{transform-origin:left center;animation:barGrow 1.25s .35s cubic-bezier(.22,.7,.3,1) backwards;}
-@keyframes barRise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
-.rdz .dt-bars .dt-bar>i{transform-origin:bottom;animation:barRise 1s .4s cubic-bezier(.22,.8,.3,1) backwards;}
 /* === apertura morbida dei pannelli + blur sincronizzato === */
-@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.rdz>.sheet.on{animation:sheetUp .42s cubic-bezier(.25,1,.4,1);}
 
 /* === icone Stato del prato nello stile dashboard (boxless + glow) === */
-.rdz .dt-par-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .dt-par-ic svg{width:24px !important;height:24px !important;stroke-width:1.8;}
-.rdz .dt-par-ic.ic-g{color:var(--green);} .rdz .dt-par-ic.ic-a{color:var(--amber);} .rdz .dt-par-ic.ic-b{color:var(--blue);}
-.rdz .dt-par-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .dt-par-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .dt-par-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === barra GDD: marcatore che scorre all'ingresso === */
-@keyframes gddSlide{from{left:0 !important;opacity:0}to{opacity:1}}
-.rdz .dt-gddbar>i{animation:gddSlide .8s .3s cubic-bezier(.33,1,.5,1) backwards;}
 /* === apertura foglio: slide dal basso + sfocatura SIMULTANEA (come plus) === */
-@keyframes sheetUp2{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.rdz>.sheet.on{animation:sheetUp2 .44s cubic-bezier(.22,1,.36,1) both !important;}
-@keyframes ovIn2{from{opacity:0;-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px)}to{opacity:1;-webkit-backdrop-filter:blur(7px) saturate(115%);backdrop-filter:blur(7px) saturate(115%)}}
-.rdz>.ov.on{animation:ovIn2 .44s ease both !important;transition:none !important;}
 /* === icone meteo: raggi sole che ruotano === */
-.rdz .wx-sun .rays{transform-origin:12px 12px;animation:wxspin 10s linear infinite;}
-.rdz .wx-sun .core{transform-origin:12px 12px;animation:wxpulse 3s ease-in-out infinite;}
 /* === form foto: drop ordinato in colonna === */
-.rdz .drop{display:flex !important;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:120px;}
-.rdz .drop svg{display:block;margin:0 auto 6px;}
-.rdz .drop b{display:block;text-align:center;}
-.rdz .drop span{display:block;text-align:center;}
 /* === barra GDD: marcatore con scivolata più marcata + traccia che si riempie === */
-@keyframes gddSlide2{0%{left:0 !important;opacity:0;transform:translateX(-50%) scale(.4)}60%{opacity:1}100%{opacity:1;transform:translateX(-50%) scale(1)}}
-.rdz .dt-gddbar>i{animation:gddSlide2 1s .25s cubic-bezier(.34,1.3,.5,1) backwards;}
 /* === marcatori (irrigazione + GDD): SCIVOLANO da sinistra e si fermano al valore === */
-@keyframes markSlide{from{left:0%}}
-.rdz .dt-spec>i,.rdz .dt-gddbar>i{animation:markSlide 1.35s .3s cubic-bezier(.2,.7,.3,1) backwards;}
 /* === sfocatura ISTANTANEA all'apertura, solo la velatura scura sfuma (sincrona) === */
-@keyframes ovTint{from{background:rgba(30,40,20,0)}to{background:rgba(30,40,20,.30)}}
-.rdz>.ov.on{opacity:1 !important;background:rgba(30,40,20,.30) !important;-webkit-backdrop-filter:blur(7px) saturate(115%) !important;backdrop-filter:blur(7px) saturate(115%) !important;animation:ovTint .3s ease both !important;transition:none !important;}
 /* === Onboarding: pulsanti nav, GPS, suggerimenti, shimmer Genera === */
-.rdz .ob-nav{height:50px;min-width:120px;border-radius:999px;font-weight:800;font-size:14px;padding:0 24px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:var(--sh);transition:transform .12s;}
-.rdz .ob-nav:active{transform:scale(.97);}
-.rdz .ob-nav.primary{background:var(--green);color:#fff;border:none;}
-.rdz .ob-nav.off{opacity:.45;}
-.rdz .ob-nav:disabled{opacity:.35;cursor:default;box-shadow:none;}
-.rdz .ob-gps{height:46px;border:none;border-radius:14px;background:var(--green);color:#fff;font-weight:800;font-size:13px;padding:0 16px;white-space:nowrap;cursor:pointer;}
-.rdz .ob-sugg{position:absolute;left:0;right:0;top:100%;margin-top:6px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh-lg);z-index:5;overflow:hidden;max-height:240px;overflow-y:auto;}
-.rdz .ob-sugg-i{padding:11px 14px;font-size:12.5px;color:var(--t2);cursor:pointer;border-bottom:1px solid var(--line2);line-height:1.4;}
-.rdz .ob-sugg-i:last-child{border-bottom:none;}
-.rdz .ob-sugg-i:hover{background:var(--green-soft);}
-@keyframes obShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.rdz .ob-generate{position:relative;overflow:hidden;background:linear-gradient(100deg,var(--green) 0%,var(--green) 38%,#AEE08C 50%,var(--green) 62%,var(--green) 100%) !important;background-size:220% 100% !important;animation:obShimmer 2.4s linear infinite;box-shadow:0 8px 22px rgba(76,140,63,.35) !important;}
-.rdz .ob-generate.off{filter:grayscale(.4);opacity:.6;animation:none;}
 /* === illustrazioni guide lavorazioni === */
 .rdz .gv-ills{display:flex;flex-direction:column;gap:10px;padding:4px 2px 4px;}
 .rdz .gv-ill{border-radius:12px;overflow:hidden;background:var(--card2);border:1px solid var(--line);}
 .rdz .gv-ill>div:first-child,.rdz .gv-ill svg{display:block;width:100%;height:auto;}
 .rdz .gv-ill-cap{font-size:11.5px;font-weight:700;color:var(--t2);padding:8px 12px;}
 /* === LIGHT LOCK — corregge la regola tema-scuro trapelata sul foglio === */
-.rdz .sheet{background:#FAF9F4 !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;border-top:1px solid var(--line) !important;box-shadow:0 -22px 50px rgba(0,0,0,.18) !important;color:var(--ink) !important;}
-.rdz .sheet .sh-body, .rdz .sheet .sh-title{color:var(--ink);}
 /* === icone Piano/Guida nello stile dashboard (boxless + glow, più grandi) === */
-.rdz .ag-ic, .rdz .gv-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .ag-ic svg, .rdz .gv-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .ag-ic.ic-g, .rdz .gv-ic.ic-g{color:var(--green);}
-.rdz .ag-ic.ic-a, .rdz .gv-ic.ic-a{color:var(--amber);}
-.rdz .ag-ic.ic-b, .rdz .gv-ic.ic-b{color:var(--blue);}
-.rdz .ag-ic.ic-g svg, .rdz .gv-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .ag-ic.ic-a svg, .rdz .gv-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .ag-ic.ic-b svg, .rdz .gv-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === icone prodotto Magazzino nello stile dashboard === */
-.rdz .prod-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .prod-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .prod-ic.cat-liq svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
-.rdz .prod-ic.cat-gran svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .prod-ic.cat-sem svg{filter:drop-shadow(0 0 5px rgba(156,203,118,.5));}
-.rdz .prod-ic.cat-sab svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .prod-ic.cat-ter svg{filter:drop-shadow(0 0 5px rgba(199,154,116,.55));}
 /* === icone sezioni Profilo nello stile dashboard === */
-.rdz .prow-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;color:var(--green);}
-.rdz .prow-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
 /* === ANIMAZIONI — crescita barre all'ingresso === */
-@keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-.rdz .pv-bar>i,.rdz .mbar>i,.rdz .dt-par-bar>i,.rdz .prod-bar>i,.rdz .comp>i,.rdz .vmoist-bar>i{transform-origin:left center;animation:barGrow 1.25s .35s cubic-bezier(.22,.7,.3,1) backwards;}
-@keyframes barRise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
-.rdz .dt-bars .dt-bar>i{transform-origin:bottom;animation:barRise 1s .4s cubic-bezier(.22,.8,.3,1) backwards;}
 /* === apertura morbida dei pannelli + blur sincronizzato === */
-@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.rdz>.sheet.on{animation:sheetUp .42s cubic-bezier(.25,1,.4,1);}
 
 /* === icone Stato del prato nello stile dashboard (boxless + glow) === */
-.rdz .dt-par-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .dt-par-ic svg{width:24px !important;height:24px !important;stroke-width:1.8;}
-.rdz .dt-par-ic.ic-g{color:var(--green);} .rdz .dt-par-ic.ic-a{color:var(--amber);} .rdz .dt-par-ic.ic-b{color:var(--blue);}
-.rdz .dt-par-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .dt-par-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .dt-par-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === barra GDD: marcatore che scorre all'ingresso === */
-@keyframes gddSlide{from{left:0 !important;opacity:0}to{opacity:1}}
-.rdz .dt-gddbar>i{animation:gddSlide .8s .3s cubic-bezier(.33,1,.5,1) backwards;}
 /* === apertura foglio: slide dal basso + sfocatura SIMULTANEA (come plus) === */
-@keyframes sheetUp2{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.rdz>.sheet.on{animation:sheetUp2 .44s cubic-bezier(.22,1,.36,1) both !important;}
-@keyframes ovIn2{from{opacity:0;-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px)}to{opacity:1;-webkit-backdrop-filter:blur(7px) saturate(115%);backdrop-filter:blur(7px) saturate(115%)}}
-.rdz>.ov.on{animation:ovIn2 .44s ease both !important;transition:none !important;}
 /* === icone meteo: raggi sole che ruotano === */
-.rdz .wx-sun .rays{transform-origin:12px 12px;animation:wxspin 10s linear infinite;}
-.rdz .wx-sun .core{transform-origin:12px 12px;animation:wxpulse 3s ease-in-out infinite;}
 /* === form foto: drop ordinato in colonna === */
-.rdz .drop{display:flex !important;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:120px;}
-.rdz .drop svg{display:block;margin:0 auto 6px;}
-.rdz .drop b{display:block;text-align:center;}
-.rdz .drop span{display:block;text-align:center;}
 /* === barra GDD: marcatore con scivolata più marcata + traccia che si riempie === */
-@keyframes gddSlide2{0%{left:0 !important;opacity:0;transform:translateX(-50%) scale(.4)}60%{opacity:1}100%{opacity:1;transform:translateX(-50%) scale(1)}}
-.rdz .dt-gddbar>i{animation:gddSlide2 1s .25s cubic-bezier(.34,1.3,.5,1) backwards;}
 /* === marcatori (irrigazione + GDD): SCIVOLANO da sinistra e si fermano al valore === */
-@keyframes markSlide{from{left:0%}}
-.rdz .dt-spec>i,.rdz .dt-gddbar>i{animation:markSlide 1.35s .3s cubic-bezier(.2,.7,.3,1) backwards;}
 /* === sfocatura ISTANTANEA all'apertura, solo la velatura scura sfuma (sincrona) === */
-@keyframes ovTint{from{background:rgba(30,40,20,0)}to{background:rgba(30,40,20,.30)}}
-.rdz>.ov.on{opacity:1 !important;background:rgba(30,40,20,.30) !important;-webkit-backdrop-filter:blur(7px) saturate(115%) !important;backdrop-filter:blur(7px) saturate(115%) !important;animation:ovTint .3s ease both !important;transition:none !important;}
 /* === Onboarding: pulsanti nav, GPS, suggerimenti, shimmer Genera === */
 .rdz .ob-nav{height:50px;min-width:120px;border-radius:999px;font-weight:800;font-size:14px;padding:0 24px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:var(--sh);transition:transform .12s;}
 .rdz .ob-nav:active{transform:scale(.97);}
@@ -1442,191 +1262,53 @@ html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
 .rdz .ob-generate{position:relative;overflow:hidden;background:linear-gradient(100deg,var(--green) 0%,var(--green) 38%,#AEE08C 50%,var(--green) 62%,var(--green) 100%) !important;background-size:220% 100% !important;animation:obShimmer 2.4s linear infinite;box-shadow:0 8px 22px rgba(76,140,63,.35) !important;}
 .rdz .ob-generate.off{filter:grayscale(.4);opacity:.6;animation:none;}
 /* === LIGHT LOCK — corregge la regola tema-scuro trapelata sul foglio === */
-.rdz .sheet{background:#FAF9F4 !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;border-top:1px solid var(--line) !important;box-shadow:0 -22px 50px rgba(0,0,0,.18) !important;color:var(--ink) !important;}
-.rdz .sheet .sh-body, .rdz .sheet .sh-title{color:var(--ink);}
 /* === icone Piano/Guida nello stile dashboard (boxless + glow, più grandi) === */
-.rdz .ag-ic, .rdz .gv-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .ag-ic svg, .rdz .gv-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .ag-ic.ic-g, .rdz .gv-ic.ic-g{color:var(--green);}
-.rdz .ag-ic.ic-a, .rdz .gv-ic.ic-a{color:var(--amber);}
-.rdz .ag-ic.ic-b, .rdz .gv-ic.ic-b{color:var(--blue);}
-.rdz .ag-ic.ic-g svg, .rdz .gv-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .ag-ic.ic-a svg, .rdz .gv-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .ag-ic.ic-b svg, .rdz .gv-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === icone prodotto Magazzino nello stile dashboard === */
-.rdz .prod-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .prod-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .prod-ic.cat-liq svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
-.rdz .prod-ic.cat-gran svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .prod-ic.cat-sem svg{filter:drop-shadow(0 0 5px rgba(156,203,118,.5));}
-.rdz .prod-ic.cat-sab svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .prod-ic.cat-ter svg{filter:drop-shadow(0 0 5px rgba(199,154,116,.55));}
 /* === icone sezioni Profilo nello stile dashboard === */
-.rdz .prow-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;color:var(--green);}
-.rdz .prow-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
 /* === ANIMAZIONI — crescita barre all'ingresso === */
-@keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-.rdz .pv-bar>i,.rdz .mbar>i,.rdz .dt-par-bar>i,.rdz .prod-bar>i,.rdz .comp>i,.rdz .vmoist-bar>i{transform-origin:left center;animation:barGrow 1.25s .35s cubic-bezier(.22,.7,.3,1) backwards;}
-@keyframes barRise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
-.rdz .dt-bars .dt-bar>i{transform-origin:bottom;animation:barRise 1s .4s cubic-bezier(.22,.8,.3,1) backwards;}
 /* === apertura morbida dei pannelli + blur sincronizzato === */
-@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.rdz>.sheet.on{animation:sheetUp .42s cubic-bezier(.25,1,.4,1);}
 
 /* === icone Stato del prato nello stile dashboard (boxless + glow) === */
-.rdz .dt-par-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .dt-par-ic svg{width:24px !important;height:24px !important;stroke-width:1.8;}
-.rdz .dt-par-ic.ic-g{color:var(--green);} .rdz .dt-par-ic.ic-a{color:var(--amber);} .rdz .dt-par-ic.ic-b{color:var(--blue);}
-.rdz .dt-par-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .dt-par-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .dt-par-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === barra GDD: marcatore che scorre all'ingresso === */
-@keyframes gddSlide{from{left:0 !important;opacity:0}to{opacity:1}}
-.rdz .dt-gddbar>i{animation:gddSlide .8s .3s cubic-bezier(.33,1,.5,1) backwards;}
 /* === apertura foglio: slide dal basso + sfocatura SIMULTANEA (come plus) === */
-@keyframes sheetUp2{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.rdz>.sheet.on{animation:sheetUp2 .44s cubic-bezier(.22,1,.36,1) both !important;}
-@keyframes ovIn2{from{opacity:0;-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px)}to{opacity:1;-webkit-backdrop-filter:blur(7px) saturate(115%);backdrop-filter:blur(7px) saturate(115%)}}
-.rdz>.ov.on{animation:ovIn2 .44s ease both !important;transition:none !important;}
 /* === icone meteo: raggi sole che ruotano === */
-.rdz .wx-sun .rays{transform-origin:12px 12px;animation:wxspin 10s linear infinite;}
-.rdz .wx-sun .core{transform-origin:12px 12px;animation:wxpulse 3s ease-in-out infinite;}
 /* === form foto: drop ordinato in colonna === */
-.rdz .drop{display:flex !important;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:120px;}
-.rdz .drop svg{display:block;margin:0 auto 6px;}
-.rdz .drop b{display:block;text-align:center;}
-.rdz .drop span{display:block;text-align:center;}
 /* === barra GDD: marcatore con scivolata più marcata + traccia che si riempie === */
-@keyframes gddSlide2{0%{left:0 !important;opacity:0;transform:translateX(-50%) scale(.4)}60%{opacity:1}100%{opacity:1;transform:translateX(-50%) scale(1)}}
-.rdz .dt-gddbar>i{animation:gddSlide2 1s .25s cubic-bezier(.34,1.3,.5,1) backwards;}
 /* === marcatori (irrigazione + GDD): SCIVOLANO da sinistra e si fermano al valore === */
 @keyframes markSlide{from{left:0%}}
-.rdz .dt-spec>i,.rdz .dt-gddbar>i{animation:markSlide 1.35s .3s cubic-bezier(.2,.7,.3,1) backwards;}
 /* === sfocatura ISTANTANEA all'apertura, solo la velatura scura sfuma (sincrona) === */
-@keyframes ovTint{from{background:rgba(30,40,20,0)}to{background:rgba(30,40,20,.30)}}
-.rdz>.ov.on{opacity:1 !important;background:rgba(30,40,20,.30) !important;-webkit-backdrop-filter:blur(7px) saturate(115%) !important;backdrop-filter:blur(7px) saturate(115%) !important;animation:ovTint .3s ease both !important;transition:none !important;}
 /* === LIGHT LOCK — corregge la regola tema-scuro trapelata sul foglio === */
-.rdz .sheet{background:#FAF9F4 !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;border-top:1px solid var(--line) !important;box-shadow:0 -22px 50px rgba(0,0,0,.18) !important;color:var(--ink) !important;}
-.rdz .sheet .sh-body, .rdz .sheet .sh-title{color:var(--ink);}
 /* === icone Piano/Guida nello stile dashboard (boxless + glow, più grandi) === */
-.rdz .ag-ic, .rdz .gv-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .ag-ic svg, .rdz .gv-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .ag-ic.ic-g, .rdz .gv-ic.ic-g{color:var(--green);}
-.rdz .ag-ic.ic-a, .rdz .gv-ic.ic-a{color:var(--amber);}
-.rdz .ag-ic.ic-b, .rdz .gv-ic.ic-b{color:var(--blue);}
-.rdz .ag-ic.ic-g svg, .rdz .gv-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .ag-ic.ic-a svg, .rdz .gv-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .ag-ic.ic-b svg, .rdz .gv-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === icone prodotto Magazzino nello stile dashboard === */
-.rdz .prod-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .prod-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .prod-ic.cat-liq svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
-.rdz .prod-ic.cat-gran svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .prod-ic.cat-sem svg{filter:drop-shadow(0 0 5px rgba(156,203,118,.5));}
-.rdz .prod-ic.cat-sab svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .prod-ic.cat-ter svg{filter:drop-shadow(0 0 5px rgba(199,154,116,.55));}
 /* === icone sezioni Profilo nello stile dashboard === */
-.rdz .prow-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;color:var(--green);}
-.rdz .prow-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
 /* === ANIMAZIONI — crescita barre all'ingresso === */
-@keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .rdz .pv-bar>i,.rdz .mbar>i,.rdz .dt-par-bar>i,.rdz .prod-bar>i,.rdz .comp>i,.rdz .vmoist-bar>i{transform-origin:left center;animation:barGrow 1.25s .35s cubic-bezier(.22,.7,.3,1) backwards;}
-@keyframes barRise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
 .rdz .dt-bars .dt-bar>i{transform-origin:bottom;animation:barRise 1s .4s cubic-bezier(.22,.8,.3,1) backwards;}
 /* === apertura morbida dei pannelli + blur sincronizzato === */
-@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.rdz>.sheet.on{animation:sheetUp .42s cubic-bezier(.25,1,.4,1);}
 
 /* === icone Stato del prato nello stile dashboard (boxless + glow) === */
-.rdz .dt-par-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .dt-par-ic svg{width:24px !important;height:24px !important;stroke-width:1.8;}
-.rdz .dt-par-ic.ic-g{color:var(--green);} .rdz .dt-par-ic.ic-a{color:var(--amber);} .rdz .dt-par-ic.ic-b{color:var(--blue);}
-.rdz .dt-par-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .dt-par-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .dt-par-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === barra GDD: marcatore che scorre all'ingresso === */
-@keyframes gddSlide{from{left:0 !important;opacity:0}to{opacity:1}}
-.rdz .dt-gddbar>i{animation:gddSlide .8s .3s cubic-bezier(.33,1,.5,1) backwards;}
 /* === apertura foglio: slide dal basso + sfocatura SIMULTANEA (come plus) === */
-@keyframes sheetUp2{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.rdz>.sheet.on{animation:sheetUp2 .44s cubic-bezier(.22,1,.36,1) both !important;}
-@keyframes ovIn2{from{opacity:0;-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px)}to{opacity:1;-webkit-backdrop-filter:blur(7px) saturate(115%);backdrop-filter:blur(7px) saturate(115%)}}
-.rdz>.ov.on{animation:ovIn2 .44s ease both !important;transition:none !important;}
 /* === icone meteo: raggi sole che ruotano === */
-.rdz .wx-sun .rays{transform-origin:12px 12px;animation:wxspin 10s linear infinite;}
-.rdz .wx-sun .core{transform-origin:12px 12px;animation:wxpulse 3s ease-in-out infinite;}
 /* === form foto: drop ordinato in colonna === */
-.rdz .drop{display:flex !important;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:120px;}
-.rdz .drop svg{display:block;margin:0 auto 6px;}
-.rdz .drop b{display:block;text-align:center;}
-.rdz .drop span{display:block;text-align:center;}
 /* === barra GDD: marcatore con scivolata più marcata + traccia che si riempie === */
-@keyframes gddSlide2{0%{left:0 !important;opacity:0;transform:translateX(-50%) scale(.4)}60%{opacity:1}100%{opacity:1;transform:translateX(-50%) scale(1)}}
-.rdz .dt-gddbar>i{animation:gddSlide2 1s .25s cubic-bezier(.34,1.3,.5,1) backwards;}
 /* === marcatori (irrigazione + GDD): SCIVOLANO da sinistra e si fermano al valore === */
-@keyframes markSlide{from{left:0 !important}}
 .rdz .dt-spec>i,.rdz .dt-gddbar>i{animation:markSlide 1.35s .3s cubic-bezier(.2,.7,.3,1) backwards;}
 /* === sfocatura ISTANTANEA all'apertura, solo la velatura scura sfuma (sincrona) === */
-@keyframes ovTint{from{background:rgba(30,40,20,0)}to{background:rgba(30,40,20,.30)}}
-.rdz>.ov.on{opacity:1 !important;background:rgba(30,40,20,.30) !important;-webkit-backdrop-filter:blur(7px) saturate(115%) !important;backdrop-filter:blur(7px) saturate(115%) !important;animation:ovTint .3s ease both !important;transition:none !important;}
 /* === LIGHT LOCK — corregge la regola tema-scuro trapelata sul foglio === */
-.rdz .sheet{background:#FAF9F4 !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;border-top:1px solid var(--line) !important;box-shadow:0 -22px 50px rgba(0,0,0,.18) !important;color:var(--ink) !important;}
-.rdz .sheet .sh-body, .rdz .sheet .sh-title{color:var(--ink);}
 /* === icone Piano/Guida nello stile dashboard (boxless + glow, più grandi) === */
-.rdz .ag-ic, .rdz .gv-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .ag-ic svg, .rdz .gv-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .ag-ic.ic-g, .rdz .gv-ic.ic-g{color:var(--green);}
-.rdz .ag-ic.ic-a, .rdz .gv-ic.ic-a{color:var(--amber);}
-.rdz .ag-ic.ic-b, .rdz .gv-ic.ic-b{color:var(--blue);}
-.rdz .ag-ic.ic-g svg, .rdz .gv-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .ag-ic.ic-a svg, .rdz .gv-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .ag-ic.ic-b svg, .rdz .gv-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === icone prodotto Magazzino nello stile dashboard === */
-.rdz .prod-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .prod-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .prod-ic.cat-liq svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
-.rdz .prod-ic.cat-gran svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .prod-ic.cat-sem svg{filter:drop-shadow(0 0 5px rgba(156,203,118,.5));}
-.rdz .prod-ic.cat-sab svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .prod-ic.cat-ter svg{filter:drop-shadow(0 0 5px rgba(199,154,116,.55));}
 /* === icone sezioni Profilo nello stile dashboard === */
-.rdz .prow-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;color:var(--green);}
-.rdz .prow-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
 /* === ANIMAZIONI — crescita barre all'ingresso === */
-@keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .rdz .pv-bar>i,.rdz .mbar>i,.rdz .dt-par-bar>i,.rdz .prod-bar>i,.rdz .comp>i,.rdz .vmoist-bar>i{transform-origin:left center;animation:barGrow .7s .25s cubic-bezier(.33,1,.5,1) backwards;}
-@keyframes barRise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
-.rdz .dt-bars .dt-bar>i{transform-origin:bottom;animation:barRise .6s .3s cubic-bezier(.33,1.1,.5,1) backwards;}
 /* === apertura morbida dei pannelli + blur sincronizzato === */
-@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.rdz>.sheet.on{animation:sheetUp .42s cubic-bezier(.25,1,.4,1);}
 
 /* === icone Stato del prato nello stile dashboard (boxless + glow) === */
-.rdz .dt-par-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .dt-par-ic svg{width:24px !important;height:24px !important;stroke-width:1.8;}
-.rdz .dt-par-ic.ic-g{color:var(--green);} .rdz .dt-par-ic.ic-a{color:var(--amber);} .rdz .dt-par-ic.ic-b{color:var(--blue);}
-.rdz .dt-par-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .dt-par-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .dt-par-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === barra GDD: marcatore che scorre all'ingresso === */
-@keyframes gddSlide{from{left:0 !important;opacity:0}to{opacity:1}}
-.rdz .dt-gddbar>i{animation:gddSlide .8s .3s cubic-bezier(.33,1,.5,1) backwards;}
 /* === apertura foglio: slide dal basso + sfocatura SIMULTANEA (come plus) === */
-@keyframes sheetUp2{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.rdz>.sheet.on{animation:sheetUp2 .44s cubic-bezier(.22,1,.36,1) both !important;}
-@keyframes ovIn2{from{opacity:0;-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px)}to{opacity:1;-webkit-backdrop-filter:blur(7px) saturate(115%);backdrop-filter:blur(7px) saturate(115%)}}
-.rdz>.ov.on{animation:ovIn2 .44s ease both !important;transition:none !important;}
 /* === icone meteo: raggi sole che ruotano === */
-.rdz .wx-sun .rays{transform-origin:12px 12px;animation:wxspin 10s linear infinite;}
-.rdz .wx-sun .core{transform-origin:12px 12px;animation:wxpulse 3s ease-in-out infinite;}
 /* === form foto: drop ordinato in colonna === */
-.rdz .drop{display:flex !important;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:120px;}
-.rdz .drop svg{display:block;margin:0 auto 6px;}
-.rdz .drop b{display:block;text-align:center;}
-.rdz .drop span{display:block;text-align:center;}
 /* === barra GDD: marcatore con scivolata più marcata + traccia che si riempie === */
-@keyframes gddSlide2{0%{left:0 !important;opacity:0;transform:translateX(-50%) scale(.4)}60%{opacity:1}100%{opacity:1;transform:translateX(-50%) scale(1)}}
-.rdz .dt-gddbar>i{animation:gddSlide2 1s .25s cubic-bezier(.34,1.3,.5,1) backwards;}
 /* === marcatori (irrigazione + GDD): SCIVOLANO da sinistra e si fermano al valore === */
 @keyframes markSlide{from{left:0 !important}}
 .rdz .dt-spec>i,.rdz .dt-gddbar>i{animation:markSlide .9s .15s cubic-bezier(.33,1,.5,1) backwards;}
@@ -1634,47 +1316,14 @@ html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
 @keyframes ovTint{from{background:rgba(30,40,20,0)}to{background:rgba(30,40,20,.30)}}
 .rdz>.ov.on{opacity:1 !important;background:rgba(30,40,20,.30) !important;-webkit-backdrop-filter:blur(7px) saturate(115%) !important;backdrop-filter:blur(7px) saturate(115%) !important;animation:ovTint .3s ease both !important;transition:none !important;}
 /* === LIGHT LOCK — corregge la regola tema-scuro trapelata sul foglio === */
-.rdz .sheet{background:#FAF9F4 !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;border-top:1px solid var(--line) !important;box-shadow:0 -22px 50px rgba(0,0,0,.18) !important;color:var(--ink) !important;}
-.rdz .sheet .sh-body, .rdz .sheet .sh-title{color:var(--ink);}
 /* === icone Piano/Guida nello stile dashboard (boxless + glow, più grandi) === */
-.rdz .ag-ic, .rdz .gv-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .ag-ic svg, .rdz .gv-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .ag-ic.ic-g, .rdz .gv-ic.ic-g{color:var(--green);}
-.rdz .ag-ic.ic-a, .rdz .gv-ic.ic-a{color:var(--amber);}
-.rdz .ag-ic.ic-b, .rdz .gv-ic.ic-b{color:var(--blue);}
-.rdz .ag-ic.ic-g svg, .rdz .gv-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .ag-ic.ic-a svg, .rdz .gv-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .ag-ic.ic-b svg, .rdz .gv-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === icone prodotto Magazzino nello stile dashboard === */
-.rdz .prod-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .prod-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .prod-ic.cat-liq svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
-.rdz .prod-ic.cat-gran svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .prod-ic.cat-sem svg{filter:drop-shadow(0 0 5px rgba(156,203,118,.5));}
-.rdz .prod-ic.cat-sab svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .prod-ic.cat-ter svg{filter:drop-shadow(0 0 5px rgba(199,154,116,.55));}
 /* === icone sezioni Profilo nello stile dashboard === */
-.rdz .prow-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;color:var(--green);}
-.rdz .prow-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
 /* === ANIMAZIONI — crescita barre all'ingresso === */
-@keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-.rdz .pv-bar>i,.rdz .mbar>i,.rdz .dt-par-bar>i,.rdz .prod-bar>i,.rdz .comp>i,.rdz .vmoist-bar>i,.rdz .dt-spec>i{transform-origin:left center;animation:barGrow .7s .25s cubic-bezier(.33,1,.5,1) backwards;}
-@keyframes barRise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
-.rdz .dt-bars .dt-bar>i{transform-origin:bottom;animation:barRise .6s .3s cubic-bezier(.33,1.1,.5,1) backwards;}
 /* === apertura morbida dei pannelli + blur sincronizzato === */
-@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.rdz>.sheet.on{animation:sheetUp .42s cubic-bezier(.25,1,.4,1);}
 
 /* === icone Stato del prato nello stile dashboard (boxless + glow) === */
-.rdz .dt-par-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .dt-par-ic svg{width:24px !important;height:24px !important;stroke-width:1.8;}
-.rdz .dt-par-ic.ic-g{color:var(--green);} .rdz .dt-par-ic.ic-a{color:var(--amber);} .rdz .dt-par-ic.ic-b{color:var(--blue);}
-.rdz .dt-par-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .dt-par-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .dt-par-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === barra GDD: marcatore che scorre all'ingresso === */
-@keyframes gddSlide{from{left:0 !important;opacity:0}to{opacity:1}}
-.rdz .dt-gddbar>i{animation:gddSlide .8s .3s cubic-bezier(.33,1,.5,1) backwards;}
 /* === apertura foglio: slide dal basso + sfocatura SIMULTANEA (come plus) === */
 @keyframes sheetUp2{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .rdz>.sheet.on{animation:sheetUp2 .44s cubic-bezier(.22,1,.36,1) both !important;}
@@ -1692,33 +1341,18 @@ html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
 @keyframes gddSlide2{0%{left:0 !important;opacity:0;transform:translateX(-50%) scale(.4)}60%{opacity:1}100%{opacity:1;transform:translateX(-50%) scale(1)}}
 .rdz .dt-gddbar>i{animation:gddSlide2 1s .25s cubic-bezier(.34,1.3,.5,1) backwards;}
 /* === LIGHT LOCK — corregge la regola tema-scuro trapelata sul foglio === */
-.rdz .sheet{background:#FAF9F4 !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;border-top:1px solid var(--line) !important;box-shadow:0 -22px 50px rgba(0,0,0,.18) !important;color:var(--ink) !important;}
-.rdz .sheet .sh-body, .rdz .sheet .sh-title{color:var(--ink);}
 /* === icone Piano/Guida nello stile dashboard (boxless + glow, più grandi) === */
-.rdz .ag-ic, .rdz .gv-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .ag-ic svg, .rdz .gv-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .ag-ic.ic-g, .rdz .gv-ic.ic-g{color:var(--green);}
-.rdz .ag-ic.ic-a, .rdz .gv-ic.ic-a{color:var(--amber);}
-.rdz .ag-ic.ic-b, .rdz .gv-ic.ic-b{color:var(--blue);}
-.rdz .ag-ic.ic-g svg, .rdz .gv-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .ag-ic.ic-a svg, .rdz .gv-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .ag-ic.ic-b svg, .rdz .gv-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === icone prodotto Magazzino nello stile dashboard === */
-.rdz .prod-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .prod-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .prod-ic.cat-liq svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
-.rdz .prod-ic.cat-gran svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .prod-ic.cat-sem svg{filter:drop-shadow(0 0 5px rgba(156,203,118,.5));}
-.rdz .prod-ic.cat-sab svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .prod-ic.cat-ter svg{filter:drop-shadow(0 0 5px rgba(199,154,116,.55));}
 /* === icone sezioni Profilo nello stile dashboard === */
-.rdz .prow-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;color:var(--green);}
-.rdz .prow-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
 /* === ANIMAZIONI — crescita barre all'ingresso === */
-@keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-.rdz .pv-bar>i,.rdz .mbar>i,.rdz .dt-par-bar>i,.rdz .prod-bar>i,.rdz .comp>i,.rdz .vmoist-bar>i,.rdz .dt-spec>i{transform-origin:left center;animation:barGrow .7s .25s cubic-bezier(.33,1,.5,1) backwards;}
-@keyframes barRise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
-.rdz .dt-bars .dt-bar>i{transform-origin:bottom;animation:barRise .6s .3s cubic-bezier(.33,1.1,.5,1) backwards;}
+/* === apertura morbida dei pannelli + blur sincronizzato === */
+/* === icone Stato del prato nello stile dashboard (boxless + glow) === */
+/* === barra GDD: marcatore che scorre all'ingresso === */
+/* === LIGHT LOCK — corregge la regola tema-scuro trapelata sul foglio === */
+/* === icone Piano/Guida nello stile dashboard (boxless + glow, più grandi) === */
+/* === icone prodotto Magazzino nello stile dashboard === */
+/* === icone sezioni Profilo nello stile dashboard === */
+/* === ANIMAZIONI — crescita barre all'ingresso === */
 /* === apertura morbida dei pannelli + blur sincronizzato === */
 @keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .rdz>.sheet.on{animation:sheetUp .42s cubic-bezier(.25,1,.4,1);}
@@ -1735,134 +1369,26 @@ html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
 @keyframes gddSlide{from{left:0 !important;opacity:0}to{opacity:1}}
 .rdz .dt-gddbar>i{animation:gddSlide .8s .3s cubic-bezier(.33,1,.5,1) backwards;}
 /* === LIGHT LOCK — corregge la regola tema-scuro trapelata sul foglio === */
-.rdz .sheet{background:#FAF9F4 !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;border-top:1px solid var(--line) !important;box-shadow:0 -22px 50px rgba(0,0,0,.18) !important;color:var(--ink) !important;}
-.rdz .sheet .sh-body, .rdz .sheet .sh-title{color:var(--ink);}
 /* === icone Piano/Guida nello stile dashboard (boxless + glow, più grandi) === */
-.rdz .ag-ic, .rdz .gv-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .ag-ic svg, .rdz .gv-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .ag-ic.ic-g, .rdz .gv-ic.ic-g{color:var(--green);}
-.rdz .ag-ic.ic-a, .rdz .gv-ic.ic-a{color:var(--amber);}
-.rdz .ag-ic.ic-b, .rdz .gv-ic.ic-b{color:var(--blue);}
-.rdz .ag-ic.ic-g svg, .rdz .gv-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .ag-ic.ic-a svg, .rdz .gv-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .ag-ic.ic-b svg, .rdz .gv-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === icone prodotto Magazzino nello stile dashboard === */
-.rdz .prod-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .prod-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .prod-ic.cat-liq svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
-.rdz .prod-ic.cat-gran svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .prod-ic.cat-sem svg{filter:drop-shadow(0 0 5px rgba(156,203,118,.5));}
-.rdz .prod-ic.cat-sab svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .prod-ic.cat-ter svg{filter:drop-shadow(0 0 5px rgba(199,154,116,.55));}
 /* === icone sezioni Profilo nello stile dashboard === */
-.rdz .prow-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;color:var(--green);}
-.rdz .prow-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-/* === ANIMAZIONI — crescita barre all'ingresso === */
-@keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-.rdz .pv-bar>i,.rdz .mbar>i,.rdz .dt-par-bar>i,.rdz .prod-bar>i,.rdz .comp>i,.rdz .vmoist-bar>i,.rdz .dt-spec>i{transform-origin:left center;animation:barGrow .7s .25s cubic-bezier(.33,1,.5,1) backwards;}
-@keyframes barRise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
-.rdz .dt-bars .dt-bar>i{transform-origin:bottom;animation:barRise .6s .3s cubic-bezier(.33,1.1,.5,1) backwards;}
-/* === apertura morbida dei pannelli + blur sincronizzato === */
-@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.rdz>.sheet.on{animation:sheetUp .42s cubic-bezier(.25,1,.4,1);}
-@keyframes ovIn{from{opacity:0}to{opacity:1}}
-.rdz>.ov.on{animation:ovIn .3s ease both;}
-/* === icone Stato del prato nello stile dashboard (boxless + glow) === */
-.rdz .dt-par-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .dt-par-ic svg{width:24px !important;height:24px !important;stroke-width:1.8;}
-.rdz .dt-par-ic.ic-g{color:var(--green);} .rdz .dt-par-ic.ic-a{color:var(--amber);} .rdz .dt-par-ic.ic-b{color:var(--blue);}
-.rdz .dt-par-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .dt-par-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .dt-par-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
-/* === barra GDD: marcatore che scorre all'ingresso === */
-@keyframes gddSlide{from{left:0 !important;opacity:0}to{opacity:1}}
-.rdz .dt-gddbar>i{animation:gddSlide .8s .3s cubic-bezier(.33,1,.5,1) backwards;}
-/* === LIGHT LOCK — corregge la regola tema-scuro trapelata sul foglio === */
-.rdz .sheet{background:#FAF9F4 !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;border-top:1px solid var(--line) !important;box-shadow:0 -22px 50px rgba(0,0,0,.18) !important;color:var(--ink) !important;}
-.rdz .sheet .sh-body, .rdz .sheet .sh-title{color:var(--ink);}
-/* === icone Piano/Guida nello stile dashboard (boxless + glow, più grandi) === */
-.rdz .ag-ic, .rdz .gv-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .ag-ic svg, .rdz .gv-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .ag-ic.ic-g, .rdz .gv-ic.ic-g{color:var(--green);}
-.rdz .ag-ic.ic-a, .rdz .gv-ic.ic-a{color:var(--amber);}
-.rdz .ag-ic.ic-b, .rdz .gv-ic.ic-b{color:var(--blue);}
-.rdz .ag-ic.ic-g svg, .rdz .gv-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .ag-ic.ic-a svg, .rdz .gv-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .ag-ic.ic-b svg, .rdz .gv-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
-/* === icone prodotto Magazzino nello stile dashboard === */
-.rdz .prod-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .prod-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .prod-ic.cat-liq svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
-.rdz .prod-ic.cat-gran svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .prod-ic.cat-sem svg{filter:drop-shadow(0 0 5px rgba(156,203,118,.5));}
-.rdz .prod-ic.cat-sab svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .prod-ic.cat-ter svg{filter:drop-shadow(0 0 5px rgba(199,154,116,.55));}
-/* === icone sezioni Profilo nello stile dashboard === */
-.rdz .prow-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;color:var(--green);}
-.rdz .prow-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
 /* === ANIMAZIONI — crescita barre all'ingresso === */
 @keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .rdz .pv-bar>i,.rdz .mbar>i,.rdz .dt-par-bar>i,.rdz .prod-bar>i,.rdz .comp>i,.rdz .vmoist-bar>i,.rdz .dt-spec>i{transform-origin:left center;animation:barGrow .7s .25s cubic-bezier(.33,1,.5,1) backwards;}
 @keyframes barRise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
 .rdz .dt-bars .dt-bar>i{transform-origin:bottom;animation:barRise .6s .3s cubic-bezier(.33,1.1,.5,1) backwards;}
 /* === LIGHT LOCK — corregge la regola tema-scuro trapelata sul foglio === */
-.rdz .sheet{background:#FAF9F4 !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;border-top:1px solid var(--line) !important;box-shadow:0 -22px 50px rgba(0,0,0,.18) !important;color:var(--ink) !important;}
-.rdz .sheet .sh-body, .rdz .sheet .sh-title{color:var(--ink);}
 /* === icone Piano/Guida nello stile dashboard (boxless + glow, più grandi) === */
-.rdz .ag-ic, .rdz .gv-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .ag-ic svg, .rdz .gv-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .ag-ic.ic-g, .rdz .gv-ic.ic-g{color:var(--green);}
-.rdz .ag-ic.ic-a, .rdz .gv-ic.ic-a{color:var(--amber);}
-.rdz .ag-ic.ic-b, .rdz .gv-ic.ic-b{color:var(--blue);}
-.rdz .ag-ic.ic-g svg, .rdz .gv-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .ag-ic.ic-a svg, .rdz .gv-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .ag-ic.ic-b svg, .rdz .gv-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === icone prodotto Magazzino nello stile dashboard === */
-.rdz .prod-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .prod-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .prod-ic.cat-liq svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
-.rdz .prod-ic.cat-gran svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .prod-ic.cat-sem svg{filter:drop-shadow(0 0 5px rgba(156,203,118,.5));}
-.rdz .prod-ic.cat-sab svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .prod-ic.cat-ter svg{filter:drop-shadow(0 0 5px rgba(199,154,116,.55));}
+/* === icone sezioni Profilo nello stile dashboard === */
+/* === LIGHT LOCK — corregge la regola tema-scuro trapelata sul foglio === */
+/* === icone Piano/Guida nello stile dashboard (boxless + glow, più grandi) === */
+/* === icone prodotto Magazzino nello stile dashboard === */
 /* === icone sezioni Profilo nello stile dashboard === */
 .rdz .prow-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;color:var(--green);}
 .rdz .prow-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
 /* === LIGHT LOCK — corregge la regola tema-scuro trapelata sul foglio === */
-.rdz .sheet{background:#FAF9F4 !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;border-top:1px solid var(--line) !important;box-shadow:0 -22px 50px rgba(0,0,0,.18) !important;color:var(--ink) !important;}
-.rdz .sheet .sh-body, .rdz .sheet .sh-title{color:var(--ink);}
 /* === icone Piano/Guida nello stile dashboard (boxless + glow, più grandi) === */
-.rdz .ag-ic, .rdz .gv-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .ag-ic svg, .rdz .gv-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .ag-ic.ic-g, .rdz .gv-ic.ic-g{color:var(--green);}
-.rdz .ag-ic.ic-a, .rdz .gv-ic.ic-a{color:var(--amber);}
-.rdz .ag-ic.ic-b, .rdz .gv-ic.ic-b{color:var(--blue);}
-.rdz .ag-ic.ic-g svg, .rdz .gv-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .ag-ic.ic-a svg, .rdz .gv-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .ag-ic.ic-b svg, .rdz .gv-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
-/* === icone prodotto Magazzino nello stile dashboard === */
-.rdz .prod-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .prod-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .prod-ic.cat-liq svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
-.rdz .prod-ic.cat-gran svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .prod-ic.cat-sem svg{filter:drop-shadow(0 0 5px rgba(156,203,118,.5));}
-.rdz .prod-ic.cat-sab svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .prod-ic.cat-ter svg{filter:drop-shadow(0 0 5px rgba(199,154,116,.55));}
-/* === icone sezioni Profilo nello stile dashboard === */
-.rdz .prow-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;color:var(--green);}
-.rdz .prow-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-/* === LIGHT LOCK — corregge la regola tema-scuro trapelata sul foglio === */
-.rdz .sheet{background:#FAF9F4 !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;border-top:1px solid var(--line) !important;box-shadow:0 -22px 50px rgba(0,0,0,.18) !important;color:var(--ink) !important;}
-.rdz .sheet .sh-body, .rdz .sheet .sh-title{color:var(--ink);}
-/* === icone Piano/Guida nello stile dashboard (boxless + glow, più grandi) === */
-.rdz .ag-ic, .rdz .gv-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
-.rdz .ag-ic svg, .rdz .gv-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
-.rdz .ag-ic.ic-g, .rdz .gv-ic.ic-g{color:var(--green);}
-.rdz .ag-ic.ic-a, .rdz .gv-ic.ic-a{color:var(--amber);}
-.rdz .ag-ic.ic-b, .rdz .gv-ic.ic-b{color:var(--blue);}
-.rdz .ag-ic.ic-g svg, .rdz .gv-ic.ic-g svg{filter:drop-shadow(0 0 5px rgba(103,178,74,.5));}
-.rdz .ag-ic.ic-a svg, .rdz .gv-ic.ic-a svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
-.rdz .ag-ic.ic-b svg, .rdz .gv-ic.ic-b svg{filter:drop-shadow(0 0 5px rgba(91,147,201,.55));}
 /* === icone prodotto Magazzino nello stile dashboard === */
 .rdz .prod-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
 .rdz .prod-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
@@ -1872,8 +1398,6 @@ html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
 .rdz .prod-ic.cat-sab svg{filter:drop-shadow(0 0 5px rgba(222,142,44,.5));}
 .rdz .prod-ic.cat-ter svg{filter:drop-shadow(0 0 5px rgba(199,154,116,.55));}
 /* === LIGHT LOCK — corregge la regola tema-scuro trapelata sul foglio === */
-.rdz .sheet{background:#FAF9F4 !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;border-top:1px solid var(--line) !important;box-shadow:0 -22px 50px rgba(0,0,0,.18) !important;color:var(--ink) !important;}
-.rdz .sheet .sh-body, .rdz .sheet .sh-title{color:var(--ink);}
 /* === icone Piano/Guida nello stile dashboard (boxless + glow, più grandi) === */
 .rdz .ag-ic, .rdz .gv-ic{background:transparent !important;border:none !important;width:34px !important;height:34px !important;}
 .rdz .ag-ic svg, .rdz .gv-ic svg{width:26px !important;height:26px !important;stroke-width:1.8;}
@@ -1951,9 +1475,6 @@ html[data-theme="dark"] .rdz .pd-logo-padana{filter:brightness(1.3);}
    'Padana Sementi' = modalita' partner: solo i loro prodotti proposti, logo, link affiliati (comportamento 1/9). */
 window.LAWNLY_PARTNER=null;
 window.__LAWNLY_IS_PARTNER__=function(b){return !!window.LAWNLY_PARTNER&&b===window.LAWNLY_PARTNER;};
-/* Foto di confezione/logo di una marca solo in modalita' partner: senza accordo non si usano immagini altrui. */
-window.__lawnlyBrandAssets=function(c){(c||[]).forEach(function(p){if(p.brand!==window.LAWNLY_PARTNER)p.image=null;});};
-window.addEventListener('lawnly-catalog-ready',function(){window.__lawnlyBrandAssets(window.__LAWNLY_CATALOG__);});
 </script>
 <script type="module">
   import {
@@ -1966,7 +1487,6 @@ window.addEventListener('lawnly-catalog-ready',function(){window.__lawnlyBrandAs
 
   // Esponi su window per accesso dagli altri script/moduli
   window.__LAWNLY_CATALOG__ = PRODUCT_CATALOG;
-  window.__lawnlyBrandAssets(PRODUCT_CATALOG);
   window.__LAWNLY_FILTER__ = filterCatalogForContext;
   window.__LAWNLY_MATCH__ = matchProductForOperation;
   window.__LAWNLY_GET_PRODUCT__ = id => getProductById(PRODUCT_CATALOG, id); // i chiamanti passano solo l'id
@@ -8558,26 +8078,40 @@ function AggiungiProdottoSheet({onClose}){
         ${saved?html`<div style="text-align:center;padding:30px 0;"><div style="font-size:40px;color:var(--green);">✓</div><div style="font-size:15px;font-weight:800;margin-top:8px;">Aggiunto al tuo magazzino</div>
           <button class="sh-save" style="margin-top:18px;" onClick=${()=>{setSaved(false);setSel(null);setCustom('');setSelFmt(0);}}>Aggiungi un altro prodotto</button>
           <button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${onClose}>Ho finito</button></div>`
-        :sel?html`<div>
-          ${sel.image?html`<div class="ap-photo"><img src=${sel.image} alt=${[sel.brand,sel.name].filter(Boolean).join(' ')} decoding="async"/>${__LAWNLY_IS_PARTNER__(sel.brand)?html`<img class="ap-logo" src="padana-logo.png" alt="Padana Sementi"/>`:''}</div>`:''}
-          <div class="prod" style="cursor:default;">${sel.image?'':html`<span class=${'prod-ic '+sel.cat}>${_mSvg2(sel.cat)}</span>`}<div class="prod-m"><div class="prod-n">${sel.name}</div><div class="prod-meta">${[sel.brand,sel.type,sel.fmt].filter(Boolean).join(' · ')}</div></div></div>
-          ${sel.desc?html`<div class="dt-note" style="margin-top:2px;">${sel.desc}</div>`:''}
-          <div class="field"><label class="flab">Confezione (formato acquistabile)</label><div class="fchips">${(sel.formats||[]).map((ff,i)=>html`<span key=${i} class=${'fchip'+(selFmt===i?' on':'')} onClick=${()=>setSelFmt(i)}>${ff.label||(ff.size+' '+ff.unit)}</span>`)}<span class=${'fchip'+(selFmt===-1?' on':'')} onClick=${()=>setSelFmt(-1)}>Altra confezione</span></div>
-            ${selFmt===-1?html`<input class="finput" style="margin-top:8px;" type="text" inputmode="decimal" placeholder=${'Quanti '+(((sel.formats||[])[0]||{}).unit||'kg')+' contiene la confezione?'} value=${custom} onInput=${e=>setCustom(e.target.value)}/>`:''}</div>
-          <div class="field"><label class="flab">Numero di confezioni</label><input class="finput" type="text" inputmode="numeric" value=${qty} onInput=${e=>setQty(e.target.value)}/></div>
-          ${(()=>{const f=selFmt===-1?{size:parseFloat(String(custom||'').replace(',','.'))||0,unit:((sel.formats||[])[0]||{}).unit||'kg'}:((sel.formats||[])[selFmt]||{});const parsed=whFormat(f);const sz=parsed.size;const q=parseFloat((qty||'1').replace(',','.'))||1;const u=parsed.unit;return html`<div style="font-size:11.5px;color:var(--green-deep);background:var(--green-soft);border-radius:9px;padding:8px 10px;">Totale a magazzino: <b>${(sz*q).toLocaleString('it-IT')} ${u}</b> (${q} × ${sz} ${u})${u==='conf'?' · Giacenza in confezioni: contenuto non noto.':''}</div>`;})()}
-          <button class="sh-save" onClick=${add}>Aggiungi al magazzino</button>
-          ${__LAWNLY_IS_PARTNER__(sel.brand)?html`<button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>lawnlyBuyPadana({name:sel.name,id:sel.pid,url:sel.url})}>${'Acquista su '+sel.brand+' ↗'}</button>
-          <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:6px;">Link di affiliazione: riceviamo una commissione, senza costi per te.</div>`:(sel.url?html`<button class="dt-goto dt-ghost" style="margin-top:8px;" onClick=${()=>lawnlyOpenExt(sel.url)}>Scheda del produttore ↗</button>`:'')}
-        </div>`:html`<div>
+        :sel?(()=>{
+          const full=(window.__LAWNLY_GET_PRODUCT__&&window.__LAWNLY_GET_PRODUCT__(sel.pid))||{};
+          const fmts=sel.formats||[];
+          const f=selFmt===-1?{size:parseFloat(String(custom||'').replace(',','.'))||0,unit:(fmts[0]||{}).unit||'kg'}:(fmts[selFmt]||{});
+          const parsed=whFormat(f);const q=Math.max(1,parseInt(qty,10)||1);
+          const dd=full.durationDays;
+          const specs=[['Dose',lawnlyDoseText(full)],['Durata effetto',dd?(dd[0]===dd[1]?dd[0]+' giorni':dd[0]+'–'+dd[1]+' giorni'):''],['Come si usa',LAWNLY_APPL[full.application]||''],['Granulometria',full.granulometry||'']].filter(x=>x[1]);
+          const isP=__LAWNLY_IS_PARTNER__(sel.brand);
+          return html`<div class="ap">
+          <div class=${'ap-hero'+(sel.image?'':' noimg')}>${sel.image?html`<img src=${sel.image} alt=${[sel.brand,sel.name].filter(Boolean).join(' ')} decoding="async"/>`:html`<span class=${'ap-ph '+sel.cat}>${_mSvg2(sel.cat)}</span>`}${isP?html`<img class="ap-logo" src="padana-logo.png" alt="Padana Sementi"/>`:''}</div>
+          <div class="ap-brand">${sel.brand}</div>
+          <div class="ap-name">${sel.name}</div>
+          <div class="ap-badges">${full.npkLabel?html`<span>NPK ${full.npkLabel}</span>`:''}${sel.type?html`<span>${sel.type}</span>`:''}${full.slowRelease&&full.slowRelease.enabled?html`<span>Cessione lenta</span>`:''}${full.organic?html`<span>Organico</span>`:''}${ownedIds.has(sel.pid)?html`<span class="ok">✓ Ce l'hai già</span>`:''}</div>
+          ${sel.desc?html`<p class="ap-desc">${sel.desc}</p>`:''}
+          ${specs.length?html`<div class="ap-specs">${specs.map(([l,v])=>html`<div key=${l}><small>${l}</small><b>${v}</b></div>`)}</div>`:''}
+          <div class="ap-sec">Confezione</div>
+          <div class="fchips">${fmts.map((ff,i)=>html`<span key=${i} role="button" class=${'fchip'+(selFmt===i?' on':'')} onClick=${()=>setSelFmt(i)}>${ff.label||(ff.size+' '+ff.unit)}</span>`)}<span role="button" class=${'fchip'+(selFmt===-1?' on':'')} onClick=${()=>setSelFmt(-1)}>Altra confezione</span></div>
+          ${selFmt===-1?html`<input class="finput" style="margin-top:8px;" type="text" inputmode="decimal" placeholder=${'Quanti '+((fmts[0]||{}).unit||'kg')+' contiene la confezione?'} value=${custom} onInput=${e=>setCustom(e.target.value)}/>`:''}
+          <div class="ap-sec">Quante confezioni hai</div>
+          <div class="ap-qty"><button type="button" aria-label="Una confezione in meno" disabled=${q<=1} onClick=${()=>setQty(String(Math.max(1,q-1)))}>−</button><input type="text" inputmode="numeric" aria-label="Numero di confezioni" value=${qty} onInput=${e=>setQty(e.target.value.replace(/[^0-9]/g,''))}/><button type="button" aria-label="Una confezione in più" onClick=${()=>setQty(String(q+1))}>+</button></div>
+          ${isP?html`<button class="dt-goto dt-ghost" style="margin-top:14px;" onClick=${()=>lawnlyBuyPadana({name:sel.name,id:sel.pid,url:sel.url})}>${'Acquista su '+sel.brand+' ↗'}</button>
+          <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:6px;">Link di affiliazione: riceviamo una commissione, senza costi per te.</div>`:(sel.url?html`<button class="sol-link" style="margin-top:12px;" onClick=${()=>lawnlyOpenExt(sel.url)}>Scheda del produttore ↗</button>`:'')}
+          <div class="ap-bar"><div class="ap-tot"><small>Totale a magazzino</small><b>${parsed.size>0?(parsed.size*q).toLocaleString('it-IT')+' '+parsed.unit:'—'}</b>${parsed.size>0?html`<span>${q} × ${parsed.size.toLocaleString('it-IT')} ${parsed.unit}</span>`:''}</div><button type="button" class="ap-cta" onClick=${add}>Aggiungi al magazzino</button></div>
+        </div>`;})()
+        :html`<div>
           <p class="cat-intro">Tutti i prodotti presenti in Lawnly, con le confezioni in vendita. Cerca quello che hai in casa, scegli la confezione e quante ne hai.</p>
           <input class="finput" type="search" placeholder="Cerca per nome o marca…" value=${q} onInput=${e=>setQ(e.target.value)} style="margin-bottom:10px;"/>
           <div class="cat-filter" style="margin-bottom:6px;">${tipi.map(t=>html`<span key=${t} class=${'fchip'+(tipo===t?' on':'')} onClick=${()=>setTipo(t)}>${t==='Tutti'?'Tutti i tipi':t}</span>`)}</div>
           <div class="cat-filter">${brands.map(b=>html`<span key=${b} class=${'fchip'+(brand===b?' on':'')+(__LAWNLY_IS_PARTNER__(b)?' brand-chip':'')} aria-label=${b} onClick=${()=>setBrand(b)}>${__LAWNLY_IS_PARTNER__(b)?html`<img src="padana-logo.png" alt=${b}/>`:b}</span>`)}</div>
-          <div class="cat-list">
-            ${list.length?list.map((p,i)=>html`<div class="catrow" key=${i} onClick=${()=>{setSel(p);setQty('1');setSelFmt(0);}}>${p.image?html`<img class="pd-product-image" src=${p.image} alt=${[p.brand,p.name].filter(Boolean).join(' ')} loading="lazy" decoding="async"/>`:html`<span class=${'prod-ic '+p.cat}>${_mSvg2(p.cat)}</span>`}<div class="catrow-m"><div class="catrow-n">${p.name}</div><div class="catrow-meta">${[p.brand,p.type,(p.formats&&p.formats.length>1?(p.formats.length+' confezioni'):p.fmt),ownedIds.has(p.pid)?'✓ Ce l\'hai':''].filter(Boolean).join(' · ')}</div></div>${arr}</div>`)
-              :html`<div class="zp-empty">Catalogo non disponibile.</div>`}
-          </div>
+          ${list.length?html`<div class="ap-grid">${list.map((p,i)=>html`<button type="button" class="ap-card" key=${p.pid||i} onClick=${()=>{setSel(p);setQty('1');setSelFmt(0);}}>
+              <div class=${'ap-thumb'+(p.image?'':' noimg')}>${p.image?html`<img src=${p.image} alt=${[p.brand,p.name].filter(Boolean).join(' ')} loading="lazy" decoding="async"/>`:html`<span class=${'ap-ph '+p.cat}>${_mSvg2(p.cat)}</span>`}${ownedIds.has(p.pid)?html`<span class="ap-own">✓ Ce l'hai</span>`:''}</div>
+              <div class="ap-cb">${p.brand}</div><div class="ap-cn">${p.name}</div><div class="ap-cm">${[p.type,(p.formats&&p.formats.length>1?(p.formats.length+' confezioni'):p.fmt)].filter(Boolean).join(' · ')}</div></button>`)}</div>`
+            :html`<div class="zp-empty">Catalogo non disponibile.</div>`}
+          <div class="sol-disc">Foto e marchi appartengono ai rispettivi produttori; Lawnly non è affiliata ai produttori citati e non vende prodotti.</div>
         </div>`}
       </div>
     </div>
@@ -11388,7 +10922,7 @@ main.main-rdz{padding-top:0;}
 <style id="lawnly-dark">/* LAWNLY_DARK_THEME */
 html[data-theme="dark"] .rdz{--bg:#11150F;--card:rgba(34,40,30,.72);--card2:rgba(46,54,40,.6);--ink:#EAF0E2;--t2:#C7D2BC;--t3:#9CAA8E;--t4:#7C8A6E;--line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.08);--gedge:rgba(255,255,255,.12);--green-soft:rgba(103,178,74,.18);}
 html[data-theme="dark"] .rdz .card,html[data-theme="dark"] .rdz .tile,html[data-theme="dark"] .rdz .sheet{background:rgba(34,40,30,.82) !important;border-color:rgba(255,255,255,.10) !important;color:var(--ink);}
-html[data-theme="dark"] .rdz .ov{background:rgba(0,0,0,.55) !important;}
+html[data-theme="dark"] .rdz .ov{background:rgba(20,26,16,.22) !important;-webkit-backdrop-filter:blur(8px) saturate(110%) !important;backdrop-filter:blur(8px) saturate(110%) !important;}
 html[data-theme="dark"] .rdz-navwrap .nav{background:rgba(28,34,24,.92) !important;border-color:rgba(255,255,255,.12) !important;}
 html[data-theme="dark"] .rdz .finput,html[data-theme="dark"] .rdz .fselect{background:rgba(46,54,40,.6) !important;color:var(--ink) !important;border-color:rgba(255,255,255,.12) !important;}
 html[data-theme="dark"] .rdz .fchip{background:rgba(46,54,40,.6) !important;color:var(--t2) !important;}
@@ -11407,6 +10941,47 @@ html[data-theme="dark"] .rdz .loc-pill{background:rgba(40,48,35,.94);border-colo
 .rdz .ap-photo{position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px;display:flex;justify-content:center;}
 .rdz .ap-photo>img:first-child{display:block;max-width:100%;max-height:210px;object-fit:contain;}
 .rdz .ap-photo .ap-logo{position:absolute;top:10px;left:12px;height:26px;width:auto;}
+/* Scheda prodotto e catalogo in stile store: foto grande, caratteristiche, confezioni a pulsanti, contatore, barra fissa */
+.rdz .ap-hero{position:relative;background:#fff;border-radius:22px;height:240px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;overflow:hidden;border:1px solid var(--line);}
+.rdz .ap-hero>img:first-child{max-width:86%;max-height:212px;object-fit:contain;}
+.rdz .ap-hero .ap-logo{position:absolute;top:12px;left:14px;height:26px;width:auto;}
+.rdz .ap-hero.noimg,.rdz .ap-thumb.noimg{background:var(--green-soft,rgba(76,140,63,.12));border-color:transparent;}
+.rdz .ap-ph{display:flex;align-items:center;justify-content:center;color:var(--green);background:none !important;box-shadow:none !important;width:auto !important;height:auto !important;}
+.rdz .ap-hero .ap-ph svg{width:72px;height:72px;opacity:.8;}
+.rdz .ap-brand{font-size:11.5px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;color:var(--green-deep,#36702C);}
+.rdz .ap-name{font-size:22px;font-weight:800;letter-spacing:-.4px;line-height:1.2;margin:2px 0 10px;color:var(--ink);}
+.rdz .ap-badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.rdz .ap-badges span{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--card2,rgba(0,0,0,.04));border:1px solid var(--line);color:var(--t2);}
+.rdz .ap-badges span.ok{color:var(--green-deep,#36702C);border-color:rgba(76,140,63,.35);}
+.rdz .ap-desc{font-size:13.5px;line-height:1.55;color:var(--t2);margin:0 0 12px;}
+.rdz .ap-specs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px;}
+.rdz .ap-specs>div{background:var(--card2,rgba(0,0,0,.03));border:1px solid var(--line);border-radius:14px;padding:9px 11px;}
+.rdz .ap-specs small{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--t3);}
+.rdz .ap-specs b{display:block;font-size:13px;color:var(--ink);margin-top:2px;}
+.rdz .ap-sec{font-size:13px;font-weight:800;color:var(--ink);margin:16px 0 8px;}
+.rdz .ap-qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card2,transparent);}
+.rdz .ap-qty button{width:48px;height:46px;border:0;background:transparent;font-size:22px;font-weight:700;color:var(--green);cursor:pointer;}
+.rdz .ap-qty button:disabled{color:var(--t4);cursor:default;}
+.rdz .ap-qty input{width:56px;height:46px;border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);background:transparent;text-align:center;font:inherit;font-size:16px;font-weight:800;color:var(--ink);}
+.rdz .ap-bar{position:sticky;bottom:calc(-24px - var(--sab));display:flex;align-items:center;gap:12px;margin:18px -22px calc(-24px - var(--sab));padding:12px 22px calc(12px + var(--sab));background:inherit;background:var(--bg);border-top:1px solid var(--line);}
+.rdz .ap-tot{flex:1;min-width:0;}
+.rdz .ap-tot small{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--t3);}
+.rdz .ap-tot b{font-size:17px;color:var(--ink);}
+.rdz .ap-tot span{display:block;font-size:11.5px;color:var(--t3);}
+.rdz .ap-cta{flex-shrink:0;border:0;border-radius:999px;padding:14px 20px;font:inherit;font-size:14.5px;font-weight:800;background:var(--green);color:#fff;cursor:pointer;box-shadow:0 8px 20px rgba(76,140,63,.3);}
+.rdz .ap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:12px;}
+.rdz .ap-card{display:flex;flex-direction:column;text-align:left;font:inherit;color:var(--ink);background:var(--card2,transparent);border:1px solid var(--line);border-radius:18px;padding:8px 8px 12px;cursor:pointer;}
+.rdz .ap-thumb{position:relative;background:#fff;border-radius:13px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;margin-bottom:9px;overflow:hidden;border:1px solid var(--line2,transparent);}
+.rdz .ap-thumb img{max-width:84%;max-height:84%;object-fit:contain;}
+.rdz .ap-thumb .ap-ph svg{width:40px;height:40px;opacity:.75;}
+.rdz .ap-own{position:absolute;left:6px;bottom:6px;font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:999px;background:var(--green);color:#fff;}
+.rdz .ap-cb{font-size:10.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--green-deep,#36702C);padding:0 4px;}
+.rdz .ap-cn{font-size:13.5px;font-weight:800;line-height:1.25;margin:2px 0 3px;padding:0 4px;}
+.rdz .ap-cm{font-size:11.5px;color:var(--t3);padding:0 4px;}
+html[data-theme="dark"] .rdz .ap-brand,html[data-theme="dark"] .rdz .ap-cb,html[data-theme="dark"] .rdz .ap-badges span.ok{color:#8CC77A;}
+html[data-theme="dark"] .rdz .ap-bar{background:rgb(40,48,35);}
+/* Schermi larghi: la scheda resta una colonna centrata, non una striscia a tutta larghezza */
+@media (min-width:640px){.rdz>.sheet{max-width:600px;margin:0 auto;}}
 .rdz .fchip.brand-chip{display:inline-flex;align-items:center;padding:6px 16px !important;background:#fff !important;}
 .rdz .fchip.brand-chip img{display:block;height:26px;width:auto;}
 .rdz .fchip.brand-chip.on{border-color:var(--green) !important;box-shadow:0 0 0 2px var(--green);}

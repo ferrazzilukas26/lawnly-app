@@ -62,6 +62,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-sprint-n-27-0-14",
+    image: "products/bottos/bottos-sprint-n-27-0-14.png",
     brand: "Bottos",
     name: "Sprint N 27-0-14",
     type: "concime",
@@ -91,6 +92,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-slow-green-22-5-10",
+    image: "products/bottos/bottos-slow-green-22-5-10.png",
     brand: "Bottos",
     name: "Slow Green 22-5-10",
     type: "concime",
@@ -119,6 +121,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-speed-green-20-5-10",
+    image: "products/bottos/bottos-speed-green-20-5-10.png",
     brand: "Bottos",
     name: "Speed Green 20-5-10",
     type: "concime",
@@ -146,6 +149,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-superturf-22-0-9",
+    image: "products/bottos/bottos-superturf-22-0-9.png",
     brand: "Bottos",
     name: "Superturf 22-0-9",
     type: "concime",
@@ -173,6 +177,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-perfect-life-18-5-10",
+    image: "products/bottos/bottos-perfect-life-18-5-10.png",
     brand: "Bottos",
     name: "Perfect Life 18-5-10",
     type: "concime",
@@ -200,6 +205,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-summer-k-10-0-30",
+    image: "products/bottos/bottos-summer-k-10-0-30.png",
     brand: "Bottos",
     name: "Summer K 10-0-30",
     type: "concime",
@@ -229,6 +235,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-pro-start-13-24-10",
+    image: "products/bottos/bottos-pro-start-13-24-10.png",
     brand: "Bottos",
     name: "Pro Start 13-24-10",
     type: "concime",
@@ -257,6 +264,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-nutriprato-12-6-6",
+    image: "products/bottos/bottos-nutriprato-12-6-6.png",
     brand: "Bottos",
     name: "Nutriprato 12-6-6",
     type: "concime",
@@ -283,6 +291,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-duraprato-10-6-15",
+    image: "products/bottos/bottos-duraprato-10-6-15.png",
     brand: "Bottos",
     name: "Duraprato 10-6-15",
     type: "concime",
@@ -309,6 +318,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-nutraforte",
+    image: "products/bottos/bottos-nutraforte.png",
     brand: "Bottos",
     name: "Nutraforte 4-(3)-8",
     type: "concime",
@@ -361,6 +371,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-nutrattiva-5-0-7",
+    image: "products/bottos/bottos-nutrattiva-5-0-7.png",
     brand: "Bottos",
     name: "Nutrattiva 5-0-7 IMI",
     type: "concime",
@@ -390,6 +401,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-help",
+    image: "products/bottos/bottos-help.png",
     brand: "Bottos",
     name: "Help 10-5-7",
     type: "concime",
@@ -418,6 +430,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-new-radical",
+    image: "products/bottos/bottos-new-radical.png",
     brand: "Bottos",
     name: "New Radical 3-16",
     type: "concime",
@@ -446,6 +459,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-promoter",
+    image: "products/bottos/bottos-promoter.png",
     brand: "Bottos",
     name: "Promoter",
     type: "biostimolante",
@@ -476,6 +490,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-always",
+    image: "products/bottos/bottos-always.png",
     brand: "Bottos",
     name: "Always",
     type: "biostimolante",
@@ -503,6 +518,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-power-liquid",
+    image: "products/bottos/bottos-power-liquid.png",
     brand: "Bottos",
     name: "Power Liquid",
     type: "biostimolante",
@@ -531,6 +547,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-pre-stress",
+    image: "products/bottos/bottos-pre-stress.png",
     brand: "Bottos",
     name: "Pre-Stress",
     type: "biostimolante",
@@ -560,6 +577,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-myko-power",
+    image: "products/bottos/bottos-myko-power.png",
     brand: "Bottos",
     name: "Myko Power",
     type: "biostimolante",
@@ -590,6 +608,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-fly",
+    image: "products/bottos/bottos-fly.png",
     brand: "Bottos",
     name: "Fly",
     type: "bioattivato",
@@ -625,6 +644,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-frost",
+    image: "products/bottos/bottos-frost.png",
     brand: "Bottos",
     name: "Frost",
     type: "bioattivato",
@@ -658,6 +678,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-fighter",
+    image: "products/bottos/bottos-fighter.png",
     brand: "Bottos",
     name: "Fighter",
     type: "bioattivato",
@@ -693,6 +714,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-tryko-plus",
+    image: "products/bottos/bottos-tryko-plus.png",
     brand: "Bottos",
     name: "Tryko Plus",
     type: "bioattivato",
@@ -726,6 +748,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-si-strong",
+    image: "products/bottos/bottos-si-strong.png",
     brand: "Bottos",
     name: "Si Strong",
     type: "biostimolante",
@@ -758,6 +781,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-signal-blue",
+    image: "products/bottos/bottos-signal-blue.png",
     brand: "Bottos",
     name: "Signal Blue",
     type: "tracciante",
@@ -790,6 +814,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-verdigo",
+    image: "products/bottos/bottos-verdigo.png",
     brand: "Bottos",
     name: "Verdigo",
     type: "colorante",
@@ -821,6 +846,7 @@ export const PRODUCT_CATALOG = [
 
   {
     id: "bottos-water-plus",
+    image: "products/bottos/bottos-water-plus.png",
     brand: "Bottos",
     name: "Water Plus",
     type: "surfattante",
@@ -4032,7 +4058,7 @@ export const PRODUCT_CATALOG = [
     "notes": "Dose ornamentale; sportivo: 35–45 g/m²; intenso utilizzo: 40–50 g/m². Primavera e autunno. Durata fino a 120 giorni.",
     "url": null,
     "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/03/CONTROL-ADVANCE-5.pdf",
-    "image": null,
+    "image": "products/padana/padana-control-advance.jpg",
     "sourceUrl": "https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-control/"
   },
 
@@ -4071,7 +4097,7 @@ export const PRODUCT_CATALOG = [
     "notes": null,
     "url": null,
     "sheetUrl": null,
-    "image": null,
+    "image": "products/padana/padana-control-field.jpg",
     "sourceUrl": "https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-control/"
   },
 
@@ -4110,7 +4136,7 @@ export const PRODUCT_CATALOG = [
     "notes": null,
     "url": null,
     "sheetUrl": null,
-    "image": null,
+    "image": "products/padana/padana-control-kappa.jpg",
     "sourceUrl": "https://www.padanasementi.com/product-category/concimi-e-specialita/ferti-control/"
   },
 
@@ -5331,7 +5357,7 @@ export const PRODUCT_CATALOG = [
     "notes": "Azoto organico 1%, carbonio organico 10%. Inoculo micorrizico con Trichoderma e batteri della rizosfera. Ripetere secondo necessità.",
     "url": "https://www.padanasementi.com/prodotto/fertizon/",
     "sheetUrl": "https://www.padanasementi.com/wp-content/uploads/2021/04/ferti-zon.pdf",
-    "image": null,
+    "image": "products/padana/padana-fertizon.png",
     "actives": [
       {
         "name": "Glomus spp.",
