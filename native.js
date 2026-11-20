@@ -69,6 +69,11 @@
         if (stale()) return;
         if (pending.length) await LN.cancel({ notifications: pending.map((n) => ({ id: n.id })) });
         if (!list.length || perm.display !== 'granted' || stale()) return;
+        const android = cap.getPlatform() === 'android';
+        // canale con nome italiano (quello del plugin si chiama «Default» nelle impostazioni del telefono)
+        let channel = android;
+        if (android) await LN.createChannel({ id: 'promemoria', name: 'Promemoria interventi', description: 'Interventi del calendario del prato', importance: 4 }).catch(() => { channel = false; }); // senza canale: quello del plugin
+        if (stale()) return;
         const head = prefs.dayBefore ? 'Domani per il tuo prato: ' : 'Oggi per il tuo prato: ';
         const seen = new Set();
         await LN.schedule({ notifications: list.map(({ e, at }) => {
@@ -83,14 +88,49 @@
             // inesatto (pochi minuti di tolleranza): niente permesso «Sveglie e promemoria», che su Android 12+
             // aprirebbe le Impostazioni a ogni ricalcolo
             isExactNotification: false,
+            ...(channel ? { channelId: 'promemoria' } : {}),
           };
         }) });
       } catch (error) { console.warn('[native] syncReminders', error); }
     }, 1500);
   }
+  // Tasto «indietro» di Android: senza gestore l'app si chiudeva da qualsiasi schermata.
+  // Ordine: salta il video d'apertura → chiude la finestra più in alto (tutte hanno uno sfondo .ov.on o
+  // .modal-backdrop che chiude al tocco) → torna alla prima scheda → mette l'app in sottofondo (non la chiude).
+  function handleBack() {
+    const splash = document.getElementById('lw-splash');
+    if (splash) { splash.click(); return 'splash'; }
+    const layers = [...document.querySelectorAll('.ov.on, .modal-backdrop')].filter((el) => el.getClientRects().length);
+    if (layers.length) {
+      // la X della finestra fa il «passo indietro» giusto (es. dal dettaglio prodotto torna all'elenco)
+      const top = layers[layers.length - 1], x = top.parentElement && [...top.parentElement.querySelectorAll(':scope > .sheet.on .sh-x')].pop();
+      (x || top).click();
+      return 'layer';
+    }
+    const tabs = document.querySelectorAll('nav.nav .nv');
+    if (tabs.length && !tabs[0].classList.contains('on')) { tabs[0].click(); return 'home'; }
+    try { cap.Plugins.App.minimizeApp(); } catch {}
+    return 'minimize';
+  }
   if (isNative) {
     syncReminders();
     cap.Plugins.App?.addListener?.('resume', () => syncReminders());
+    if (cap.getPlatform() === 'android') cap.Plugins.App?.addListener?.('backButton', handleBack);
+    // Icone di barra di stato e gesti: seguono lo sfondo VERO dell'app, non il tema del telefono
+    // (video d'apertura e login sono sempre chiari; il tema dell'app può differire da quello del telefono).
+    let barStyle = '';
+    const syncBars = () => {
+      const H = document.documentElement;
+      const light = !!document.getElementById('lw-splash') || !!document.querySelector('.lw-paper') || H.getAttribute('data-theme') !== 'dark';
+      const style = light ? 'LIGHT' : 'DARK'; // LIGHT = icone scure su fondo chiaro
+      if (style === barStyle) return;
+      barStyle = style;
+      cap.Plugins.SystemBars?.setStyle?.({ style })?.catch?.(() => {});
+    };
+    let raf = 0;
+    const onMut = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; syncBars(); }); };
+    new MutationObserver(onMut).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'], childList: true, subtree: true });
+    syncBars();
   }
-  window.LawnlyNative = { isNative, platform: isNative ? cap.getPlatform() : 'web', openExternal, syncReminders, getReminderPrefs, setReminderPrefs, reminderPermission };
+  window.LawnlyNative = { isNative, platform: isNative ? cap.getPlatform() : 'web', openExternal, syncReminders, getReminderPrefs, setReminderPrefs, reminderPermission, handleBack };
 })();
