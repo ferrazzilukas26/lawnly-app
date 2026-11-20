@@ -13,7 +13,7 @@ fs.mkdirSync(WWW, { recursive: true });
 for (const f of FILES) fs.copyFileSync(path.join(ROOT, f), path.join(WWW, f));
 
 // Librerie (vendor/, versioni fisse), foto della Home (hero/) e foto dei prodotti (products/) si copiano così come sono.
-for (const d of ['vendor', 'hero', 'products']) fs.cpSync(path.join(ROOT, d), path.join(WWW, d), { recursive: true });
+for (const d of ['vendor', 'hero', 'products', 'splash']) fs.cpSync(path.join(ROOT, d), path.join(WWW, d), { recursive: true });
 let html = fs.readFileSync(path.join(WWW, 'index.html'), 'utf8');
 const head = '<head>';
 if (html.split(head).length !== 2) throw new Error('<head> non trovato');
