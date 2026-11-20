@@ -1479,6 +1479,7 @@ html[data-theme] .rdz.lw-paper .fchip.on{background:var(--green) !important;colo
 @media (orientation:landscape){.lw-paper .lw-logo-c{width:min(320px,45vh);top:46%;}}
 .lw-auth-logo{position:relative;z-index:2;}
 .lw-in{animation:lwIn .6s var(--ease,ease) .55s both;}
+html[data-theme="dark"] .rdz:not(.lw-paper) input[type=time]{color-scheme:dark;}
 html.lw-splash .lw-in{animation-play-state:paused;}
 @keyframes lwIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
 @media (prefers-reduced-motion:reduce){.lw-in{animation:none;}}
@@ -1639,7 +1640,7 @@ const supa = {
     async getUser(){ const s=_lwSession(); return { data:{ user:s?s.user:null } }; },
     async signInWithPassword({email,password}){ return _lwAuthPost('login',email,password); },
     async signUp({email,password}){ return _lwAuthPost('signup',email,password); },
-    async signOut(){ try{ localStorage.removeItem(LAWNLY_JWT_KEY); }catch(e){} currentUserId=null; _lwFire('SIGNED_OUT'); return { error:null }; },
+    async signOut(){ try{ localStorage.removeItem(LAWNLY_JWT_KEY); }catch(e){} currentUserId=null; window.LawnlyNative?.syncReminders?.([]); _lwFire('SIGNED_OUT'); return { error:null }; },
     async resetPasswordForEmail(email){ const r=await _lwApi({action:'reset-request',email}); return r.error?{data:null,error:r.error}:{data:{},error:null}; },
     async resetConfirm(email,code,password){ return _lwAuthPost('reset-confirm',email,password,{code}); },
     async deleteAccount(password){ return _lwApi({action:'delete',password},true); },
@@ -6738,7 +6739,7 @@ function Oggi({wx,prof,setPg}){
     try{const getFn=window.__LAWNLY_GET_PRODUCT__;const pid=nextOp&&(nextOp.finalProductId||nextOp.suggestedProductId);if(getFn&&pid){const p=getFn(pid);if(p)return [p.brand,p.name].filter(Boolean).join(' ').trim();}}catch(e){}
     return '';
   })();
-  const npTitle=npProd||(nextOp&&nextOp.name)||'Operazione';
+  const npTitle=npProd||(nextOp&&(nextOp.name||nextOp.title))||'Operazione';
   const npDesc=isMech?((npGuide&&npGuide.d)||(nextOp.note&&nextOp.note.trim().toLowerCase()!=='meccanica'?nextOp.note:'')||'Lavorazione meccanica per la cura e il mantenimento del prato.'):npProd?((nextOp&&(nextOp.name||nextOp.note||nextOp.description||nextOp.category))||''):((nextOp&&(nextOp.note||nextOp.description||nextOp.category))||'');
   // #7 — il prodotto è già a magazzino? altrimenti suggerisci dal catalogo
   const npCat=npProd?_findCatalogProduct(npProd):null;
@@ -6840,11 +6841,11 @@ function Oggi({wx,prof,setPg}){
       </div></div>`},
     'sh-cons':{title:'Consiglio del giorno',body:html`<div>
       ${_cs.map((c,i)=>html`<div class="cons-row" key=${i}><span class="cons-dot"></span><span>${c}</span></div>`)}
-      ${nextOp&&!isMech?html`<button class="dt-goto" style="margin-top:12px;" onClick=${()=>{closeS();setSolOp(nextOp);}}>Prodotti per «${nextOp.name||nextOp.product||'il prossimo intervento'}» ${goChev}</button>`:''}
+      ${nextOp&&!isMech?html`<button class="dt-goto" style="margin-top:12px;" onClick=${()=>{closeS();setSolOp(nextOp);}}>Prodotti per «${nextOp.name||nextOp.title||nextOp.product||'il prossimo intervento'}» ${goChev}</button>`:''}
       <button class="dt-goto dt-ghost" style="margin-top:12px;" onClick=${openS('sh-ai')}>Chiedi al Dottor Verde ${goChev}</button></div>`},
     'sh-prossimo':{title:'Prossimo intervento',body:nextOp?html`<div>
       <div style="font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--amber);">${nextDay?('Questa settimana · '+nextDay.wk+' · '+nextDay.full.split(' ')[0]):'In programma'}</div>
-      <div style="font-size:21px;font-weight:800;letter-spacing:-.4px;color:var(--ink);margin:6px 0 8px;">${nextOp.name||nextOp.product||'Operazione'}</div>
+      <div style="font-size:21px;font-weight:800;letter-spacing:-.4px;color:var(--ink);margin:6px 0 8px;">${nextOp.name||nextOp.title||nextOp.product||'Operazione'}</div>
       <div class="dt-note" style="margin-top:0;">${isMech?npDesc:(nextOp.note||nextOp.description||nextOp.category||'')}</div>
       <div style="margin-top:14px;">
         ${!isMech&&npProd?val('Prodotto',npProd):''}
@@ -7683,6 +7684,7 @@ function Profilo2({prof,wx,setPg,setProf,onResetGarden,onLogout,onDeleteAccount}
       <div class="fchips" style="margin-top:4px;">${[['light','Chiaro'],['dark','Scuro'],['auto','Automatico']].map(([k,l])=>html`<span key=${k} class=${'fchip'+(theme===k?' on':'')} onClick=${()=>applyTheme(k)}>${l}</span>`)}</div>
       <div style="font-size:11.5px;color:var(--t3);margin-top:8px;">In "Automatico" segue le impostazioni del telefono (chiaro/scuro).</div>
     </div>
+    <${ReminderSettings}/>
     <div class="card fade">
       <div class="c-eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v1a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3Z"/><path d="M4 22a8 8 0 0 1 16 0"/></svg> Account e dati</div>
       <button class="pf-edit" style="justify-content:center;width:100%;margin-top:8px;" onClick=${edit}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg> Modifica dati prato</button>
@@ -7971,6 +7973,25 @@ function lawnlyWhAdd(p,f,nPack){
   try{window.dispatchEvent(new CustomEvent('lawnly:sync'));}catch(e){}
 }
 function lawnlyOpenExt(url){if(window.LawnlyNative)window.LawnlyNative.openExternal(url);else window.open(url,'_blank','noopener');}
+/* Promemoria (solo app nativa): acceso/spento, ora, giorno stesso o giorno prima. Logica in native.js. */
+function ReminderSettings(){
+  const N=window.LawnlyNative;
+  const [p,setP]=useState(()=>N?.getReminderPrefs?.()||{on:true,time:'08:00',dayBefore:false});
+  const [perm,setPerm]=useState(null);
+  const refresh=()=>{N?.reminderPermission?.().then(setPerm);};
+  useEffect(()=>{refresh();const t=setTimeout(refresh,2500);return()=>clearTimeout(t);},[p.on]); // 2,5 s: dopo la richiesta di permesso partita dal ricalcolo
+  if(!N?.isNative||!N.setReminderPrefs)return null;
+  const upd=(patch)=>setP(N.setReminderPrefs(patch));
+  return html`<div class="card fade">
+    <div class="c-eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg> Promemoria</div>
+    <div class="fchips" style="margin-top:4px;">${[[true,'Attivi'],[false,'Spenti']].map(([k,l])=>html`<span key=${l} class=${'fchip'+(p.on===k?' on':'')} onClick=${()=>upd({on:k})}>${l}</span>`)}</div>
+    ${p.on?html`<div class="fchips" style="margin-top:8px;">${[[false,'Il giorno stesso'],[true,'Il giorno prima']].map(([k,l])=>html`<span key=${l} class=${'fchip'+(p.dayBefore===k?' on':'')} onClick=${()=>upd({dayBefore:k})}>${l}</span>`)}</div>
+    <label style="display:flex;align-items:center;gap:10px;margin-top:10px;font-size:13.5px;font-weight:600;color:var(--t2);">Alle ore
+      <input type="time" class="finput" style="width:auto;padding:8px 10px;" value=${p.time} onInput=${e=>{if(/^\d{2}:\d{2}$/.test(e.target.value))upd({time:e.target.value});}}/></label>`:''}
+    ${p.on&&perm==='denied'?html`<div style="font-size:12px;color:#B5503A;margin-top:8px;">Le notifiche di Lawnly sono bloccate sul telefono: attivale da Impostazioni → App → Lawnly → Notifiche.</div>`:''}
+    <div style="font-size:11.5px;color:var(--t3);margin-top:8px;">${p.on?'Una notifica per ogni intervento del calendario non ancora fatto. Vale solo su questo telefono.':'Nessuna notifica dagli interventi del calendario.'}</div>
+  </div>`;
+}
 function SolutionsSheet({op,onClose,onChanged}){
   const prof=(()=>{try{return S.get('dss_profile',{})||{};}catch(e){return {};}})();
   const list=useMemo(()=>lawnlySolutions(op,prof,4),[op.id]);
