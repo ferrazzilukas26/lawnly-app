@@ -1917,6 +1917,7 @@ const S={
       }
     }catch{}
     try{localStorage.setItem(k,JSON.stringify(v))}catch{}
+    if(k==='dss_calendar_events')window.LawnlyNative?.syncReminders?.(v);
   }
 };
 

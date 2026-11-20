@@ -15,6 +15,10 @@
       "launchShowDuration": 800,
       "launchAutoHide": true,
       "showSpinner": false
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_lawnly",
+      "iconColor": "#2F6B2F"
     }
   }
 }
